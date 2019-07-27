@@ -1,190 +1,288 @@
 from mayavi import mlab
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 from mayavi import mlab # to overrid plt.mlab
+import xarray as ncdata # read netcdf file
 
-class fourier_surface(object):
+class FourSurf(object):
     '''
-    surface in Fourier representation
+    toroidal surface in Fourier representation
     R = \sum RBC cos(mu-nv) + RBS sin(mu-nv)
     Z = \sum ZBC cos(mu-nv) + ZBS sin(mu-nv)
     '''
-    def __init__(self, mnmodes=999):
-        # initialization
-        self.mn = mnmodes # total number of harmonics
-        assert self.mn > 0
-        self.xm  = np.zeros(self.mn)
-        self.xn  = np.zeros(self.mn)
-        self.rbc = np.zeros(self.mn)
-        self.rbs = np.zeros(self.mn)
-        self.zbc = np.zeros(self.mn)
-        self.zbs = np.zeros(self.mn)
+    def __init__(self, xm=[], xn=[], rbc=[], zbs=[], rbs=[], zbc=[]):
+        """Initialization with Fourier harmonics.
+        
+        Parameters:
+          xm -- list or numpy array, array of m index (default: [])
+          xn -- list or numpy array, array of n index (default: [])
+          rbc -- list or numpy array, array of radial cosine harmonics (default: [])
+          zbs -- list or numpy array, array of z sine harmonics (default: [])   
+          rbs -- list or numpy array, array of radial sine harmonics (default: [])
+          zbc -- list or numpy array, array of z cosine harmonics (default: [])      
+        
+        """
+        self.xm  = np.atleast_1d(xm)
+        self.xn  = np.atleast_1d(xn)
+        self.rbc = np.atleast_1d(rbc)
+        self.rbs = np.atleast_1d(rbs)
+        self.zbc = np.atleast_1d(zbc)
+        self.zbs = np.atleast_1d(zbs)
+        self.mn = len(self.xn)
+        return
 
-    def disc_rz(self, zeta=0.0, npoints=360): 
-        # discretization in (R,Z) at phi=zeta
-        assert npoints > 0
-        self.rr = np.zeros(npoints)
-        self.zz = np.zeros(npoints)
-        theta = np.linspace(0, 2*np.pi, npoints)
-        for ipoint in range(npoints):
-            tmpr = self.rbc * np.cos(self.xm*theta[ipoint]-self.xn*zeta) \
-                 + self.rbs * np.sin(self.xm*theta[ipoint]-self.xn*zeta) 
-            self.rr[ipoint] = np.sum(tmpr) #r value at ipont
+    @classmethod
+    def read_spec_output(cls, spec_out, ns=-1):
+        """initialize surface from the ns-th interface SPEC output 
+        
+        Parameters:
+          spec_out -- SPEC class, SPEC hdf5 results
+          ns -- integer, the index of SPEC interface (default: -1)
+        
+        Returns:
+          fourier_surface class
+        """
+        # check if spec_out is in correct format
+        #if not isinstance(spec_out, SPEC):
+        #    raise TypeError("Invalid type of input data, should be SPEC type.")
+        # get required data
+        xm = spec_out.output.im
+        xn = spec_out.output.in1
+        rbc = spec_out.output.Rbc[ns,:]
+        zbs = spec_out.output.Zbs[ns,:]
+        if spec_out.input.physics.Istellsym:
+            # stellarator symmetry enforced
+            rbs = np.zeros_like(rbc)
+            zbc = np.zeros_like(rbc)
+        else:
+            rbs = spec_out.output.Rbs[ns,:]
+            zbc = spec_out.output.Zbc[ns,:]
+        return cls(xm=xm, xn=xn, rbc=rbc, rbs=rbs, zbc=zbc, zbs=zbs)
 
-            tmpz = self.zbc * np.cos(self.xm*theta[ipoint]-self.xn*zeta) \
-                 + self.zbs * np.sin(self.xm*theta[ipoint]-self.xn*zeta) 
-            self.zz[ipoint] = np.sum(tmpz) #z value at ipont
+    @classmethod
+    def read_vmec_output(cls, woutfile, ns=-1):
+        """initialize surface from the ns-th interface SPEC output 
+        
+        Parameters:
+          woutfile -- string, path + name to the wout file from VMEC output
+          ns -- integer, the index of VMEC nested flux surfaces (default: -1)
+        
+        Returns:
+          fourier_surface class
+        """
+        vmec = ncdata.open_dataset(woutfile)
+        xm = vmec['xm'].values
+        xn = vmec['xn'].values
+        rmnc = vmec['rmnc'].values
+        zmns = vmec['zmns'].values
+        rbc = rmnc[ns,:]
+        zbs = zmns[ns,:]
 
-    def disc_xyz(self, zeta=0.0, zeta1=np.pi*2, npol=360, ntor=360):
-        # discretization in (X,Y,Z) between phi=zeta and phi=zeta1
-        assert npol > 0 and ntor > 0
-        self.xsurf  = np.zeros([npol, ntor]) # xsurf surface elements
-        self.ysurf  = np.zeros([npol, ntor])
-        self.zsurf  = np.zeros([npol, ntor])
-        for i in range(ntor):
-            ator = zeta + i*(zeta1-zeta)/(ntor-1) #zeta
-            self.disc_rz(zeta=ator, npoints=npol)
-            self.xsurf[:,i] = self.rr * np.cos(ator)
-            self.ysurf[:,i] = self.rr * np.sin(ator)
-            self.zsurf[:,i] = self.zz
+        if vmec['lasym__logical__'].values:
+            # stellarator symmetry enforced
+            zmnc = vmec['zmnc'].values
+            rmns = vmec['rmns'].values
+            rbs = rmns[ns,:]
+            zbc = zmnc[ns,:]
+        else :
+            rbs = np.zeros_like(rbc)
+            zbc = np.zeros_like(rbc)
+        return cls(xm=xm, xn=xn, rbc=rbc, rbs=rbs, zbc=zbc, zbs=zbs)
 
-    def plot(self, zeta=0.0, npoints=360, color=(1,0,0), style='-', width=2.0,
-             label='toroidal surface', marker=None):
+
+    @classmethod
+    def read_focus_input(cls, filename):
+        """initialize surface from the FOCUS format input file 'plasma.boundary'
+        
+        Parameters:
+          filename -- string, path + name to the FOCUS input boundary file
+        
+        Returns:
+          fourier_surface class
+        """
+        with open(filename, 'r') as f:
+            line = f.readline() #skip one line
+            line = f.readline()
+            num = int(line.split()[0]) #harmonics number
+            nfp = int(line.split()[1]) #number of field periodicity
+            nbn = int(line.split()[2]) #number of Bn harmonics
+            n = np.zeros(num, dtype=int)
+            m = np.zeros(num, dtype=int)
+            rbc = np.zeros(num, dtype=float)
+            zbs = np.zeros(num, dtype=float)
+            rbs = np.zeros(num, dtype=float)
+            zbc = np.zeros(num, dtype=float)
+            line = f.readline() #skip one line
+            line = f.readline() #skip one line
+            for i in range(num):
+                line = f.readline()
+                line_list = line.split()
+                n[i] = int(line_list[0])
+                m[i] = int(line_list[1])
+                rbc[i] = float(line_list[2])
+                zbs[i] = float(line_list[3])
+                rbs[i] = float(line_list[4])
+                zbc[i] = float(line_list[5])
+        return cls(xm=m, xn=n*nfp, rbc=rbc, rbs=rbs, zbc=zbc, zbs=zbs)
+
+    @classmethod
+    def read_winding_surfce(cls, filename):
+        """initialize surface from the NESCOIL format input file 'nescin.xxx'
+        
+        Parameters:
+          filename -- string, path + name to the NESCOIL input boundary file
+        
+        Returns:
+          fourier_surface class
+        """
+        with open(filename, 'r') as f:
+            line = ''
+            while "phip_edge" not in line:
+                line = f.readline()
+            line = f.readline()
+            nfp = int(line.split()[0])
+            #print "nfp:",nfp
+
+            line = ''
+            while "Current Surface" not in line:
+                line = f.readline()
+            line = f.readline()
+            line = f.readline()
+            #print "Number of Fourier modes in coil surface from nescin file: ",line
+            num = int(line)
+            n = np.zeros(num, dtype=int)
+            m = np.zeros(num, dtype=int)
+            rbc = np.zeros(num, dtype=float)
+            zbs = np.zeros(num, dtype=float)
+            rbs = np.zeros(num, dtype=float)
+            zbc = np.zeros(num, dtype=float)
+            line = f.readline() #skip one line
+            line = f.readline() #skip one line
+            for i in range(num):
+                line = f.readline()
+                line_list = line.split()
+                m[i] = int(line_list[0])
+                n[i] = int(line_list[1])
+                rbc[i] = float(line_list[2])
+                zbs[i] = float(line_list[3])
+                rbs[i] = float(line_list[4])
+                zbc[i] = float(line_list[5])
+            # NESCOIL uses mu+nv, minus sign is added
+            return cls(xm=m, xn=-n*nfp, rbc=rbc, rbs=rbs, zbc=zbc, zbs=zbs)
+
+    def rz(self, theta, zeta):
+        """ get r,z position of list of (theta, zeta)
+        
+        Parameters:
+          theta -- float array_like, poloidal angle
+          zeta -- float array_like, toroidal angle value
+
+        Returns:
+           r, z -- float array_like
+        """
+        assert len(np.atleast_1d(theta)) == len(np.atleast_1d(zeta)), "theta, zeta should be equal size"
+        # mt - nz (in matrix)
+        _mtnz = np.matmul( np.reshape(self.xm, (-1,1)), np.reshape(theta, (1,-1)) ) \
+              - np.matmul( np.reshape(self.xn, (-1,1)), np.reshape( zeta, (1,-1)) ) 
+        _cos = np.cos(_mtnz)
+        _sin = np.sin(_mtnz)
+
+        r = np.matmul( np.reshape(self.rbc, (1,-1)), _cos ) \
+          + np.matmul( np.reshape(self.rbs, (1,-1)), _sin )
+
+        z = np.matmul( np.reshape(self.zbc, (1,-1)), _cos ) \
+          + np.matmul( np.reshape(self.zbs, (1,-1)), _sin )
+        return (r.ravel(), z.ravel())
+
+    def xyz(self, theta, zeta):
+        """ get x,y,z position of list of (theta, zeta)
+        
+        Parameters:
+          theta -- float array_like, poloidal angle
+          zeta -- float array_like, toroidal angle value
+
+        Returns:
+           x, y, z -- float array_like
+        """
+        r, z = self.rz(theta, zeta)
+        return (r*np.cos(np.ravel(zeta)), r*np.sin(np.ravel(zeta)), z)
+
+    def plot(self, zeta=0.0, npoints=360, **kwargs):
+        """ plot the cross-section at zeta using matplotlib.pyplot
+        
+        Parameters:       
+          zeta -- float, toroidal angle value
+          npoints -- integer, number of discretization points (default: 360)
+          kwargs -- optional keyword arguments for pyplot
+
+        Returns:
+           line class in matplotlib.pyplot
+        """
+        # get figure and ax data
         if plt.get_fignums():
             fig = plt.gcf()
             ax = plt.gca()
         else :
             fig, ax = plt.subplots()
-        self.disc_rz(zeta=zeta, npoints=npoints)
-        ax.plot(self.rr, self.zz, color=color, linewidth=width, linestyle=style, label=label, marker=marker)
+        # set default plotting parameters
+        if kwargs.get('linewidth') == None:
+            kwargs.update({'linewidth': 2.0}) # prefer thicker lines
+        if kwargs.get('label') == None:
+            kwargs.update({'label': 'toroidal surface'}) # default label 
+        # get (r,z) data
+        _r, _z = self.rz( np.linspace(0, 2*np.pi, npoints), zeta*np.ones(npoints) )
+        line = ax.plot(_r, _z, **kwargs)
         plt.axis('equal')
         plt.xlabel('R [m]',fontsize=20)
         plt.ylabel('Z [m]',fontsize=20)
         plt.xticks(fontsize=16)
         plt.yticks(fontsize=16)
-    
-    def plot3d(self, scalar=None, zeta=0.0, zeta1=2*np.pi, color=(1,0,0), npol=360, ntor=360):
-        # plot 3D surface in mayavi.mlab
-        self.disc_xyz(zeta=zeta, zeta1=zeta1, npol=npol, ntor=ntor)
-        mlab.mesh(self.xsurf, self.ysurf, self.zsurf, scalars=scalar, color=color, representation = 'surface')
+        return line
+
+    def plot3d(self, engine='pyplot', theta0=0.0, theta1=2*np.pi, zeta0=0.0, zeta1=2*np.pi, \
+                   npol=360, ntor=360, **kwargs):
+        """ plot 3D shape of the surface
+        
+        Parameters: 
+          engine -- string, plotting engine {'pyplot' (default), 'mayavi', 'noplot'}
+          theta0 -- float, starting poloidal angle (default: 0.0)
+          theta1 -- float, ending poloidal angle (default: 2*np.pi)
+          zeta0 -- float, starting toroidal angle (default: 0.0)
+          zeta1 -- float, ending toroidal angle (default: 2*np.pi)
+          npol -- integer, number of poloidal discretization points (default: 360)
+          ntor -- integer, number of toroidal discretization points (default: 360)
+          kwargs -- optional keyword arguments for plotting
+
+        Returns:
+           xsurf, ysurf, zsurf -- arrays of x,y,z coordinates on the surface
+        """
+        # get mesh data
+        _theta = np.linspace(theta0, theta1, npol)
+        _zeta = np.linspace(zeta0, zeta1, ntor)
+        _tv, _zv = np.meshgrid(_theta, _zeta, indexing='ij')
+        _x, _y, _z = self.xyz(_tv, _zv)
+        xsurf = np.reshape(_x, (npol, ntor))
+        ysurf = np.reshape(_y, (npol, ntor))
+        zsurf = np.reshape(_z, (npol, ntor))
+        if engine == 'noplot':
+            # just return xyz data
+            pass
+        elif engine == 'pyplot':
+            # plot in matplotlib.pyplot
+            if plt.get_fignums():
+                fig = plt.gcf()
+                ax = plt.gca()
+            else :
+                fig = plt.figure()
+                ax = fig.add_subplot(111, projection='3d')
+            ax.plot_surface(xsurf, ysurf, zsurf, **kwargs)
+        elif engine == 'mayavi':
+            # plot 3D surface in mayavi.mlab
+            mlab.mesh(xsurf, ysurf, zsurf, **kwargs)
+        else:
+            raise ValueError('Invalid engine option {pyplot, mayavi, noplot}')
+        return (xsurf, ysurf, zsurf)
 
     def __del__(self):
         class_name = self.__class__.__name__
-        
-############################
-
-def read_plasma_boundary(filename):
-    """
-    Read plasma.boundary file in FOCUS format.
-    Return a toroidal surface class.
-    """
-    with open(filename, 'r') as f:
-        line = f.readline() #skip one line
-        line = f.readline()
-        num = int(line.split()[0]) # harmonics number
-        nfp = int(line.split()[1]) # number of field periodicity
-        nbn = int(line.split()[2]) # number of Bn harmonics
-        plas_data = np.zeros(num, dtype=[('n', np.float64),('m',np.float64), # m,n saving as double
-                                         ('Rbc',np.float64), ('Rbs', np.float64),
-                                         ('Zbc',np.float64), ('Zbs', np.float64)])
-        line = f.readline() #skip one line
-        line = f.readline() #skip one line
-        for i in range(num):
-            line = f.readline()
-            plas_data[i] = tuple([float(j) for j in line.split()])
-        plas_data['n'] *= nfp
-
-        if nbn>0 :
-            bn_data = np.zeros(nbn, dtype=[('n', np.float64),('m',np.float64),
-                                           ('bnc', np.float64),('bns',np.float64)])
-            line = f.readline() #skip one line
-            line = f.readline() #skip one line
-            for i in range(nbn):
-                line = f.readline()
-                bn_data[i] = tuple([float(j) for j in line.split()])
-            bn_data['n'] *= nfp
-        else :
-            bn_data = []        
-    print("read {} Fourier harmonics for plasma boundary and {} for Bn distribution in {}."\
-        .format(num,nbn,filename))
-
-    focus_plasma = fourier_surface(num)
-    focus_plasma.nfp = nfp
-    focus_plasma.xn[:] = np.array(plas_data['n'][:], np.int)
-    focus_plasma.xm[:] = np.array(plas_data['m'][:], np.int)
-    focus_plasma.rbc[:] = plas_data['Rbc'][:]
-    focus_plasma.rbs[:] = plas_data['Rbs'][:]
-    focus_plasma.zbc[:] = plas_data['Zbc'][:]
-    focus_plasma.zbs[:] = plas_data['Zbs'][:]
-
-    return focus_plasma #plas_data, bn_data    
-
-############################
-
-def read_vmec_surfce(filename, ns=-1):
-    """
-    Read VMEC output netcdf file.
-    Return a toroidal surface class.
-    """
-    vmec = ncdata.open_dataset(wout)    
-    vmec_plasma = fourier_surface(len(vmec['xm'].values))
-    vmec_plasma.nfp = vmec['nfp'].values
-    vmec_plasma.xn = vmec['xn'].values
-    vmec_plasma.xm = vmec['xm'].values
-    rmnc = vmec['rmnc'].values
-    zmns = vmec['zmns'].values
-    vmec_plasma.rbc = rmnc[ns,:]
-    vmec_plasma.zbs = zmns[ns,:]
-    if vmec['lasym__logical__'].values: # if no stellarator symmetry
-        zmnc = vmec['zmnc'].values
-        rmns = vmec['rmns'].values
-        vmec_plasma.rbs = rmns[ns,:]
-        vmec_plasma.zbc = zmnc[ns,:]
-    else :
-        vmec_plasma.rbs = np.zeros_like(rbc)
-        vmec_plasma.zbc = np.zeros_like(zbs)
-    
-    return vmec_plasma
-
-############################
-
-def read_vmec_surfce(filename):
-    """
-    Read NESCOIL output file.
-    Return a toroidal surface class.
-    """
-    with open(filename, 'r') as f:
-        line = ''
-        while "phip_edge" not in line:
-            line = f.readline()
-        line = f.readline()
-        nfp = int(line.split()[0])
-        #print "nfp:",nfp
-
-        line = ''
-        while "Current Surface" not in line:
-            line = f.readline()
-        line = f.readline()
-        line = f.readline()
-        #print "Number of Fourier modes in coil surface from nescin file: ",line
-        num = int(line)
-        plas = np.zeros(num, dtype=[('m',np.float64), ('n', np.float64), #m,n saving as double
-                                         ('Rbc', np.float64), ('Zbs', np.float64),
-                                         ('Rbs', np.float64), ('Zbc', np.float64) ])
-        line = f.readline() #skip one line
-        line = f.readline() #skip one line
-        for i in range(num):
-            line = f.readline()
-            plas[i] = tuple([float(j) for j in line.split()])
-        plas['n'] *= -1   # minus sign since NESCOIL use mu+nv
-
-    wind_surf = fourier_surface(num)
-    wind_surf.nfp = nfp
-    wind_surf.xn[:] = np.array(plas['n'][:], np.int)
-    wind_surf.xm[:] = np.array(plas['m'][:], np.int)
-    wind_surf.rbc[:] = plas['Rbc'][:]
-    wind_surf.rbs[:] = plas['Rbs'][:]
-    wind_surf.zbc[:] = plas['Zbc'][:]
-    wind_surf.zbs[:] = plas['Zbs'][:]
-
-    return wind_surf
