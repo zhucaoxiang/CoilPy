@@ -121,9 +121,9 @@ class FourSurf(object):
                 n[i] = int(line_list[0])
                 m[i] = int(line_list[1])
                 rbc[i] = float(line_list[2])
-                zbs[i] = float(line_list[3])
-                rbs[i] = float(line_list[4])
-                zbc[i] = float(line_list[5])
+                rbs[i] = float(line_list[3])
+                zbc[i] = float(line_list[4])
+                zbs[i] = float(line_list[5])
         return cls(xm=m, xn=n*nfp, rbc=rbc, rbs=rbs, zbc=zbc, zbs=zbs)
 
     @classmethod
