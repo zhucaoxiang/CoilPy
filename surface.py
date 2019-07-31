@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from mayavi import mlab # to overrid plt.mlab
 import xarray as ncdata # read netcdf file
+from pyevtk.hl import gridToVTK # save to binary vtk
 
 class FourSurf(object):
     '''
@@ -283,6 +284,23 @@ class FourSurf(object):
         else:
             raise ValueError('Invalid engine option {pyplot, mayavi, noplot}')
         return (xsurf, ysurf, zsurf)
+
+    def tovtk(self, vtkname, npol=360, ntor=360, **kwargs):
+        """ save surface shape a vtk grid file
+        
+        Parameters: 
+          vtkname -- string, the filename you want to save, final name is 'vtkname.vts'
+          npol -- integer, number of poloidal discretization points (default: 360)
+          ntor -- integer, number of toroidal discretization points (default: 360)
+          kwargs -- optional keyword arguments for saving as pointdata
+
+        Returns:
+           
+        """
+        _xx, _yy, _zz = self.plot3d('noplot', zeta0=0.0, zeta1=2*np.pi,
+                                    theta0=0.0, theta1=2*np.pi, npol=npol, ntor=ntor)
+        gridToVTK(vtkname, _xx, _yy, _zz, pointData=kwargs)
+        return        
 
     def __del__(self):
         class_name = self.__class__.__name__

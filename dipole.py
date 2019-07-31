@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pyevtk.hl import gridToVTK, pointsToVTK
 import pandas as pd
+from misc import xy2rp, map_matrix, toroidal_period
 
 class dipole(object):
     '''
@@ -179,7 +180,7 @@ class dipole(object):
                    self.Ic[i], self.mm[i], self.pho[i], self.Lc[i], self.mp[i], self.mt[i]))
         return
     
-    def write_vtk(self, vtkname, dim=(1), **kwargs):
+    def write_vtk(self, vtkname, dim=(1), close=True, **kwargs):
         if not self.xyz_switch:
             self.sp2xyz() 
         dim = np.atleast_1d(dim)
@@ -190,87 +191,112 @@ class dipole(object):
                 data.update({"rho":self.pho**self.momentq})
             data.update(kwargs)
             pointsToVTK(vtkname, self.ox, self.oy, self.oz, data=data)#.update(kwargs))
-        else : # if manually close the gap
+        else : # save as surfaces
             assert len(dim)==3
             print("write VTK as closed surface")
-            phi = 2*np.pi/self.nfp
-            def map_toroidal(vec):
-                rotate = np.array([[  np.cos(phi), np.sin(phi), 0], \
-                                   [ -np.sin(phi), np.cos(phi), 0], \
-                                   [                0,               0, 1]])
-                return np.matmul(vec, rotate)
-            nr, nz, nt = dim
-            data_array = {"ox":self.ox, "oy":self.oy, "oz":self.oz, \
-                          "mx":self.mx, "my":self.my, "mz":self.mz, \
-                          "Ic":self.Ic, "rho":self.pho**self.momentq}
-            data_array.update(kwargs)
-            for key in list(data_array.keys()):
-                new_vec = np.zeros((nr, nz+1, nt+1))
+            if close:
+                # manually close the gap
+                phi = 2*np.pi/self.nfp
+                def map_toroidal(vec):
+                    rotate = np.array([[  np.cos(phi), np.sin(phi), 0], \
+                                       [ -np.sin(phi), np.cos(phi), 0], \
+                                       [                0,               0, 1]])
+                    return np.matmul(vec, rotate)
+                nr, nz, nt = dim
+                data_array = {"ox":self.ox, "oy":self.oy, "oz":self.oz, \
+                              "mx":self.mx, "my":self.my, "mz":self.mz, \
+                              "Ic":self.Ic, "rho":self.pho**self.momentq}
+                data_array.update(kwargs)
+                for key in list(data_array.keys()):
+                    new_vec = np.zeros((nr, nz+1, nt+1))
+                    for ir in range(nr):
+                        new_vec[ir,:,:] = map_matrix(np.reshape(data_array[key], dim)[ir,:,:])
+                    data_array[key] = new_vec
+                ox = np.copy(data_array['ox'])
+                oy = np.copy(data_array['oy'])
+                oz = np.copy(data_array['oz'])   
+                del data_array['ox']
+                del data_array['oy']
+                del data_array['oz'] 
+                if self.nfp>1 :
+                    for ir in range(nr):
+                        xyz = map_toroidal(np.transpose([ox[ir,0,:], oy[ir,0,:], oz[ir,0,:]]))
+                        ox[ir,nz,:] = xyz[:,0]
+                        oy[ir,nz,:] = xyz[:,1]
+                        oz[ir,nz,:] = xyz[:,2]
+                        moment = map_toroidal(np.transpose([data_array['mx'][ir,0,:],
+                                                            data_array['my'][ir,0,:], 
+                                                            data_array['mz'][ir,0,:]]))
+                        data_array['mx'][ir,nz,:] = moment[:,0]
+                        data_array['my'][ir,nz,:] = moment[:,1]
+                        data_array['mz'][ir,nz,:] = moment[:,2]
+                gridToVTK(vtkname, ox, oy, oz, pointData=data_array)
+                return
+                ox = np.zeros((nr, nz+1, nt+1))
+                oy = np.zeros_like(ox)
+                oz = np.zeros_like(ox)
+                mx = np.zeros_like(ox)
+                my = np.zeros_like(ox)
+                mz = np.zeros_like(ox)
+                rho = np.zeros_like(ox)
+                Ic = np.zeros_like(ox)
                 for ir in range(nr):
-                    new_vec[ir,:,:] = map_matrix(np.reshape(data_array[key], dim)[ir,:,:])
-                data_array[key] = new_vec
-            ox = np.copy(data_array['ox'])
-            oy = np.copy(data_array['oy'])
-            oz = np.copy(data_array['oz'])   
-            del data_array['ox']
-            del data_array['oy']
-            del data_array['oz'] 
-            if self.nfp>1 :
-                for ir in range(nr):
+                    ox[ir,:,:] = map_matrix(np.reshape(self.ox, dim)[ir,:,:])
+                    oy[ir,:,:] = map_matrix(np.reshape(self.oy, dim)[ir,:,:])
+                    oz[ir,:,:] = map_matrix(np.reshape(self.oz, dim)[ir,:,:])
+                    mx[ir,:,:] = map_matrix(np.reshape(self.mx, dim)[ir,:,:])
+                    my[ir,:,:] = map_matrix(np.reshape(self.my, dim)[ir,:,:])
+                    mz[ir,:,:] = map_matrix(np.reshape(self.mz, dim)[ir,:,:])
+                    rho[ir,:,:] = map_matrix(np.reshape(self.pho**self.momentq, dim)[ir,:,:])
+                    Ic[ir,:,:] = map_matrix(np.reshape(self.Ic, dim)[ir,:,:])  
+                    if self.nfp == 1:
+                        continue # map_matrix is enough for 1 period
+                    # correct toroidal direction
                     xyz = map_toroidal(np.transpose([ox[ir,0,:], oy[ir,0,:], oz[ir,0,:]]))
-                    ox[ir,nz,:] = xyz[:,0]
-                    oy[ir,nz,:] = xyz[:,1]
-                    oz[ir,nz,:] = xyz[:,2]
-                    moment = map_toroidal(np.transpose([data_array['mx'][ir,0,:],
-                                                        data_array['my'][ir,0,:], 
-                                                        data_array['mz'][ir,0,:]]))
-                    data_array['mx'][ir,nz,:] = moment[:,0]
-                    data_array['my'][ir,nz,:] = moment[:,1]
-                    data_array['mz'][ir,nz,:] = moment[:,2]
-            gridToVTK(vtkname, ox, oy, oz, pointData=data_array)
-            return
-            ox = np.zeros((nr, nz+1, nt+1))
-            oy = np.zeros_like(ox)
-            oz = np.zeros_like(ox)
-            mx = np.zeros_like(ox)
-            my = np.zeros_like(ox)
-            mz = np.zeros_like(ox)
-            rho = np.zeros_like(ox)
-            Ic = np.zeros_like(ox)
-            for ir in range(nr):
-                ox[ir,:,:] = map_matrix(np.reshape(self.ox, dim)[ir,:,:])
-                oy[ir,:,:] = map_matrix(np.reshape(self.oy, dim)[ir,:,:])
-                oz[ir,:,:] = map_matrix(np.reshape(self.oz, dim)[ir,:,:])
-                mx[ir,:,:] = map_matrix(np.reshape(self.mx, dim)[ir,:,:])
-                my[ir,:,:] = map_matrix(np.reshape(self.my, dim)[ir,:,:])
-                mz[ir,:,:] = map_matrix(np.reshape(self.mz, dim)[ir,:,:])
-                rho[ir,:,:] = map_matrix(np.reshape(self.pho**self.momentq, dim)[ir,:,:])
-                Ic[ir,:,:] = map_matrix(np.reshape(self.Ic, dim)[ir,:,:])  
-                if self.nfp == 1:
-                    continue # map_matrix is enough for 1 period
-                # correct toroidal direction
-                xyz = map_toroidal(np.transpose([ox[ir,0,:], oy[ir,0,:], oz[ir,0,:]]))
-                ox[ir,nz,:] = xyz[:,0].copy()
-                oy[ir,nz,:] = xyz[:,1].copy()
-                oz[ir,nz,:] = xyz[:,2].copy()
-                # correct toroidal direction
-                moment = map_toroidal(np.transpose([mx[ir,0,:], my[ir,0,:], mz[ir,0,:]]))
-                mx[ir,nz,:] = moment[:,0].copy()
-                my[ir,nz,:] = moment[:,1].copy()
-                mz[ir,nz,:] = moment[:,2].copy()
+                    ox[ir,nz,:] = xyz[:,0].copy()
+                    oy[ir,nz,:] = xyz[:,1].copy()
+                    oz[ir,nz,:] = xyz[:,2].copy()
+                    # correct toroidal direction
+                    moment = map_toroidal(np.transpose([mx[ir,0,:], my[ir,0,:], mz[ir,0,:]]))
+                    mx[ir,nz,:] = moment[:,0].copy()
+                    my[ir,nz,:] = moment[:,1].copy()
+                    mz[ir,nz,:] = moment[:,2].copy()
+            else:
+                ox = np.reshape(self.ox, dim)
+                oy = np.reshape(self.oy, dim)
+                oz = np.reshape(self.oz, dim)
+                mx = np.reshape(self.mx, dim)
+                my = np.reshape(self.my, dim)
+                mz = np.reshape(self.mz, dim)
+                rho = np.reshape(self.pho**self.momentq, dim)
+                Ic = np.reshape(self.Ic, dim)
             data = {"mx":mx, "my":my, "mz":mz, "rho":rho, "Ic":Ic}
             data.update(kwargs)
             gridToVTK(vtkname, ox, oy, oz, pointData=data)
         return
 
-    def full_period(self, nfp=1):
+    def full_period(self, nfp=1, symmetry=False):
         """
         map from one period to full periods
         """
         assert nfp>=1
         self.nfp = nfp
         if not self.xyz_switch:
-            self.sp2xyz() 
+            self.sp2xyz()
+        if symmetry:
+            # get the stellarator symmetry part first
+            # Here, we assume no dipoles on the symmetry plane, or only half are listed.
+            self.num *= 2
+            self.ox = np.concatenate((self.ox[::-1], self.ox))
+            self.oy = np.concatenate((self.oy[::-1]*(-1), self.oy))
+            self.oz = np.concatenate((self.oz[::-1]*(-1), self.oz))
+            self.mx = np.concatenate((self.mx[::-1]*(-1), self.mx))
+            self.my = np.concatenate((self.my[::-1], self.my))
+            self.mz = np.concatenate((self.mz[::-1], self.mz))
+            self.mm = np.concatenate((self.mm[::-1], self.mm))
+            self.pho = np.concatenate((self.pho[::-1], self.pho))
+            self.Ic = np.concatenate((self.Ic[::-1], self.Ic))
+            self.Lc = np.concatenate((self.Lc[::-1], self.Lc))
         xyz = toroidal_period(np.transpose([self.ox, self.oy, self.oz]), self.nfp)
         self.ox = xyz[:,0].copy()
         self.oy = xyz[:,1].copy()
