@@ -172,15 +172,17 @@ class FourSurf(object):
             # NESCOIL uses mu+nv, minus sign is added
             return cls(xm=m, xn=-n*nfp, rbc=rbc, rbs=rbs, zbc=zbc, zbs=zbs)
 
-    def rz(self, theta, zeta):
+    def rz(self, theta, zeta, normal=False):
         """ get r,z position of list of (theta, zeta)
         
         Parameters:
           theta -- float array_like, poloidal angle
           zeta -- float array_like, toroidal angle value
+          normal -- logical, calculate the normal vector or not (default: False)
 
         Returns:
            r, z -- float array_like
+           r, z, [rt, zt], [rz, zz] -- if normal
         """
         assert len(np.atleast_1d(theta)) == len(np.atleast_1d(zeta)), "theta, zeta should be equal size"
         # mt - nz (in matrix)
@@ -191,23 +193,52 @@ class FourSurf(object):
 
         r = np.matmul( np.reshape(self.rbc, (1,-1)), _cos ) \
           + np.matmul( np.reshape(self.rbs, (1,-1)), _sin )
-
         z = np.matmul( np.reshape(self.zbc, (1,-1)), _cos ) \
           + np.matmul( np.reshape(self.zbs, (1,-1)), _sin )
-        return (r.ravel(), z.ravel())
 
-    def xyz(self, theta, zeta):
+        if not normal :
+            return (r.ravel(), z.ravel())
+        else:
+            rt = np.matmul( np.reshape(self.xm * self.rbc, (1,-1)), -_sin ) \
+               + np.matmul( np.reshape(self.xm * self.rbs, (1,-1)),  _cos )
+            zt = np.matmul( np.reshape(self.xm * self.zbc, (1,-1)), -_sin ) \
+               + np.matmul( np.reshape(self.xm * self.zbs, (1,-1)),  _cos )
+
+            rz = np.matmul( np.reshape(-self.xn * self.rbc, (1,-1)), -_sin ) \
+               + np.matmul( np.reshape(-self.xn * self.rbs, (1,-1)),  _cos )
+            zz = np.matmul( np.reshape(-self.xn * self.zbc, (1,-1)), -_sin ) \
+               + np.matmul( np.reshape(-self.xn * self.zbs, (1,-1)),  _cos )
+            return (r.ravel(), z.ravel(), [rt.ravel(), zt.ravel()], [rz.ravel(), zz.ravel()])
+
+    def xyz(self, theta, zeta, normal=False):
         """ get x,y,z position of list of (theta, zeta)
         
         Parameters:
           theta -- float array_like, poloidal angle
           zeta -- float array_like, toroidal angle value
+          normal -- logical, calculate the normal vector or not (default: False)
 
         Returns:
            x, y, z -- float array_like
+           x, y, z, [nx, ny, nz] -- if normal
         """
-        r, z = self.rz(theta, zeta)
-        return (r*np.cos(np.ravel(zeta)), r*np.sin(np.ravel(zeta)), z)
+        data = self.rz(theta, zeta, normal)
+        r = data[0]
+        z = data[1]
+        _sin = np.sin(np.ravel(zeta))
+        _cos = np.cos(np.ravel(zeta))                      
+        if not normal:
+            return (r*_cos, r*_sin, z)
+        else:
+            _xt = data[2][0]*_cos # dx/dtheta
+            _yt = data[2][0]*_sin # dy/dtheta
+            _zt = data[2][1]      # dz/dtheta
+            _xz = data[3][0]*_cos - r*_sin # dx/dzeta
+            _yz = data[3][0]*_sin + r*_cos # dy/dzeta
+            _zz = data[3][1]               # dz/dzeta
+            # n = dr/dz x  dr/dt
+            n = np.cross(np.transpose([_xz, _yz, _zz]), np.transpose([_xt, _yt, _zt]))
+            return (r*_cos, r*_sin, z, n)
 
     def plot(self, zeta=0.0, npoints=360, **kwargs):
         """ plot the cross-section at zeta using matplotlib.pyplot
@@ -299,7 +330,14 @@ class FourSurf(object):
         """
         _xx, _yy, _zz = self.plot3d('noplot', zeta0=0.0, zeta1=2*np.pi,
                                     theta0=0.0, theta1=2*np.pi, npol=npol, ntor=ntor)
-        gridToVTK(vtkname, _xx, _yy, _zz, pointData=kwargs)
+        _xx = _xx.reshape((1, npol, ntor))
+        _yy = _yy.reshape((1, npol, ntor))
+        _zz = _zz.reshape((1, npol, ntor))
+
+        if kwargs:
+            gridToVTK(vtkname, _xx, _yy, _zz, pointData=kwargs)
+        else:
+            gridToVTK(vtkname, _xx, _yy, _zz)
         return        
 
     def __del__(self):
