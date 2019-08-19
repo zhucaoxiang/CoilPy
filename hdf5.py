@@ -36,8 +36,11 @@ class HDF5:
                         else: 
                             setattr(self, key, _content[key][()])
                     # glue string together
-                    if _content[key].dtype == 'S1': 
-                        setattr(self, key, ''.join(_content[key][()]))
+                    if isinstance(_content[key][0], bytes): 
+                        abc = ''
+                        for i in _content[key]:
+                            abc += i.decode('utf-8')
+                        setattr(self, key, abc)
         
         if isinstance(_content, h5py.File):
             _content.close()
