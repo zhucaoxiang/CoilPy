@@ -345,8 +345,16 @@ class dipole(object):
         """
         assert newq>0
         pho = self.pho**self.momentq
+        # flip the orientation when negative
+        self.sp2xyz()
+        sign = np.sign(pho)
+        self.mx *= sign
+        self.my *= sign
+        self.mz *= sign
+        self.xyz2sp()
         self.momentq = newq
-        self.pho = np.power(pho, 1.0/newq)
+        # convert to positive rho
+        self.pho = np.power(np.abs(pho), 1.0/newq)
         return
 
     def plot_pho_profile(self, nrange=10, nofigure=False, **kwargs):

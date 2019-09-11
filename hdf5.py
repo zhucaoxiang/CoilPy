@@ -30,11 +30,17 @@ class HDF5:
                 elif isinstance(_content[key], h5py.Dataset): # read dataset
                     if key in keyword.kwlist: # avoid assign python keywords
                         setattr(self, key+'1', _content[key][()])
-                    else:
-                        if len(_content[key][()]) == 1: # if just one element, use the value directly
+                    else: # if just one element, use the value directly
+                        if len(_content[key][()]) == 1: 
                             setattr(self, key, _content[key][0])
                         else: 
                             setattr(self, key, _content[key][()])
+                    # glue string together
+                    if isinstance(_content[key][0], bytes): 
+                        abc = ''
+                        for i in _content[key]:
+                            abc += i.decode('utf-8')
+                        setattr(self, key, abc)
         
         if isinstance(_content, h5py.File):
             _content.close()
