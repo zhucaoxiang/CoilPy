@@ -262,20 +262,20 @@ class dipole(object):
                     my[ir,nz,:] = moment[:,1].copy()
                     mz[ir,nz,:] = moment[:,2].copy()
             else:
-                ox = np.reshape(self.ox, dim)
-                oy = np.reshape(self.oy, dim)
-                oz = np.reshape(self.oz, dim)
-                mx = np.reshape(self.mx, dim)
-                my = np.reshape(self.my, dim)
-                mz = np.reshape(self.mz, dim)
-                rho = np.reshape(self.pho**self.momentq, dim)
-                Ic = np.reshape(self.Ic, dim)
+                ox = np.reshape(self.ox[:self.num], dim)
+                oy = np.reshape(self.oy[:self.num], dim)
+                oz = np.reshape(self.oz[:self.num], dim)
+                mx = np.reshape(self.mx[:self.num], dim)
+                my = np.reshape(self.my[:self.num], dim)
+                mz = np.reshape(self.mz[:self.num], dim)
+                rho = np.reshape(self.pho[:self.num]**self.momentq, dim)
+                Ic = np.reshape(self.Ic[:self.num], dim)
             data = {"mx":mx, "my":my, "mz":mz, "rho":rho, "Ic":Ic}
             data.update(kwargs)
             gridToVTK(vtkname, ox, oy, oz, pointData=data)
         return
 
-    def full_period(self, nfp=1, symmetry=False):
+    def full_period(self, nfp=1, symmetry=False, dim=None):
         """
         map from one period to full periods
         """
@@ -283,20 +283,32 @@ class dipole(object):
         self.nfp = nfp
         if not self.xyz_switch:
             self.sp2xyz()
+        # change order
+        if dim is not None :
+            self.ox = np.ravel(np.transpose(np.reshape(self.ox, dim)[::-1,::-1,::-1], (2,0,1)))
+            self.oy = np.ravel(np.transpose(np.reshape(self.oy, dim)[::-1,::-1,::-1], (2,0,1)))
+            self.oz = np.ravel(np.transpose(np.reshape(self.oz, dim)[::-1,::-1,::-1], (2,0,1)))
+            self.mx = np.ravel(np.transpose(np.reshape(self.mx, dim)[::-1,::-1,::-1], (2,0,1)))
+            self.my = np.ravel(np.transpose(np.reshape(self.my, dim)[::-1,::-1,::-1], (2,0,1)))
+            self.mz = np.ravel(np.transpose(np.reshape(self.mz, dim)[::-1,::-1,::-1], (2,0,1)))
+            self.mm = np.ravel(np.transpose(np.reshape(self.mm, dim)[::-1,::-1,::-1], (2,0,1)))
+            self.Ic = np.ravel(np.transpose(np.reshape(self.Ic, dim)[::-1,::-1,::-1], (2,0,1)))
+            self.Lc = np.ravel(np.transpose(np.reshape(self.Lc, dim)[::-1,::-1,::-1], (2,0,1)))
+            self.pho= np.ravel(np.transpose(np.reshape(self.pho,dim)[::-1,::-1,::-1], (2,0,1)))
         if symmetry:
             # get the stellarator symmetry part first
             # Here, we assume no dipoles on the symmetry plane, or only half are listed.
             self.num *= 2
-            self.ox = np.concatenate((self.ox[::-1], self.ox))
-            self.oy = np.concatenate((self.oy[::-1]*(-1), self.oy))
-            self.oz = np.concatenate((self.oz[::-1]*(-1), self.oz))
-            self.mx = np.concatenate((self.mx[::-1]*(-1), self.mx))
-            self.my = np.concatenate((self.my[::-1], self.my))
-            self.mz = np.concatenate((self.mz[::-1], self.mz))
-            self.mm = np.concatenate((self.mm[::-1], self.mm))
-            self.pho = np.concatenate((self.pho[::-1], self.pho))
-            self.Ic = np.concatenate((self.Ic[::-1], self.Ic))
-            self.Lc = np.concatenate((self.Lc[::-1], self.Lc))
+            self.ox = np.concatenate((self.ox , self.ox[::-1]))
+            self.oy = np.concatenate((self.oy , self.oy[::-1]*(-1)))
+            self.oz = np.concatenate((self.oz , self.oz[::-1]*(-1)))
+            self.mx = np.concatenate((self.mx , self.mx[::-1]*(-1)))
+            self.my = np.concatenate((self.my , self.my[::-1]))
+            self.mz = np.concatenate((self.mz , self.mz[::-1]))
+            self.mm = np.concatenate((self.mm , self.mm[::-1]))
+            self.pho= np.concatenate((self.pho, self.pho[::-1]))
+            self.Ic = np.concatenate((self.Ic , self.Ic[::-1]))
+            self.Lc = np.concatenate((self.Lc , self.Lc[::-1]))
         xyz = toroidal_period(np.transpose([self.ox, self.oy, self.oz]), self.nfp)
         self.ox = xyz[:,0].copy()
         self.oy = xyz[:,1].copy()
@@ -311,7 +323,22 @@ class dipole(object):
         self.Lc = np.tile(self.Lc, self.nfp)
         self.num *= self.nfp        
         return
-
+    
+    def inverse(self):
+        if not self.xyz_switch:
+            self.sp2xyz()
+        self.ox = np.copy(self.ox[::-1])
+        self.oy = np.copy(self.oy[::-1]*(-1))
+        self.oz = np.copy(self.oz[::-1]*(-1))
+        self.mx = np.copy(self.mx[::-1]*(-1))
+        self.my = np.copy(self.my[::-1])
+        self.mz = np.copy(self.mz[::-1])
+        self.mm = np.copy(self.mm[::-1])
+        self.pho= np.copy(self.pho[::-1])
+        self.Ic = np.copy(self.Ic[::-1])
+        self.Lc = np.copy(self.Lc[::-1])
+        return
+        
     def change_momentq(self, newq):
         """
         change the q factor for density function
