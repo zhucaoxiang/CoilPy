@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
+import matplotlib.pyplot as plt
 import sys
 
 def xy2rp(x, y):
@@ -70,3 +71,29 @@ def print_progress(iteration, total, prefix='Progress', suffix='Complete', decim
     if iteration == total:
         sys.stdout.write('\n')
     sys.stdout.flush()
+
+# Smart way to check where to plot
+def get_figure(axes=None, **kwargs):
+    """
+    Check where to plot
+    Parameters:
+        axes: matplotlib.pyplot axis, axis to plot (default: None)
+        kwargs: keyword arguments
+    Return:
+        f, ax 
+        f  : matplotlib.pyplot figure
+        ax : matplotlib.pyplot axis 
+    """
+    if axes is None:
+        # No axes provided
+        f = plt.gcf()
+        if len(f.axes):
+            # normal situation in which existing figures should be respected and left alone
+            f, axes = plt.subplots(**kwargs)
+        else:
+            #  made a empty figure for using
+            axes = f.add_subplot(**kwargs)
+    else:
+        axes = np.atleast_1d(axes)
+        f = axes[0].get_figure()
+    return f, axes
