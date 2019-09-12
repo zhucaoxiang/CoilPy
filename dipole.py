@@ -357,8 +357,8 @@ class dipole(object):
         self.pho = np.power(np.abs(pho), 1.0/newq)
         return
 
-    def plot_pho_profile(self, nrange=10, nofigure=False, **kwargs):
-        pho = self.pho**self.momentq
+    def plot_rho_profile(self, nrange=10, nofigure=False, **kwargs):
+        pho = np.abs(self.pho**self.momentq)
         zone = np.linspace(0, 1, nrange+1, endpoint=True)
         count = []
         for i in range(nrange-1):
@@ -371,9 +371,9 @@ class dipole(object):
                 ax = plt.gca()
             else :
                 fig, ax = plt.subplots()
-            plt.bar(zone[:-1], count/float(self.num), width=1.0/nrange, **kwargs)
-            ax.set_xlabel('rho', fontsize=15)
-            ax.set_ylabel('fraction', fontsize=15)
+            plt.bar(zone[:-1], 100*count/float(self.num), width=0.9/nrange, **kwargs)
+            ax.set_xlabel('|rho|', fontsize=15)
+            ax.set_ylabel('fraction [%]', fontsize=15)
             plt.xticks(fontsize=14)
             plt.yticks(fontsize=14)
         return count

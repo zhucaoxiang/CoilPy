@@ -15,5 +15,8 @@ from pyevtk.hl import gridToVTK, pointsToVTK
 import pandas as pd
 
 # local packages
-from surface import *
-from dipole import *
+from misc import *
+from hdf5 import HDF5
+from surface import FourSurf
+from dipole import dipole
+from focushdf5 import FOCUSHDF5

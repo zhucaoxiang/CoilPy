@@ -71,6 +71,7 @@ def print_progress(iteration, total, prefix='Progress', suffix='Complete', decim
     if iteration == total:
         sys.stdout.write('\n')
     sys.stdout.flush()
+    return
 
 # Smart way to check where to plot
 def get_figure(axes=None, **kwargs):
@@ -86,13 +87,7 @@ def get_figure(axes=None, **kwargs):
     """
     if axes is None:
         # No axes provided
-        f = plt.gcf()
-        if len(f.axes):
-            # normal situation in which existing figures should be respected and left alone
-            f, axes = plt.subplots(**kwargs)
-        else:
-            #  made a empty figure for using
-            axes = f.add_subplot(**kwargs)
+        f, axes = plt.subplots(**kwargs)
     else:
         axes = np.atleast_1d(axes)
         f = axes[0].get_figure()
