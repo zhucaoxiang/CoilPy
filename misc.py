@@ -86,6 +86,8 @@ def get_figure(axes=None, **kwargs):
     """
     if axes is None:
         # No axes provided
+        f, axes = plt.subplots(**kwargs)
+        '''
         f = plt.gcf()
         if len(f.axes):
             # normal situation in which existing figures should be respected and left alone
@@ -93,7 +95,8 @@ def get_figure(axes=None, **kwargs):
         else:
             #  made a empty figure for using
             axes = f.add_subplot(**kwargs)
+         '''
     else:
-        axes = np.atleast_1d(axes)
-        f = axes[0].get_figure()
+        # axes = np.atleast_1d(axes)
+        f = axes.get_figure()
     return f, axes

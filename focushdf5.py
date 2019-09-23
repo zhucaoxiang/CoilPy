@@ -41,8 +41,69 @@ class FOCUSHDF5(HDF5):
             self.Bn = map_matrix(self.Bn)
             self.plas_Bn = map_matrix(self.plas_Bn)
     # convergence plot
-    def convergence(self):
-        return 
+    def convergence(self, term='used', iteration=True, axes=None, **kwargs):
+        # get figure
+        fig, axes = get_figure(axes)
+        # set default plotting parameters
+        kwargs['linewidth'] = kwargs.get('linewidth', 2.5) # line width
+        #kwargs['marker'] = kwargs.get('marker', 'o') # extent
+        # get iteration data
+        if iteration:
+            abscissa = 1+ np.arange(self.iout)
+            _xlabel = 'iteration'
+        else :
+            abscissa = self.evolution[0,:] # be careful; DF is not saving wall-time
+            _xlabel = 'wall time [Second]'
+        # plot data
+        if term.lower() == 'chi':
+            data = self.evolution[1,:]
+            label = r'$\chi^2$'
+        elif term.lower() == 'gradient':
+            data = self.evolution[2,:]
+            label = r'$|d \chi^2 / d {\bf X}|$'
+        elif term.lower() == 'bnorm':
+            data = self.evolution[3,:]
+            label = r'$f_{B_n}$'     
+        elif term.lower() == 'bharm':
+            data = self.evolution[4,:]
+            label = r'$f_{B_{mn}}$'    
+        elif term.lower() == 'tflux':
+            data = self.evolution[5,:]
+            label = r'$f_{\Psi}$'   
+        elif term.lower() == 'ttlen':
+            data = self.evolution[6,:]
+            label = r'$f_L$' 
+        elif term.lower() == 'cssep':
+            data = self.evolution[7,:]
+            label = r'$f_{CS}$' 
+        elif term.lower() == 'all':
+            lines = []
+            lines.append(self.convergence(term='chi', iteration=iteration, axes=axes, 
+                                    linestyle='-', color='k', **kwargs))
+            lines.append(self.convergence(term='gradient', iteration=iteration, axes=axes, 
+                                    linestyle='--', color='k', **kwargs))
+            lines.append(self.convergence(term='bnorm', iteration=iteration, axes=axes, 
+                                    linestyle='-.', color='r', **kwargs))
+            lines.append(self.convergence(term='tflux', iteration=iteration, axes=axes, 
+                                    linestyle='-.', color='g', **kwargs))
+            lines.append(self.convergence(term='bharm', iteration=iteration, axes=axes, 
+                                    linestyle='-.', color='b', **kwargs))
+            lines.append(self.convergence(term='ttlen', iteration=iteration, axes=axes, 
+                                    linestyle='-.', color='c', **kwargs))
+            lines.append(self.convergence(term='cssep', iteration=iteration, axes=axes, 
+                                    linestyle='-.', color='m', **kwargs))     
+            #fig.legend(loc='upper right', frameon=False, ncol=2, prop={'size':16})
+            plt.legend()
+            return lines
+        else :
+            raise ValueError('unsupported option for term') 
+        line = axes.semilogy(abscissa, data, label=label, **kwargs)
+        axes.tick_params(axis='both', which='major', labelsize=15)
+        axes.set_xlabel(_xlabel, fontsize=15)
+        axes.set_ylabel('cost functions', fontsize=15)
+        # fig.legend(loc='upper right', frameon=False, prop={'size':24, 'weight':'bold'})
+        plt.legend()
+        return line
     # poincare plot
     def poincare(self):
         return
@@ -86,6 +147,7 @@ class FOCUSHDF5(HDF5):
             # planar plotting
             if source.lower() == 'all':
                 fig, axes = get_figure(axes, nrows=3, sharey=True)
+                axes = np.atleast_1d(axes)
                 #kwargs['aspect'] = kwargs.get('aspect', nt/(2.0*nz*self.Nfp))
                 kwargs['aspect'] = kwargs.get('aspect', 'auto')
             else :
