@@ -31,7 +31,9 @@ class dipole(object):
             self.Ic = kwargs['Ic']
             self.Lc = kwargs['Lc']
             self.num = len(self.ox)
-            self.sp_switch = True            
+            self.sp_switch = True
+            self.name = kwargs.get('name', 'dipole')
+            self.rho = self.pho**self.momentq
         return
 
     @classmethod
@@ -58,7 +60,7 @@ class dipole(object):
         mp = np.array(data[10], dtype=float)
         mt = np.array(data[11], dtype=float)
         print('Read {:d} dipoles from {:}'.format(len(ox), filename))
-        return cls(ox=ox, oy=oy, oz=oz, Ic=Ic, mm=mm, Lc=Lc, mp=mp, mt=mt, pho=pho, momentq=momentq)
+        return cls(ox=ox, oy=oy, oz=oz, Ic=Ic, mm=mm, Lc=Lc, mp=mp, mt=mt, pho=pho, momentq=momentq, name=filename)
 
     @classmethod
     def read_dipole_old(cls, filename, zeta=0.0, zeta1=np.pi*2, **kwargs):
@@ -180,9 +182,11 @@ class dipole(object):
                    self.Ic[i], self.mm[i], self.pho[i], self.Lc[i], self.mp[i], self.mt[i]))
         return
     
-    def write_vtk(self, vtkname, dim=(1), close=True, **kwargs):
+    def write_vtk(self, vtkname=None, dim=(1), close=True, **kwargs):
         if not self.xyz_switch:
-            self.sp2xyz() 
+            self.sp2xyz()
+        if vtkname is None:
+            vtkname = self.name
         dim = np.atleast_1d(dim)
         if len(dim) == 1: # save as points
             print("write VTK as points")
@@ -378,5 +382,9 @@ class dipole(object):
             plt.yticks(fontsize=14)
         return count
 
+    def volume(self, magnitization=1.1E6, **kwargs):
+        self.total_moment = np.sum(np.abs(self.rho*self.mm))
+        return self.total_moment/magnitization
+    
     def __del__(self):
         class_name = self.__class__.__name__
