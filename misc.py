@@ -71,6 +71,7 @@ def print_progress(iteration, total, prefix='Progress', suffix='Complete', decim
     if iteration == total:
         sys.stdout.write('\n')
     sys.stdout.flush()
+    return
 
 # Smart way to check where to plot
 def get_figure(axes=None, **kwargs):
