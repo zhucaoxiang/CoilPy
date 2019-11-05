@@ -18,7 +18,7 @@ class dipole(object):
         self.sp_switch = False # switch to indicate if using spherical coordinates
         self.xyz_switch = False # switch to indicate if using spherical coordinates
         self.old = False # old format or new
-        self.symmetry = 1 # 0: no symmetry; 1: periodicity; 2: stellarator symmetry (+periodicity)
+        self.symmetry = 2 # 0: no symmetry; 1: periodicity; 2: stellarator symmetry (+periodicity)
         if 'ox' in kwargs:
             self.ox = kwargs['ox']
             self.oy = kwargs['oy']
@@ -349,16 +349,22 @@ class dipole(object):
         """
         assert newq>0
         pho = self.pho**self.momentq
-        # flip the orientation when negative
+        # get signs
         self.sp2xyz()
         sign = np.sign(pho)
-        self.mx *= sign
-        self.my *= sign
-        self.mz *= sign
-        self.xyz2sp()
-        self.momentq = newq
-        # convert to positive rho
-        self.pho = np.power(np.abs(pho), 1.0/newq)
+        if newq%2 == 0: # even number, flip the orientation when negative
+            self.mx *= sign
+            self.my *= sign
+            self.mz *= sign
+            self.xyz2sp()
+            self.momentq = newq
+            # convert to positive rho
+            self.pho = np.power(np.abs(pho), 1.0/newq)
+        else: # odd exponetial index
+            self.momentq = newq
+            # convert to positive rho
+            self.pho = np.power(np.abs(pho), 1.0/newq)
+            self.pho *= sign
         return
 
     def plot_rho_profile(self, nrange=10, nofigure=False, **kwargs):
