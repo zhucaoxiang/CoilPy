@@ -1,10 +1,4 @@
-from mayavi import mlab
 import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from mayavi import mlab # to overrid plt.mlab
-import xarray as ncdata # read netcdf file
-from pyevtk.hl import gridToVTK # save to binary vtk
 
 class FourSurf(object):
     '''
@@ -72,6 +66,7 @@ class FourSurf(object):
         Returns:
           fourier_surface class
         """
+        import xarray as ncdata # read netcdf file
         vmec = ncdata.open_dataset(woutfile)
         xm = vmec['xm'].values
         xn = vmec['xn'].values
@@ -251,6 +246,7 @@ class FourSurf(object):
         Returns:
            line class in matplotlib.pyplot
         """
+        import matplotlib.pyplot as plt
         # get figure and ax data
         if plt.get_fignums():
             fig = plt.gcf()
@@ -301,6 +297,8 @@ class FourSurf(object):
             # just return xyz data
             pass
         elif engine == 'pyplot':
+            import matplotlib.pyplot as plt
+            from mpl_toolkits.mplot3d import Axes3D
             # plot in matplotlib.pyplot
             if plt.get_fignums():
                 fig = plt.gcf()
@@ -311,6 +309,7 @@ class FourSurf(object):
             ax.plot_surface(xsurf, ysurf, zsurf, **kwargs)
         elif engine == 'mayavi':
             # plot 3D surface in mayavi.mlab
+            from mayavi import mlab # to overrid plt.mlab
             mlab.mesh(xsurf, ysurf, zsurf, **kwargs)
         else:
             raise ValueError('Invalid engine option {pyplot, mayavi, noplot}')
@@ -328,6 +327,7 @@ class FourSurf(object):
         Returns:
            
         """
+        from pyevtk.hl import gridToVTK # save to binary vtk
         _xx, _yy, _zz = self.plot3d('noplot', zeta0=0.0, zeta1=2*np.pi,
                                     theta0=0.0, theta1=2*np.pi, npol=npol, ntor=ntor)
         _xx = _xx.reshape((1, npol, ntor))

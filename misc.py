@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-import matplotlib.pyplot as plt
 import sys
 
 def xy2rp(x, y):
@@ -85,6 +84,7 @@ def get_figure(axes=None, **kwargs):
         f  : matplotlib.pyplot figure
         ax : matplotlib.pyplot axis 
     """
+    import matplotlib.pyplot as plt
     if axes is None:
         # No axes provided
         f, axes = plt.subplots(**kwargs)
