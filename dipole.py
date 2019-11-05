@@ -1,7 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
-from pyevtk.hl import gridToVTK, pointsToVTK
-import pandas as pd
 from misc import xy2rp, map_matrix, toroidal_period
 
 class dipole(object):
@@ -41,6 +38,7 @@ class dipole(object):
         '''
         read diploes from FOCUS format (new)
         '''
+        import pandas as pd
         with open(filename, 'r') as coilfile:
             coilfile.readline()
             line = coilfile.readline().split()
@@ -183,6 +181,7 @@ class dipole(object):
         return
     
     def write_vtk(self, vtkname=None, dim=(1), close=True, **kwargs):
+        from pyevtk.hl import gridToVTK, pointsToVTK
         if not self.xyz_switch:
             self.sp2xyz()
         if vtkname is None:
@@ -368,6 +367,7 @@ class dipole(object):
         return
 
     def plot_rho_profile(self, nrange=10, nofigure=False, **kwargs):
+        import matplotlib.pyplot as plt
         pho = np.abs(self.pho**self.momentq)
         zone = np.linspace(0, 1, nrange+1, endpoint=True)
         count = []
