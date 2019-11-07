@@ -34,7 +34,7 @@ class dipole(object):
         return
 
     @classmethod
-    def read_dipole(cls, filename, **kwargs):
+    def read_dipole(cls, filename, verbose=False, **kwargs):
         '''
         read diploes from FOCUS format (new)
         '''
@@ -57,7 +57,8 @@ class dipole(object):
         Lc = np.array(data[9], dtype=int)
         mp = np.array(data[10], dtype=float)
         mt = np.array(data[11], dtype=float)
-        print('Read {:d} dipoles from {:}'.format(len(ox), filename))
+        if verbose:
+            print('Read {:d} dipoles from {:}'.format(len(ox), filename))
         return cls(ox=ox, oy=oy, oz=oz, Ic=Ic, mm=mm, Lc=Lc, mp=mp, mt=mt, pho=pho, momentq=momentq, name=filename)
 
     @classmethod
@@ -355,10 +356,10 @@ class dipole(object):
             self.mx *= sign
             self.my *= sign
             self.mz *= sign
-            self.xyz2sp()
             self.momentq = newq
+            self.xyz2sp()
             # convert to positive rho
-            self.pho = np.power(np.abs(pho), 1.0/newq)
+            #self.pho = np.power(np.abs(pho), 1.0/newq)
         else: # odd exponetial index
             self.momentq = newq
             # convert to positive rho
@@ -382,7 +383,7 @@ class dipole(object):
             else :
                 fig, ax = plt.subplots()
             plt.bar(zone[:-1], 100*count/float(self.num), width=0.9/nrange, **kwargs)
-            ax.set_xlabel('|rho|', fontsize=15)
+            ax.set_xlabel(r'$\rho$', fontsize=15)
             ax.set_ylabel('fraction [%]', fontsize=15)
             plt.xticks(fontsize=14)
             plt.yticks(fontsize=14)
@@ -391,6 +392,17 @@ class dipole(object):
     def volume(self, magnitization=1.1E6, **kwargs):
         self.total_moment = np.sum(np.abs(self.rho*self.mm))
         return self.total_moment/magnitization
+
+    def orientation(self, unit=True, uniform=False):
+        oldq = self.momentq
+        self.change_momentq(2) # to a even number
+        self.change_momentq(oldq) # recover
+        if unit: 
+            self.mm[:] = 1.
+        if uniform:
+            self.pho[:] = 1.
+        self.sp2xyz()
+        return
     
     def __del__(self):
         class_name = self.__class__.__name__
