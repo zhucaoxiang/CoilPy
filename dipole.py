@@ -403,6 +403,17 @@ class dipole(object):
             self.pho[:] = 1.
         self.sp2xyz()
         return
+
+    def plot(self, start=0, end=None, **kwargs):
+        import matplotlib.pyplot as plt
+        from mpl_toolkits.mplot3d import Axes3D
+        if end is None:
+            end = self.num
+        fig = plt.figure() 
+        ax = fig.add_subplot(111, projection='3d')
+        ax.scatter(self.ox[start:end], self.oy[start:end], self.oz[start:end], **kwargs)
+        return ax
+        
     
     def __del__(self):
         class_name = self.__class__.__name__

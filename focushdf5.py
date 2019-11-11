@@ -9,7 +9,7 @@ class FOCUSHDF5(HDF5):
 
     """
     # initialization, test = FOCUSHDF5('focus_test.h5')
-    def __init__(self, filename, periodic=True, **kwargs):
+    def __init__(self, filename, periodic=False, **kwargs):
         """ Initialization
 
         Keyword arguments:
@@ -41,7 +41,7 @@ class FOCUSHDF5(HDF5):
             self.Bn = map_matrix(self.Bn)
             self.plas_Bn = map_matrix(self.plas_Bn)
     # convergence plot
-    def convergence(self, term='used', iteration=True, axes=None, **kwargs):
+    def convergence(self, term='bnorm', iteration=True, axes=None, **kwargs):
         # get figure
         fig, axes = get_figure(axes)
         # set default plotting parameters
@@ -57,25 +57,25 @@ class FOCUSHDF5(HDF5):
         # plot data
         if term.lower() == 'chi':
             data = self.evolution[1,:]
-            label = r'$\chi^2$'
+            kwargs['label'] = kwargs.get('label', r'$\chi^2$') # line label
         elif term.lower() == 'gradient':
             data = self.evolution[2,:]
-            label = r'$|d \chi^2 / d {\bf X}|$'
+            kwargs['label'] = kwargs.get('label', r'$|d \chi^2 / d {\bf X}|$') # line label
         elif term.lower() == 'bnorm':
             data = self.evolution[3,:]
-            label = r'$f_{B_n}$'     
+            kwargs['label'] = kwargs.get('label', r'$f_{B_n}$') # line label
         elif term.lower() == 'bharm':
             data = self.evolution[4,:]
-            label = r'$f_{B_{mn}}$'    
+            kwargs['label'] = kwargs.get('label', r'$f_{B_{mn}}$') # line label
         elif term.lower() == 'tflux':
             data = self.evolution[5,:]
-            label = r'$f_{\Psi}$'   
+            kwargs['label'] = kwargs.get('label', r'$f_{\Psi}$') # line label
         elif term.lower() == 'ttlen':
             data = self.evolution[6,:]
-            label = r'$f_L$' 
+            kwargs['label'] = kwargs.get('label', r'$f_L$') # line label
         elif term.lower() == 'cssep':
             data = self.evolution[7,:]
-            label = r'$f_{CS}$' 
+            kwargs['label'] = kwargs.get('label', r'$f_{CS}$') # line label
         elif term.lower() == 'all':
             lines = []
             lines.append(self.convergence(term='chi', iteration=iteration, axes=axes, 
@@ -97,7 +97,7 @@ class FOCUSHDF5(HDF5):
             return lines
         else :
             raise ValueError('unsupported option for term') 
-        line = axes.semilogy(abscissa, data, label=label, **kwargs)
+        line = axes.semilogy(abscissa, data, **kwargs)
         axes.tick_params(axis='both', which='major', labelsize=15)
         axes.set_xlabel(_xlabel, fontsize=15)
         axes.set_ylabel('cost functions', fontsize=15)
@@ -133,7 +133,7 @@ class FOCUSHDF5(HDF5):
             # prepare coordinates
             ntheta  = self.Nteta
             nzeta = self.Nzeta
-            nz, nt = self.Bn.shape
+            nt, nz = self.Bn.shape
             if self.IsSymmetric >0 :
                 zeta_end = 2*np.pi/self.Nfp
             else :
@@ -146,7 +146,7 @@ class FOCUSHDF5(HDF5):
             zeta_format = FuncFormatter(zeta)
             # planar plotting
             if source.lower() == 'all':
-                fig, axes = get_figure(axes, nrows=3, sharey=True)
+                fig, axes = get_figure(axes, ncols=3, sharex=True)
                 axes = np.atleast_1d(axes)
                 #kwargs['aspect'] = kwargs.get('aspect', nt/(2.0*nz*self.Nfp))
                 kwargs['aspect'] = kwargs.get('aspect', 'auto')
@@ -184,18 +184,21 @@ class FOCUSHDF5(HDF5):
                 vmax = np.max([self.plas_Bn, self.Bn, coil_Bn])
                 obj.append(axes[0].imshow(np.transpose(self.plas_Bn), 
                                           vmin=vmin, vmax=vmax, **kwargs))
-                plt.setp(axes[0].get_xticklabels(), visible=False)
-                axes[0].set_title('Bn from plasma (top), coil (mid), overall(lower).', fontsize=14) 
+                #plt.setp(axes[0].get_xticklabels(), visible=False)
+                axes[1].set_title('Bn from plasma (left), coil (mid), overall(right).', fontsize=14) 
                 obj.append(axes[1].imshow(np.transpose(coil_Bn),
                                           vmin=vmin, vmax=vmax, **kwargs))
                 #axes[1].set_title('Bn from coils', fontsize=15)  
-                plt.setp(axes[1].get_xticklabels(), visible=False)
+                plt.setp(axes[1].get_yticklabels(), visible=False)
                 obj.append(axes[2].imshow(np.transpose(self.Bn), 
                                           vmin=vmin, vmax=vmax, **kwargs))
+                plt.setp(axes[2].get_yticklabels(), visible=False)
                 #axes[2].set_title('Residual Bn', fontsize=15)
                 axes[0].set_ylabel(r'$\theta$', fontsize=14)
-                axes[1].set_ylabel(r'$\theta$', fontsize=14)
-                axes[2].set_ylabel(r'$\theta$', fontsize=14)
+                #axes[1].set_ylabel(r'$\theta$', fontsize=14)
+                #axes[2].set_ylabel(r'$\theta$', fontsize=14)
+                axes[0].set_xlabel(r'$\phi$', fontsize=14)
+                axes[1].set_xlabel(r'$\phi$', fontsize=14)
                 axes[2].set_xlabel(r'$\phi$', fontsize=14)
             else:
                 raise ValueError('unsupported option for source')       
