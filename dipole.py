@@ -146,7 +146,7 @@ class dipole(object):
         self.sp_switch = True
         return   
 
-    def write_dipole(self, filename, unique=False):
+    def save(self, filename, unique=False):
         '''
         write diploes from FOCUS format
         '''
@@ -166,7 +166,7 @@ class dipole(object):
                     wfile.write("#-----------------{}---------------------------\n".format(icoil+1))
                     wfile.write("#coil_type     coil_name \n")
                     wfile.write("   {:3d}  {:1d}  pm_{:010d}\n".format(2, 1, icoil+1))
-                    wfile.write("#  Lc  ox   oy   oz  Ic  I  mt  mp \n")
+                    wfile.write("#  Lc  ox   oy   oz  Ic  I  mp  mt \n")
                     wfile.write("{:6d} {:23.15E} {:23.15E} {:23.15E} {:6d} {:23.15E} {:23.15E} {:23.15E}\n"\
                        .format(self.Lc[icoil], self.ox[icoil], self.oy[icoil], self.oz[icoil], \
                                    self.Ic[icoil], self.mm[icoil], self.mt[icoil], self.mp[icoil] ))
@@ -353,9 +353,9 @@ class dipole(object):
         self.sp2xyz()
         sign = np.sign(pho)
         if newq%2 == 0: # even number, flip the orientation when negative
-            self.mx *= sign
-            self.my *= sign
-            self.mz *= sign
+            #self.mx *= sign
+            #self.my *= sign
+            #self.mz *= sign
             self.momentq = newq
             self.xyz2sp()
             # convert to positive rho
@@ -367,10 +367,10 @@ class dipole(object):
             self.pho *= sign
         return
 
-    def plot_rho_profile(self, nrange=10, nofigure=False, **kwargs):
+    def plot_rho_profile(self, lower=0, upper=1, nrange=10, nofigure=False, **kwargs):
         import matplotlib.pyplot as plt
         pho = np.abs(self.pho**self.momentq)
-        zone = np.linspace(0, 1, nrange+1, endpoint=True)
+        zone = np.linspace(lower, upper, nrange+1, endpoint=True)
         count = []
         for i in range(nrange-1):
             count.append(((pho>=zone[i]) & (pho<zone[i+1])).sum())
