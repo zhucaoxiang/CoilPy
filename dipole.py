@@ -16,7 +16,7 @@ class dipole(object):
         self.xyz_switch = False # switch to indicate if using spherical coordinates
         self.old = False # old format or new
         self.symmetry = 2 # 0: no symmetry; 1: periodicity; 2: stellarator symmetry (+periodicity)
-        if 'ox' in kwargs:
+        if 'mm' in kwargs: # spherical 
             self.ox = kwargs['ox']
             self.oy = kwargs['oy']
             self.oz = kwargs['oz']
@@ -31,6 +31,21 @@ class dipole(object):
             self.sp_switch = True
             self.name = kwargs.get('name', 'dipole')
             self.rho = self.pho**self.momentq
+        elif 'mx' in kwargs:
+            self.ox = kwargs['ox']
+            self.oy = kwargs['oy']
+            self.oz = kwargs['oz']
+            self.mx = kwargs['mx']
+            self.my = kwargs['my']
+            self.mz = kwargs['mz']
+            self.mm = np.sqrt(self.mx**2 + self.my**2 + self.mz**2)
+            self.num = len(self.ox)
+            self.pho = np.ones(self.num)
+            self.Ic = np.zeros(self.num, dtype=int)
+            self.Lc = np.zeros(self.num, dtype=int)        
+            self.xyz_switch = True
+            self.name = kwargs.get('name', 'dipole')
+            self.rho = np.ones(self.num)
         return
 
     @classmethod
