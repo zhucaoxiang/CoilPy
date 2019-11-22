@@ -49,7 +49,7 @@ class dipole(object):
         return
 
     @classmethod
-    def read_dipole(cls, filename, verbose=False, **kwargs):
+    def open(cls, filename, verbose=False, **kwargs):
         '''
         read diploes from FOCUS format (new)
         '''
@@ -196,7 +196,7 @@ class dipole(object):
                    self.Ic[i], self.mm[i], self.pho[i], self.Lc[i], self.mp[i], self.mt[i]))
         return
     
-    def write_vtk(self, vtkname=None, dim=(1), close=True, **kwargs):
+    def to_vtk(self, vtkname=None, dim=(1), close=True, **kwargs):
         from pyevtk.hl import gridToVTK, pointsToVTK
         if not self.xyz_switch:
             self.sp2xyz()
@@ -205,7 +205,7 @@ class dipole(object):
         dim = np.atleast_1d(dim)
         if len(dim) == 1: # save as points
             print("write VTK as points")
-            data={"mx":self.mx, "my":self.my, "mz":self.mz}
+            data={"m": (self.mx, self.my, self.mz)}
             if not self.old:
                 data.update({"rho":self.pho**self.momentq})
             data.update(kwargs)
@@ -223,7 +223,7 @@ class dipole(object):
                     return np.matmul(vec, rotate)
                 nr, nz, nt = dim
                 data_array = {"ox":self.ox, "oy":self.oy, "oz":self.oz, \
-                              "mx":self.mx, "my":self.my, "mz":self.mz, \
+                              "m": (self.mx, self.my, self.mz), \
                               "Ic":self.Ic, "rho":self.pho**self.momentq}
                 data_array.update(kwargs)
                 for key in list(data_array.keys()):
@@ -246,40 +246,11 @@ class dipole(object):
                         moment = map_toroidal(np.transpose([data_array['mx'][ir,0,:],
                                                             data_array['my'][ir,0,:], 
                                                             data_array['mz'][ir,0,:]]))
-                        data_array['mx'][ir,nz,:] = moment[:,0]
-                        data_array['my'][ir,nz,:] = moment[:,1]
-                        data_array['mz'][ir,nz,:] = moment[:,2]
+                        data_array['m'][0][ir,nz,:] = moment[:,0]
+                        data_array['m'][1][ir,nz,:] = moment[:,1]
+                        data_array['m'][2][ir,nz,:] = moment[:,2]
                 gridToVTK(vtkname, ox, oy, oz, pointData=data_array)
                 return
-                ox = np.zeros((nr, nz+1, nt+1))
-                oy = np.zeros_like(ox)
-                oz = np.zeros_like(ox)
-                mx = np.zeros_like(ox)
-                my = np.zeros_like(ox)
-                mz = np.zeros_like(ox)
-                rho = np.zeros_like(ox)
-                Ic = np.zeros_like(ox)
-                for ir in range(nr):
-                    ox[ir,:,:] = map_matrix(np.reshape(self.ox, dim)[ir,:,:])
-                    oy[ir,:,:] = map_matrix(np.reshape(self.oy, dim)[ir,:,:])
-                    oz[ir,:,:] = map_matrix(np.reshape(self.oz, dim)[ir,:,:])
-                    mx[ir,:,:] = map_matrix(np.reshape(self.mx, dim)[ir,:,:])
-                    my[ir,:,:] = map_matrix(np.reshape(self.my, dim)[ir,:,:])
-                    mz[ir,:,:] = map_matrix(np.reshape(self.mz, dim)[ir,:,:])
-                    rho[ir,:,:] = map_matrix(np.reshape(self.pho**self.momentq, dim)[ir,:,:])
-                    Ic[ir,:,:] = map_matrix(np.reshape(self.Ic, dim)[ir,:,:])  
-                    if self.nfp == 1:
-                        continue # map_matrix is enough for 1 period
-                    # correct toroidal direction
-                    xyz = map_toroidal(np.transpose([ox[ir,0,:], oy[ir,0,:], oz[ir,0,:]]))
-                    ox[ir,nz,:] = xyz[:,0].copy()
-                    oy[ir,nz,:] = xyz[:,1].copy()
-                    oz[ir,nz,:] = xyz[:,2].copy()
-                    # correct toroidal direction
-                    moment = map_toroidal(np.transpose([mx[ir,0,:], my[ir,0,:], mz[ir,0,:]]))
-                    mx[ir,nz,:] = moment[:,0].copy()
-                    my[ir,nz,:] = moment[:,1].copy()
-                    mz[ir,nz,:] = moment[:,2].copy()
             else:
                 ox = np.reshape(self.ox[:self.num], dim)
                 oy = np.reshape(self.oy[:self.num], dim)
@@ -289,7 +260,7 @@ class dipole(object):
                 mz = np.reshape(self.mz[:self.num], dim)
                 rho = np.reshape(self.pho[:self.num]**self.momentq, dim)
                 Ic = np.reshape(self.Ic[:self.num], dim)
-            data = {"mx":mx, "my":my, "mz":mz, "rho":rho, "Ic":Ic}
+            data = {"m": (mx, my, mz), "rho":rho, "Ic":Ic}
             data.update(kwargs)
             gridToVTK(vtkname, ox, oy, oz, pointData=data)
         return
