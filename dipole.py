@@ -196,7 +196,7 @@ class dipole(object):
                    self.Ic[i], self.mm[i], self.pho[i], self.Lc[i], self.mp[i], self.mt[i]))
         return
     
-    def to_vtk(self, vtkname=None, dim=(1), close=True, **kwargs):
+    def toVTK(self, vtkname=None, dim=(1), close=True, **kwargs):
         from pyevtk.hl import gridToVTK, pointsToVTK
         if not self.xyz_switch:
             self.sp2xyz()
