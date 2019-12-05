@@ -224,12 +224,14 @@ class FOCUSHDF5(HDF5):
         # automatically get a file name, focus_*.h5 -> vtk_*
         if name is None:
             name = self.filename[:-3].replace('focus_', 'vtk_')
-        xx = np.atleast_3d(self.xsurf)
-        yy = np.atleast_3d(self.ysurf)
-        zz = np.atleast_3d(self.zsurf)
-        Bn = np.atleast_3d(self.Bn)
-        plas_Bn =  np.atleast_3d(self.plas_Bn)
-        B = (np.atleast_3d(self.Bx),  np.atleast_3d(self.By),  np.atleast_3d(self.Bz))
+        xx = np.atleast_3d(map_matrix(self.xsurf, first=False))
+        yy = np.atleast_3d(map_matrix(self.ysurf, first=False))
+        zz = np.atleast_3d(map_matrix(self.zsurf, first=False))
+        Bn = np.atleast_3d(map_matrix(self.Bn, first=False))
+        plas_Bn =  np.atleast_3d(map_matrix(self.plas_Bn, first=False))
+        B = (np.atleast_3d(map_matrix(self.Bx, first=False)),
+             np.atleast_3d(map_matrix(self.By, first=False)),
+             np.atleast_3d(map_matrix(self.Bz, first=False)))
         if full :
             pass
         data = {"Bn":Bn, "plas_Bn":plas_Bn, "B":B}

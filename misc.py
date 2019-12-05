@@ -20,15 +20,37 @@ def xy2rp(x, y):
         raise ValueError("Something wrong with your inputs ({:f}, {:f}).".format(x, y))
     return R, phi
 
-def map_matrix(xx):
+def map_matrix(xx, first=True, second=True):
     """Map matrix to be complete (closed)
+    Arguments:
+      xx -- 2D numpy array
+      first -- boolean, default: True, if increase the first dimension
+      second -- boolean, default: True, if increase the second dimension
+
+    Returns:
+      new -- the new matrix with dimension increased
     """
     a, b = np.shape(xx)
-    new = np.zeros((a+1,b+1))
-    new[0:a, 0:b] = xx[0:a, 0:b]
-    new[  a, 0:b] = xx[0  , 0:b]
-    new[0:a,   b] = xx[0:a, 0  ]
-    new[  a,   b] = xx[0  , 0  ]
+    # only first
+    if first and not second :
+        new = np.zeros((a+1,b))
+        new[0:a, 0:b] = xx[0:a, 0:b]
+        new[  a, 0:b] = xx[0  , 0:b]
+    # only second
+    elif not first and second :
+        new = np.zeros((a,b+1))
+        new[0:a, 0:b] = xx[0:a, 0:b]
+        new[0:a,   b] = xx[0:a, 0  ]
+    # both direction
+    elif first and second :
+        new = np.zeros((a+1,b+1))
+        new[0:a, 0:b] = xx[0:a, 0:b]
+        new[  a, 0:b] = xx[0  , 0:b]
+        new[0:a,   b] = xx[0:a, 0  ]
+        new[  a,   b] = xx[0  , 0  ]
+    # otherwise return the original matrix
+    else :
+        return xx
     return new
 
 def toroidal_period(vec, nfp=1):
