@@ -88,11 +88,13 @@ class FourSurf(object):
 
 
     @classmethod
-    def read_focus_input(cls, filename):
+    def read_focus_input(cls, filename, Mpol=9999, Ntor=9999):
         """initialize surface from the FOCUS format input file 'plasma.boundary'
         
         Parameters:
           filename -- string, path + name to the FOCUS input boundary file
+          Mpol -- maximum truncated poloidal mode number (default: 9999)
+          Ntol -- maximum truncated toroidal mode number (default: 9999)
         
         Returns:
           fourier_surface class
@@ -103,31 +105,39 @@ class FourSurf(object):
             num = int(line.split()[0]) #harmonics number
             nfp = int(line.split()[1]) #number of field periodicity
             nbn = int(line.split()[2]) #number of Bn harmonics
-            n = np.zeros(num, dtype=int)
-            m = np.zeros(num, dtype=int)
-            rbc = np.zeros(num, dtype=float)
-            zbs = np.zeros(num, dtype=float)
-            rbs = np.zeros(num, dtype=float)
-            zbc = np.zeros(num, dtype=float)
+            xm = []
+            xn = []
+            rbc = []
+            rbs = []
+            zbc = []
+            zbs = []
             line = f.readline() #skip one line
             line = f.readline() #skip one line
             for i in range(num):
                 line = f.readline()
                 line_list = line.split()
-                n[i] = int(line_list[0])
-                m[i] = int(line_list[1])
-                rbc[i] = float(line_list[2])
-                rbs[i] = float(line_list[3])
-                zbc[i] = float(line_list[4])
-                zbs[i] = float(line_list[5])
-        return cls(xm=m, xn=n*nfp, rbc=rbc, rbs=rbs, zbc=zbc, zbs=zbs)
+                n = int(line_list[0])
+                m = int(line_list[1])
+                if abs(m)>Mpol or abs(n)>Ntor:
+                    continue
+                xm.append(m)
+                xn.append(n)
+                rbc.append(float(line_list[2]))
+                rbs.append(float(line_list[3]))
+                zbc.append(float(line_list[4]))
+                zbs.append(float(line_list[5]))
+        return cls(xm=np.array(xm), xn=-np.array(xn)*nfp,
+                       rbc=np.array(rbc), rbs=np.array(rbs),
+                       zbc=np.array(zbc), zbs=np.array(zbs))
 
     @classmethod
-    def read_winding_surfce(cls, filename):
+    def read_winding_surfce(cls, filename, Mpol=9999, Ntor=9999):
         """initialize surface from the NESCOIL format input file 'nescin.xxx'
         
         Parameters:
           filename -- string, path + name to the NESCOIL input boundary file
+          Mpol -- maximum truncated poloidal mode number (default: 9999)
+          Ntol -- maximum truncated toroidal mode number (default: 9999)
         
         Returns:
           fourier_surface class
@@ -147,25 +157,31 @@ class FourSurf(object):
             line = f.readline()
             #print "Number of Fourier modes in coil surface from nescin file: ",line
             num = int(line)
-            n = np.zeros(num, dtype=int)
-            m = np.zeros(num, dtype=int)
-            rbc = np.zeros(num, dtype=float)
-            zbs = np.zeros(num, dtype=float)
-            rbs = np.zeros(num, dtype=float)
-            zbc = np.zeros(num, dtype=float)
+            xm = []
+            xn = []
+            rbc = []
+            rbs = []
+            zbc = []
+            zbs = []
             line = f.readline() #skip one line
             line = f.readline() #skip one line
             for i in range(num):
                 line = f.readline()
                 line_list = line.split()
-                m[i] = int(line_list[0])
-                n[i] = int(line_list[1])
-                rbc[i] = float(line_list[2])
-                zbs[i] = float(line_list[3])
-                rbs[i] = float(line_list[4])
-                zbc[i] = float(line_list[5])
+                m = int(line_list[0])
+                n = int(line_list[1])
+                if abs(m)>Mpol or abs(n)>Ntor:
+                    continue
+                xm.append(m)
+                xn.append(n)
+                rbc.append(float(line_list[2]))
+                zbs.append(float(line_list[3]))
+                rbs.append(float(line_list[4]))
+                zbc.append(float(line_list[5]))
             # NESCOIL uses mu+nv, minus sign is added
-            return cls(xm=m, xn=-n*nfp, rbc=rbc, rbs=rbs, zbc=zbc, zbs=zbs)
+            return cls(xm=np.array(xm), xn=-np.array(xn)*nfp,
+                       rbc=np.array(rbc), rbs=np.array(rbs),
+                       zbc=np.array(zbc), zbs=np.array(zbs))
 
     def rz(self, theta, zeta, normal=False):
         """ get r,z position of list of (theta, zeta)
