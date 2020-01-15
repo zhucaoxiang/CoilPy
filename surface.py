@@ -251,6 +251,61 @@ class FourSurf(object):
             n = np.cross(np.transpose([_xz, _yz, _zz]), np.transpose([_xt, _yt, _zt]))
             return (r*_cos, r*_sin, z, n)
 
+    def _areaVolume(self, theta0=0.0, theta1=2*np.pi, zeta0=0.0, zeta1=2*np.pi, \
+                   npol=360, ntor=360):
+        """ Internel function to get surface area and volume
+        
+        Parameters:
+          theta0 -- float, starting poloidal angle (default: 0.0)
+          theta1 -- float, ending poloidal angle (default: 2*np.pi)
+          zeta0 -- float, starting toroidal angle (default: 0.0)
+          zeta1 -- float, ending toroidal angle (default: 2*np.pi)
+          npol -- integer, number of poloidal discretization points (default: 360)
+          ntor -- integer, number of toroidal discretization points (default: 360)
+
+        Returns:
+          area -- surface area
+          volume -- surface volume
+        """
+        # get mesh data
+        _theta = np.linspace(theta0, theta1, npol, endpoint=False)
+        _zeta = np.linspace(zeta0, zeta1, ntor, endpoint=False)
+        _tv, _zv = np.meshgrid(_theta, _zeta, indexing='ij')
+        _x, _y, _z, _n = self.xyz(_tv, _zv, normal=True)
+        # calculates the area and volume
+        _dt = (theta1-theta0)/npol
+        _dz = (zeta1 - zeta0)/ntor
+        _nn = np.linalg.norm(_n, axis=1)
+        area = np.sum(_nn)*_dt*_dz
+        volume = abs(np.sum(_x*_n[:,0]))*_dt*_dz
+        return area, volume
+        
+    def get_area(self):
+        """ Get the surface area and saved in self.area
+        More comprehensive options can be found in self._areaVolume()
+
+        Parameters:       
+           None
+
+        Returns:
+           area
+        """        
+        self.area, _volume = self._areaVolume()
+        return self.area
+    
+    def get_volume(self):
+        """ Get the surface volume and saved in self.volume
+        More comprehensive options can be found in self._areaVolume()
+
+        Parameters:       
+           None
+
+        Returns:
+           volume
+        """        
+        _area, self.volume = self._areaVolume()
+        return self.volume
+    
     def plot(self, zeta=0.0, npoints=360, **kwargs):
         """ plot the cross-section at zeta using matplotlib.pyplot
         

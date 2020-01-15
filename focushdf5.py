@@ -210,6 +210,32 @@ class FOCUSHDF5(HDF5):
     def Bmod(self):
         return
     # write vtk
-    def writeVTK(self):
-        return
+    def toVTK(self, name=None, full=False, **kwargs):
+        """Save surface and magnetic field data into VTK file
+        Arguments:
+          name -- string, VTK file name. default: None, if None, using self.filename
+          full -- boolean, if save the entire torus
+          **kwargs -- external data will be saved in VTK file
+
+        Return:
+          VTK file name
+        """
+        from pyevtk.hl import gridToVTK
+        # automatically get a file name, focus_*.h5 -> vtk_*
+        if name is None:
+            name = self.filename[:-3].replace('focus_', 'vtk_')
+        xx = np.atleast_3d(map_matrix(self.xsurf, first=False))
+        yy = np.atleast_3d(map_matrix(self.ysurf, first=False))
+        zz = np.atleast_3d(map_matrix(self.zsurf, first=False))
+        Bn = np.atleast_3d(map_matrix(self.Bn, first=False))
+        plas_Bn =  np.atleast_3d(map_matrix(self.plas_Bn, first=False))
+        B = (np.atleast_3d(map_matrix(self.Bx, first=False)),
+             np.atleast_3d(map_matrix(self.By, first=False)),
+             np.atleast_3d(map_matrix(self.Bz, first=False)))
+        if full :
+            pass
+        data = {"Bn":Bn, "plas_Bn":plas_Bn, "B":B}
+        data.update(kwargs)
+        return gridToVTK(name, xx, yy, zz, pointData=data)
+    
     
