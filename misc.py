@@ -123,3 +123,18 @@ def get_figure(axes=None, **kwargs):
         # axes = np.atleast_1d(axes)
         f = axes.get_figure()
     return f, axes
+
+def colorbar(mappable, **kwargs):
+    from mpl_toolkits.axes_grid1 import make_axes_locatable
+    import matplotlib.pyplot as plt
+    last_axes = plt.gca()
+    ax = mappable.axes
+    fig = ax.figure
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    cbar = fig.colorbar(mappable, cax=cax, **kwargs)
+    plt.sca(last_axes)
+    return cbar
+
+def kwargs2dict(**kwargs):
+    return kwargs
