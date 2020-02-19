@@ -28,6 +28,71 @@ class FourSurf(object):
         return
 
     @classmethod
+    def read_focus_input(cls, filename, Mpol=9999, Ntor=9999):
+        """initialize surface from the FOCUS format input file 'plasma.boundary'
+        
+        Parameters:
+          filename -- string, path + name to the FOCUS input boundary file
+          Mpol -- maximum truncated poloidal mode number (default: 9999)
+          Ntol -- maximum truncated toroidal mode number (default: 9999)
+        
+        Returns:
+          fourier_surface class
+        """
+        with open(filename, 'r') as f:
+            line = f.readline() #skip one line
+            line = f.readline()
+            num = int(line.split()[0]) #harmonics number
+            nfp = int(line.split()[1]) #number of field periodicity
+            nbn = int(line.split()[2]) #number of Bn harmonics
+            xm = []
+            xn = []
+            rbc = []
+            rbs = []
+            zbc = []
+            zbs = []
+            line = f.readline() #skip one line
+            line = f.readline() #skip one line
+            for i in range(num):
+                line = f.readline()
+                line_list = line.split()
+                n = int(line_list[0])
+                m = int(line_list[1])
+                if abs(m)>Mpol or abs(n)>Ntor:
+                    continue
+                xm.append(m)
+                xn.append(n)
+                rbc.append(float(line_list[2]))
+                rbs.append(float(line_list[3]))
+                zbc.append(float(line_list[4]))
+                zbs.append(float(line_list[5]))
+        return cls(xm=np.array(xm), xn=-np.array(xn)*nfp,
+                       rbc=np.array(rbc), rbs=np.array(rbs),
+                       zbc=np.array(zbc), zbs=np.array(zbs))
+
+    @classmethod
+    def read_spec_input(cls, filename, Mpol=9999, Ntor=9999):
+        """initialize surface from the SPEC input file '*.sp'
+        
+        Parameters:
+          filename -- string, path + name to the FOCUS input boundary file
+          Mpol -- maximum truncated poloidal mode number (default: 9999)
+          Ntol -- maximum truncated toroidal mode number (default: 9999)
+        
+        Returns:
+          fourier_surface class
+        """
+        import FortranNamelist.namelist as nml
+        from misc import vmecMN
+        spec = nml.NamelistFile(filename)
+        # spec['physicslist'] = 
+        Mpol = min(Mpol, spec['physicslist']['MPOL'])
+        Ntor = min(Ntor, spec['physicslist']['NTOR'])
+        xm, xn = vmecMN(Mpol, Ntor)
+        return
+        
+
+    @classmethod
     def read_spec_output(cls, spec_out, ns=-1):
         """initialize surface from the ns-th interface SPEC output 
         
@@ -85,50 +150,6 @@ class FourSurf(object):
             rbs = np.zeros_like(rbc)
             zbc = np.zeros_like(rbc)
         return cls(xm=xm, xn=xn, rbc=rbc, rbs=rbs, zbc=zbc, zbs=zbs)
-
-
-    @classmethod
-    def read_focus_input(cls, filename, Mpol=9999, Ntor=9999):
-        """initialize surface from the FOCUS format input file 'plasma.boundary'
-        
-        Parameters:
-          filename -- string, path + name to the FOCUS input boundary file
-          Mpol -- maximum truncated poloidal mode number (default: 9999)
-          Ntol -- maximum truncated toroidal mode number (default: 9999)
-        
-        Returns:
-          fourier_surface class
-        """
-        with open(filename, 'r') as f:
-            line = f.readline() #skip one line
-            line = f.readline()
-            num = int(line.split()[0]) #harmonics number
-            nfp = int(line.split()[1]) #number of field periodicity
-            nbn = int(line.split()[2]) #number of Bn harmonics
-            xm = []
-            xn = []
-            rbc = []
-            rbs = []
-            zbc = []
-            zbs = []
-            line = f.readline() #skip one line
-            line = f.readline() #skip one line
-            for i in range(num):
-                line = f.readline()
-                line_list = line.split()
-                n = int(line_list[0])
-                m = int(line_list[1])
-                if abs(m)>Mpol or abs(n)>Ntor:
-                    continue
-                xm.append(m)
-                xn.append(n)
-                rbc.append(float(line_list[2]))
-                rbs.append(float(line_list[3]))
-                zbc.append(float(line_list[4]))
-                zbs.append(float(line_list[5]))
-        return cls(xm=np.array(xm), xn=-np.array(xn)*nfp,
-                       rbc=np.array(rbc), rbs=np.array(rbs),
-                       zbc=np.array(zbc), zbs=np.array(zbs))
 
     @classmethod
     def read_winding_surfce(cls, filename, Mpol=9999, Ntor=9999):
@@ -386,7 +407,7 @@ class FourSurf(object):
             raise ValueError('Invalid engine option {pyplot, mayavi, noplot}')
         return (xsurf, ysurf, zsurf)
 
-    def tovtk(self, vtkname, npol=360, ntor=360, **kwargs):
+    def toVTK(self, vtkname, npol=360, ntor=360, **kwargs):
         """ save surface shape a vtk grid file
         
         Parameters: 
@@ -409,6 +430,32 @@ class FourSurf(object):
             gridToVTK(vtkname, _xx, _yy, _zz, pointData=kwargs)
         else:
             gridToVTK(vtkname, _xx, _yy, _zz)
+        return    
+
+    def write_focus_input(self, filename, Nfp=1, tol=1E-8, **kwargs):
+        ''' write the Fourier harmonics down in FOCUS format
+
+        Parameters:
+          filename -- string, the saved FOCUS boundary name
+          Nfp -- int, default: 1, number of field periodicity, n will be divided by Nfp
+          tol -- float, default: 1E-8, tolerance for truncating modes
+        '''
+        # count non-zero
+        nonzero = abs(self.rbc)+abs(self.rbs)+abs(self.zbc)+abs(self.zbs)
+        amn = np.sum(nonzero>tol)
+        # write Fourier coefficients
+        with open(filename, 'w') as fofile:
+            fofile.write('# bmn   bNfp   nbf '+'\n')
+            fofile.write("{:d} \t {:d} \t {:d} \n".format(amn, Nfp, 0))
+            fofile.write('#plasma boundary'+'\n')
+            fofile.write('# n m Rbc Rbs Zbc Zbs'+'\n')
+            for imn in range(self.mn):
+                if nonzero[imn] > tol :
+                    fofile.write("{:4d}  {:4d} \t {:23.15E}  {:23.15E}  {:23.15E}  {:23.15E} \n".format(
+                            self.xn[imn]//Nfp, self.xm[imn], self.rbc[imn], self.rbs[imn], self.zbc[imn], self.zbs[imn]))
+            fofile.write("#Bn harmonics \n")
+            fofile.write('# n m bnc bns \n')         
+        print("Finished write FOCUS input file at ", filename)
         return        
 
     def __del__(self):

@@ -138,3 +138,18 @@ def colorbar(mappable, **kwargs):
 
 def kwargs2dict(**kwargs):
     return kwargs
+
+def vmecMN(mpol, ntor):
+# manipulate VMEC index
+    mn = (2*ntor+1)*mpol - ntor # total number of Fourier harmonics
+    xm = np.zeros((mn,), dtype=int)
+    xn = np.zeros((mn,), dtype=int)
+    imn = 0 
+    for ii in range(mpol):
+        for jj in range(-ntor, ntor+1):
+            if ii==0 and jj<0 :
+                continue
+            xm[imn] = ii
+            xn[imn] = jj
+            imn += 1
+    return xm, xn
