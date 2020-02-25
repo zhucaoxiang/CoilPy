@@ -1,9 +1,9 @@
 import numpy as np
 from misc import xy2rp, map_matrix, toroidal_period
 
-class dipole(object):
+class Dipole(object):
     '''
-    dipole class
+    magnetic dipole class
     '''
     def __init__(self, **kwargs):
         '''
@@ -167,6 +167,7 @@ class dipole(object):
         '''
         if not self.sp_switch:
             self.xyz2sp()
+        print('symmetry : {:d}'.format(self.symmetry))
         with open(filename, 'w') as wfile :
             wfile.write(" # Total number of coils,  momentq \n")
             if unique:
@@ -196,7 +197,7 @@ class dipole(object):
                    self.Ic[i], self.mm[i], self.pho[i], self.Lc[i], self.mp[i], self.mt[i]))
         return
     
-    def toVTK(self, vtkname=None, dim=(1), close=True, **kwargs):
+    def toVTK(self, vtkname=None, dim=(1), close=True, ntnz=False, toroidal=False, **kwargs):
         from pyevtk.hl import gridToVTK, pointsToVTK
         if not self.xyz_switch:
             self.sp2xyz()
@@ -220,35 +221,57 @@ class dipole(object):
                     rotate = np.array([[  np.cos(phi), np.sin(phi), 0], \
                                        [ -np.sin(phi), np.cos(phi), 0], \
                                        [                0,               0, 1]])
-                    return np.matmul(vec, rotate)
-                nr, nz, nt = dim
+                    return np.matmul(vec, rotate)                
                 data_array = {"ox":self.ox, "oy":self.oy, "oz":self.oz, \
-                              "m": (self.mx, self.my, self.mz), \
+                              "mx":self.mx, "my":self.my, "mz": self.mz, \
                               "Ic":self.Ic, "rho":self.pho**self.momentq}
-                data_array.update(kwargs)
+                data_array.update(kwargs)        
+                nr, nz, nt = dim
                 for key in list(data_array.keys()):
                     new_vec = np.zeros((nr, nz+1, nt+1))
                     for ir in range(nr):
                         new_vec[ir,:,:] = map_matrix(np.reshape(data_array[key], dim)[ir,:,:])
-                    data_array[key] = new_vec
+                    if toroidal :
+                        data_array[key] = new_vec
+                    else :
+                        if ntnz :
+                            data_array[key] = np.ascontiguousarray(new_vec[:,:,:-1])
+                        else :
+                            data_array[key] = np.ascontiguousarray(new_vec[:,:-1,:])
                 ox = np.copy(data_array['ox'])
                 oy = np.copy(data_array['oy'])
                 oz = np.copy(data_array['oz'])   
                 del data_array['ox']
                 del data_array['oy']
                 del data_array['oz'] 
-                if self.nfp>1 :
+                data_array['m'] = (data_array['mx'], data_array['mx'], data_array['mx'])
+                if toroidal and self.nfp>1 :
                     for ir in range(nr):
-                        xyz = map_toroidal(np.transpose([ox[ir,0,:], oy[ir,0,:], oz[ir,0,:]]))
-                        ox[ir,nz,:] = xyz[:,0]
-                        oy[ir,nz,:] = xyz[:,1]
-                        oz[ir,nz,:] = xyz[:,2]
-                        moment = map_toroidal(np.transpose([data_array['mx'][ir,0,:],
-                                                            data_array['my'][ir,0,:], 
-                                                            data_array['mz'][ir,0,:]]))
-                        data_array['m'][0][ir,nz,:] = moment[:,0]
-                        data_array['m'][1][ir,nz,:] = moment[:,1]
-                        data_array['m'][2][ir,nz,:] = moment[:,2]
+                        if ntnz:
+                            xyz = map_toroidal(np.transpose([ox[ir,:,0], oy[ir,:,0], oz[ir,:,0]]))
+                            ox[ir,:,nz] = xyz[:,0]
+                            oy[ir,:,nz] = xyz[:,1]
+                            oz[ir,:,nz] = xyz[:,2]
+                            moment = map_toroidal(np.transpose([data_array['mx'][ir,:,0],
+                                                                data_array['my'][ir,:,0], 
+                                                                data_array['mz'][ir,:,0]]))
+                            data_array['m'][0][ir,:,nz] = moment[:,0]
+                            data_array['m'][1][ir,:,nz] = moment[:,1]
+                            data_array['m'][2][ir,:,nz] = moment[:,2]
+                        else : 
+                            xyz = map_toroidal(np.transpose([ox[ir,0,:], oy[ir,0,:], oz[ir,0,:]]))
+                            ox[ir,nz,:] = xyz[:,0]
+                            oy[ir,nz,:] = xyz[:,1]
+                            oz[ir,nz,:] = xyz[:,2]
+                            moment = map_toroidal(np.transpose([data_array['mx'][ir,0,:],
+                                                                data_array['my'][ir,0,:], 
+                                                                data_array['mz'][ir,0,:]]))
+                            data_array['m'][0][ir,nz,:] = moment[:,0]
+                            data_array['m'][1][ir,nz,:] = moment[:,1]
+                            data_array['m'][2][ir,nz,:] = moment[:,2]
+                del data_array['mx']
+                del data_array['my']
+                del data_array['mz']
                 gridToVTK(vtkname, ox, oy, oz, pointData=data_array)
                 return
             else:
@@ -369,7 +392,7 @@ class dipole(object):
             else :
                 fig, ax = plt.subplots()
             plt.bar(zone[:-1], 100*count/float(self.num), width=0.9/nrange, **kwargs)
-            ax.set_xlabel(r'$\rho$', fontsize=15)
+            ax.set_xlabel(r'$|\rho|$', fontsize=15)
             ax.set_ylabel('fraction [%]', fontsize=15)
             plt.xticks(fontsize=14)
             plt.yticks(fontsize=14)
@@ -400,6 +423,22 @@ class dipole(object):
         ax.scatter(self.ox[start:end], self.oy[start:end], self.oz[start:end], **kwargs)
         return ax
         
-    
+    def __add__(self, other):
+        """ Combine two dipole files together
+        
+        """
+        assert self.momentq == other.momentq
+        return Dipole(ox=np.concatenate((self.ox, other.ox)),
+                      oy=np.concatenate((self.oy, other.oy)),
+                      oz=np.concatenate((self.oz, other.oz)),
+                      Ic=np.concatenate((self.Ic, other.Ic)),
+                      mm=np.concatenate((self.mm, other.mm)),
+                      Lc=np.concatenate((self.Lc, other.Lc)),
+                      mp=np.concatenate((self.mp, other.mp)),
+                      mt=np.concatenate((self.mt, other.mt)),
+                      pho=np.concatenate((self.pho, other.pho)),
+                      momentq=self.momentq, 
+                      name=self.name + '+' + other.name)
+        
     def __del__(self):
         class_name = self.__class__.__name__

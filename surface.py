@@ -66,7 +66,7 @@ class FourSurf(object):
                 rbs.append(float(line_list[3]))
                 zbc.append(float(line_list[4]))
                 zbs.append(float(line_list[5]))
-        return cls(xm=np.array(xm), xn=-np.array(xn)*nfp,
+        return cls(xm=np.array(xm), xn=np.array(xn)*nfp,
                        rbc=np.array(rbc), rbs=np.array(rbs),
                        zbc=np.array(zbc), zbs=np.array(zbs))
 
