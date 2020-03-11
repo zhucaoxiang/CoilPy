@@ -20,4 +20,6 @@ from hdf5 import *
 from surface import *
 from dipole import *
 from focushdf5 import *
+from sortedDict import SortedDict
+
 
