@@ -81,8 +81,8 @@ class Dipole(object):
         '''
         read diploes from FOCUS format (old)
         '''
-        ox = []; oy = []; oz = [];
-        mm = []; mp = []; mt = [];
+        ox = []; oy = []; oz = []
+        mm = []; mp = []; mt = []
         Ic = []; Lc = []
         with open(filename, 'r') as coilfile:
             coilfile.readline()
