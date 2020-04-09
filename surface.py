@@ -395,8 +395,10 @@ class FourSurf(object):
             if plt.get_fignums():
                 fig = plt.gcf()
                 ax = plt.gca()
+                if ax.name != '3d':
+                    ax = fig.add_subplot(111, projection='3d')
             else :
-                fig = plt.figure()
+                fig = plt.figure()                
                 ax = fig.add_subplot(111, projection='3d')
             ax.plot_surface(xsurf, ysurf, zsurf, **kwargs)
         elif engine == 'mayavi':
