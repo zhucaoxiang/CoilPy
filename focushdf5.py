@@ -40,6 +40,7 @@ class FOCUSHDF5(HDF5):
             self.Bz = map_matrix(self.Bz)
             self.Bn = map_matrix(self.Bn)
             self.plas_Bn = map_matrix(self.plas_Bn)
+            
     # convergence plot
     def convergence(self, term='bnorm', iteration=True, axes=None, **kwargs):
         # get figure
@@ -104,9 +105,43 @@ class FOCUSHDF5(HDF5):
         # fig.legend(loc='upper right', frameon=False, prop={'size':24, 'weight':'bold'})
         plt.legend()
         return line
+    
     # poincare plot
-    def poincare(self):
-        return
+    def poincare_plot(self, color=None, **kwargs):
+        """Poincare plot
+        Args:
+             color (matplotlib color, or None): dot colors; default None (rainbow).
+             kwargs : matplotlib scatter keyword arguments
+             
+        Returns:
+             None
+        """
+        import matplotlib.pyplot as plt
+        from matplotlib import cm
+        
+        # get figure and ax data
+        if plt.get_fignums():
+            fig = plt.gcf()
+            ax = plt.gca()
+        else :
+            fig, ax = plt.subplots()
+            
+        # get colors
+        if color == None:
+            colors = cm.rainbow(np.linspace(1, 0, self.pp_ns))
+        else :
+            colors = [color]*self.pp_ns
+        kwargs['s'] = kwargs.get('s',0.1) # dotsize
+        # scatter plot
+        for i in range(self.pp_ns):
+            ax.scatter(self.ppr[:,i], self.ppz[:,i], color=colors[i], **kwargs)
+        plt.axis('equal')
+        plt.xlabel('R [m]',fontsize=20)
+        plt.ylabel('Z [m]',fontsize=20)
+        plt.xticks(fontsize=16)
+        plt.yticks(fontsize=16)
+        return 
+    
     # Bnorm plot
     def Bnorm(self, plottype='2D', source='all', axes=None, flip=False, **kwargs):
         """ Plot Bn distribution.
@@ -206,9 +241,11 @@ class FOCUSHDF5(HDF5):
             cbar_ax = fig.add_axes([0.86, 0.10, 0.04, 0.8])
             fig.colorbar(obj[0], cax=cbar_ax)    
         return obj
+    
     # Bmod plot
     def Bmod(self):
         return
+    
     # write vtk
     def toVTK(self, name=None, full=False, **kwargs):
         """Save surface and magnetic field data into VTK file
