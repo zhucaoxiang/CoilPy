@@ -193,8 +193,7 @@ class Coil(object):
             for line in coilfile:
                 linelist = line.split()
                 if len(linelist) < 4 :
-                    #print("End of file or invalid format!")
-                    xx.pop(); yy.pop(); zz.pop()
+                    #print("End of file or invalid format!")                    
                     break
                 xx[icoil].append(float(linelist[0]))
                 yy[icoil].append(float(linelist[1]))
@@ -207,7 +206,8 @@ class Coil(object):
                     groups.append(linelist[-2])                    
                     icoil = icoil + 1
                     xx.append([]); yy.append([]); zz.append([])
-        #print(len(xx) , len(yy) , len(zz) , len(II) , len(names) , len(groups))
+        xx.pop(); yy.pop(); zz.pop()
+        print(len(xx) , len(yy) , len(zz) , len(II) , len(names) , len(groups))
         return cls(xx=xx, yy=yy, zz=zz, II=II, names=names, groups=groups)
 
     def plot(self, **kwargs):
