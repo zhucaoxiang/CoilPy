@@ -207,7 +207,7 @@ class Coil(object):
                     icoil = icoil + 1
                     xx.append([]); yy.append([]); zz.append([])
         xx.pop(); yy.pop(); zz.pop()
-        print(len(xx) , len(yy) , len(zz) , len(II) , len(names) , len(groups))
+        # print(len(xx) , len(yy) , len(zz) , len(II) , len(names) , len(groups))
         return cls(xx=xx, yy=yy, zz=zz, II=II, names=names, groups=groups)
 
     def plot(self, **kwargs):
