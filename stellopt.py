@@ -111,6 +111,8 @@ class STELLout(SortedDict, OMFITascii):
         for line in file_handle:
             if 'ITER' in line:
                 niter=niter+1
+            if 'MIN' in line:
+                niter=niter-1
         self['ITER'] = np.ndarray((niter,1));
         file_handle.seek(0)
         line = file_handle.readline()
@@ -125,6 +127,8 @@ class STELLout(SortedDict, OMFITascii):
                 break
             ttype,hw = line.split(' ',1)
             if ttype == 'ITER':
+                if 'MIN' in hw:
+                    break
                 citer = citer+1
                 self[ttype][citer] = int(hw)
                 continue
