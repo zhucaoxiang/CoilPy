@@ -77,6 +77,9 @@ class FOCUSHDF5(HDF5):
         elif term.lower() == 'cssep':
             data = self.evolution[7,:]
             kwargs['label'] = kwargs.get('label', r'$f_{CS}$') # line label
+        elif term.lower() == 'curv':
+            data = self.evolution[8,:]
+            kwargs['label'] = kwargs.get('label', r'$f_{curv}$') # line label
         elif term.lower() == 'all':
             lines = []
             lines.append(self.convergence(term='chi', iteration=iteration, axes=axes, 
@@ -92,7 +95,9 @@ class FOCUSHDF5(HDF5):
             lines.append(self.convergence(term='ttlen', iteration=iteration, axes=axes, 
                                     linestyle='-.', color='c', **kwargs))
             lines.append(self.convergence(term='cssep', iteration=iteration, axes=axes, 
-                                    linestyle='-.', color='m', **kwargs))     
+                                    linestyle='-.', color='m', **kwargs))    
+            lines.append(self.convergence(term='curv', iteration=iteration, axes=axes, 
+                                    linestyle='-.', color='y', **kwargs))  
             #fig.legend(loc='upper right', frameon=False, ncol=2, prop={'size':16})
             plt.legend()
             return lines
