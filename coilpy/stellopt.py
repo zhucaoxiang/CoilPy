@@ -1,6 +1,6 @@
 from __future__ import print_function, absolute_import
 from builtins import map, filter, range
-from sortedDict import SortedDict
+from .sortedDict import SortedDict
 import numpy as np 
 import matplotlib.pyplot as plt
 

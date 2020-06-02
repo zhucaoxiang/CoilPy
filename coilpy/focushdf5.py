@@ -1,5 +1,5 @@
-from hdf5 import HDF5
-from misc import get_figure, map_matrix
+from .hdf5 import HDF5
+from .misc import get_figure, map_matrix
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.ticker import FuncFormatter

@@ -4,7 +4,7 @@ def readme():
     with open('README.rst') as f:
         return f.read()
 
-setuptools.setup(name='CoilPy',
+setuptools.setup(name='coilpy',
       version='0.1',
       description='Plotting and data processing tools for plasma and coil',
       long_description=readme(),
@@ -18,9 +18,5 @@ setuptools.setup(name='CoilPy',
       author='Caoxiang Zhu',
       author_email='caoxiangzhu@gmail.com',
       license='GUN 3.0',
-      packages=setuptools.find_packages()
-      install_requires=[
-          'numpy', 'matplotlib', 'mayavi'
-      ],
-      include_package_data=True,
+      packages=setuptools.find_packages(),
 )

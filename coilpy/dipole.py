@@ -1,5 +1,5 @@
 import numpy as np
-from misc import xy2rp, map_matrix, toroidal_period
+from .misc import xy2rp, map_matrix, toroidal_period
 
 class Dipole(object):
     '''
