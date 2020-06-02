@@ -145,6 +145,29 @@ class SingleCoil(object):
             return
         except:
             return
+    def bfield(self, pos, **kwargs):
+        """Calculate B field at an arbitrary point
+
+        Arguments:
+            pos {array-like} -- Cartesian coordinates for the evaluation point
+
+        Returns:
+            ndarray -- the calculated magnetic field vector
+        """        
+        u0_d_4pi = 1.0E-7
+        xyz = np.array([self.x, self.y, self.z]).T
+        pos = np.atleast_2d(pos)
+        assert (pos.shape)[1]  == 3
+        Rvec = pos[:,np.newaxis,:] - xyz[np.newaxis,:,:]
+        assert (Rvec.shape)[-1] == 3
+        RR = np.linalg.norm(Rvec, axis=2)
+        Riv = Rvec[:, :-1, :]
+        Rfv = Rvec[:, 1:, :]
+        Ri = RR[:,:-1]
+        Rf = RR[:,1:]
+        B = np.sum(np.cross(Riv, Rfv)*((Ri+Rf)/((Ri*Rf)*(Ri*Rf+np.sum(Riv*Rfv, axis=2))))[:, :, np.newaxis], axis=1)\
+            *u0_d_4pi*I
+        return B
         
 class Coil(object):
     def __init__(self, xx=[], yy=[], zz=[], II=[], names=[], groups=[]):
@@ -217,8 +240,28 @@ class Coil(object):
             icoil.plot(**kwargs)
         return
 
-    def save_makegrid(self, parameter_list):
-        pass
+    def save_makegrid(self, filename, nfp=1, **kwargs):
+        """write in MAKEGRID format
+
+        Arguments:
+            filename {str} -- file name and path
+            nfp {int} -- number of toroidal periodicity (default: 1)
+        """
+        assert len(self) > 0
+        with open(filename, 'w') as wfile :
+            wfile.write("periods {:3d} \n".format(nfp))
+            wfile.write("begin filament \n")
+            wfile.write("mirror NIL \n")
+            for icoil in list(self):
+                Nseg = len(icoil.x) # number of segments;
+                assert Nseg > 1
+                for iseg in range(Nseg-1): # the last point match the first one;
+                    wfile.write("{:15.7E} {:15.7E} {:15.7E} {:15.7E}\n".format(
+                        icoil.x[iseg], icoil.y[iseg], icoil.z[iseg], icoil.I))
+                wfile.write("{:15.7E} {:15.7E} {:15.7E} {:15.7E} {:} {:10} \n".format(
+                    icoil.x[0], icoil.y[0], icoil.z[0], 0.0, icoil.group, icoil.name))
+            wfile.write("end \n")
+        return
 
     def __del__(self):
         class_name = self.__class__.__name__
