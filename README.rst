@@ -1,7 +1,9 @@
-# CoilPy
+CoilPy
+======
 
-My personal Python package for plotting and data processing.
+This is Caoxiang Zhu's personal Python package for plotting and data processing.
+Documentation can be found at https://zhucaoxiang.github.io/CoilPy/
 
-Website: https://zhucaoxiang.github.io/CoilPy/
-
-This is Python 3 version.
+This is Python 3 version. To install this package, just do
+::
+    python setup.py install
