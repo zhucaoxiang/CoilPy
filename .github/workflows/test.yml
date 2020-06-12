@@ -29,7 +29,7 @@ jobs:
           ${{ runner.os }}-
     - name: Install dependencies
       if: steps.cache-pip.outputs.cache-hit != 'true'
-      run: pip install -r requirements.txt
+      run: pip install -r requirements.txt ; ls -al ~/.cache/pip
 
     - name: Build coilpy
       run: |
