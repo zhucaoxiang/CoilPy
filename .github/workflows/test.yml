@@ -15,7 +15,12 @@ jobs:
       # you must check out the repository
       - uses: actions/checkout@v2
 
-      - name: Install packages
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: cache pip
         uses: actions/cache@v2
         id: cache-coilpy
         with:
@@ -24,12 +29,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Initial install
+      - name: Install dependence
         if: steps.cache-coilpy.outputs.cache-hit != 'true'
         run: |
           echo "install requirements"
-          sudo apt-get install -y python3 python3-pip
+          # sudo apt-get install -y python3 python3-pip
           python3 -m pip install --upgrade pip
+          pip --version
           pip install -r ${GITHUB_WORKSPACE}/requirements.txt
 
       - name: Build coilpy
