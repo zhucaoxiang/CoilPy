@@ -6,7 +6,15 @@ import sys
 
 def xy2rp(x, y):
     """Convert (x,y) to (R,phi) in polar coordinate
-    """
+
+    Args:
+        x (float): x coordinate
+        y (float): y coordinate
+
+    Returns:
+        R (float): radius
+        phi (float): angle in rad
+    """    
     R = np.sqrt(x**2 + y**2)
     if   x >  0.0 and y >= 0.0 : # [0,pi/2)
         phi = np.arcsin(y/R)
