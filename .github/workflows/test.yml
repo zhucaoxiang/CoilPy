@@ -11,37 +11,23 @@ jobs:
     runs-on: ubuntu-latest
     name: CoilPy test
     steps:
-      # To use this repository's private action,
-      # you must check out the repository
       - uses: actions/checkout@v2
-
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
-
-      - name: cache pip
+      - name: Cache pip
         uses: actions/cache@v2
-        id: cache-coilpy
         with:
+          # This path is specific to Ubuntu
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-
-      - name: Get pip cache dir
-        id: pip-cache
-        run: |
-          python -c "from pip._internal.locations import USER_CACHE_DIR; print('::set-output name=dir::' + USER_CACHE_DIR)"
-
-      - name: Install dependence
-        if: steps.cache-coilpy.outputs.cache-hit != 'true'
-        run: |
-          echo "install requirements"
-          # sudo apt-get install -y python3 python3-pip
-          python3 -m pip install --upgrade pip
-          pip --version
-          pip install -r ${GITHUB_WORKSPACE}/requirements.txt
+            ${{ runner.os }}-
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
       - name: Build coilpy
         run: |
