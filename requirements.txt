@@ -3,7 +3,6 @@ xarray
 h5py
 matplotlib
 pandas
-mayavi
 numpy
 pyevtk
 classes
