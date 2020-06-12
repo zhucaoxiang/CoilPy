@@ -1,0 +1,35 @@
+name: build-test
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  focus-build:
+    runs-on: ubuntu-latest
+    name: CoilPy test
+    steps:
+      # To use this repository's private action,
+      # you must check out the repository
+      - uses: actions/checkout@v2
+
+      - name: Install packages
+        uses: actions/cache@v2
+        with:
+          path: /usr/lib/python3
+          key: ${{ runner.os }}-coilpy
+
+      - name: Initial install
+        if: steps.cache-coilpy.outputs.cache-hit != 'true'
+        run: |
+          echo "install packages"
+          sudo apt-get install -y python3 python3-pip
+          pip install -e ${GITHUB_WORKSPACE}
+
+      - name: Build coilpy
+        run: |
+          echo "re-install"
+          pip install -e ${GITHUB_WORKSPACE}
+          python3 -c "from coilpy import *"
