@@ -36,13 +36,12 @@ jobs:
           ${{ runner.os }}-
 
     - name: Install dependencies
-      if: steps.cache-pip.outputs.cache-hit != 'true'
-      run: pip install -r requirements.txt ; ls -al ${{ steps.pip-cache.outputs.dir }}
+      #if: steps.cache-pip.outputs.cache-hit != 'true'
+      run: pip install -r requirements.txt ;
 
     - name: Build coilpy
       run: |
         echo "install coilpy"
-        ls -al ${{ steps.pip-cache.outputs.dir }}
         pip --version
         pip install -e ${GITHUB_WORKSPACE}
         python3 -c "from coilpy import *"
