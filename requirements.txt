@@ -6,4 +6,5 @@ pandas
 mayavi
 numpy
 pyevtk
+classes
 FortranNamelist
