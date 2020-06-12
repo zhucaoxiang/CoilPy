@@ -18,7 +18,7 @@ class SingleCoil(object):
         class_name = self.__class__.__name__
         #print(class_name, "destroyed")
 
-    def plot(self, engine='pyplot', **kwargs):
+    def plot(self, engine='mayavi', **kwargs):
         '''
         plot coil as a line
         '''
@@ -145,6 +145,7 @@ class SingleCoil(object):
             return
         except:
             return
+
     def bfield(self, pos, **kwargs):
         """Calculate B field at an arbitrary point
 
@@ -166,8 +167,16 @@ class SingleCoil(object):
         Ri = RR[:,:-1]
         Rf = RR[:,1:]
         B = np.sum(np.cross(Riv, Rfv)*((Ri+Rf)/((Ri*Rf)*(Ri*Rf+np.sum(Riv*Rfv, axis=2))))[:, :, np.newaxis], axis=1)\
-            *u0_d_4pi*I
+            *u0_d_4pi*self.I
         return B
+
+    def toVTK(self, vtkname, **kwargs):
+        from pyevtk.hl import polyLinesToVTK
+        kwargs.setdefault('cellData', {})
+        kwargs['cellData'].setdefault('I', np.array(elf.I))
+        polyLinesToVTK(vtkname, np.array(self.x), np.array(self.y), np.array(self.z),
+                       np.array([len(self.x)]), **kwargs)
+        return
         
 class Coil(object):
     def __init__(self, xx=[], yy=[], zz=[], II=[], names=[], groups=[]):
@@ -226,7 +235,7 @@ class Coil(object):
                 if len(linelist) > 4 :
                     II.append(tmpI)
                     names.append(linelist[-1])
-                    groups.append(linelist[-2])                    
+                    groups.append(int(linelist[-2]))
                     icoil = icoil + 1
                     xx.append([]); yy.append([]); zz.append([])
         xx.pop(); yy.pop(); zz.pop()
@@ -261,6 +270,28 @@ class Coil(object):
                 wfile.write("{:15.7E} {:15.7E} {:15.7E} {:15.7E} {:} {:10} \n".format(
                     icoil.x[0], icoil.y[0], icoil.z[0], 0.0, icoil.group, icoil.name))
             wfile.write("end \n")
+        return
+
+    def toVTK(self, vtkname, **kwargs):
+        from pyevtk.hl import polyLinesToVTK
+        currents = []
+        groups = []
+        x = []
+        y = []
+        z = []
+        lx = []
+        for icoil in list(self):
+            currents.append(icoil.I)
+            groups.append(icoil.group)
+            x.append(icoil.x)
+            y.append(icoil.y)
+            z.append(icoil.z)
+            lx.append(len(icoil.x))
+        kwargs.setdefault('cellData', {})
+        kwargs['cellData'].setdefault('I', np.array(currents))
+        kwargs['cellData'].setdefault('Igroup', np.array(groups))
+        polyLinesToVTK(vtkname, np.concatenate(x), np.concatenate(y), np.concatenate(z),
+                        np.array(lx), **kwargs)
         return
 
     def __del__(self):
