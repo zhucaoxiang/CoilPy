@@ -171,6 +171,11 @@ class SingleCoil(object):
         return B
 
     def toVTK(self, vtkname, **kwargs):
+        """Write a VTK file
+
+        Args:
+            vtkname (string): VTK filename
+        """        
         from pyevtk.hl import polyLinesToVTK
         kwargs.setdefault('cellData', {})
         kwargs['cellData'].setdefault('I', np.array(elf.I))
@@ -243,8 +248,8 @@ class Coil(object):
         return cls(xx=xx, yy=yy, zz=zz, II=II, names=names, groups=groups)
 
     def plot(self, **kwargs):
-        """
-        """
+        """Plot coils in mayavi or matplotlib
+        """        
         for icoil in list(self):
             icoil.plot(**kwargs)
         return
@@ -273,6 +278,12 @@ class Coil(object):
         return
 
     def toVTK(self, vtkname, **kwargs):
+        """Write entire coil set into a VTK file
+
+        Args:
+            vtkname (str): VTK filename
+            kwargs (dict): Optional kwargs passed to "polyLinesToVTK"
+        """        
         from pyevtk.hl import polyLinesToVTK
         currents = []
         groups = []
