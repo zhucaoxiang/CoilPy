@@ -11,29 +11,30 @@ jobs:
     runs-on: ubuntu-latest
     name: CoilPy test
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-      - name: Cache pip
-        uses: actions/cache@v2
-        id: cache-pip
-        with:
-          # This path is specific to Ubuntu
-          path: ~/.cache/pip
-          # Look to see if there is a cache hit for the corresponding requirements file
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-            ${{ runner.os }}-
-      - name: Install dependencies
-        if: steps.cache-pip.outputs.cache-hit != 'true'
-        run: pip install -r requirements.txt
+    - uses: actions/checkout@v2
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Cache pip
+      uses: actions/cache@v2
+      id: cache-pip
+      with:
+        # This path is specific to Ubuntu
+        path: ~/.cache/pip
+        # Look to see if there is a cache hit for the corresponding requirements file
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          ${{ runner.os }}-
+    - name: Install dependencies
+      if: steps.cache-pip.outputs.cache-hit != 'true'
+      run: pip install -r requirements.txt
 
-      - name: Build coilpy
-        run: |
-          echo "install coilpy"
-          pip --version
-          pip install -e ${GITHUB_WORKSPACE}
-          python3 -c "from coilpy import *"
+    - name: Build coilpy
+      run: |
+        echo "install coilpy"
+        ls -al ~/.cache/pip
+        pip --version
+        pip install -e ${GITHUB_WORKSPACE}
+        python3 -c "from coilpy import *"
