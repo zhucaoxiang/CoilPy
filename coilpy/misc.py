@@ -78,7 +78,6 @@ def toroidal_period(vec, nfp=1):
         new_vec = np.concatenate((new_vec, np.matmul(vec, rotate)))
     return new_vec
 
-# Print iterations progress
 def print_progress(iteration, total, prefix='Progress', suffix='Complete', decimals=1, bar_length=60):
     """
     Call in a loop to create terminal progress bar
