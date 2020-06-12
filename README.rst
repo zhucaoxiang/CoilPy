@@ -9,7 +9,7 @@ This is Python 3 version. To install this package, just do
     pip install -e .
 
 After installation, in your python kernel, you can use the functions by something like
-::python
+::
     from coilpy import *
 
-You can always check the docstring of each functions, like `FourSurf?` in ipython.
+You can always check the docstring of each functions, like "FourSurf?" in ipython.
