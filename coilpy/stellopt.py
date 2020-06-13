@@ -244,6 +244,15 @@ class STELLout(SortedDict, OMFITascii):
                 self[item+'_bnorm'] = np.squeeze(self[item][:,:,3])
                 self[item+'_m'] = np.squeeze(self[item][:,:,4])
                 self[item+'_n'] = np.squeeze(self[item][:,:,5])
+            elif item ==  'HELICITY_FULL':
+                self[item+'_target'] = np.squeeze(self[item][:,:,0])
+                self[item+'_sigma'] = np.squeeze(self[item][:,:,1])
+                self[item+'_equil'] = np.squeeze(self[item][:,:,2])
+                self[item+'_chisq'] = ((self[item+'_target'] - self[item+'_equil'])/self[item+'_sigma'])**2
+                self[item+'_bnorm'] = np.squeeze(self[item][:,:,3])
+                self[item+'_k'] = np.squeeze(self[item][:,:,4])
+                self[item+'_m'] = np.squeeze(self[item][:,:,5])
+                self[item+'_n'] = np.squeeze(self[item][:,:,6])               
             elif item == 'TXPORT':
                 self[item+'_target'] = np.squeeze(self[item][:,:,0])
                 self[item+'_sigma'] = np.squeeze(self[item][:,:,1])
@@ -310,7 +319,26 @@ class STELLout(SortedDict, OMFITascii):
                 self[item+'_SCAL11'] = np.squeeze(self[item][:,:,12])
                 self[item+'_SCAL33'] = np.squeeze(self[item][:,:,13])
                 self[item+'_SCAL31'] = np.squeeze(self[item][:,:,14])
-
+    def plot_helicity(self, ax=None, **kwargs):
+        fig, axes = get_figure(ax)
+        xs = self['HELICITY_FULL_k']
+        xs = np.array(np.unique(xs), dtype=int)
+        ns = len(xs)
+        vals = np.reshape(self['HELICITY_FULL_equil'], (ns, -1))
+        xm = np.reshape(self['HELICITY_FULL_m'], (ns, -1))
+        xn = np.reshape(self['HELICITY_FULL_n'], (ns, -1))
+        ripple = np.linalg.norm(vals, axis=1)
+        # get figure and ax data
+        if plt.get_fignums():
+            fig = plt.gcf()
+            ax = plt.gca()
+        else :
+            fig, ax = plt.subplots()
+        ax.plot(xs/np.max(xs), ripple, **kwargs)
+        plt.xlabel('normalized flux (s)', fontsize=16)
+        plt.ylabel('L2-norm of asymmetric terms', fontsize=16)
+        plt.xticks(fontsize=15)
+        plt.yticks(fontsize=15)
         return
 
 class VMECout(SortedDict):
