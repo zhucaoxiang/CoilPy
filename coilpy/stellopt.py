@@ -319,7 +319,7 @@ class STELLout(SortedDict, OMFITascii):
                 self[item+'_SCAL11'] = np.squeeze(self[item][:,:,12])
                 self[item+'_SCAL33'] = np.squeeze(self[item][:,:,13])
                 self[item+'_SCAL31'] = np.squeeze(self[item][:,:,14])
-    def plot_helicity(self, term='all', mn=None, ax=None, **kwargs):
+    def plot_helicity(self, ordering=False, mn=(None, None), ax=None, **kwargs):
         xs = self['HELICITY_FULL_k']
         xs = np.array(np.unique(xs), dtype=int)
         ns = len(xs)
@@ -332,24 +332,34 @@ class STELLout(SortedDict, OMFITascii):
             ax = plt.gca()
         else :
             fig, ax = plt.subplots()
-        if term == 'all':
-            # plot the l2-norm of the asymmetric terms
-            ripple = np.linalg.norm(vals, axis=1)
-            line = ax.plot(xs/np.max(xs), ripple, **kwargs)
-            ylabel = r'$\Vert \frac{B_{m,n\neq 0}}{B_{m,n=0}} \} \Vert $'
+        if ordering:
+            assert ordering >= 1
+            data = np.linalg.norm(vals, axis=0)
+            ind = np.argsort(data)
+            for i in range(ordering):
+                ind = -1 - i # index of the i-th largest term
+                m = xm[0, ind]
+                n = xn[0, ind]
+                ax.plot(xs/np.max(xs), vals[:, ind], label='m={:}, n={:}'.format(m,n), **kwargs)
+            ylabel = r'$\frac{B_{m,n}{B_{m,n=0}} \Vert $'
         else:
+            # determine filter condition
             if mn[0] is not None:
                 mfilter = (xm == mn[0])
+                m = 'm={:}'.format(mn[0])
             else:
                 mfilter = np.full(np.shape(xm), True)
+                m = 'm'
             if mn[1] is not None:
                 nfilter = (xn == mn[1])
+                n = 'n={:}'.format(mn[1])
             else:
                 nfilter = np.full(np.shape(xn), True)
+                n = r'n \neq 0'
             cond = np.logical_and(mfilter, nfilter)
             data = np.reshape(vals[cond], (ns, -1))
             line = ax.plot(xs/np.max(xs), np.linalg.norm(data, axis=1), **kwargs)
-            ylabel = r'$\frac{B_{m={:},n={:}}}{B_{m,n=0}} \}$'
+            ylabel = r'$\Vert \frac{B_{{:},{:}}}{B_{m,n=0}} \Vert $'.format(m, n)
         plt.xlabel('normalized flux (s)', fontsize=16)
         plt.ylabel(ylabel, fontsize=16)
         plt.xticks(fontsize=15)
