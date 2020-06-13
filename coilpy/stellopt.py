@@ -323,6 +323,7 @@ class STELLout(SortedDict, OMFITascii):
         xs = self['HELICITY_FULL_k']
         xs = np.array(np.unique(xs), dtype=int)
         ns = len(xs)
+        xx = (xs-1)/np.max(xs) # max(xs) might be different from NS
         vals = np.reshape(self['HELICITY_FULL_equil'], (ns, -1))
         xm = np.reshape(np.array(self['HELICITY_FULL_m'], dtype=int), (ns, -1))
         xn = np.reshape(np.array(self['HELICITY_FULL_n'], dtype=int), (ns, -1))
@@ -341,8 +342,8 @@ class STELLout(SortedDict, OMFITascii):
                 m = xm[0, ind]
                 n = xn[0, ind]
                 kwargs['label'] = 'm={:}, n={:}'.format(m,n)
-                ax.plot(xs/np.max(xs), vals[:, ind], **kwargs)
-            ylabel = r'$\frac{B_{m,n}}{B_{m,n=0}}$'
+                ax.plot(xx, vals[:, ind], **kwargs)
+            ylabel = r'$\frac{B_{m,n}}{ \Vert B_{m,n=0} \Vert }$'
         else:
             # determine filter condition
             if mn[0] is not None:
@@ -359,8 +360,8 @@ class STELLout(SortedDict, OMFITascii):
                 n = r'n \neq 0'
             cond = np.logical_and(mfilter, nfilter)
             data = np.reshape(vals[cond], (ns, -1))
-            line = ax.plot(xs/np.max(xs), np.linalg.norm(data, axis=1), **kwargs)
-            ylabel = r'$\Vert \frac{{ B_{{ {:},{:} }} }}{{B_{{m,n=0}}}} \Vert $'.format(m, n)
+            line = ax.plot(xx, np.linalg.norm(data, axis=1), **kwargs)
+            ylabel = r'$ \frac{{ \Vert B_{{ {:},{:} \Vert }} }}{{ \Vert B_{{m,n=0}} \Vert }} $'.format(m, n)
         plt.xlabel('normalized flux (s)', fontsize=16)
         plt.ylabel(ylabel, fontsize=16)
         plt.xticks(fontsize=15)
