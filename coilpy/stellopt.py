@@ -319,23 +319,39 @@ class STELLout(SortedDict, OMFITascii):
                 self[item+'_SCAL11'] = np.squeeze(self[item][:,:,12])
                 self[item+'_SCAL33'] = np.squeeze(self[item][:,:,13])
                 self[item+'_SCAL31'] = np.squeeze(self[item][:,:,14])
-    def plot_helicity(self, ax=None, **kwargs):
+    def plot_helicity(self, term='all', mn=None, ax=None, **kwargs):
         xs = self['HELICITY_FULL_k']
         xs = np.array(np.unique(xs), dtype=int)
         ns = len(xs)
         vals = np.reshape(self['HELICITY_FULL_equil'], (ns, -1))
-        xm = np.reshape(self['HELICITY_FULL_m'], (ns, -1))
-        xn = np.reshape(self['HELICITY_FULL_n'], (ns, -1))
-        ripple = np.linalg.norm(vals, axis=1)
+        xm = np.reshape(np.array(self['HELICITY_FULL_m'], dtype=int), (ns, -1))
+        xn = np.reshape(np.array(self['HELICITY_FULL_n'], dtype=int), (ns, -1))
         # get figure and ax data
         if plt.get_fignums():
             fig = plt.gcf()
             ax = plt.gca()
         else :
             fig, ax = plt.subplots()
-        ax.plot(xs/np.max(xs), ripple, **kwargs)
+        if term == 'all':
+            # plot the l2-norm of the asymmetric terms
+            ripple = np.linalg.norm(vals, axis=1)
+            line = ax.plot(xs/np.max(xs), ripple, **kwargs)
+            ylabel = r'$\Vert \frac{B_{m,n\neq 0}}{B_{m,n=0}} \} \Vert $'
+        else:
+            if mn[0] is not None:
+                mfilter = (xm == mn[0])
+            else:
+                mfilter = np.full(np.shape(xm), True)
+            if mn[1] is not None:
+                nfilter = (xn == mn[1])
+            else:
+                nfilter = np.full(np.shape(xn), True)
+            cond = np.logical_and(mfilter, nfilter)
+            data = np.reshape(vals[cond], (ns, -1))
+            line = ax.plot(xs/np.max(xs), np.linalg.norm(data, axis=1), **kwargs)
+            ylabel = r'$\frac{B_{m={:},n={:}}}{B_{m,n=0}} \}$'
         plt.xlabel('normalized flux (s)', fontsize=16)
-        plt.ylabel('L2-norm of asymmetric terms', fontsize=16)
+        plt.ylabel(ylabel, fontsize=16)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
         return
