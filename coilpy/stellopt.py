@@ -320,7 +320,6 @@ class STELLout(SortedDict, OMFITascii):
                 self[item+'_SCAL33'] = np.squeeze(self[item][:,:,13])
                 self[item+'_SCAL31'] = np.squeeze(self[item][:,:,14])
     def plot_helicity(self, ax=None, **kwargs):
-        fig, axes = get_figure(ax)
         xs = self['HELICITY_FULL_k']
         xs = np.array(np.unique(xs), dtype=int)
         ns = len(xs)
