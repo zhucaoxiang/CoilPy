@@ -335,14 +335,14 @@ class STELLout(SortedDict, OMFITascii):
         if ordering:
             assert ordering >= 1
             data = np.linalg.norm(vals, axis=0)
-            ind = np.argsort(data)
+            ind_arg = np.argsort(data)
             for i in range(ordering):
-                ind = -1 - i # index of the i-th largest term
+                ind = ind_arg[-1-i] # index of the i-th largest term
                 m = xm[0, ind]
                 n = xn[0, ind]
                 kwargs['label'] = 'm={:}, n={:}'.format(m,n)
                 ax.plot(xs/np.max(xs), vals[:, ind], **kwargs)
-            ylabel = r'$\frac{B_{m,n}}{B_{m,n=0}} \Vert $'
+            ylabel = r'$\frac{B_{m,n}}{B_{m,n=0}}$'
         else:
             # determine filter condition
             if mn[0] is not None:
