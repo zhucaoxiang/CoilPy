@@ -1,13 +1,14 @@
 import setuptools
 
-def readme():
-    with open('README.rst') as f:
-        return f.read()
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 setuptools.setup(name='coilpy',
       version='0.2.1',
       description='Plotting and data processing tools for plasma and coil',
-      long_description=readme(),
+      long_description=long_description,
+      long_description_content_type="text/markdown",
+      url="https://github.com/zhucaoxiang/CoilPy",      
       classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)',
