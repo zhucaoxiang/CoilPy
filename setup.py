@@ -5,7 +5,7 @@ def readme():
         return f.read()
 
 setuptools.setup(name='coilpy',
-      version='0.2',
+      version='0.2.1',
       description='Plotting and data processing tools for plasma and coil',
       long_description=readme(),
       classifiers=[
