@@ -129,6 +129,113 @@ class Dipole(object):
         momentq = 1
         return cls(ox=ox, oy=oy, oz=oz, Ic=Ic, mm=mm, Lc=Lc, mp=mp, mt=mt, pho=pho, momentq=momentq)
 
+    @classmethod
+    def from_regcoil(cls, regcoilname, winding=None, ilambda=-1, symmetry='full', num_pol=128, num_tor=128, m0=None):
+        # read regcoil output
+        from scipy.io import netcdf
+        f = netcdf.netcdf_file(regcoilname,'r',mmap=False)
+        nfp = f.variables['nfp'][()]
+        ntheta_plasma = f.variables['ntheta_plasma'][()]
+        ntheta_coil = f.variables['ntheta_coil'][()]
+        nzeta_plasma = f.variables['nzeta_plasma'][()]
+        nzeta_coil = f.variables['nzeta_coil'][()]
+        nzetal_plasma = f.variables['nzetal_plasma'][()]
+        nzetal_coil = f.variables['nzetal_coil'][()]
+        theta_plasma = f.variables['theta_plasma'][()]
+        theta_coil = f.variables['theta_coil'][()]
+        zeta_plasma = f.variables['zeta_plasma'][()]
+        zeta_coil = f.variables['zeta_coil'][()]
+        zetal_plasma = f.variables['zetal_plasma'][()]
+        zetal_coil = f.variables['zetal_coil'][()]
+        r_plasma  = f.variables['r_plasma'][()]
+        #normal_coil = f.variables['normal_coil'][()]
+        r_coil  = f.variables['r_coil'][()]
+        xm_coil = f.variables['xm_coil'][()]
+        xn_coil = f.variables['xn_coil'][()]
+        xm_potential = f.variables['xm_potential'][()]
+        xn_potential = f.variables['xn_potential'][()]
+        mnmax_coil = f.variables['mnmax_coil'][()]
+        chi2_B = f.variables['chi2_B'][()]
+        single_valued_current_potential_thetazeta = f.variables['single_valued_current_potential_thetazeta'][()]
+        current_potential = f.variables['current_potential'][()]
+        Bnormal_from_plasma_current = f.variables['Bnormal_from_plasma_current'][()]
+        Bnormal_from_net_coil_currents = f.variables['Bnormal_from_net_coil_currents'][()]
+        Bnormal_total = f.variables['Bnormal_total'][()]
+        net_poloidal_current_Amperes = f.variables['net_poloidal_current_Amperes'][()]
+        phi_mn = f.variables['single_valued_current_potential_mn'][()][ilambda,:]
+        f.close()
+
+        mn_max = len(xm_potential)
+        phi_sin = phi_mn[0:mn_max]
+        phi_cos = phi_mn[mn_max:]
+
+        def func_new(theta, zeta):
+            """ get current potential of (theta, zeta)
+
+            Parameters:
+            theta -- float array_like, poloidal angle
+            zeta -- float array_like, toroidal angle value
+
+            Returns:
+            phi -- float array_like
+            """
+            assert len(np.atleast_1d(theta)) == len(np.atleast_1d(zeta)), "theta, zeta should be equal size"
+            # mt - nz (in matrix)
+            _mtnz = np.matmul( np.reshape(xm_potential, (-1,1)), np.reshape(theta, (1,-1)) ) \
+                - np.matmul( np.reshape(xn_potential, (-1,1)), np.reshape( zeta, (1,-1)) ) 
+            _sin = np.sin(_mtnz)
+            _cos = np.cos(_mtnz)
+
+            phi = np.matmul( np.reshape(phi_sin, (1,-1)), _sin ) + np.matmul( np.reshape(phi_cos, (1,-1)), _cos ) 
+            return phi.ravel()
+        
+        # initialize dipoles
+        if symmetry.lower() == 'full':
+            zeta_end = 2*np.pi
+            print('Please manually set dipole.symmetry=0')      
+        elif symmetry.lower()  == 'one':
+            zeta_end = 2*np.pi/nfp
+            print('Please manually set dipole.symmetry=1')
+        elif symmetry.lower()  == 'half':
+            zeta_end = 2*np.pi/nfp/2            
+        else:
+            raise ValueError('No such symmetry option!')
+
+        ox = []
+        oy = []
+        oz = []
+        mt = []
+        mp = []
+        mm = []
+
+        theta_array = np.linspace(0, 2*np.pi, num_pol, endpoint=False)
+        zeta_array = zeta_end/(num_tor*2) + np.linspace(0, zeta_end, num_tor, endpoint=False)
+        dtheta = 2*np.pi/num_pol
+        dzeta = zeta_end/num_tor
+        tv, zv = np.meshgrid(theta_array, zeta_array, indexing='ij')
+
+        from .surface import FourSurf
+        wind = FourSurf.read_winding_surfce(winding)    
+        data = wind.xyz(tv, zv, normal=True)
+        phi = func_new(tv, zv)
+        ox = data[0]
+        oy = data[1]
+        oz = data[2]
+        n = data[3]
+        nn = np.linalg.norm(n, axis=1)
+        mt = np.arccos(n[:,2]/nn)
+        mp = np.arctan2(n[:,1], n[:,0])
+        if m0 is None: # not specify the allowable magnetization
+            mm = -phi*nn*dtheta*dzeta
+            pho = np.ones_like(mm)
+        else:
+            mm = m0*nn*dtheta*dzeta
+            pho = -phi/m0
+
+        return cls(ox=ox, oy=oy, oz=oz, mp=mp, mt=mt, mm=mm, pho=pho,
+                    Ic=np.ones_like(ox, dtype=int), Lc=np.ones_like(ox, dtype=int), momentq=1)
+
+
     def sp2xyz(self):
         '''
         spherical coordinates to cartesian coordinates
@@ -197,7 +304,19 @@ class Dipole(object):
                    self.Ic[i], self.mm[i], self.pho[i], self.Lc[i], self.mp[i], self.mt[i]))
         return
     
-    def toVTK(self, vtkname=None, dim=(1), close=True, ntnz=False, toroidal=False, **kwargs):
+    def toVTK(self, vtkname, dim=(1), close=False, ntnz=False, toroidal=False, **kwargs):
+        """write dipole data into a VTK file
+
+        Args:
+            vtkname (str): VTK filename, will be appended with .vts or .vtu. 
+            dim (tuple, optional): Dimension information if saved as structured grids. Defaults to (1).
+            close (bool, optional): Logical flag to manually close the gaps. Defaults to False.
+            ntnz (bool, optional): Logical flag of theta-zeta order. Defaults to False.
+            toroidal (bool, optional): Logical flag of filling in the toroidal gap. Defaults to False.
+
+        Returns:
+            None
+        """        
         from pyevtk.hl import gridToVTK, pointsToVTK
         if not self.xyz_switch:
             self.sp2xyz()
@@ -220,7 +339,7 @@ class Dipole(object):
                 def map_toroidal(vec):
                     rotate = np.array([[  np.cos(phi), np.sin(phi), 0], \
                                        [ -np.sin(phi), np.cos(phi), 0], \
-                                       [                0,               0, 1]])
+                                       [            0,           0, 1]])
                     return np.matmul(vec, rotate)                
                 data_array = {"ox":self.ox, "oy":self.oy, "oz":self.oz, \
                               "mx":self.mx, "my":self.my, "mz": self.mz, \
@@ -244,8 +363,8 @@ class Dipole(object):
                 del data_array['ox']
                 del data_array['oy']
                 del data_array['oz'] 
-                data_array['m'] = (data_array['mx'], data_array['mx'], data_array['mx'])
-                if toroidal and self.nfp>1 :
+                data_array['m'] = (data_array['mx'], data_array['my'], data_array['mz'])
+                if toroidal and self.nfp>=1 : # not quite sure if should include nfp=1
                     for ir in range(nr):
                         if ntnz:
                             xyz = map_toroidal(np.transpose([ox[ir,:,0], oy[ir,:,0], oz[ir,:,0]]))

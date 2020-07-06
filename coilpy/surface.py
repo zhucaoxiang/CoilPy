@@ -361,7 +361,7 @@ class FourSurf(object):
         return line
 
     def plot3d(self, engine='pyplot', theta0=0.0, theta1=2*np.pi, zeta0=0.0, zeta1=2*np.pi, \
-                   npol=360, ntor=360, **kwargs):
+                   npol=360, ntor=360, normal=False, **kwargs):
         """ plot 3D shape of the surface
         
         Parameters: 
@@ -381,7 +381,12 @@ class FourSurf(object):
         _theta = np.linspace(theta0, theta1, npol)
         _zeta = np.linspace(zeta0, zeta1, ntor)
         _tv, _zv = np.meshgrid(_theta, _zeta, indexing='ij')
-        _x, _y, _z = self.xyz(_tv, _zv)
+        if normal:
+            _x, _y, _z, _n = self.xyz(_tv, _zv, normal=normal)
+            n = np.reshape(_n, (3, npol, ntor))
+        else:
+            _x, _y, _z = self.xyz(_tv, _zv)
+            n = None
         xsurf = np.reshape(_x, (npol, ntor))
         ysurf = np.reshape(_y, (npol, ntor))
         zsurf = np.reshape(_z, (npol, ntor))
@@ -407,7 +412,7 @@ class FourSurf(object):
             mlab.mesh(xsurf, ysurf, zsurf, **kwargs)
         else:
             raise ValueError('Invalid engine option {pyplot, mayavi, noplot}')
-        return (xsurf, ysurf, zsurf)
+        return (xsurf, ysurf, zsurf, n)
 
     def toVTK(self, vtkname, npol=360, ntor=360, **kwargs):
         """ save surface shape a vtk grid file
@@ -422,16 +427,17 @@ class FourSurf(object):
            
         """
         from pyevtk.hl import gridToVTK # save to binary vtk
-        _xx, _yy, _zz = self.plot3d('noplot', zeta0=0.0, zeta1=2*np.pi,
-                                    theta0=0.0, theta1=2*np.pi, npol=npol, ntor=ntor)
+        _xx, _yy, _zz, _nn = self.plot3d('noplot', zeta0=0.0, zeta1=2*np.pi,
+                                    theta0=0.0, theta1=2*np.pi, npol=npol, ntor=ntor, normal=True)
         _xx = _xx.reshape((1, npol, ntor))
         _yy = _yy.reshape((1, npol, ntor))
         _zz = _zz.reshape((1, npol, ntor))
+        _nn = _nn.reshape((1, npol, ntor, 3))
 
-        if kwargs:
-            gridToVTK(vtkname, _xx, _yy, _zz, pointData=kwargs)
-        else:
-            gridToVTK(vtkname, _xx, _yy, _zz)
+        kwargs.setdefault('n', (np.ascontiguousarray(_nn[:,:,:,0]),
+                                np.ascontiguousarray(_nn[:,:,:,1]),
+                                np.ascontiguousarray( _nn[:,:,:,2])))
+        gridToVTK(vtkname, _xx, _yy, _zz, pointData=kwargs)
         return    
 
     def write_focus_input(self, filename, Nfp=1, tol=1E-8, **kwargs):
