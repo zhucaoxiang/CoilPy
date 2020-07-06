@@ -1,5 +1,5 @@
 import numpy as np
-
+u0_d_4pi = 1.0E-7
 class SingleCoil(object):
     '''
     Single coil class represented as discrete points in Cartesian coordinates
@@ -146,8 +146,8 @@ class SingleCoil(object):
         except:
             return
 
-    def bfield(self, pos, **kwargs):
-        """Calculate B field at an arbitrary point
+    def bfield_HH(self, pos, **kwargs):
+        """Calculate B field at an arbitrary point using the Hanson-Hirshman expression
 
         Arguments:
             pos {array-like} -- Cartesian coordinates for the evaluation point
@@ -155,7 +155,6 @@ class SingleCoil(object):
         Returns:
             ndarray -- the calculated magnetic field vector
         """        
-        u0_d_4pi = 1.0E-7
         xyz = np.array([self.x, self.y, self.z]).T
         pos = np.atleast_2d(pos)
         assert (pos.shape)[1]  == 3
@@ -169,6 +168,48 @@ class SingleCoil(object):
         B = np.sum(np.cross(Riv, Rfv)*((Ri+Rf)/((Ri*Rf)*(Ri*Rf+np.sum(Riv*Rfv, axis=2))))[:, :, np.newaxis], axis=1)\
             *u0_d_4pi*self.I
         return B
+
+    def bfield(self, pos):        
+        ob_pos = np.atleast_1d(pos)
+        dx = ob_pos[0] - self.x[:-1]
+        dy = ob_pos[1] - self.y[:-1]
+        dz = ob_pos[2] - self.z[:-1]
+        dr = dx*dx + dy*dy +dz*dz
+        Bx = (dz*self.yt[:-1] - dy*self.zt[:-1])*np.power(dr, -1.5)
+        By = (dx*self.zt[:-1] - dz*self.xt[:-1])*np.power(dr, -1.5)
+        Bz = (dy*self.xt[:-1] - dx*self.yt[:-1])*np.power(dr, -1.5)
+        B = np.array([np.sum(Bx), np.sum(By), np.sum(Bz)])*self.dt*u0_d_4pi*self.I
+        return B        
+    
+    def spline_tangent(self, order=3):
+        """Calculate the tangent of coil using spline interpolation
+
+        Args:
+            order (int, optional): Order of spline interpolation used. Defaults to 3.
+        """        
+        from scipy import interpolate
+        t = np.linspace(0, 2*np.pi, len(self.x), endpoint=True)
+        self.dt = 2*np.pi/(len(self.x)-1)
+        fx = interpolate.splrep(t, self.x, s=0, k=order)
+        fy = interpolate.splrep(t, self.y, s=0, k=order)
+        fz = interpolate.splrep(t, self.z, s=0, k=order)
+        self.xt = interpolate.splev(t, fx, der=1)
+        self.yt = interpolate.splev(t, fy, der=1)
+        self.zt = interpolate.splev(t, fz, der=1) 
+        return 
+
+    def fourier_tangent(self):
+        from .misc import fft_deriv
+        self.dt = 2*np.pi/(len(self.x)-1)
+        fftxy = fft_deriv(self.x[:-1]+1j*self.y[:-1])
+        fftz = fft_deriv(self.z[:-1])
+        self.xt = np.real(fftxy)
+        self.yt = np.imag(fftxy)
+        self.zt = np.real(fftz)
+        self.xt = np.concatenate((self.xt, self.xt[0]))
+        self.yt = np.concatenate((self.yt, self.yt[0]))
+        self.zt = np.concatenate((self.zt, self.zt[0]))
+        return         
 
     def toVTK(self, vtkname, **kwargs):
         """Write a VTK file

@@ -17,7 +17,7 @@ import pandas as pd
 """
 
 # local packages
-from .misc import colorbar, get_figure, kwargs2dict, map_matrix, print_progress, toroidal_period, vmecMN, xy2rp
+from .misc import colorbar, get_figure, kwargs2dict, map_matrix, print_progress, toroidal_period, vmecMN, xy2rp, trigfft, fft_deriv
 from .hdf5 import HDF5
 from .surface import FourSurf
 from .dipole import Dipole

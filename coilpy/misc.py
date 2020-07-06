@@ -160,3 +160,55 @@ def vmecMN(mpol, ntor):
             xn[imn] = jj
             imn += 1
     return xm, xn
+
+def trigfft(y, tr=-1):
+    """calculate trigonometric coefficients using FFT
+    Assuming the periodicity is 2*pi
+    params:
+        y -- 1D array for Fourier transformation
+        tr -- Truncation number (default: -1)
+    return:
+        a dict containing
+        'n' -- index
+        'rcos' -- cos coefficients of the real part
+        'rsin' -- sin coefficients of the real part
+        'icos' -- cos coefficients of the imag part
+        'isin' -- sin coefficients of the imag part
+    """
+    from scipy.fftpack import fft
+    N = len(y)
+    if N%2 == 0 : # even
+        half = N//2-1
+        end = half + 2
+    else :
+        half = (N-1)//2
+        end = half + 1
+    assert tr <= end, 'Truncation number should be smaller than dimension!'
+    comp = fft(y)/N
+    a_k = np.zeros(end, dtype=np.complex)
+    b_k = np.zeros(end, dtype=np.complex)
+    a_k[0] = comp[0]
+    for n in range(1, half+1):
+        a_k[n] =  comp[n] + comp[N-n]
+        b_k[n] = (comp[n] - comp[N-n]) * 1j
+    if N%2 == 0: # even number
+        a_k[end-1] = comp[N//2]
+    index = np.arange(end)
+    
+    return {'n': index[:tr],
+            'rcos': np.real(a_k[:tr]),
+            'rsin': np.real(b_k[:tr]), 
+            'icos': np.imag(a_k[:tr]), 
+            'isin': np.imag(b_k[:tr])
+           }
+
+def fft_deriv(y):
+    from scipy.fftpack import fft, ifft
+    N = len(y)
+    comp = fft(y)
+    if N%2 == 0:
+        dt = (np.arange(N) - np.concatenate((np.zeros(N//2), [N//2], N*np.ones(N//2-1))))*1j
+    else:
+        dt = (np.arange(N) - np.concatenate((np.zeros(N//2), N*np.ones(N//2+1))))*1j
+    return ifft(comp*dt)
+
