@@ -174,10 +174,14 @@ class FOCUSHDF5(HDF5):
             ntheta  = self.Nteta
             nzeta = self.Nzeta
             nt, nz = self.Bn.shape
-            if self.IsSymmetric >0 :
-                zeta_end = 2*np.pi/self.Nfp
-            else :
+            if self.IsSymmetric == 0:
                 zeta_end = 2*np.pi
+            elif self.IsSymmetric == 1:
+                zeta_end = 2*np.pi/self.Nfp
+            elif self.IsSymmetric == 2:
+                zeta_end = np.pi/self.Nfp
+            else:
+                raise ValueError('Something wrong with IsSymmetric.')
             def theta(x, pos):
                 return '{:3.2f}'.format(np.pi/ntheta + x*(2*np.pi)/ntheta)
             def zeta(x, pos):

@@ -343,7 +343,7 @@ class STELLout(SortedDict, OMFITascii):
                 n = xn[0, ind]
                 kwargs['label'] = 'm={:}, n={:}'.format(m,n)
                 ax.plot(xx, vals[:, ind], **kwargs)
-            ylabel = r'$\frac{B_{m,n}}{ \Vert B_{m,n=0} \Vert }$'
+            ylabel = r'$\frac{B_{m,n}}{ \Vert B_{n=0} \Vert }$'
         else:
             # determine filter condition
             if mn[0] is not None:
@@ -361,7 +361,7 @@ class STELLout(SortedDict, OMFITascii):
             cond = np.logical_and(mfilter, nfilter)
             data = np.reshape(vals[cond], (ns, -1))
             line = ax.plot(xx, np.linalg.norm(data, axis=1), **kwargs)
-            ylabel = r'$ \frac{{ \Vert B_{{ {:},{:} \Vert }} }}{{ \Vert B_{{m,n=0}} \Vert }} $'.format(m, n)
+            ylabel = r'$ \frac{{ \Vert B_{{ {:},{:} }} \Vert }}{{ \Vert B_{{n=0}} \Vert }} $'.format(m, n)
         plt.xlabel('normalized flux (s)', fontsize=16)
         plt.ylabel(ylabel, fontsize=16)
         plt.xticks(fontsize=15)
