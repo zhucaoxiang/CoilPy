@@ -130,7 +130,23 @@ class Dipole(object):
         return cls(ox=ox, oy=oy, oz=oz, Ic=Ic, mm=mm, Lc=Lc, mp=mp, mt=mt, pho=pho, momentq=momentq)
 
     @classmethod
-    def from_regcoil(cls, regcoilname, winding=None, ilambda=-1, symmetry='full', num_pol=128, num_tor=128, m0=None):
+    def from_regcoil(cls, regcoilname, winding=None, ilambda=-1, 
+                     symmetry='full', num_pol=128, num_tor=128, m0=None, half_shift=True):
+        """[summary]
+
+        Args:
+            regcoilname (str): REGCOIL netcdf output file.
+            winding (str, optional): NESCOIL input format winding surface. Defaults to None.
+            ilambda (int, optional): Lambda index in REGCOIL output. Defaults to -1.
+            symmetry (str, optional): Stellarator symmetry option. Defaults to 'full'.
+            num_pol (int, optional): Number of poloidal dipoles. Defaults to 128.
+            num_tor (int, optional): Number of toroidal dipoles. Defaults to 128.
+            m0 ([type], optional): Magnetization limit per thickness. Defaults to None.
+            half_shift (bool, optional): Logical flag to determine if half-grid shifted. Defaults to True.
+
+        Returns:
+            None
+        """                     
         # read regcoil output
         from scipy.io import netcdf
         f = netcdf.netcdf_file(regcoilname,'r',mmap=False)
@@ -163,11 +179,21 @@ class Dipole(object):
         Bnormal_total = f.variables['Bnormal_total'][()]
         net_poloidal_current_Amperes = f.variables['net_poloidal_current_Amperes'][()]
         phi_mn = f.variables['single_valued_current_potential_mn'][()][ilambda,:]
+        symmetry_option = f.variables['symmetry_option'][()]
         f.close()
 
         mn_max = len(xm_potential)
-        phi_sin = phi_mn[0:mn_max]
-        phi_cos = phi_mn[mn_max:]
+        phi_sin = np.zeros(mn_max)
+        phi_cos = np.zeros(mn_max)
+        if symmetry_option == 1:
+            phi_sin = phi_mn[0:mn_max]
+        elif symmetry_option == 2:
+            phi_cos = phi_mn[0:mn_max]
+        elif symmetry_option == 3:
+            phi_sin = phi_mn[0:mn_max]
+            phi_cos = phi_mn[mn_max:]
+        else:
+            raise ValueError('Something wrong the symmetry_option: {:}'.format(symmetry_option))
 
         def func_new(theta, zeta):
             """ get current potential of (theta, zeta)
@@ -182,7 +208,7 @@ class Dipole(object):
             assert len(np.atleast_1d(theta)) == len(np.atleast_1d(zeta)), "theta, zeta should be equal size"
             # mt - nz (in matrix)
             _mtnz = np.matmul( np.reshape(xm_potential, (-1,1)), np.reshape(theta, (1,-1)) ) \
-                - np.matmul( np.reshape(xn_potential, (-1,1)), np.reshape( zeta, (1,-1)) ) 
+                  - np.matmul( np.reshape(xn_potential, (-1,1)), np.reshape( zeta, (1,-1)) ) 
             _sin = np.sin(_mtnz)
             _cos = np.cos(_mtnz)
 
@@ -208,8 +234,13 @@ class Dipole(object):
         mp = []
         mm = []
 
+        # discretization
+        if half_shift: # toroidally shift half grid
+            half = zeta_end/(num_tor*2)
+        else:
+            half = 0
         theta_array = np.linspace(0, 2*np.pi, num_pol, endpoint=False)
-        zeta_array = zeta_end/(num_tor*2) + np.linspace(0, zeta_end, num_tor, endpoint=False)
+        zeta_array = half + np.linspace(0, zeta_end, num_tor, endpoint=False)
         dtheta = 2*np.pi/num_pol
         dzeta = zeta_end/num_tor
         tv, zv = np.meshgrid(theta_array, zeta_array, indexing='ij')
