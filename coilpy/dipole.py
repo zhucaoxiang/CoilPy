@@ -130,13 +130,13 @@ class Dipole(object):
         return cls(ox=ox, oy=oy, oz=oz, Ic=Ic, mm=mm, Lc=Lc, mp=mp, mt=mt, pho=pho, momentq=momentq)
 
     @classmethod
-    def from_regcoil(cls, regcoilname, winding=None, ilambda=-1, 
+    def from_regcoil(cls, regcoilname, winding, ilambda=-1, 
                      symmetry='full', num_pol=128, num_tor=128, m0=None, half_shift=True):
-        """[summary]
+        """Initialize from REGCOIL current potential
 
         Args:
             regcoilname (str): REGCOIL netcdf output file.
-            winding (str, optional): NESCOIL input format winding surface. Defaults to None.
+            winding (str, optional): NESCOIL input format winding surface. 
             ilambda (int, optional): Lambda index in REGCOIL output. Defaults to -1.
             symmetry (str, optional): Stellarator symmetry option. Defaults to 'full'.
             num_pol (int, optional): Number of poloidal dipoles. Defaults to 128.
