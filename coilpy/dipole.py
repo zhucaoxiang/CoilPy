@@ -318,8 +318,8 @@ class Dipole(object):
                         if np.mod(icoil, self.nfp)==0:
                             continue
                     wfile.write("#-----------------{}---------------------------\n".format(icoil+1))
-                    wfile.write("#coil_type     coil_name \n")
-                    wfile.write("   {:3d}  {:1d}  pm_{:010d}\n".format(2, 1, icoil+1))
+                    wfile.write("#coil_type   symm  coil_name \n")
+                    wfile.write("   {:1d}  {:1d}  pm_{:010d}\n".format(2, self.symmetry, icoil+1))
                     wfile.write("#  Lc  ox   oy   oz  Ic  I  mp  mt \n")
                     wfile.write("{:6d} {:23.15E} {:23.15E} {:23.15E} {:6d} {:23.15E} {:23.15E} {:23.15E}\n"\
                        .format(self.Lc[icoil], self.ox[icoil], self.oy[icoil], self.oz[icoil], \

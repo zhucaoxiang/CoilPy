@@ -6,9 +6,9 @@ class SingleCoil(object):
     '''
     def __init__(self, x=[], y=[], z=[], I=0.0, name='coil1', group=1):
         assert len(x) == len(y) == len(z), "dimension not consistent"
-        self.x = x
-        self.y = y
-        self.z = z
+        self.x = np.asarray(x)
+        self.y = np.asarray(y)
+        self.z = np.asarray(z)
         self.I = I
         self.name = name
         self.group = group
@@ -206,9 +206,9 @@ class SingleCoil(object):
         self.xt = np.real(fftxy)
         self.yt = np.imag(fftxy)
         self.zt = np.real(fftz)
-        self.xt = np.concatenate((self.xt, self.xt[0]))
-        self.yt = np.concatenate((self.yt, self.yt[0]))
-        self.zt = np.concatenate((self.zt, self.zt[0]))
+        self.xt = np.concatenate((self.xt, self.xt[0:1]))
+        self.yt = np.concatenate((self.yt, self.yt[0:1]))
+        self.zt = np.concatenate((self.zt, self.zt[0:1]))
         return         
 
     def toVTK(self, vtkname, **kwargs):
