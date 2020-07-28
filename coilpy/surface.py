@@ -82,9 +82,9 @@ class FourSurf(object):
         Returns:
           fourier_surface class
         """
-        import FortranNamelist.namelist as nml
+        import f90nml
         from misc import vmecMN
-        spec = nml.NamelistFile(filename)
+        spec = f90nml(filename)
         # spec['physicslist'] = 
         Mpol = min(Mpol, spec['physicslist']['MPOL'])
         Ntor = min(Ntor, spec['physicslist']['NTOR'])
