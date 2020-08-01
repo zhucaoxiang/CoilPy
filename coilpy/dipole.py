@@ -15,8 +15,8 @@ class Dipole(object):
         self.sp_switch = False # switch to indicate if using spherical coordinates
         self.xyz_switch = False # switch to indicate if using spherical coordinates
         self.old = False # old format or new
-        self.symmetry = 2 # 0: no symmetry; 1: periodicity; 2: stellarator symmetry (+periodicity)
-        if 'mm' in kwargs: # spherical 
+        #self.symmetry = 2 # 0: no symmetry; 1: periodicity; 2: stellarator symmetry (+periodicity)
+        if 'mm' in kwargs: # spherical coord
             self.ox = kwargs['ox']
             self.oy = kwargs['oy']
             self.oz = kwargs['oz']
@@ -29,9 +29,11 @@ class Dipole(object):
             self.Lc = kwargs['Lc']
             self.num = len(self.ox)
             self.sp_switch = True
-            self.name = kwargs.get('name', 'dipole')
+            self.filename = kwargs.get('filename', 'dipole')
+            self.name = kwargs.get('name', ['pm_{:010d}'.format(i) for i in range(1, self.num+1)])
+            self.symm = kwargs.get('symm', 2*np.ones(self.num, dtype=int))
             self.rho = self.pho**self.momentq
-        elif 'mx' in kwargs:
+        elif 'mx' in kwargs: # cartesian coord
             self.ox = kwargs['ox']
             self.oy = kwargs['oy']
             self.oz = kwargs['oz']
@@ -44,15 +46,23 @@ class Dipole(object):
             self.Ic = np.zeros(self.num, dtype=int)
             self.Lc = np.zeros(self.num, dtype=int)        
             self.xyz_switch = True
-            self.name = kwargs.get('name', 'dipole')
+            self.filename = kwargs.get('filename', 'dipole')
+            self.name = kwargs.get('name', ['pm_{:010d}'.format(i) for i in range(1, self.num+1)])
+            self.symm = kwargs.get('symm', 2*np.ones(self.num, dtype=int))
             self.rho = np.ones(self.num)
         return
 
     @classmethod
     def open(cls, filename, verbose=False, **kwargs):
-        '''
-        read diploes from FOCUS format (new)
-        '''
+        """Read FAMUS dipoles
+
+        Args:
+            filename (str): path to open the file.
+            verbose (bool, optional): Whether to print additional info. Defaults to False.
+
+        Returns:
+            Dipole: Dipole class
+        """        
         import pandas as pd
         with open(filename, 'r') as coilfile:
             coilfile.readline()
@@ -63,6 +73,8 @@ class Dipole(object):
                 print("Moment Q factor was not read. Default=1.")
                 momentq = 1
         data = pd.read_csv(filename, skiprows=3, header=None)
+        symm = np.array(data[1], dtype=int)
+        name = np.array(data[2]) #type string       
         ox = np.array(data[3], dtype=float)
         oy = np.array(data[4], dtype=float)
         oz = np.array(data[5], dtype=float)
@@ -74,19 +86,29 @@ class Dipole(object):
         mt = np.array(data[11], dtype=float)
         if verbose:
             print('Read {:d} dipoles from {:}'.format(len(ox), filename))
-        return cls(ox=ox, oy=oy, oz=oz, Ic=Ic, mm=mm, Lc=Lc, mp=mp, mt=mt, pho=pho, momentq=momentq, name=filename)
+        return cls(symm=symm, name=name, ox=ox, oy=oy, oz=oz, 
+                   Ic=Ic, mm=mm, Lc=Lc, mp=mp, mt=mt, pho=pho, 
+                   momentq=momentq, filename=filename)
 
     @classmethod
     def read_dipole_old(cls, filename, zeta=0.0, zeta1=np.pi*2, **kwargs):
-        '''
-        read diploes from FOCUS format (old)
-        '''
+        """read diploes from FOCUS format (old)
+
+        Args:
+            filename (str): path to open the file.
+            zeta (float, optional): Starting toroidal angle for clipping. Defaults to 0.0.
+            zeta1 (float, optional): [Ending toroidal angle for clipping]. Defaults to np.pi*2.
+
+        Returns:
+            Dipole: Dipole class
+        """
+        symm = []; name = []
         ox = []; oy = []; oz = []
         mm = []; mp = []; mt = []
         Ic = []; Lc = []
         with open(filename, 'r') as coilfile:
             coilfile.readline()
-            Ncoils = int(coilfile.readline())
+            Ncoils = int(coilfile.readline()[0])
             for icoil in range(Ncoils):
                 coilfile.readline()
                 coilfile.readline()
@@ -95,6 +117,8 @@ class Dipole(object):
                     coilfile.readline()
                     linelist = coilfile.readline().split() 
                 elif int(linelist[0]) == 2 : # dipoles
+                    symm.append(int(linelist[1]))
+                    name.append(linelist[2])
                     coilfile.readline()
                     linelist = coilfile.readline().split()
                     r, phi = xy2rp(float(linelist[1]), float(linelist[2]))
@@ -117,6 +141,7 @@ class Dipole(object):
             print('Warning: no dipoles was read from '+filename)
             return
         print('Read {:d} dipoles from {:}. Please manually set self.old=True.'.format(nc, filename))
+        symm = np.array(symm)
         ox = np.array(ox)
         oy = np.array(oy)
         oz = np.array(oz)
@@ -127,7 +152,9 @@ class Dipole(object):
         Ic = np.array(Ic)
         pho = np.ones_like(ox)
         momentq = 1
-        return cls(ox=ox, oy=oy, oz=oz, Ic=Ic, mm=mm, Lc=Lc, mp=mp, mt=mt, pho=pho, momentq=momentq)
+        return cls( symm=symm, name=name, filename=filename,
+                    ox=ox, oy=oy, oz=oz, Ic=Ic, mm=mm, Lc=Lc, 
+                    mp=mp, mt=mt, pho=pho, momentq=momentq )
 
     @classmethod
     def from_regcoil(cls, regcoilname, winding, ilambda=-1, 
@@ -216,14 +243,16 @@ class Dipole(object):
             return phi.ravel()
         
         # initialize dipoles
+        num = num_pol * num_tor
         if symmetry.lower() == 'full':
             zeta_end = 2*np.pi
-            print('Please manually set dipole.symmetry=0')      
+            symm = 0 + np.zeros(num, dtype=np.int)      
         elif symmetry.lower()  == 'one':
             zeta_end = 2*np.pi/nfp
-            print('Please manually set dipole.symmetry=1')
+            symm = 1 + np.zeros(num, dtype=np.int)  
         elif symmetry.lower()  == 'half':
-            zeta_end = 2*np.pi/nfp/2            
+            zeta_end = 2*np.pi/nfp/2
+            symm = 2 + np.zeros(num, dtype=np.int)            
         else:
             raise ValueError('No such symmetry option!')
 
@@ -263,9 +292,8 @@ class Dipole(object):
             mm = m0*nn*dtheta*dzeta
             pho = -phi/m0
 
-        return cls(ox=ox, oy=oy, oz=oz, mp=mp, mt=mt, mm=mm, pho=pho,
+        return cls( symm=symm, ox=ox, oy=oy, oz=oz, mp=mp, mt=mt, mm=mm, pho=pho,
                     Ic=np.ones_like(ox, dtype=int), Lc=np.ones_like(ox, dtype=int), momentq=1)
-
 
     def sp2xyz(self):
         '''
@@ -305,9 +333,8 @@ class Dipole(object):
         '''
         if not self.sp_switch:
             self.xyz2sp()
-        print('symmetry : {:d}'.format(self.symmetry))
         with open(filename, 'w') as wfile :
-            wfile.write(" # Total number of coils,  momentq \n")
+            wfile.write(" # Total number of dipoles,  momentq \n")
             if unique:
                 wfile.write("{:6d},  {:4d}\n".format(self.num/self.nfp, self.momentq))
             else :
@@ -319,7 +346,7 @@ class Dipole(object):
                             continue
                     wfile.write("#-----------------{}---------------------------\n".format(icoil+1))
                     wfile.write("#coil_type   symm  coil_name \n")
-                    wfile.write("   {:1d}  {:1d}  pm_{:010d}\n".format(2, self.symmetry, icoil+1))
+                    wfile.write("   {:1d}  {:1d}  {:} \n".format(2, self.symm[i], self.name[i]))
                     wfile.write("#  Lc  ox   oy   oz  Ic  I  mp  mt \n")
                     wfile.write("{:6d} {:23.15E} {:23.15E} {:23.15E} {:6d} {:23.15E} {:23.15E} {:23.15E}\n"\
                        .format(self.Lc[icoil], self.ox[icoil], self.oy[icoil], self.oz[icoil], \
@@ -330,8 +357,8 @@ class Dipole(object):
                     if unique:
                         if np.mod(i, self.nfp)==0:
                             continue
-                    wfile.write(" 2, {:1d}, pm_{:010d}, {:15.8E}, {:15.8E}, {:15.8E}, {:2d}, {:15.8E}," \
-                   "{:15.8E}, {:2d}, {:15.8E}, {:15.8E} \n".format(self.symmetry, i, self.ox[i], self.oy[i], self.oz[i], 
+                    wfile.write(" 2, {:1d}, {:}, {:15.8E}, {:15.8E}, {:15.8E}, {:2d}, {:15.8E}," \
+                   "{:15.8E}, {:2d}, {:15.8E}, {:15.8E} \n".format(self.symm[i], self.name[i], self.ox[i], self.oy[i], self.oz[i], 
                    self.Ic[i], self.mm[i], self.pho[i], self.Lc[i], self.mp[i], self.mt[i]))
         return
     
@@ -352,7 +379,7 @@ class Dipole(object):
         if not self.xyz_switch:
             self.sp2xyz()
         if vtkname is None:
-            vtkname = self.name
+            vtkname = self.filename
         dim = np.atleast_1d(dim)
         if len(dim) == 1: # save as points
             print("write VTK as points")
@@ -438,7 +465,7 @@ class Dipole(object):
             gridToVTK(vtkname, ox, oy, oz, pointData=data)
         return
 
-    def full_period(self, nfp=1, symmetry=False, dim=None):
+    def full_period(self, nfp=1, dim=None):
         """
         map from one period to full periods
         """
@@ -458,10 +485,11 @@ class Dipole(object):
             self.Ic = np.ravel(np.transpose(np.reshape(self.Ic, dim)[::-1,::-1,::-1], (2,0,1)))
             self.Lc = np.ravel(np.transpose(np.reshape(self.Lc, dim)[::-1,::-1,::-1], (2,0,1)))
             self.pho= np.ravel(np.transpose(np.reshape(self.pho,dim)[::-1,::-1,::-1], (2,0,1)))
-        if symmetry:
+        if np.mean(self.symm) == 2:
             # get the stellarator symmetry part first
             # Here, we assume no dipoles on the symmetry plane, or only half are listed.
             self.num *= 2
+            self.name = np.concatenate((self.name , self.name[::-1]))
             self.ox = np.concatenate((self.ox , self.ox[::-1]))
             self.oy = np.concatenate((self.oy , self.oy[::-1]*(-1)))
             self.oz = np.concatenate((self.oz , self.oz[::-1]*(-1)))
@@ -484,10 +512,15 @@ class Dipole(object):
         self.pho = np.tile(self.pho, self.nfp)
         self.Ic = np.tile(self.Ic, self.nfp)
         self.Lc = np.tile(self.Lc, self.nfp)
-        self.num *= self.nfp        
+        self.name = np.tile(self.name, self.nfp)
+        self.num *= self.nfp
+        self.symm = np.zeros(self.num, dtype=int)
+        self.sp_switch = False  
         return
     
     def inverse(self):
+        """get the stellarator symmetric part?
+        """        
         if not self.xyz_switch:
             self.sp2xyz()
         self.ox = np.copy(self.ox[::-1])
@@ -504,7 +537,7 @@ class Dipole(object):
         
     def change_momentq(self, newq):
         """
-        change the q factor for density function
+        change the q factor for the normalized density
         """
         assert newq>0
         pho = self.pho**self.momentq
@@ -572,13 +605,21 @@ class Dipole(object):
         ax = fig.add_subplot(111, projection='3d')
         ax.scatter(self.ox[start:end], self.oy[start:end], self.oz[start:end], **kwargs)
         return ax
-        
+
+    def __repr__(self):
+        return 'FAMUS dipole class, num={:d}, symmetry={:}, filename={:}'.format(
+                self.num, np.mean(self.symm), self.filename)
+
     def __add__(self, other):
         """ Combine two dipole files together
         
         """
-        assert self.momentq == other.momentq
-        return Dipole(ox=np.concatenate((self.ox, other.ox)),
+        if not self.sp_switch:
+            self.xyz2sp()
+        assert self.momentq == other.momentq, "Two classes should use the same momentq."
+        return Dipole(symm=np.concatenate((self.symm, other.symm)),
+                      name=np.concatenate((self.name, other.name)),
+                      ox=np.concatenate((self.ox, other.ox)),
                       oy=np.concatenate((self.oy, other.oy)),
                       oz=np.concatenate((self.oz, other.oz)),
                       Ic=np.concatenate((self.Ic, other.Ic)),
@@ -588,7 +629,14 @@ class Dipole(object):
                       mt=np.concatenate((self.mt, other.mt)),
                       pho=np.concatenate((self.pho, other.pho)),
                       momentq=self.momentq, 
-                      name=self.name + '+' + other.name)
+                      filename=self.filename + '+' + other.filename)
         
     def __del__(self):
         class_name = self.__class__.__name__
+
+class GAdipole(Dipole):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+if __name__ == 'main':
+    pass
