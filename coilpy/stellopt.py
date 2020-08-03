@@ -319,7 +319,14 @@ class STELLout(SortedDict, OMFITascii):
                 self[item+'_SCAL11'] = np.squeeze(self[item][:,:,12])
                 self[item+'_SCAL33'] = np.squeeze(self[item][:,:,13])
                 self[item+'_SCAL31'] = np.squeeze(self[item][:,:,14])
-    def plot_helicity(self, ordering=False, mn=(None, None), ax=None, **kwargs):
+    def plot_helicity(self, ordering=0, mn=(None, None), ax=None, **kwargs):
+        """Plot |B| components in Boozer coordinates from BOOZ_XFORM
+
+        Args:
+            ordering (integer, optional): Plot the leading Nordering asymmetric modes. Defaults to 0.
+            mn (tuple, optional): Plot the particular (m,n) mode. Defaults to (None, None).
+            ax (Matplotlib axis, optional): Matplotlib axis to be plotted on. Defaults to None.
+        """        
         xs = self['HELICITY_FULL_k']
         xs = np.array(np.unique(xs), dtype=int)
         ns = len(xs)
@@ -356,7 +363,7 @@ class STELLout(SortedDict, OMFITascii):
                 nfilter = (xn == mn[1])
                 n = 'n={:}'.format(mn[1])
             else:
-                nfilter = np.full(np.shape(xn), True)
+                nfilter = (xn != 0)
                 n = r'n \neq 0'
             cond = np.logical_and(mfilter, nfilter)
             data = np.reshape(vals[cond], (ns, -1))
