@@ -346,7 +346,7 @@ class Dipole(object):
                             continue
                     wfile.write("#-----------------{}---------------------------\n".format(icoil+1))
                     wfile.write("#coil_type   symm  coil_name \n")
-                    wfile.write("   {:1d}  {:1d}  {:} \n".format(2, self.symm[i], self.name[i]))
+                    wfile.write("   {:1d}  {:1d}  {:} \n".format(2, self.symm[icoil], self.name[icoil]))
                     wfile.write("#  Lc  ox   oy   oz  Ic  I  mp  mt \n")
                     wfile.write("{:6d} {:23.15E} {:23.15E} {:23.15E} {:6d} {:23.15E} {:23.15E} {:23.15E}\n"\
                        .format(self.Lc[icoil], self.ox[icoil], self.oy[icoil], self.oz[icoil], \
