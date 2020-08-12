@@ -4,17 +4,7 @@ This is a cutomized python package for plotting and data processing in stellarat
 how to use:
 
 """
-"""
-# some dependant libraries
-from mayavi import mlab
-import numpy as np
-import matplotlib.pyplot as plt
-from mayavi import mlab # to overrid plt.mlab
-import warnings
-import sys
-from pyevtk.hl import gridToVTK, pointsToVTK
-import pandas as pd
-"""
+__version__ = 0.2.8
 
 # local packages
 from .misc import colorbar, get_figure, kwargs2dict, map_matrix, print_progress, toroidal_period, vmecMN, xy2rp, trigfft, fft_deriv
