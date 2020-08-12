@@ -319,21 +319,25 @@ class STELLout(SortedDict, OMFITascii):
                 self[item+'_SCAL11'] = np.squeeze(self[item][:,:,12])
                 self[item+'_SCAL33'] = np.squeeze(self[item][:,:,13])
                 self[item+'_SCAL31'] = np.squeeze(self[item][:,:,14])
-    def plot_helicity(self, ordering=0, mn=(None, None), ax=None, **kwargs):
+    def plot_helicity(self, it=-1, ordering=0, mn=(None, None), ax=None, **kwargs):     
         """Plot |B| components in Boozer coordinates from BOOZ_XFORM
 
         Args:
+            it (int, optional): Iteration index to be plotted. Defaults to -1.
             ordering (integer, optional): Plot the leading Nordering asymmetric modes. Defaults to 0.
             mn (tuple, optional): Plot the particular (m,n) mode. Defaults to (None, None).
             ax (Matplotlib axis, optional): Matplotlib axis to be plotted on. Defaults to None.
+        
+        Returns:
+            data (numpy.ndarray): The selected Fourier harmonics.
         """        
         xs = self['HELICITY_FULL_k']
         xs = np.array(np.unique(xs), dtype=int)
         ns = len(xs)
         xx = (xs-1)/np.max(xs) # max(xs) might be different from NS
-        vals = np.reshape(self['HELICITY_FULL_equil'], (ns, -1))
-        xm = np.reshape(np.array(self['HELICITY_FULL_m'], dtype=int), (ns, -1))
-        xn = np.reshape(np.array(self['HELICITY_FULL_n'], dtype=int), (ns, -1))
+        vals = np.reshape(self['HELICITY_FULL_equil'][it], (ns, -1))
+        xm = np.reshape(np.array(self['HELICITY_FULL_m'][it], dtype=int), (ns, -1))
+        xn = np.reshape(np.array(self['HELICITY_FULL_n'][it], dtype=int), (ns, -1))
         # get figure and ax data
         if plt.get_fignums():
             fig = plt.gcf()
@@ -373,7 +377,7 @@ class STELLout(SortedDict, OMFITascii):
         plt.ylabel(ylabel, fontsize=16)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        return
+        return data
 
 class VMECout(SortedDict):
     """
