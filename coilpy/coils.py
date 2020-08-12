@@ -288,11 +288,16 @@ class Coil(object):
         # print(len(xx) , len(yy) , len(zz) , len(II) , len(names) , len(groups))
         return cls(xx=xx, yy=yy, zz=zz, II=II, names=names, groups=groups)
 
-    def plot(self, **kwargs):
-        """Plot coils in mayavi or matplotlib
+    def plot(self, irange=[], **kwargs):
+        """Plot coils in mayavi or matplotlib  
+
+        Args:
+            irange (list, optional): Coil list to be plotted. Defaults to [].
         """        
-        for icoil in list(self):
-            icoil.plot(**kwargs)
+        if len(irange)==0:
+            irange = range(self.num)    
+        for i in irange:
+            self.data[i].plot(**kwargs)
         return
 
     def save_makegrid(self, filename, nfp=1, **kwargs):
