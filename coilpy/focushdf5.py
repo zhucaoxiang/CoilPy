@@ -270,14 +270,19 @@ class FOCUSHDF5(HDF5):
         # automatically get a file name, focus_*.h5 -> vtk_*
         if name is None:
             name = self.filename[:-3].replace('focus_', 'vtk_')
-        xx = np.atleast_3d(map_matrix(self.xsurf, first=False))
-        yy = np.atleast_3d(map_matrix(self.ysurf, first=False))
-        zz = np.atleast_3d(map_matrix(self.zsurf, first=False))
-        Bn = np.atleast_3d(map_matrix(self.Bn, first=False))
-        plas_Bn =  np.atleast_3d(map_matrix(self.plas_Bn, first=False))
-        B = (np.atleast_3d(map_matrix(self.Bx, first=False)),
-             np.atleast_3d(map_matrix(self.By, first=False)),
-             np.atleast_3d(map_matrix(self.Bz, first=False)))
+        xx = self.xsurf ; yy = self.ysurf ; zz = self.zsurf
+        Bx = self.Bx    ; By = self.By    ; Bz = self.Bz
+        Bn = self.Bn
+        plas_Bn = self.plas_Bn
+        toroidal = full
+        xx = np.atleast_3d(map_matrix(xx, first=toroidal))
+        yy = np.atleast_3d(map_matrix(yy, first=toroidal))
+        zz = np.atleast_3d(map_matrix(zz, first=toroidal))
+        Bn = np.atleast_3d(map_matrix(Bn, first=toroidal))
+        plas_Bn =  np.atleast_3d(map_matrix(plas_Bn, first=toroidal))
+        B = (np.atleast_3d(map_matrix(Bx, first=toroidal)),
+             np.atleast_3d(map_matrix(By, first=toroidal)),
+             np.atleast_3d(map_matrix(Bz, first=toroidal)))
         if full :
             pass
         data = {"Bn":Bn, "plas_Bn":plas_Bn, "B":B}
