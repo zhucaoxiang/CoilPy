@@ -127,6 +127,49 @@ class BOOZ_XFORM(SortedDict):
         plt.yticks(fontsize=15)
         return ax
 
+    def plot2d(self, ns=-1, npol=128, ntor=128, ax=None, contour=True, **kwargs):
+        """Plot |B| contour on the flux surface
+
+        Args:
+            ns (int, optional): Flux surface index in self.jlist. Defaults to -1.
+            npol (int, optional): Poloidal resolution. Defaults to 128.
+            ntor (int, optional): Toroidal resolution. Defaults to 128.
+            ax (Matplotlib axis, optional): Matplotlib axis to be plotted on. Defaults to None.
+            contour (bool, optional): Whether plotting the contour lines. Defaults to True.
+
+        Returns:
+            ax (Matplotlib axis): Matplotlib axis plotted on.
+        """        
+        _theta = np.linspace(0, np.pi*2, npol, endpoint=True)
+        _zeta  = np.linspace(0, np.pi*2, ntor, endpoint=True)
+        _tv, _zv = np.meshgrid(_theta, _zeta, indexing='ij')        
+        # mt - nz (in matrix)
+        _mtnz = np.matmul( np.reshape(self.xm, (-1,1)), np.reshape(_tv, (1,-1)) ) \
+              - np.matmul( np.reshape(self.xn, (-1,1)), np.reshape(_zv, (1,-1)) ) 
+        _cos = np.cos(_mtnz)
+        _sin = np.sin(_mtnz)
+
+        modB = np.reshape(np.matmul(np.reshape(self.bmnc[ns,:], (1,-1)), _cos), (npol, ntor))
+        # get figure and ax data
+        if ax is None:
+            fig, ax = plt.subplots()
+        plt.sca(ax)
+        bl = ax.imshow(modB, origin='lower', extent=[0, 2*np.pi, 0, 2*np.pi])
+        plt.xticks(np.linspace(0, 2*np.pi, 3), 
+                   ['0', r'$\pi/{:d}$'.format(self.nfp), r'$2\pi/{:d}$'.format(self.nfp)], fontsize=15)
+        plt.yticks(np.linspace(0, 2*np.pi, 3), ['0', r'$\pi$', r'$2\pi$'], fontsize=15)
+        if contour:
+            ax.contour(_zeta, _theta, modB, colors='grey')
+        clb = plt.colorbar(bl)
+        clb.ax.tick_params(labelsize=15)
+        clb.ax.set_title('|B|(T)', fontsize=15)
+        plt.xlabel(r'$\zeta_{Boozer}$', fontsize=16)
+        plt.ylabel(r'$\theta_{Boozer}$', fontsize=16)
+        import matplotlib.ticker as tck
+        ax.xaxis.set_minor_locator(tck.AutoMinorLocator())
+        ax.yaxis.set_minor_locator(tck.AutoMinorLocator())
+        return ax
+
     def to_FOCUS(self, ns=-1, focus_file='plasma.boundary', tol=1.0E-8):
         """Write a FOCUS plasma boundary file in Boozer coordinates
 
