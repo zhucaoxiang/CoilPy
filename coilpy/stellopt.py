@@ -3,6 +3,7 @@ from builtins import map, filter, range
 from .sortedDict import SortedDict
 import numpy as np 
 import matplotlib.pyplot as plt
+from .misc import get_figure
 
 __all__ = ['STELLout', 'OMFITascii']
 
@@ -283,7 +284,27 @@ class STELLout(SortedDict, OMFITascii):
                 self[item+'_SCAL11'] = np.squeeze(self[item][:,:,12])
                 self[item+'_SCAL33'] = np.squeeze(self[item][:,:,13])
                 self[item+'_SCAL31'] = np.squeeze(self[item][:,:,14])
+        self['chisq'] = ((self['TARGETS'] - self['VALS'])/self['SIGMAS'])**2 
         return
+
+    def plot(self, ax=None, all=True, **kwargs):
+        import itertools
+        marker = itertools.cycle(('s', '+', '^', 'o', '*')) 
+        # plot the overall iterations
+        # set default plotting parameters
+        if kwargs.get('linewidth') == None:
+            kwargs.update({'linewidth': 2.0}) # prefer thicker lines
+        if kwargs.get('label') == None:
+            kwargs.update({'label': 'Total_Chisq'}) # default label 
+        f, ax = get_figure(ax)
+        ax.plot(self['ITER'], np.sum(np.atleast_2d(self['chisq']), axis=1), **kwargs)
+        if all:
+            for key in self.keys():
+                if '_chisq' in key:
+                    label = key.replace('_chisq', '')
+                    ax.plot(self['ITER'], np.sum(np.atleast_2d(self[key]), axis=1), label=label, marker=next(marker), linestyle='')
+            plt.legend()
+        return ax
 
     def plot_helicity(self, it=-1, ordering=0, mn=(None, None), ax=None, **kwargs):     
         """Plot |B| components in Boozer coordinates from BOOZ_XFORM
