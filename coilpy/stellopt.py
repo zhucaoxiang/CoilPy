@@ -4,6 +4,8 @@ from .sortedDict import SortedDict
 import numpy as np 
 import matplotlib.pyplot as plt
 
+__all__ = ['STELLout', 'OMFITascii']
+
 class OMFITascii(object):
     """
     OMFIT class used to interface with ASCII files
@@ -50,44 +52,6 @@ class OMFITascii(object):
         '''
         open(self.filename, 'a').write(value)
         return self.read()
-
-__all__ = ['STELLout', 'VMECout', 'OMFITascii']#, 'OMFITfocuscoils']
-
-def cfunct(theta,zeta,fmnc,xm,xn):
-    (ns,mn)=fmnc.shape
-    lt = len(theta)
-    lz = len(zeta)
-    mt=np.matmul(np.transpose(np.atleast_2d(xm)),np.atleast_2d(theta))
-    nz=np.matmul(np.transpose(np.atleast_2d(xn)),np.atleast_2d(zeta))
-    cosmt=np.cos(mt)
-    sinmt=np.sin(mt)
-    cosnz=np.cos(nz)
-    sinnz=np.sin(nz)
-    f = np.zeros((ns,lt,lz))
-    fmn = np.ndarray((mn,lt))
-    for k in range(ns):
-        fmn = np.broadcast_to(fmnc[k,:],(lt,mn)).transpose()
-        fmncosmt=(fmn*cosmt).transpose()
-        fmnsinmt=(fmn*sinmt).transpose()
-        f[k,:,:]=np.matmul(fmncosmt, cosnz)-np.matmul(fmnsinmt, sinnz)
-    return f
-    
-def sfunct(theta,zeta,fmnc,xm,xn):
-    (ns,mn)=fmnc.shape
-    lt = len(theta)
-    lz = len(zeta)
-    mt=np.matmul(np.transpose(np.atleast_2d(xm)),np.atleast_2d(theta))
-    nz=np.matmul(np.transpose(np.atleast_2d(xn)),np.atleast_2d(zeta))
-    cosmt=np.cos(mt)
-    sinmt=np.sin(mt)
-    cosnz=np.cos(nz)
-    sinnz=np.sin(nz)
-    f = np.zeros((ns,lt,lz))
-    fmn = np.ndarray((mn,lt))
-    for k in range(ns):
-        fmn = np.broadcast_to(fmnc[k,:],(lt,mn)).transpose()
-        f[k,:,:]=np.matmul((fmn*sinmt).transpose(),cosnz)+np.matmul((fmn*cosmt).transpose(),sinnz)
-    return f
 
 class STELLout(SortedDict, OMFITascii):
     """
@@ -319,6 +283,8 @@ class STELLout(SortedDict, OMFITascii):
                 self[item+'_SCAL11'] = np.squeeze(self[item][:,:,12])
                 self[item+'_SCAL33'] = np.squeeze(self[item][:,:,13])
                 self[item+'_SCAL31'] = np.squeeze(self[item][:,:,14])
+        return
+
     def plot_helicity(self, it=-1, ordering=0, mn=(None, None), ax=None, **kwargs):     
         """Plot |B| components in Boozer coordinates from BOOZ_XFORM
 
@@ -327,10 +293,12 @@ class STELLout(SortedDict, OMFITascii):
             ordering (integer, optional): Plot the leading Nordering asymmetric modes. Defaults to 0.
             mn (tuple, optional): Plot the particular (m,n) mode. Defaults to (None, None).
             ax (Matplotlib axis, optional): Matplotlib axis to be plotted on. Defaults to None.
+            kwargs (dict): Keyword arguments for matplotlib.pyplot.plot. Defaults to {}.
         
         Returns:
-            data (numpy.ndarray): The selected Fourier harmonics.
-        """        
+            ax (Matplotlib axis): Matplotlib axis plotted on.
+        """ 
+        from .booz_xform import BOOZ_XFORM    
         xs = self['HELICITY_FULL_k']
         xs = np.array(np.unique(xs), dtype=int)
         ns = len(xs)
@@ -338,144 +306,4 @@ class STELLout(SortedDict, OMFITascii):
         vals = np.reshape(self['HELICITY_FULL_equil'][it], (ns, -1))
         xm = np.reshape(np.array(self['HELICITY_FULL_m'][it], dtype=int), (ns, -1))
         xn = np.reshape(np.array(self['HELICITY_FULL_n'][it], dtype=int), (ns, -1))
-        # get figure and ax data
-        if plt.get_fignums():
-            fig = plt.gcf()
-            ax = plt.gca()
-        else :
-            fig, ax = plt.subplots()
-        if ordering:
-            assert ordering >= 1
-            data = np.linalg.norm(vals, axis=0)
-            ind_arg = np.argsort(data)
-            for i in range(ordering):
-                ind = ind_arg[-1-i] # index of the i-th largest term
-                m = xm[0, ind]
-                n = xn[0, ind]
-                kwargs['label'] = 'm={:}, n={:}'.format(m,n)
-                ax.plot(xx, vals[:, ind], **kwargs)
-            ylabel = r'$\frac{B_{m,n}}{ \Vert B_{n=0} \Vert }$'
-        else:
-            # determine filter condition
-            if mn[0] is not None:
-                mfilter = (xm == mn[0])
-                m = 'm={:}'.format(mn[0])
-            else:
-                mfilter = np.full(np.shape(xm), True)
-                m = 'm'
-            if mn[1] is not None:
-                nfilter = (xn == mn[1])
-                n = 'n={:}'.format(mn[1])
-            else:
-                nfilter = (xn != 0)
-                n = r'n \neq 0'
-            cond = np.logical_and(mfilter, nfilter)
-            data = np.reshape(vals[cond], (ns, -1))
-            line = ax.plot(xx, np.linalg.norm(data, axis=1), **kwargs)
-            ylabel = r'$ \frac{{ \Vert B_{{ {:},{:} }} \Vert }}{{ \Vert B_{{n=0}} \Vert }} $'.format(m, n)
-        plt.xlabel('normalized flux (s)', fontsize=16)
-        plt.ylabel(ylabel, fontsize=16)
-        plt.xticks(fontsize=15)
-        plt.yticks(fontsize=15)
-        return data
-
-class VMECout(SortedDict):
-    """
-    OMFITobject used to interact VMEC wout file
-
-    :param filename: filename passed to OMFITnc class
-
-    All additional key word arguments passed to OMFITnc
-
-    """
-
-    def __init__(self, filename, **kwargs):
-        import xarray
-        SortedDict.__init__(self)
-        self['vmec_data'] = xarray.open_dataset(filename)
-        self.dynaLoad = True
-
-    def load(self):
-        self['ns'] = int(self['vmec_data']['ns'].values)
-        self['nu'] = int(self['vmec_data']['mpol'].values*4)
-        self['nv'] = int(self['vmec_data']['ntor'].values*4*self['vmec_data']['nfp'].values)
-        self['nv2'] = int(self['vmec_data']['ntor'].values*4)
-        self['nflux'] = np.linspace(0,1,self['ns']) # np.ndarray((self['ns'],1))
-        self['theta'] = np.linspace(0,2*np.pi,self['nu']) # np.ndarray((self['nu'],1))
-        self['zeta'] = np.linspace(0,2*np.pi,self['nv']) # np.ndarray((self['nv'],1))
-        self['zeta2']=self['zeta'][0:self['nv2']+1]
-        self['r']=cfunct(self['theta'],self['zeta'],self['vmec_data']['rmnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['z']=sfunct(self['theta'],self['zeta'],self['vmec_data']['zmns'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['b']=cfunct(self['theta'],self['zeta'],self['vmec_data']['bmnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['g']=cfunct(self['theta'],self['zeta'],self['vmec_data']['gmnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['bu']=cfunct(self['theta'],self['zeta'],self['vmec_data']['bsupumnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['bv']=cfunct(self['theta'],self['zeta'],self['vmec_data']['bsupvmnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['cu']=cfunct(self['theta'],self['zeta'],self['vmec_data']['currumnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['cv']=cfunct(self['theta'],self['zeta'],self['vmec_data']['currvmnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['b_s']=sfunct(self['theta'],self['zeta'],self['vmec_data']['bsubsmns'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['b_u']=cfunct(self['theta'],self['zeta'],self['vmec_data']['bsubumnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['b_v']=cfunct(self['theta'],self['zeta'],self['vmec_data']['bsubvmnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-
-    def plot(self, plot_name='Summary', ax=None):
-        if ax is None:
-            fig, ax = plt.subplots()
-        else:
-            fig = ax.get_figure()
-        if (plot_name == 'Summary'):
-                print(plot_name)
-        elif (plot_name == 'Iota'):
-                ax.plot(self['nflux'],self['vmec_data']['iotaf'].values)
-                ax.set_xlabel('Normalized Flux')
-                ax.set_ylabel('iota')
-                ax.set_title('Rotational Transform')
-                #ax.set(xlabel='s',ylabel='iota',aspect='square')
-        elif (plot_name == 'q'):
-                ax.plot(self['nflux'],1.0/self['vmec_data']['iotaf'].values)
-                ax.set_xlabel('Normalized Flux')
-                ax.set_ylabel('q')
-                ax.set_title('Safety Factor')
-        elif (plot_name == 'Pressure'):
-                ax.plot(self['nflux'],self['vmec_data']['presf'].values/1000)
-                ax.set_xlabel('Normalized Flux')
-                ax.set_ylabel('Pressure [kPa]')
-                ax.set_title('Pressure Profile')
-        elif (plot_name == '<Buco>'):
-                ax.plot(self['nflux'],self['vmec_data']['buco'].values)
-                ax.set_xlabel('Normalized Flux')
-                ax.set_ylabel('<B^u> [T]')
-                ax.set_title('Flux surface Averaged B^u')
-        elif (plot_name == '<Bvco>'):
-                ax.plot(self['nflux'],self['vmec_data']['bvco'].values)
-                ax.set_xlabel('Normalized Flux')
-                ax.set_ylabel('<B^v> [T]')
-                ax.set_title('Flux surface Averaged B^v')
-        elif (plot_name == '<jcuru>'):
-                ax.plot(self['nflux'],self['vmec_data']['jcuru'].values/1000)
-                ax.set_xlabel('Normalized Flux')
-                ax.set_ylabel('<j^u> [kA/m^2]')
-                ax.set_title('Flux surface Averaged j^u')
-        elif (plot_name == '<jcurv>'):
-                ax.plot(self['nflux'],self['vmec_data']['jcurv'].values/1000)
-                ax.set_xlabel('Normalized Flux')
-                ax.set_ylabel('<j^v> [kA/m^2]')
-                ax.set_title('Flux surface Averaged j^v')
-        elif (plot_name == '<j.B>'):
-                ax.plot(self['nflux'],self['vmec_data']['jdotb'].values/1000)
-                ax.set_xlabel('Normalized Flux')
-                ax.set_ylabel('<j.B> [T*kA/m^2]')
-                ax.set_title('Flux surface Averaged j.B')
-        elif (plot_name == 'LPK'):
-                ax.plot(self['r'][self['ns']-1,:,0],self['z'][self['ns']-1,:,0],color='red')
-                ax.plot(self['r'][0,0,0],self['z'][0,0,0],'+',color='red')
-                ax.plot(self['r'][self['ns']-1,:,int(self['nv2']/4)],self['z'][self['ns']-1,:,int(self['nv2']/4)],color='green')
-                ax.plot(self['r'][0,0,int(self['nv2']/4)],self['z'][0,0,int(self['nv2']/4)],'+',color='green')
-                ax.plot(self['r'][self['ns']-1,:,int(self['nv2']/2)],self['z'][self['ns']-1,:,int(self['nv2']/2)],color='blue')
-                ax.plot(self['r'][0,0,int(self['nv2']/2)],self['z'][0,0,int(self['nv2']/2)],'+',color='blue')
-                ax.set_xlabel('R [m]')
-                ax.set_ylabel('Z [m]')
-                ax.set_title('LPK Plot')
-                ax.set_aspect('equal')
-        elif (plot_name[0] == '-'):
-                print(plot_name)
-        else:
-            return
+        return BOOZ_XFORM.plot_helicity(vals, xm[0,:], xn[0,:], xx, ordering, mn, ax, **kwargs)
