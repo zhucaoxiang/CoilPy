@@ -100,7 +100,7 @@ class BOOZ_XFORM(SortedDict):
                 m = xm[ind]
                 n = xn[ind]
                 kwargs['label'] = 'm={:}, n={:}'.format(m,n)
-                ax.plot(xx, vals[:, ind], **kwargs)
+                ax.semilogy(xx, vals[:, ind], **kwargs)
             ylabel = r'$\frac{B_{m,n}}{ \Vert B_{n=0} \Vert }$'
         else:
             # determine filter condition
@@ -119,7 +119,7 @@ class BOOZ_XFORM(SortedDict):
             cond = np.logical_and(mfilter, nfilter)
             #data = np.reshape(vals[:, cond], (ns, -1))
             data = vals[:, cond]
-            line = ax.plot(xx, np.linalg.norm(data, axis=1), **kwargs)
+            line = ax.semilogy(xx, np.linalg.norm(data, axis=1), **kwargs)
             ylabel = r'$ \frac{{ \Vert B_{{ {:},{:} }} \Vert }}{{ \Vert B_{{n=0}} \Vert }} $'.format(m, n)
         plt.xlabel('normalized flux (s)', fontsize=16)
         plt.ylabel(ylabel, fontsize=16)

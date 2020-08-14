@@ -297,12 +297,12 @@ class STELLout(SortedDict, OMFITascii):
         if kwargs.get('label') == None:
             kwargs.update({'label': 'Total_Chisq'}) # default label 
         f, ax = get_figure(ax)
-        ax.plot(self['ITER'], np.sum(self['chisq'], axis=1), **kwargs)
+        ax.semilogy(self['ITER'], np.sum(self['chisq'], axis=1), **kwargs)
         if all:
             for key in self.keys():
                 if '_chisq' in key:
                     label = key.replace('_chisq', '')
-                    ax.plot(self['ITER'], np.sum(self[key], axis=1), label=label, marker=next(marker), linestyle='')
+                    ax.semilogy(self['ITER'], np.sum(self[key], axis=1), label=label, marker=next(marker), linestyle='')
             plt.legend()
         return ax
 
