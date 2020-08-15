@@ -1,3 +1,5 @@
+# modified from stellopt.pySTEL
+
 from __future__ import print_function, absolute_import
 from builtins import map, filter, range
 from .sortedDict import SortedDict
@@ -304,6 +306,8 @@ class STELLout(SortedDict, OMFITascii):
                     label = key.replace('_chisq', '')
                     ax.semilogy(self['ITER'], np.sum(self[key], axis=1), label=label, marker=next(marker), linestyle='')
             plt.legend()
+        plt.xlabel('iterations')
+        plt.ylabel('chisq')
         return ax
 
     def plot_helicity(self, it=-1, ordering=0, mn=(None, None), ax=None, **kwargs):     
