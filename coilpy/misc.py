@@ -212,3 +212,18 @@ def fft_deriv(y):
         dt = (np.arange(N) - np.concatenate((np.zeros(N//2), N*np.ones(N//2+1))))*1j
     return ifft(comp*dt)
 
+def trig2real(theta, zeta, xm, xn, fmnc=None, fmns=None):
+        npol, ntor = len(theta), len(zeta)
+        _tv, _zv = np.meshgrid(theta, zeta, indexing='ij')
+        # mt - nz (in matrix)
+        _mtnz = np.matmul( np.reshape(xm, (-1,1)), np.reshape(_tv, (1,-1)) ) \
+              - np.matmul( np.reshape(xn, (-1,1)), np.reshape(_zv, (1,-1)) ) 
+        _cos = np.cos(_mtnz)
+        _sin = np.sin(_mtnz)
+
+        f = np.zeros((1, npol*ntor))
+        if fmnc is not None:
+            f += np.matmul(np.reshape(fmnc, (1,-1)), _cos)
+        if fmns is not None:
+            f += np.matmul(np.reshape(fmns, (1,-1)), _sin)
+        return f.reshape(npol, ntor)     

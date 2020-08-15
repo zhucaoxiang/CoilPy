@@ -1,6 +1,7 @@
 import numpy as np 
 import matplotlib.pyplot as plt
 from .sortedDict import SortedDict
+from .misc import trig2real
 
 __all__ = ['BOOZ_XFORM']
 
@@ -142,14 +143,7 @@ class BOOZ_XFORM(SortedDict):
         """        
         _theta = np.linspace(0, np.pi*2, npol, endpoint=True)
         _zeta  = np.linspace(0, np.pi*2, ntor, endpoint=True)
-        _tv, _zv = np.meshgrid(_theta, _zeta, indexing='ij')        
-        # mt - nz (in matrix)
-        _mtnz = np.matmul( np.reshape(self.xm, (-1,1)), np.reshape(_tv, (1,-1)) ) \
-              - np.matmul( np.reshape(self.xn, (-1,1)), np.reshape(_zv, (1,-1)) ) 
-        _cos = np.cos(_mtnz)
-        _sin = np.sin(_mtnz)
-
-        modB = np.reshape(np.matmul(np.reshape(self.bmnc[ns,:], (1,-1)), _cos), (npol, ntor))
+        modB = trig2real(_theta, _zeta, self.xm, self.xn, self.bmnc[ns,:])
         # get figure and ax data
         if ax is None:
             fig, ax = plt.subplots()
