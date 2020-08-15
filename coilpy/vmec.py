@@ -1,49 +1,16 @@
+# modified from stellopt.pySTEL
+
 import numpy as np 
+import xarray
 import matplotlib.pyplot as plt
-from .sortedDict import SortedDict
+from .misc import trig2real
+from .surface import FourSurf
 
 __all__ = ['VMECout']
 
-def cfunct(theta,zeta,fmnc,xm,xn):
-    (ns,mn)=fmnc.shape
-    lt = len(theta)
-    lz = len(zeta)
-    mt=np.matmul(np.transpose(np.atleast_2d(xm)),np.atleast_2d(theta))
-    nz=np.matmul(np.transpose(np.atleast_2d(xn)),np.atleast_2d(zeta))
-    cosmt=np.cos(mt)
-    sinmt=np.sin(mt)
-    cosnz=np.cos(nz)
-    sinnz=np.sin(nz)
-    f = np.zeros((ns,lt,lz))
-    fmn = np.ndarray((mn,lt))
-    for k in range(ns):
-        fmn = np.broadcast_to(fmnc[k,:],(lt,mn)).transpose()
-        fmncosmt=(fmn*cosmt).transpose()
-        fmnsinmt=(fmn*sinmt).transpose()
-        f[k,:,:]=np.matmul(fmncosmt, cosnz)-np.matmul(fmnsinmt, sinnz)
-    return f
-    
-def sfunct(theta,zeta,fmnc,xm,xn):
-    (ns,mn)=fmnc.shape
-    lt = len(theta)
-    lz = len(zeta)
-    mt=np.matmul(np.transpose(np.atleast_2d(xm)),np.atleast_2d(theta))
-    nz=np.matmul(np.transpose(np.atleast_2d(xn)),np.atleast_2d(zeta))
-    cosmt=np.cos(mt)
-    sinmt=np.sin(mt)
-    cosnz=np.cos(nz)
-    sinnz=np.sin(nz)
-    f = np.zeros((ns,lt,lz))
-    fmn = np.ndarray((mn,lt))
-    for k in range(ns):
-        fmn = np.broadcast_to(fmnc[k,:],(lt,mn)).transpose()
-        f[k,:,:]=np.matmul((fmn*sinmt).transpose(),cosnz)+np.matmul((fmn*cosmt).transpose(),sinnz)
-    return f
-
-
-class VMECout(SortedDict):
+class VMECout(object):
     """
-    OMFITobject used to interact VMEC wout file
+    VMEC wout file
 
     :param filename: filename passed to OMFITnc class
 
@@ -52,91 +19,89 @@ class VMECout(SortedDict):
     """
 
     def __init__(self, filename, **kwargs):
-        import xarray
-        SortedDict.__init__(self)
-        self['vmec_data'] = xarray.open_dataset(filename)
-        self.dynaLoad = True
+        self.wout = xarray.open_dataset(filename, 'r')
+        self.data = {}
+        self.data['ns'] = int(self.wout['ns'].values)
+        self.data['nfp'] = int(self.wout['nfp'].values)
+        self.data['nu'] = int(self.wout['mpol'].values*4)
+        self.data['nv'] = int(self.wout['ntor'].values*4*self.wout['nfp'].values)
+        self.data['nv2'] = int(self.wout['ntor'].values*4)
+        self.data['nflux'] = np.linspace(0,1,self.data['ns']) # np.ndarray((self.data['ns'],1))
+        self.data['theta'] = np.linspace(0,2*np.pi,self.data['nu']) # np.ndarray((self.data['nu'],1))
+        self.data['zeta'] = np.linspace(0,2*np.pi,self.data['nv']) # np.ndarray((self.data['nv'],1))
+        self.data['zeta2']= self.data['zeta'][0:self.data['nv2']+1]
+        self.surface = []
+        self.data['b'] = []
+        for i in range(self.data['ns']):
+            self.surface.append(FourSurf(xm=self.wout['xm'].values, xn=self.wout['xn'].values,
+                                         rbc=self.wout['rmnc'][i].values, rbs=np.zeros_like(self.wout['rmnc'][i].values),
+                                         zbs=self.wout['zmns'][i].values, zbc=np.zeros_like(self.wout['zmns'][i].values)))
+            # self.data['b'].append(trig2real(self.data['theta'], self.data['zeta'],
+            #                                 self.wout['xm'].values, self.wout['xn'].values, self.wout['bmnc'][i].values))
+        return
 
-    def load(self):
-        self['ns'] = int(self['vmec_data']['ns'].values)
-        self['nu'] = int(self['vmec_data']['mpol'].values*4)
-        self['nv'] = int(self['vmec_data']['ntor'].values*4*self['vmec_data']['nfp'].values)
-        self['nv2'] = int(self['vmec_data']['ntor'].values*4)
-        self['nflux'] = np.linspace(0,1,self['ns']) # np.ndarray((self['ns'],1))
-        self['theta'] = np.linspace(0,2*np.pi,self['nu']) # np.ndarray((self['nu'],1))
-        self['zeta'] = np.linspace(0,2*np.pi,self['nv']) # np.ndarray((self['nv'],1))
-        self['zeta2']=self['zeta'][0:self['nv2']+1]
-        self['r']=cfunct(self['theta'],self['zeta'],self['vmec_data']['rmnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['z']=sfunct(self['theta'],self['zeta'],self['vmec_data']['zmns'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['b']=cfunct(self['theta'],self['zeta'],self['vmec_data']['bmnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['g']=cfunct(self['theta'],self['zeta'],self['vmec_data']['gmnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['bu']=cfunct(self['theta'],self['zeta'],self['vmec_data']['bsupumnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['bv']=cfunct(self['theta'],self['zeta'],self['vmec_data']['bsupvmnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['cu']=cfunct(self['theta'],self['zeta'],self['vmec_data']['currumnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['cv']=cfunct(self['theta'],self['zeta'],self['vmec_data']['currvmnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['b_s']=sfunct(self['theta'],self['zeta'],self['vmec_data']['bsubsmns'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['b_u']=cfunct(self['theta'],self['zeta'],self['vmec_data']['bsubumnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
-        self['b_v']=cfunct(self['theta'],self['zeta'],self['vmec_data']['bsubvmnc'].values,self['vmec_data']['xm'].values,self['vmec_data']['xn'].values)
+    def plot(self, plot_name='none', ax=None):
+        """Plot various VMEC quantities
 
-    def plot(self, plot_name='Summary', ax=None):
+        Args:
+            plot_name (str, optional): The quantity to be plotted, should be one of
+                                       iota, q, pressue, <Buco>, <Bvco>, <jcuru>, <jcurv>,
+                                       <j.B>, LPK, none. Defaults to 'none'.
+            ax (Matplotlib axis, optional): The Matplotlib axis to be plotted on. Defaults to None.
+        """        
         if ax is None:
             fig, ax = plt.subplots()
         else:
             fig = ax.get_figure()
-        if (plot_name == 'Summary'):
-                print(plot_name)
-        elif (plot_name == 'Iota'):
-                ax.plot(self['nflux'],self['vmec_data']['iotaf'].values)
+        if (plot_name == 'none'):
+                print("You can plot: iota, q, pressue, <Buco>, <Bvco>, <jcuru>, <jcurv>, ")
+                Print("               <j.B>, LPK")
+        elif (plot_name == 'iota'):
+                ax.plot(self.data['nflux'],self.wout['iotaf'].values)
                 ax.set_xlabel('Normalized Flux')
                 ax.set_ylabel('iota')
                 ax.set_title('Rotational Transform')
                 #ax.set(xlabel='s',ylabel='iota',aspect='square')
         elif (plot_name == 'q'):
-                ax.plot(self['nflux'],1.0/self['vmec_data']['iotaf'].values)
+                ax.plot(self.data['nflux'],1.0/self.wout['iotaf'].values)
                 ax.set_xlabel('Normalized Flux')
                 ax.set_ylabel('q')
                 ax.set_title('Safety Factor')
-        elif (plot_name == 'Pressure'):
-                ax.plot(self['nflux'],self['vmec_data']['presf'].values/1000)
+        elif (plot_name == 'pressure'):
+                ax.plot(self.data['nflux'],self.wout['presf'].values/1000)
                 ax.set_xlabel('Normalized Flux')
                 ax.set_ylabel('Pressure [kPa]')
                 ax.set_title('Pressure Profile')
         elif (plot_name == '<Buco>'):
-                ax.plot(self['nflux'],self['vmec_data']['buco'].values)
+                ax.plot(self.data['nflux'],self.wout['buco'].values)
                 ax.set_xlabel('Normalized Flux')
                 ax.set_ylabel('<B^u> [T]')
                 ax.set_title('Flux surface Averaged B^u')
         elif (plot_name == '<Bvco>'):
-                ax.plot(self['nflux'],self['vmec_data']['bvco'].values)
+                ax.plot(self.data['nflux'],self.wout['bvco'].values)
                 ax.set_xlabel('Normalized Flux')
                 ax.set_ylabel('<B^v> [T]')
                 ax.set_title('Flux surface Averaged B^v')
         elif (plot_name == '<jcuru>'):
-                ax.plot(self['nflux'],self['vmec_data']['jcuru'].values/1000)
+                ax.plot(self.data['nflux'],self.wout['jcuru'].values/1000)
                 ax.set_xlabel('Normalized Flux')
                 ax.set_ylabel('<j^u> [kA/m^2]')
                 ax.set_title('Flux surface Averaged j^u')
         elif (plot_name == '<jcurv>'):
-                ax.plot(self['nflux'],self['vmec_data']['jcurv'].values/1000)
+                ax.plot(self.data['nflux'],self.wout['jcurv'].values/1000)
                 ax.set_xlabel('Normalized Flux')
                 ax.set_ylabel('<j^v> [kA/m^2]')
                 ax.set_title('Flux surface Averaged j^v')
         elif (plot_name == '<j.B>'):
-                ax.plot(self['nflux'],self['vmec_data']['jdotb'].values/1000)
+                ax.plot(self.data['nflux'],self.wout['jdotb'].values/1000)
                 ax.set_xlabel('Normalized Flux')
                 ax.set_ylabel('<j.B> [T*kA/m^2]')
                 ax.set_title('Flux surface Averaged j.B')
         elif (plot_name == 'LPK'):
-                ax.plot(self['r'][self['ns']-1,:,0],self['z'][self['ns']-1,:,0],color='red')
-                ax.plot(self['r'][0,0,0],self['z'][0,0,0],'+',color='red')
-                ax.plot(self['r'][self['ns']-1,:,int(self['nv2']/4)],self['z'][self['ns']-1,:,int(self['nv2']/4)],color='green')
-                ax.plot(self['r'][0,0,int(self['nv2']/4)],self['z'][0,0,int(self['nv2']/4)],'+',color='green')
-                ax.plot(self['r'][self['ns']-1,:,int(self['nv2']/2)],self['z'][self['ns']-1,:,int(self['nv2']/2)],color='blue')
-                ax.plot(self['r'][0,0,int(self['nv2']/2)],self['z'][0,0,int(self['nv2']/2)],'+',color='blue')
-                ax.set_xlabel('R [m]')
-                ax.set_ylabel('Z [m]')
+                self.surface[-1].plot(zeta=0, color='red', label=r'$\phi=0$')
+                self.surface[-1].plot(zeta=0.5*np.pi/self.data['nfp'], color='green', label=r'$\phi=0.25$')
+                self.surface[-1].plot(zeta=np.pi/self.data['nfp'], color='blue', label=r'$\phi=0.5$')
                 ax.set_title('LPK Plot')
-                ax.set_aspect('equal')
         elif (plot_name[0] == '-'):
                 print(plot_name)
         else:
