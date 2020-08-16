@@ -209,8 +209,6 @@ class STELLout(SortedDict, OMFITascii):
                 self[item+'_equil'] = np.array(self[item][:,:,2])
                 self[item+'_chisq'] = ((self[item+'_target'] - self[item+'_equil'])/self[item+'_sigma'])**2
                 self[item+'_bnorm'] = np.array(self[item][:,:,3])
-                self[item+'_m'] = np.array(self[item][:,:,4])
-                self[item+'_n'] = np.array(self[item][:,:,5])
             elif item ==  'HELICITY_FULL':
                 self[item+'_target'] = np.array(self[item][:,:,0])
                 self[item+'_sigma'] = np.array(self[item][:,:,1])
