@@ -121,6 +121,59 @@ class FourSurf(object):
         return cls(xm=xm, xn=xn, rbc=rbc, rbs=rbs, zbc=zbc, zbs=zbs)
 
     @classmethod
+    def read_vmec_input(cls, filename, tol=1E-8):
+        """initialize surface from the ns-th interface SPEC output 
+        
+        Parameters:
+          woutfile -- string, path + name to the wout file from VMEC output
+          ns -- integer, the index of VMEC nested flux surfaces (default: -1)
+        
+        Returns:
+          fourier_surface class
+        """
+        import f90nml
+        nml = f90nml.read(filename)
+        indata = nml['indata']
+        mpol = indata['mpol']
+        ntor = indata['ntor']
+        nfp = indata['nfp']
+        arr_rbc = np.array(indata['rbc'])
+        arr_zbs = np.array(indata['zbs'])
+        arr_rbc[arr_rbc==None] = 0
+        arr_zbs[arr_zbs==None] = 0
+        try:
+            arr_rbs = np.array(indata['rbs'])
+            arr_zbc = np.array(indata['zbc'])
+            arr_rbs[arr_rbs==None] = 0
+            arr_zbc[arr_zbc==None] = 0
+        except KeyError:
+            arr_rbs = np.zeros_like(arr_rbc)
+            arr_zbc = np.zeros_like(arr_rbc)
+        nmin, mmin = indata.start_index['rbc']
+        mlen, nlen = np.shape(indata['rbc'])
+        xm = [] ; xn = []
+        rbc = [] ; zbs = []
+        rbs = [] ; zbc = []
+        for i in range(mlen):
+            m = i + mmin
+            if m > mpol:
+                continue
+            for j in range(nlen):
+                n = j + nmin
+                if n > ntor:
+                    continue
+                if abs(arr_rbc[i,j])+abs(arr_zbs[i,j])\
+                  +abs(arr_rbs[i,j])+abs(arr_zbc[i,j])<tol:
+                    continue
+                xm.append(m)
+                xn.append(n)
+                rbc.append(arr_rbc[i,j])
+                zbs.append(arr_zbs[i,j])
+                rbs.append(arr_rbs[i,j])
+                zbc.append(arr_zbc[i,j])
+        return cls(xm=xm, xn=xn, rbc=rbc, rbs=rbs, zbc=zbc, zbs=zbs)
+
+    @classmethod
     def read_vmec_output(cls, woutfile, ns=-1):
         """initialize surface from the ns-th interface SPEC output 
         
