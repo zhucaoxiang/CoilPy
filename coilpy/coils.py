@@ -12,6 +12,9 @@ class SingleCoil(object):
         self.I = I
         self.name = name
         self.group = group
+        self.xt = None
+        self.yt = None
+        self.zt = None
         return
     
     def __del__(self):
@@ -41,7 +44,7 @@ class SingleCoil(object):
             raise ValueError('Invalid engine option {pyplot, mayavi, noplot}')
         return        
 
-    def rectangle(self, width=0.1, height=0.1, winding=None, tol=1E-3):
+    def rectangle(self, width=0.1, height=0.1, frame='centroid', tol=1E-3):
         '''
         This function expand single coil filament to a rectangle coil;
         
@@ -53,16 +56,21 @@ class SingleCoil(object):
         n = np.size(self.x)
         dt = 2*np.pi/(n-1)
         # calculate the tangent 
-        xt = np.gradient(self.x)/dt
-        yt = np.gradient(self.y)/dt
-        zt = np.gradient(self.z)/dt
+        if self.xt is None:
+            self.spline_tangent()
+        xt = self.xt
+        yt = self.yt
+        zt = self.zt
+        # xt = np.gradient(self.x)/dt
+        # yt = np.gradient(self.y)/dt
+        # zt = np.gradient(self.z)/dt
         tt = np.sqrt(xt*xt + yt*yt + zt*zt)
         xt = xt/tt
         yt = yt/tt
         zt = zt/tt
 
         # use surface normal if needed
-        if winding is None:
+        if frame == 'centroid':
             # use the geometry center is a good idea
             center_x = np.average(self.x[0:n-1])
             center_y = np.average(self.y[0:n-1])
@@ -70,6 +78,36 @@ class SingleCoil(object):
             xn = self.x - center_x
             yn = self.y - center_y
             zn = self.z - center_z
+        elif frame == 'frenet':
+            self.spline_tangent(der=2)
+            xn = self.xa
+            yn = self.ya
+            zn = self.za
+        elif frame == 'parallel':
+            # parallel transport frame 
+            # Hanson & Ma, Parallel Transp ort Approach to Curve Framing, 1995
+            def rotate(x, ang):
+                c = np.cos(ang)
+                s = np.sin(ang)
+                return [[c + x[0]**2*(1-c), x[0]*x[1]*(1-c)-s*x[2], x[2]*x[0]*(1-c)+s*x[1]],
+                        [x[0]*x[1]*(1-c)+s*x[2], c+x[1]**2*(1-c), x[2]*x[1]*(1-c)-s*x[0]],
+                        [x[0]*x[2]*(1-c)-s*x[1], x[1]*x[2]*(1-c)+s*x[0], c+x[2]**2*(1-c)]]
+            T = np.transpose([self.xt, self.yt, self.zt])
+            T = T/np.linalg.norm(T, axis=1)[:, np.newaxis]
+            B = np.cross(T[:-1], T[1:], axis=1)
+            B = B/np.linalg.norm(B, axis=1)[:, np.newaxis]
+            theta = np.arccos(np.sum(T[:-1]*T[1:], axis=1))
+            V = np.zeros_like(T)
+            vx = 1; vy = 2
+            vz = -(vx*T[0,0] + vy*T[0,1])/T[0,2]
+            vv = np.linalg.norm([vx, vy, vz])
+            V[0,:] = [vx/vv, vy/vv, vz/vv]
+            print(np.dot(V[0,:], T[0,:]))
+            for i in range(len(theta)):
+                V[i+1,:] = rotate(B[i,:], theta[i]) @ V[i,:]
+            xn = V[:,0]
+            yn = V[:,1]
+            zn = V[:,2]
         else:
             assert True, "not finished"
         
@@ -104,6 +142,12 @@ class SingleCoil(object):
         zz = np.array([z1, z2, z3, z4, z1])
 
         return xx, yy, zz
+
+    def parallel(self, **kwargs):
+        if self.xt is None:
+            self.spline_tangent()
+        t = np.transpose([self.xt, self.yt, self.zt])
+        return
         
     def interpolate(self, num=256):
         '''
@@ -181,7 +225,7 @@ class SingleCoil(object):
         B = np.array([np.sum(Bx), np.sum(By), np.sum(Bz)])*self.dt*u0_d_4pi*self.I
         return B        
     
-    def spline_tangent(self, order=3):
+    def spline_tangent(self, order=3, der=1):
         """Calculate the tangent of coil using spline interpolation
 
         Args:
@@ -195,7 +239,11 @@ class SingleCoil(object):
         fz = interpolate.splrep(t, self.z, s=0, k=order)
         self.xt = interpolate.splev(t, fx, der=1)
         self.yt = interpolate.splev(t, fy, der=1)
-        self.zt = interpolate.splev(t, fz, der=1) 
+        self.zt = interpolate.splev(t, fz, der=1)
+        if der == 2:
+            self.xa = interpolate.splev(t, fx, der=2)
+            self.ya = interpolate.splev(t, fy, der=2)
+            self.za = interpolate.splev(t, fz, der=2)
         return 
 
     def fourier_tangent(self):
@@ -280,8 +328,16 @@ class Coil(object):
                     tmpI = float(linelist[-1])
                 if len(linelist) > 4 :
                     II.append(tmpI)
-                    names.append(linelist[-1])
-                    groups.append(int(linelist[-2]))
+                    try:
+                        group = int(linelist[4])
+                    except:
+                        group = len(groups) + 1
+                    groups.append(group)
+                    try:
+                        name = linelist[5]
+                    except IndexError:
+                        name = 'coil'
+                    names.append(name)
                     icoil = icoil + 1
                     xx.append([]); yy.append([]); zz.append([])
         xx.pop(); yy.pop(); zz.pop()

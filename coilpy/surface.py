@@ -166,7 +166,7 @@ class FourSurf(object):
                   +abs(arr_rbs[i,j])+abs(arr_zbc[i,j])<tol:
                     continue
                 xm.append(m)
-                xn.append(n)
+                xn.append(n*nfp)
                 rbc.append(arr_rbc[i,j])
                 zbs.append(arr_zbs[i,j])
                 rbs.append(arr_rbs[i,j])
