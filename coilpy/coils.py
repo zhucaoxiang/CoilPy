@@ -44,7 +44,7 @@ class SingleCoil(object):
             raise ValueError('Invalid engine option {pyplot, mayavi, noplot}')
         return        
 
-    def rectangle(self, width=0.1, height=0.1, frame='centroid', tol=1E-3):
+    def rectangle(self, width=0.1, height=0.1, frame='centroid', **kwargs):
         '''
         This function expand single coil filament to a rectangle coil;
         
@@ -78,6 +78,10 @@ class SingleCoil(object):
             xn = self.x - center_x
             yn = self.y - center_y
             zn = self.z - center_z
+            nt = xn*xt + yn*yt + zn*zt
+            xn = xn - nt*xt
+            yn = yn - nt*yt
+            zn = zn - nt*zt
         elif frame == 'frenet':
             self.spline_tangent(der=2)
             xn = self.xa
@@ -98,7 +102,8 @@ class SingleCoil(object):
             B = B/np.linalg.norm(B, axis=1)[:, np.newaxis]
             theta = np.arccos(np.sum(T[:-1]*T[1:], axis=1))
             V = np.zeros_like(T)
-            vx = 1; vy = 2
+            vx = kwargs['vx']
+            vy = kwargs['vy']
             vz = -(vx*T[0,0] + vy*T[0,1])/T[0,2]
             vv = np.linalg.norm([vx, vy, vz])
             V[0,:] = [vx/vv, vy/vv, vz/vv]
@@ -142,12 +147,6 @@ class SingleCoil(object):
         zz = np.array([z1, z2, z3, z4, z1])
 
         return xx, yy, zz
-
-    def parallel(self, **kwargs):
-        if self.xt is None:
-            self.spline_tangent()
-        t = np.transpose([self.xt, self.yt, self.zt])
-        return
         
     def interpolate(self, num=256):
         '''
