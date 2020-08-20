@@ -333,7 +333,7 @@ class STELLout(SortedDict, OMFITascii):
 
     def plot_balloon(self, it=-1, ax=None, **kwargs):
         fig, ax = get_figure(ax)
-        ax.plot(self['BALLOON_k'][it],self['BALLOON_grate'][it],'o',fillstyle='none')
+        ax.plot(self['BALLOON_k'][it],self['BALLOON_grate'][it],'o')
         ax.set_xlabel('Radial Grid')
         ax.set_ylabel('Growth Rate')
         ax.set_title('COBRA Ballooning Stability (<0 Stable)')

@@ -19,7 +19,7 @@ class VMECout(object):
     """
 
     def __init__(self, filename, **kwargs):
-        self.wout = xarray.open_dataset(filename, 'r')
+        self.wout = xarray.open_dataset(filename)
         self.data = {}
         self.data['ns'] = int(self.wout['ns'].values)
         self.data['nfp'] = int(self.wout['nfp'].values)

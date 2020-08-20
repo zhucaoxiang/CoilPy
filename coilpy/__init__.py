@@ -4,7 +4,7 @@ This is a cutomized python package for plotting and data processing in stellarat
 how to use:
 
 """
-__version__ = '0.2.17'
+__version__ = '0.2.18'
 
 # local packages
 from .misc import colorbar, get_figure, kwargs2dict, map_matrix
