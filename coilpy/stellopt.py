@@ -330,3 +330,11 @@ class STELLout(SortedDict, OMFITascii):
         xm = np.reshape(np.array(self['HELICITY_FULL_m'][it], dtype=int), (ns, -1))
         xn = np.reshape(np.array(self['HELICITY_FULL_n'][it], dtype=int), (ns, -1))
         return BOOZ_XFORM.plot_helicity(vals, xm[0,:], xn[0,:], xx, ordering, mn, ax, **kwargs)
+
+    def plot_balloon(self, it=-1, ax=None, **kwargs):
+        fig, ax = get_figure(ax)
+        ax.plot(self['BALLOON_k'][it],self['BALLOON_grate'][it],'o',fillstyle='none')
+        ax.set_xlabel('Radial Grid')
+        ax.set_ylabel('Growth Rate')
+        ax.set_title('COBRA Ballooning Stability (<0 Stable)')
+        return ax
