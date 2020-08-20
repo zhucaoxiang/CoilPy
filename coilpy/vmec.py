@@ -36,8 +36,9 @@ class VMECout(object):
             self.surface.append(FourSurf(xm=self.wout['xm'].values, xn=self.wout['xn'].values,
                                          rbc=self.wout['rmnc'][i].values, rbs=np.zeros_like(self.wout['rmnc'][i].values),
                                          zbs=self.wout['zmns'][i].values, zbc=np.zeros_like(self.wout['zmns'][i].values)))
-            # self.data['b'].append(trig2real(self.data['theta'], self.data['zeta'],
-            #                                 self.wout['xm'].values, self.wout['xn'].values, self.wout['bmnc'][i].values))
+            self.data['b'].append(trig2real(self.data['theta'], self.data['zeta'],
+                                            self.wout['xm_nyq'].values, self.wout['xn_nyq'].values/self.data['nfp'],
+                                            self.wout['bmnc'][i].values))
         return
 
     def plot(self, plot_name='none', ax=None):
