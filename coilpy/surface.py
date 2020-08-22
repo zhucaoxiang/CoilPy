@@ -414,17 +414,21 @@ class FourSurf(object):
         return line
 
     def plot3d(self, engine='pyplot', theta0=0.0, theta1=2*np.pi, zeta0=0.0, zeta1=2*np.pi, \
-                   npol=360, ntor=360, normal=False, **kwargs):
+                   npol=360, ntor=360, normal=False, fig=None, ax=None, show=True, **kwargs):
         """ plot 3D shape of the surface
         
         Parameters: 
-          engine -- string, plotting engine {'pyplot' (default), 'mayavi', 'noplot'}
+          engine -- string, plotting engine {'pyplot' (default), 'mayavi', 'plotly', 'noplot'}
           theta0 -- float, starting poloidal angle (default: 0.0)
           theta1 -- float, ending poloidal angle (default: 2*np.pi)
           zeta0 -- float, starting toroidal angle (default: 0.0)
           zeta1 -- float, ending toroidal angle (default: 2*np.pi)
           npol -- integer, number of poloidal discretization points (default: 360)
           ntor -- integer, number of toroidal discretization points (default: 360)
+          normal -- bool, if calculating the normal vector (default: False)
+          fig -- , figure to be plotted ion (default: None)
+          ax -- , axis to be plotted ion (default: None)
+          show -- bool, if show the plotly figure immediately (default: True)
           kwargs -- optional keyword arguments for plotting
 
         Returns:
@@ -450,12 +454,7 @@ class FourSurf(object):
             import matplotlib.pyplot as plt
             from mpl_toolkits.mplot3d import Axes3D
             # plot in matplotlib.pyplot
-            if plt.get_fignums():
-                fig = plt.gcf()
-                ax = plt.gca()
-                if ax.name != '3d':
-                    ax = fig.add_subplot(111, projection='3d')
-            else :
+            if ax is None or ax.name != '3d':
                 fig = plt.figure()                
                 ax = fig.add_subplot(111, projection='3d')
             ax.plot_surface(xsurf, ysurf, zsurf, **kwargs)
@@ -463,6 +462,13 @@ class FourSurf(object):
             # plot 3D surface in mayavi.mlab
             from mayavi import mlab # to overrid plt.mlab
             mlab.mesh(xsurf, ysurf, zsurf, **kwargs)
+        elif engine == 'plotly':
+            import plotly.graph_objects as go
+            if fig is None:
+                fig = go.Figure()
+            fig.add_trace(go.Surface(x=xsurf, y=ysurf, z=zsurf, **kwargs))
+            fig.update_layout(scene_aspectmode='data')
+            if show: fig.show()
         else:
             raise ValueError('Invalid engine option {pyplot, mayavi, noplot}')
         return (xsurf, ysurf, zsurf, n)

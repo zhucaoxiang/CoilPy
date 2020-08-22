@@ -596,15 +596,21 @@ class Dipole(object):
         self.sp2xyz()
         return
 
-    def plot(self, start=0, end=None, **kwargs):
-        import matplotlib.pyplot as plt
-        from mpl_toolkits.mplot3d import Axes3D
+    def plot(self, engine='pyplot', start=0, end=None, **kwargs):
         if end is None:
             end = self.num
-        fig = plt.figure() 
-        ax = fig.add_subplot(111, projection='3d')
-        ax.scatter(self.ox[start:end], self.oy[start:end], self.oz[start:end], **kwargs)
-        return ax
+        if engine == 'pyplot':
+            import matplotlib.pyplot as plt
+            from mpl_toolkits.mplot3d import Axes3D
+            fig = plt.figure() 
+            ax = fig.add_subplot(111, projection='3d')
+            ax.scatter(self.ox[start:end], self.oy[start:end], self.oz[start:end], **kwargs)
+        elif engine == 'plotly':
+            import plotly.express as px
+            fig = px.scatter_3d(x=self.ox[start:end], y=self.oy[start:end], 
+                                z=self.oz[start:end], color=self.rho[start:end], **kwargs)
+            fig.show()
+        return
 
     def __repr__(self):
         return 'FAMUS dipole class, num={:d}, symmetry={:}, filename={:}'.format(

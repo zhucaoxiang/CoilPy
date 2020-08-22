@@ -21,7 +21,7 @@ class SingleCoil(object):
         class_name = self.__class__.__name__
         #print(class_name, "destroyed")
 
-    def plot(self, engine='mayavi', **kwargs):
+    def plot(self, engine='mayavi', fig=None, ax=None, show=True, **kwargs):
         '''
         plot coil as a line
         '''
@@ -29,10 +29,7 @@ class SingleCoil(object):
             import matplotlib.pyplot as plt
             from mpl_toolkits.mplot3d import Axes3D
             # plot in matplotlib.pyplot
-            if plt.get_fignums():
-                fig = plt.gcf()
-                ax = plt.gca()
-            else :
+            if ax is None or ax.name != '3d':
                 fig = plt.figure()
                 ax = fig.add_subplot(111, projection='3d')
             ax.plot(self.x, self.y, self.z, **kwargs)
@@ -40,8 +37,17 @@ class SingleCoil(object):
             # plot 3D line in mayavi.mlab
             from mayavi import mlab # to overrid plt.mlab
             mlab.plot3d(self.x, self.y, self.z, **kwargs)
+        elif engine == 'plotly':
+            import plotly.graph_objects as go
+            if fig is None:
+                fig = go.Figure()
+            fig.add_trace(go.Scatter3d(x=self.x, y=self.y, z=self.z, 
+                                       mode="lines", **kwargs))
+            fig.update_layout(scene_aspectmode='data')
+            if show:
+                fig.show()
         else:
-            raise ValueError('Invalid engine option {pyplot, mayavi, noplot}')
+            raise ValueError('Invalid engine option {pyplot, mayavi, plotly}')
         return        
 
     def rectangle(self, width=0.1, height=0.1, frame='centroid', **kwargs):
@@ -343,16 +349,38 @@ class Coil(object):
         # print(len(xx) , len(yy) , len(zz) , len(II) , len(names) , len(groups))
         return cls(xx=xx, yy=yy, zz=zz, II=II, names=names, groups=groups)
 
-    def plot(self, irange=[], **kwargs):
+    def plot(self, irange=[], engine='pyplot', ax=None, fig=None, show=True, **kwargs):
         """Plot coils in mayavi or matplotlib  
 
         Args:
             irange (list, optional): Coil list to be plotted. Defaults to [].
+            engine（string, optional): Plotting engine, one of {'pyplot' (default), 'mayavi', 'plotly'}.
+            fig (, optional): figure to be plotted ion (default: None)
+            ax (, optional): axis to be plotted ion (default: None)
+            show (bool, optional）: if show the plotly figure immediately (default: True)
+            kwargs (dict, optional): Keyword dict for plotting settings.
         """        
         if len(irange)==0:
-            irange = range(self.num)    
+            irange = range(self.num)
+        if engine == 'pyplot':
+            import matplotlib.pyplot as plt
+            from mpl_toolkits.mplot3d import Axes3D
+            # plot in matplotlib.pyplot
+            if ax is None or ax.name != '3d':
+                fig = plt.figure()
+                ax = fig.add_subplot(111, projection='3d')
+        elif engine == 'plotly':
+            import plotly.graph_objects as Go
+            if fig is None:
+                fig = Go.Figure()
+                ax = None
         for i in irange:
-            self.data[i].plot(**kwargs)
+            if engine == 'plotly':
+                kwargs['legendgroup'] = self.data[i].group
+                kwargs['show'] = False
+            self.data[i].plot(engine=engine, fig=fig, ax=ax, **kwargs)
+        if engine == 'plotly':
+            if show: fig.show()
         return
 
     def save_makegrid(self, filename, nfp=1, **kwargs):
