@@ -24,12 +24,10 @@ class VMECout(object):
         self.data['ns'] = int(self.wout['ns'].values)
         self.data['nfp'] = int(self.wout['nfp'].values)
         self.data['nu'] = int(self.wout['mpol'].values*4)
-        self.data['nv'] = int(self.wout['ntor'].values*4*self.wout['nfp'].values)
-        self.data['nv2'] = int(self.wout['ntor'].values*4)
+        self.data['nv'] = int(self.wout['ntor'].values*4)
         self.data['nflux'] = np.linspace(0,1,self.data['ns']) # np.ndarray((self.data['ns'],1))
         self.data['theta'] = np.linspace(0,2*np.pi,self.data['nu']) # np.ndarray((self.data['nu'],1))
         self.data['zeta'] = np.linspace(0,2*np.pi,self.data['nv']) # np.ndarray((self.data['nv'],1))
-        self.data['zeta2']= self.data['zeta'][0:self.data['nv2']+1]
         self.surface = []
         self.data['b'] = []
         for i in range(self.data['ns']):

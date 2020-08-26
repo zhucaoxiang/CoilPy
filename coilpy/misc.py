@@ -227,3 +227,112 @@ def trig2real(theta, zeta, xm, xn, fmnc=None, fmns=None):
         if fmns is not None:
             f += np.matmul(np.reshape(fmns, (1,-1)), _sin)
         return f.reshape(npol, ntor)     
+
+def vmec2focus(vmec_file, focus_file='plasma.boundary', bnorm_file='', ns=-1, curpol=1.0, flipsign=False):
+    """Prepare FOCUS input boundary
+
+    Args:
+        vmec_file (str): VMEC input or output filename.
+        focus_file (str, optional): FOCUS boundary filename to be written. Defaults to 'plasma.boundary'.
+        bnorm_file (str, optional): BNORM output filename. Defaults to ''.
+        ns (int, optional): VMEC surface index. Defaults to -1.
+        curpol (float, optional): Normalization factor related to poloidal current. Defaults to 1.0.
+        flipsign (bool, optional): Bool value to flip the sign of Bn coefficients. Defaults to False.
+    """    
+    # check VMEC format
+    if 'wout_' in vmec_file:
+        import xarray
+        wout = xarray.open_dataset(vmec_file)
+        rmnc = wout['rmnc'].values
+        zmns = wout['zmns'].values
+        rbc = rmnc[ns,:]
+        zbs = zmns[ns,:]
+        # non-stellarator-symmetric terms
+        if int(wout['lasym__logical__'].values):
+            rmns = wout['rmns'].values
+            zmnc = wout['zmnc'].values
+            rbs = rmns[ns,:]
+            zbc = zmnc[ns,:]
+        else:
+            rbs = np.zeros_like(rbc)
+            zbc = np.zeros_like(zbs)
+        nfp = int(wout['nfp'].values)
+        xm = np.array(wout['xm'], dtype=int)
+        xn = np.array(wout['xn'], dtype=int) // nfp
+        curpol = 2.0*np.pi / nfp * wout['rbtor'].values
+    elif 'input.' in vmec_file:
+        import f90nml
+        nml = f90nml.read(vmec_file)
+        indata = nml['indata']
+        mpol = indata['mpol']
+        ntor = indata['ntor']
+        nfp = indata['nfp']
+        arr_rbc = np.array(indata['rbc'])
+        arr_zbs = np.array(indata['zbs'])
+        arr_rbc[arr_rbc==None] = 0
+        arr_zbs[arr_zbs==None] = 0
+        try:
+            arr_rbs = np.array(indata['rbs'])
+            arr_zbc = np.array(indata['zbc'])
+            arr_rbs[arr_rbs==None] = 0
+            arr_zbc[arr_zbc==None] = 0
+        except KeyError:
+            arr_rbs = np.zeros_like(arr_rbc)
+            arr_zbc = np.zeros_like(arr_rbc)
+        nmin, mmin = indata.start_index['rbc']
+        mlen, nlen = np.shape(indata['rbc'])
+        xm = [] ; xn = []
+        rbc = [] ; zbs = []
+        rbs = [] ; zbc = []
+        for i in range(mlen):
+            m = i + mmin
+            if m > mpol:
+                continue
+            for j in range(nlen):
+                n = j + nmin
+                if n > ntor:
+                    continue
+                xm.append(m)
+                xn.append(n)
+                rbc.append(arr_rbc[i,j])
+                zbs.append(arr_zbs[i,j])
+                rbs.append(arr_rbs[i,j])
+                zbc.append(arr_zbc[i,j])
+    else:
+        raise FileExistsError('Please check your argument. Should be VMEC input or output!')
+    # parse BNORM output if necessary
+    if bnorm_file is '':
+        Nbnf = 0
+    else:
+        bm = []
+        bn = []
+        bns = []
+        #bnc = []
+        with open(bnorm_file, 'r') as bfile:
+            for line in bfile:
+                tmp = line.split() # BNORM format: m n Bn_sin
+                bm.append(int(tmp[0]))
+                bn.append(int(tmp[1]))                
+                bns.append(float(tmp[2]))
+        Nbnf = len(bm)
+        bnc = np.zeros(Nbnf)
+        bns = np.array(bns)*curpol
+        if flipsign:
+            bns *= -1
+    # write FOCUS input
+    mn = len(xm)
+    with open(focus_file, 'w') as fofile:
+        fofile.write('# bmn   bNfp   nbf '+'\n')
+        fofile.write("{:d} \t {:d} \t {:d} \n".format(mn, nfp, Nbnf))
+        fofile.write('#plasma boundary'+'\n')
+        fofile.write('# n m Rbc Rbs Zbc Zbs'+'\n')
+        for i in range(mn):
+            fofile.write("{:4d}  {:4d} \t {:15.7E}  {:15.7E}  {:15.7E}  {:15.7E} \n".format(
+                         xn[i], xm[i], rbc[i], rbs[i], zbc[i], zbs[i]))
+        fofile.write("#Bn harmonics curpol= {:15.7E} ; I_p={:15.7E} A. \n".format(curpol, curpol*nfp/(2*np.pi)*5E6))
+        fofile.write('# n m bnc bns \n')
+        for i in range(Nbnf):
+            fofile.write("{:d} \t {:d} \t {:15.7E} \t {:15.7E} \n".format(-bn[i], bm[i], bnc[i], bns[i])) 
+            # FOCUS uses mu - nv
+    return
+    

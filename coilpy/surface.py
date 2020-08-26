@@ -523,7 +523,18 @@ class FourSurf(object):
             fofile.write("#Bn harmonics \n")
             fofile.write('# n m bnc bns \n')         
         print("Finished write FOCUS input file at ", filename)
-        return        
+        return
+
+    def write_vmec_input(self, filename, template=None, nfp=1, **kwargs):
+        import f90nml
+        if template is None:
+            with open(filename, 'w') as f:
+                for i in range(self.mn):
+                    f.write('RBC({n:d},{m:d}) = {r:15.7E} \t ZBS({n:d},{m:d}) = {z:15.7E} \n'.format(n=self.xn[i]//nfp,
+                    m=self.xm[i], r=self.rbc[i], z=self.zbs[i]))
+        else:
+            pass
+        return
 
     def __del__(self):
         class_name = self.__class__.__name__
