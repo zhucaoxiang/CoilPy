@@ -53,9 +53,9 @@ jobs:
       id: cache-pypi
       with:
         # This path is specific to Ubuntu
-        path: ${GITHUB_WORKSPACE}
+        path: ${{ github.workspace }}
         # Look to see if there is a cache hit for the corresponding requirements file
-        key: ${{ runner.os }}-pip-${{ hashFiles('${GITHUB_WORKSPACE}/coilpy/__init__.py') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('${{ github.workspace }}/coilpy/__init__.py') }}
         restore-keys: |
           ${{ runner.os }}-pypi
 
