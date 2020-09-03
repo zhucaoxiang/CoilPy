@@ -28,8 +28,8 @@ class HDF5:
                     # recurse into group
                     setattr(self, key, HDF5(content=_content[key]))
                 elif isinstance(_content[key], h5py.Dataset): # read dataset
-                    if key in keyword.kwlist: # avoid assign python keywords
-                        setattr(self, key+'1', _content[key][()])
+                    if key in keyword.kwlist: # add underscore avoiding assigning python keywords
+                        setattr(self, key+'_', _content[key][()])
                     else: # if just one element, use the value directly
                         if len(_content[key][()]) == 1: 
                             setattr(self, key, _content[key][0])
@@ -48,9 +48,16 @@ class HDF5:
     # needed for iterating over the contents of the file
     def __iter__(self):
         return iter(self.__dict__)
+
     def __next__(self):
         return next(self.__dict__)
-    
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, t, v, tb):
+        return
+
     # print a list of items contained in this object
     def inventory(self, prefix=""):
         _prefix = ""

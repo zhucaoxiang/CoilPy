@@ -108,7 +108,7 @@ class FourSurf(object):
         #    raise TypeError("Invalid type of input data, should be SPEC type.")
         # get required data
         xm = spec_out.output.im
-        xn = spec_out.output.in1
+        xn = spec_out.output.in_
         rbc = spec_out.output.Rbc[ns,:]
         zbs = spec_out.output.Zbs[ns,:]
         if spec_out.input.physics.Istellsym:
