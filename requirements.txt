@@ -4,7 +4,7 @@ h5py
 matplotlib
 pandas
 #mayavi
-#plotly
+plotly
 numpy
 pyevtk
 classes
