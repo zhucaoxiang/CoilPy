@@ -3,9 +3,9 @@ xarray
 h5py
 matplotlib
 pandas
-#mayavi
 plotly
 numpy
 pyevtk
 classes
 f90nml
+#mayavi # has issues

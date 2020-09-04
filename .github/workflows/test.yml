@@ -31,8 +31,6 @@ jobs:
         path: ${{ steps.pip-cache.outputs.dir }}
         # Look to see if there is a cache hit for the corresponding requirements file
         key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
 
     - name: Install dependencies
       if: steps.cache-pip.outputs.cache-hit != 'true'
@@ -56,8 +54,6 @@ jobs:
         path: ${{ github.workspace }}
         # Look to see if there is a cache hit for the corresponding requirements file
         key: ${{ runner.os }}-pypi-${{ hashFiles('coilpy/__init__.py') }}
-        restore-keys: |
-          ${{ runner.os }}-pypi-${{ hashFiles('coilpy/__init__.py') }}
 
     - name: publish to PYPI
       if: steps.cache-pypi.outputs.cache-hit != 'true'
