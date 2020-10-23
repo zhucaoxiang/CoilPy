@@ -310,7 +310,7 @@ class STELLout(SortedDict, OMFITascii):
                 self[item + "_AVGJSTAR"] = np.array(self[item][:, :, 3])
                 self[item + "_TRAPSJSTAR"] = np.array(self[item][:, :, 4])
                 self[item + "_UJSTAR"] = np.array(self[item][:, :, 5])
-                self[item + "_K"] = np.array(self[item][:, :, 6])
+                self[item + "_k"] = np.array(self[item][:, :, 6])
                 self[item + "_IJSTAR"] = np.array(self[item][:, :, 7])
             elif item == "NEO":
                 self[item + "_target"] = np.array(self[item][:, :, 0])
@@ -320,7 +320,7 @@ class STELLout(SortedDict, OMFITascii):
                     (self[item + "_target"] - self[item + "_equil"])
                     / self[item + "_sigma"]
                 ) ** 2
-                self[item + "_K"] = np.array(self[item][:, :, 3])
+                self[item + "_k"] = np.array(self[item][:, :, 3])
             elif item == "JDOTB":
                 self[item + "_target"] = np.array(self[item][:, :, 0])
                 self[item + "_sigma"] = np.array(self[item][:, :, 1])
@@ -417,9 +417,39 @@ class STELLout(SortedDict, OMFITascii):
         )
 
     def plot_balloon(self, it=-1, ax=None, **kwargs):
+        """Plot Ballooning instability from COBRAVMEC
+
+        Args:
+            it (int, optional): Iteration index to be plotted. Defaults to -1.
+            ax (Matplotlib axis, optional): Matplotlib axis to be plotted on. Defaults to None.
+            kwargs (dict): Keyword arguments for matplotlib.pyplot.plot. Defaults to {}.
+
+        Returns:
+            ax (Matplotlib axis): Matplotlib axis plotted on.
+        """        
         fig, ax = get_figure(ax)
         ax.plot(self["BALLOON_k"][it], self["BALLOON_grate"][it], "o")
         ax.set_xlabel("Radial Grid")
         ax.set_ylabel("Growth Rate")
         ax.set_title("COBRA Ballooning Stability (<0 Stable)")
         return ax
+
+    def plot_neo(self, it=-1, ax=None, **kwargs):
+        """Plot effective ripple from NEO
+
+        Args:
+            it (int, optional): Iteration index to be plotted. Defaults to -1.
+            ax (Matplotlib axis, optional): Matplotlib axis to be plotted on. Defaults to None.
+            kwargs (dict): Keyword arguments for matplotlib.pyplot.plot. Defaults to {}.
+
+        Returns:
+            ax (Matplotlib axis): Matplotlib axis plotted on.
+        """        
+        fig, ax = get_figure(ax)
+        xs = self["NEO_k"][it]
+        xx = (xs - 1) / np.max(xs)  # max(xs) might be different from NS
+        ax.semilogy(xx, self["NEO_equil"][it], "o")
+        ax.set_xlabel("Normalized flux (s) ")
+        ax.set_ylabel(r"${\epsilon_{\mathrm{eff}}}^{3/2}$")
+        ax.set_title("Effective ripple from NEO")
+        return ax       
