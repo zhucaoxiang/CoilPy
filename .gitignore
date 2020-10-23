@@ -11,3 +11,6 @@
 
 # emacs tmp files
 *~
+
+# vscode emp files
+.vscode
