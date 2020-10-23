@@ -73,24 +73,25 @@ class Dipole(object):
 
         with open(filename, "r") as coilfile:
             coilfile.readline()
-            line = coilfile.readline().split()
+            line = coilfile.readline().split(',')
+            num = int(line[0])
             try:
                 momentq = int(line[1])
             except:
                 print("Moment Q factor was not read. Default=1.")
                 momentq = 1
         data = pd.read_csv(filename, skiprows=3, header=None)
-        symm = np.array(data[1], dtype=int)
-        name = np.array(data[2])  # type string
-        ox = np.array(data[3], dtype=float)
-        oy = np.array(data[4], dtype=float)
-        oz = np.array(data[5], dtype=float)
-        Ic = np.array(data[6], dtype=int)
-        mm = np.array(data[7], dtype=float)
-        pho = np.array(data[8], dtype=float)
-        Lc = np.array(data[9], dtype=int)
-        mp = np.array(data[10], dtype=float)
-        mt = np.array(data[11], dtype=float)
+        symm = np.array(data[1], dtype=int)[0:num]
+        name = np.array(data[2])[0:num]  # type string
+        ox = np.array(data[3], dtype=float)[0:num]
+        oy = np.array(data[4], dtype=float)[0:num]
+        oz = np.array(data[5], dtype=float)[0:num]
+        Ic = np.array(data[6], dtype=int)[0:num]
+        mm = np.array(data[7], dtype=float)[0:num]
+        pho = np.array(data[8], dtype=float)[0:num]
+        Lc = np.array(data[9], dtype=int)[0:num]
+        mp = np.array(data[10], dtype=float)[0:num]
+        mt = np.array(data[11], dtype=float)[0:num]
         if verbose:
             print("Read {:d} dipoles from {:}".format(len(ox), filename))
         return cls(
@@ -794,6 +795,28 @@ class Dipole(object):
             )
             fig.show()
         return
+
+    def bfield(self, pos):
+        """Calculate the magnetic field at an arbitrary position.
+           No symmetry info considered for now.
+
+        Args:
+            pos (array_like): [x,y,z] Cartesian coordinates in space.
+
+        Returns:
+            numpy.array: The total magnetic field produced by all dipoles
+        """        
+        # calculate mx, my, mz if needed
+        if not self.xyz_switch:
+            self.sp2xyz()
+        # Biot-Savart law
+        pos = np.reshape(pos, (3,1))
+        oxyz = np.asarray([self.ox, self.oy, self.oz])
+        rxyz = oxyz - pos
+        r = np.linalg.norm(rxyz, axis=0)
+        mxyz = np.asarray([self.mx, self.my, self.mz])
+        Bvec = 3*np.sum(mxyz*rxyz, axis=0)/r**5*rxyz - 1/r**3*mxyz
+        return 1E-7*np.sum(Bvec, axis=1)
 
     def __repr__(self):
         return "FAMUS dipole class, num={:d}, symmetry={:}, filename={:}".format(
