@@ -73,7 +73,9 @@ class Dipole(object):
 
         with open(filename, "r") as coilfile:
             coilfile.readline()
-            line = coilfile.readline().split(',')
+            line = coilfile.readline()
+            line = line.replace(',', ' ')
+            line = line.split()
             num = int(line[0])
             try:
                 momentq = int(line[1])
@@ -399,36 +401,47 @@ class Dipole(object):
         assert self.xyz_switch == True, "You are not using cartesian coordinates"
         if self.old:
             self.mm = np.sqrt(self.mx * self.mx + self.my * self.my + self.mz * self.mz)
+            self.mt = np.arccos(self.mz / self.mm)
             # self.pho = np.ones_like(self.mm)
             # self.momentq = 1
         else:
             self.pho = np.power(
                 np.sqrt(self.mx * self.mx + self.my * self.my + self.mz * self.mz)
                 / self.mm,
-                1.0 / self.momentq,
+                1.0 / self.momentq,            
             )
-        self.mp = np.arctan2(self.my, self.mx)
-        self.mt = np.arccos(self.mz / (self.mm * self.pho ** self.momentq))
+            self.mt = np.arccos(self.mz / (self.mm * self.pho ** self.momentq))
+        self.mp = np.arctan2(self.my, self.mx)        
         self.sp_switch = True
         return
 
-    def save(self, filename, unique=False):
+    def save(self, filename, unique=False, tol=0):
+        """write diploes from FOCUS format
+
+        Args:
+            filename (str): FOCUS file name.
+            unique (bool, optional): Writing dipole every self.nfp term. Defaults to False.
+            tol (float, optional): tolerance to skip zeros. Defaults to 0.
+        """        
         """
-        write diploes from FOCUS format
+        
         """
         if not self.sp_switch:
             self.xyz2sp()
+        cond = np.abs(self.rho) >= tol
         with open(filename, "w") as wfile:
             wfile.write(" # Total number of dipoles,  momentq \n")
             if unique:
-                wfile.write("{:6d},  {:4d}\n".format(self.num / self.nfp, self.momentq))
+                wfile.write("{:6d},  {:4d}\n".format(np.count_nonzero(cond)/self.nfp, self.momentq))
             else:
-                wfile.write("{:6d},  {:4d}\n".format(self.num, self.momentq))
+                wfile.write("{:6d},  {:4d}\n".format(np.count_nonzero(cond), self.momentq))
             if self.old:
                 for icoil in range(self.num):
                     if unique:
                         if np.mod(icoil, self.nfp) == 0:
                             continue
+                    if not cond[icoil]:
+                        continue
                     wfile.write(
                         "#-----------------{}---------------------------\n".format(
                             icoil + 1
@@ -440,7 +453,7 @@ class Dipole(object):
                             2, self.symm[icoil], self.name[icoil]
                         )
                     )
-                    wfile.write("#  Lc  ox   oy   oz  Ic  I  mp  mt \n")
+                    wfile.write("#  Lc  ox   oy   oz  Ic  I  mt  mp \n")
                     wfile.write(
                         "{:6d} {:23.15E} {:23.15E} {:23.15E} {:6d} {:23.15E} {:23.15E} {:23.15E}\n".format(
                             self.Lc[icoil],
@@ -461,6 +474,8 @@ class Dipole(object):
                     if unique:
                         if np.mod(i, self.nfp) == 0:
                             continue
+                    if not cond[i]:
+                        continue                        
                     wfile.write(
                         " 2, {:1d}, {:}, {:15.8E}, {:15.8E}, {:15.8E}, {:2d}, {:15.8E},"
                         "{:15.8E}, {:2d}, {:15.8E}, {:15.8E} \n".format(
@@ -683,6 +698,7 @@ class Dipole(object):
         self.mz = moment[:, 2].copy()
         self.mm = np.tile(self.mm, self.nfp)
         self.pho = np.tile(self.pho, self.nfp)
+        self.rho = self.pho**self.momentq
         self.Ic = np.tile(self.Ic, self.nfp)
         self.Lc = np.tile(self.Lc, self.nfp)
         self.name = np.tile(self.name, self.nfp)
