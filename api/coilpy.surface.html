@@ -4,10 +4,10 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>coilpy.surface &#8212; coilpy 0.2.25 documentation</title>
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>coilpy.surface &#8212; coilpy 0.2.26 documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.25 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.26 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">coilpy.surface</a></li> 
       </ul>
     </div>  
@@ -82,8 +82,13 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- float</strong><strong>, </strong><strong>toroidal angle value</strong> (<em>zeta</em>) – </p></li>
-<li><p><strong>-- integer</strong><strong>, </strong><strong>number of discretization points</strong><strong> (</strong><strong>default</strong> (<em>npoints</em>) – <ol class="arabic simple" start="360">
+<li><p><strong>-- float</strong> (<em>zeta</em>) – </p></li>
+<li><p><strong>angle value</strong> (<em>toroidal</em>) – </p></li>
+<li><p><strong>-- integer</strong> (<em>npoints</em>) – <ol class="arabic simple" start="360">
+<li></li>
+</ol>
+</p></li>
+<li><p><strong>of discretization points</strong><strong> (</strong><strong>default</strong> (<em>number</em>) – <ol class="arabic simple" start="360">
 <li></li>
 </ol>
 </p></li>
@@ -103,23 +108,40 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong><strong>, </strong><strong>plotting engine {'pyplot'</strong> (<em>engine</em>) – </p></li>
-<li><p><strong>-- float</strong><strong>, </strong><strong>starting poloidal angle</strong><strong> (</strong><strong>default</strong> (<em>theta0</em>) – 0.0)</p></li>
-<li><p><strong>-- float</strong><strong>, </strong><strong>ending poloidal angle</strong><strong> (</strong><strong>default</strong> (<em>theta1</em>) – 2*np.pi)</p></li>
-<li><p><strong>-- float</strong><strong>, </strong><strong>starting toroidal angle</strong><strong> (</strong><strong>default</strong> (<em>zeta0</em>) – 0.0)</p></li>
-<li><p><strong>-- float</strong><strong>, </strong><strong>ending toroidal angle</strong><strong> (</strong><strong>default</strong> (<em>zeta1</em>) – 2*np.pi)</p></li>
-<li><p><strong>-- integer</strong><strong>, </strong><strong>number of poloidal discretization points</strong><strong> (</strong><strong>default</strong> (<em>npol</em>) – <ol class="arabic simple" start="360">
+<li><p><strong>-- string</strong> (<em>engine</em>) – </p></li>
+<li><p><strong>engine {'pyplot'</strong> (<em>plotting</em>) – </p></li>
+<li><p><strong>-- float</strong> (<em>zeta1</em>) – 0.0)</p></li>
+<li><p><strong>poloidal angle</strong><strong> (</strong><strong>default</strong> (<em>ending</em>) – 0.0)</p></li>
+<li><p><strong>-- float</strong> – 2*np.pi)</p></li>
+<li><p><strong>poloidal angle</strong><strong> (</strong><strong>default</strong> – 2*np.pi)</p></li>
+<li><p><strong>-- float</strong> – 0.0)</p></li>
+<li><p><strong>toroidal angle</strong><strong> (</strong><strong>default</strong> (<em>ending</em>) – 0.0)</p></li>
+<li><p><strong>-- float</strong> – 2*np.pi)</p></li>
+<li><p><strong>toroidal angle</strong><strong> (</strong><strong>default</strong> – 2*np.pi)</p></li>
+<li><p><strong>-- integer</strong> (<em>ntor</em>) – <ol class="arabic simple" start="360">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>-- integer</strong><strong>, </strong><strong>number of toroidal discretization points</strong><strong> (</strong><strong>default</strong> (<em>ntor</em>) – <ol class="arabic simple" start="360">
+<li><p><strong>of poloidal discretization points</strong><strong> (</strong><strong>default</strong> (<em>number</em>) – <ol class="arabic simple" start="360">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>-- bool</strong><strong>, </strong><strong>if calculating the normal vector</strong><strong> (</strong><strong>default</strong> (<em>normal</em>) – False)</p></li>
-<li><p><strong>--</strong><strong> , </strong><strong>figure to be plotted ion</strong><strong> (</strong><strong>default</strong> (<em>fig</em>) – None)</p></li>
-<li><p><strong>--</strong><strong> , </strong><strong>axis to be plotted ion</strong><strong> (</strong><strong>default</strong> (<em>ax</em>) – None)</p></li>
-<li><p><strong>-- bool</strong><strong>, </strong><strong>if show the plotly figure immediately</strong><strong> (</strong><strong>default</strong> (<em>show</em>) – True)</p></li>
+<li><p><strong>-- integer</strong> – <ol class="arabic simple" start="360">
+<li></li>
+</ol>
+</p></li>
+<li><p><strong>of toroidal discretization points</strong><strong> (</strong><strong>default</strong> (<em>number</em>) – <ol class="arabic simple" start="360">
+<li></li>
+</ol>
+</p></li>
+<li><p><strong>-- bool</strong> (<em>show</em>) – False)</p></li>
+<li><p><strong>calculating the normal vector</strong><strong> (</strong><strong>default</strong> (<em>if</em>) – False)</p></li>
+<li><p><strong>--</strong> (<em>ax</em>) – None)</p></li>
+<li><p><strong>to be plotted ion</strong><strong> (</strong><strong>default</strong> (<em>axis</em>) – None)</p></li>
+<li><p><strong>--</strong> – None)</p></li>
+<li><p><strong>to be plotted ion</strong><strong> (</strong><strong>default</strong> – None)</p></li>
+<li><p><strong>-- bool</strong> – True)</p></li>
+<li><p><strong>show the plotly figure immediately</strong><strong> (</strong><strong>default</strong> (<em>if</em>) – True)</p></li>
 <li><p><strong>-- optional keyword arguments for plotting</strong> (<em>kwargs</em>) – </p></li>
 </ul>
 </dd>
@@ -136,7 +158,8 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong><strong>, </strong><strong>path + name to the FOCUS input boundary file</strong> (<em>filename</em>) – </p></li>
+<li><p><strong>-- string</strong> (<em>filename</em>) – </p></li>
+<li><p><strong>+ name to the FOCUS input boundary file</strong> (<em>path</em>) – </p></li>
 <li><p><strong>-- maximum truncated poloidal mode number</strong><strong> (</strong><strong>default</strong> (<em>Mpol</em>) – <ol class="arabic simple" start="9999">
 <li></li>
 </ol>
@@ -160,7 +183,8 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong><strong>, </strong><strong>path + name to the FOCUS input boundary file</strong> (<em>filename</em>) – </p></li>
+<li><p><strong>-- string</strong> (<em>filename</em>) – </p></li>
+<li><p><strong>+ name to the FOCUS input boundary file</strong> (<em>path</em>) – </p></li>
 <li><p><strong>-- maximum truncated poloidal mode number</strong><strong> (</strong><strong>default</strong> (<em>Mpol</em>) – <ol class="arabic simple" start="9999">
 <li></li>
 </ol>
@@ -184,8 +208,10 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- SPEC class</strong><strong>, </strong><strong>SPEC hdf5 results</strong> (<em>spec_out</em>) – </p></li>
-<li><p><strong>-- integer</strong><strong>, </strong><strong>the index of SPEC interface</strong><strong> (</strong><strong>default</strong> (<em>ns</em>) – -1)</p></li>
+<li><p><strong>-- SPEC class</strong> (<em>spec_out</em>) – </p></li>
+<li><p><strong>hdf5 results</strong> (<em>SPEC</em>) – </p></li>
+<li><p><strong>-- integer</strong> (<em>ns</em>) – -1)</p></li>
+<li><p><strong>index of SPEC interface</strong><strong> (</strong><strong>default</strong> (<em>the</em>) – -1)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -201,8 +227,10 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong><strong>, </strong><strong>path + name to the wout file from VMEC output</strong> (<em>woutfile</em>) – </p></li>
-<li><p><strong>-- integer</strong><strong>, </strong><strong>the index of VMEC nested flux surfaces</strong><strong> (</strong><strong>default</strong> (<em>ns</em>) – -1)</p></li>
+<li><p><strong>-- string</strong> (<em>woutfile</em>) – </p></li>
+<li><p><strong>+ name to the wout file from VMEC output</strong> (<em>path</em>) – </p></li>
+<li><p><strong>-- integer</strong> (<em>ns</em>) – -1)</p></li>
+<li><p><strong>index of VMEC nested flux surfaces</strong><strong> (</strong><strong>default</strong> (<em>the</em>) – -1)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -218,8 +246,10 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong><strong>, </strong><strong>path + name to the wout file from VMEC output</strong> (<em>woutfile</em>) – </p></li>
-<li><p><strong>-- integer</strong><strong>, </strong><strong>the index of VMEC nested flux surfaces</strong><strong> (</strong><strong>default</strong> (<em>ns</em>) – -1)</p></li>
+<li><p><strong>-- string</strong> (<em>woutfile</em>) – </p></li>
+<li><p><strong>+ name to the wout file from VMEC output</strong> (<em>path</em>) – </p></li>
+<li><p><strong>-- integer</strong> (<em>ns</em>) – -1)</p></li>
+<li><p><strong>index of VMEC nested flux surfaces</strong><strong> (</strong><strong>default</strong> (<em>the</em>) – -1)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -235,7 +265,8 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong><strong>, </strong><strong>path + name to the NESCOIL input boundary file</strong> (<em>filename</em>) – </p></li>
+<li><p><strong>-- string</strong> (<em>filename</em>) – </p></li>
+<li><p><strong>+ name to the NESCOIL input boundary file</strong> (<em>path</em>) – </p></li>
 <li><p><strong>-- maximum truncated poloidal mode number</strong><strong> (</strong><strong>default</strong> (<em>Mpol</em>) – <ol class="arabic simple" start="9999">
 <li></li>
 </ol>
@@ -259,9 +290,12 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- float array_like</strong><strong>, </strong><strong>poloidal angle</strong> (<em>theta</em>) – </p></li>
-<li><p><strong>-- float array_like</strong><strong>, </strong><strong>toroidal angle value</strong> (<em>zeta</em>) – </p></li>
-<li><p><strong>-- logical</strong><strong>, </strong><strong>calculate the normal vector</strong><strong> or </strong><strong>not</strong><strong> (</strong><strong>default</strong> (<em>normal</em>) – False)</p></li>
+<li><p><strong>-- float array_like</strong> (<em>zeta</em>) – </p></li>
+<li><p><strong>angle</strong> (<em>poloidal</em>) – </p></li>
+<li><p><strong>-- float array_like</strong> – </p></li>
+<li><p><strong>angle value</strong> (<em>toroidal</em>) – </p></li>
+<li><p><strong>-- logical</strong> (<em>normal</em>) – False)</p></li>
+<li><p><strong>the normal vector</strong><strong> or </strong><strong>not</strong><strong> (</strong><strong>default</strong> (<em>calculate</em>) – False)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -278,12 +312,22 @@ r, z, [rt, zt], [rz, zz] – if normal</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong><strong>, </strong><strong>the filename you want to save</strong><strong>, </strong><strong>final name is 'vtkname.vts'</strong> (<em>vtkname</em>) – </p></li>
-<li><p><strong>-- integer</strong><strong>, </strong><strong>number of poloidal discretization points</strong><strong> (</strong><strong>default</strong> (<em>npol</em>) – <ol class="arabic simple" start="360">
+<li><p><strong>-- string</strong> (<em>vtkname</em>) – </p></li>
+<li><p><strong>filename you want to save</strong> (<em>the</em>) – </p></li>
+<li><p><strong>name is 'vtkname.vts'</strong> (<em>final</em>) – </p></li>
+<li><p><strong>-- integer</strong> (<em>ntor</em>) – <ol class="arabic simple" start="360">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>-- integer</strong><strong>, </strong><strong>number of toroidal discretization points</strong><strong> (</strong><strong>default</strong> (<em>ntor</em>) – <ol class="arabic simple" start="360">
+<li><p><strong>of poloidal discretization points</strong><strong> (</strong><strong>default</strong> (<em>number</em>) – <ol class="arabic simple" start="360">
+<li></li>
+</ol>
+</p></li>
+<li><p><strong>-- integer</strong> – <ol class="arabic simple" start="360">
+<li></li>
+</ol>
+</p></li>
+<li><p><strong>of toroidal discretization points</strong><strong> (</strong><strong>default</strong> (<em>number</em>) – <ol class="arabic simple" start="360">
 <li></li>
 </ol>
 </p></li>
@@ -301,9 +345,12 @@ r, z, [rt, zt], [rz, zz] – if normal</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong><strong>, </strong><strong>the saved FOCUS boundary name</strong> (<em>filename</em>) – </p></li>
-<li><p><strong>-- int</strong><strong>, </strong><strong>default</strong> (<em>Nfp</em>) – 1, number of field periodicity, n will be divided by Nfp</p></li>
-<li><p><strong>-- float</strong><strong>, </strong><strong>default</strong> (<em>tol</em>) – 1E-8, tolerance for truncating modes</p></li>
+<li><p><strong>-- string</strong> (<em>filename</em>) – </p></li>
+<li><p><strong>saved FOCUS boundary name</strong> (<em>the</em>) – </p></li>
+<li><p><strong>-- int</strong> (<em>Nfp</em>) – 1, number of field periodicity, n will be divided by Nfp</p></li>
+<li><p><strong>default</strong> – 1, number of field periodicity, n will be divided by Nfp</p></li>
+<li><p><strong>-- float</strong> (<em>tol</em>) – 1E-8, tolerance for truncating modes</p></li>
+<li><p><strong>default</strong> – 1E-8, tolerance for truncating modes</p></li>
 </ul>
 </dd>
 </dl>
@@ -321,9 +368,12 @@ r, z, [rt, zt], [rz, zz] – if normal</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- float array_like</strong><strong>, </strong><strong>poloidal angle</strong> (<em>theta</em>) – </p></li>
-<li><p><strong>-- float array_like</strong><strong>, </strong><strong>toroidal angle value</strong> (<em>zeta</em>) – </p></li>
-<li><p><strong>-- logical</strong><strong>, </strong><strong>calculate the normal vector</strong><strong> or </strong><strong>not</strong><strong> (</strong><strong>default</strong> (<em>normal</em>) – False)</p></li>
+<li><p><strong>-- float array_like</strong> (<em>zeta</em>) – </p></li>
+<li><p><strong>angle</strong> (<em>poloidal</em>) – </p></li>
+<li><p><strong>-- float array_like</strong> – </p></li>
+<li><p><strong>angle value</strong> (<em>toroidal</em>) – </p></li>
+<li><p><strong>-- logical</strong> (<em>normal</em>) – False)</p></li>
+<li><p><strong>the normal vector</strong><strong> or </strong><strong>not</strong><strong> (</strong><strong>default</strong> (<em>calculate</em>) – False)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -374,13 +424,13 @@ x, y, z, [nx, ny, nz] – if normal</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.25 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.26 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">coilpy.surface</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Caoxiang Zhu.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.3.0.
     </div>
   </body>
 </html>

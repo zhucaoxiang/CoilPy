@@ -1,3 +1,3 @@
 Examples
 ==================================
-`basic example <examples/basic.html>`
+:doc: /examples/basic.html
