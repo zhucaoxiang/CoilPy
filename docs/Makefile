@@ -21,10 +21,10 @@ docs:
 	for f in ./api/*.rst; do\
 	    perl -pi -e 's/(module|package)$$// if $$. == 1' $$f ;\
 	done
+	$(MAKE) html
 	cp -r examples $(BUILDDIR)/html
 
-gh-pages:
-	$(MAKE) docs html
+gh-pages: docs
 	rm -rf /tmp/gh-pages	
 	cp -r $(BUILDDIR)/html /tmp/gh-pages
 	git checkout gh-pages
