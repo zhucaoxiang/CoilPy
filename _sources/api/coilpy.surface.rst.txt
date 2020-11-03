@@ -1,0 +1,7 @@
+coilpy.surface 
+=====================
+
+.. automodule:: coilpy.surface
+   :members:
+   :undoc-members:
+   :show-inheritance:

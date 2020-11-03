@@ -1,0 +1,7 @@
+coilpy.misc 
+==================
+
+.. automodule:: coilpy.misc
+   :members:
+   :undoc-members:
+   :show-inheritance:

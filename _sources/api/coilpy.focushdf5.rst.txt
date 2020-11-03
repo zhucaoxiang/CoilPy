@@ -1,0 +1,7 @@
+coilpy.focushdf5 
+=======================
+
+.. automodule:: coilpy.focushdf5
+   :members:
+   :undoc-members:
+   :show-inheritance:

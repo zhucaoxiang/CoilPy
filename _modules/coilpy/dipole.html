@@ -1,0 +1,955 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>coilpy.dipole &#8212; coilpy 0.2.25 documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.25 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">coilpy.dipole</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for coilpy.dipole</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">xy2rp</span><span class="p">,</span> <span class="n">map_matrix</span><span class="p">,</span> <span class="n">toroidal_period</span>
+
+
+<div class="viewcode-block" id="Dipole"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole">[docs]</a><span class="k">class</span> <span class="nc">Dipole</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    magnetic dipole class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize empty class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># total number of dipoles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># toroidal_periodicity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># q expotent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sp_switch</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># switch to indicate if using spherical coordinates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xyz_switch</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># switch to indicate if using spherical coordinates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">old</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># old format or new</span>
+        <span class="c1"># self.symmetry = 2 # 0: no symmetry; 1: periodicity; 2: stellarator symmetry (+periodicity)</span>
+        <span class="k">if</span> <span class="s2">&quot;mm&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>  <span class="c1"># spherical coord</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ox</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ox&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">oy</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;oy&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">oz</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;oz&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;mm&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mt</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;mt&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mp</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;mp&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;pho&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;momentq&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Ic</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;Ic&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Lc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;Lc&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sp_switch</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filename&quot;</span><span class="p">,</span> <span class="s2">&quot;dipole&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;pm_</span><span class="si">{:010d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">symm</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;symm&quot;</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span>
+        <span class="k">elif</span> <span class="s2">&quot;mx&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>  <span class="c1"># cartesian coord</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ox</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ox&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">oy</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;oy&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">oz</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;oz&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mx</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;mx&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;my&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mz</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;mz&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mx</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mz</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Ic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Lc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xyz_switch</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filename&quot;</span><span class="p">,</span> <span class="s2">&quot;dipole&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;pm_</span><span class="si">{:010d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">symm</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;symm&quot;</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">)</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="Dipole.open"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.open">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read FAMUS dipoles</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): path to open the file.</span>
+<span class="sd">            verbose (bool, optional): Whether to print additional info. Defaults to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dipole: Dipole class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">coilfile</span><span class="p">:</span>
+            <span class="n">coilfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">coilfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">momentq</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Moment Q factor was not read. Default=1.&quot;</span><span class="p">)</span>
+                <span class="n">momentq</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">symm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="n">num</span><span class="p">]</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">])[</span><span class="mi">0</span><span class="p">:</span><span class="n">num</span><span class="p">]</span>  <span class="c1"># type string</span>
+        <span class="n">ox</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="n">num</span><span class="p">]</span>
+        <span class="n">oy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="n">num</span><span class="p">]</span>
+        <span class="n">oz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="n">num</span><span class="p">]</span>
+        <span class="n">Ic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="n">num</span><span class="p">]</span>
+        <span class="n">mm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="n">num</span><span class="p">]</span>
+        <span class="n">pho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="n">num</span><span class="p">]</span>
+        <span class="n">Lc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="n">num</span><span class="p">]</span>
+        <span class="n">mp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="n">num</span><span class="p">]</span>
+        <span class="n">mt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="n">num</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Read </span><span class="si">{:d}</span><span class="s2"> dipoles from </span><span class="si">{:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ox</span><span class="p">),</span> <span class="n">filename</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">symm</span><span class="o">=</span><span class="n">symm</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">ox</span><span class="o">=</span><span class="n">ox</span><span class="p">,</span>
+            <span class="n">oy</span><span class="o">=</span><span class="n">oy</span><span class="p">,</span>
+            <span class="n">oz</span><span class="o">=</span><span class="n">oz</span><span class="p">,</span>
+            <span class="n">Ic</span><span class="o">=</span><span class="n">Ic</span><span class="p">,</span>
+            <span class="n">mm</span><span class="o">=</span><span class="n">mm</span><span class="p">,</span>
+            <span class="n">Lc</span><span class="o">=</span><span class="n">Lc</span><span class="p">,</span>
+            <span class="n">mp</span><span class="o">=</span><span class="n">mp</span><span class="p">,</span>
+            <span class="n">mt</span><span class="o">=</span><span class="n">mt</span><span class="p">,</span>
+            <span class="n">pho</span><span class="o">=</span><span class="n">pho</span><span class="p">,</span>
+            <span class="n">momentq</span><span class="o">=</span><span class="n">momentq</span><span class="p">,</span>
+            <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Dipole.read_dipole_old"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.read_dipole_old">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read_dipole_old</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">zeta</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">zeta1</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;read diploes from FOCUS format (old)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): path to open the file.</span>
+<span class="sd">            zeta (float, optional): Starting toroidal angle for clipping. Defaults to 0.0.</span>
+<span class="sd">            zeta1 (float, optional): [Ending toroidal angle for clipping]. Defaults to np.pi*2.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dipole: Dipole class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">symm</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ox</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">oy</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">oz</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">mm</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">mp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">mt</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">Ic</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">Lc</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">coilfile</span><span class="p">:</span>
+            <span class="n">coilfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="n">Ncoils</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">coilfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">icoil</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Ncoils</span><span class="p">):</span>
+                <span class="n">coilfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+                <span class="n">coilfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+                <span class="n">linelist</span> <span class="o">=</span> <span class="n">coilfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># central current and background Bz</span>
+                    <span class="n">coilfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+                    <span class="n">linelist</span> <span class="o">=</span> <span class="n">coilfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># dipoles</span>
+                    <span class="n">symm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                    <span class="n">name</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                    <span class="n">coilfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+                    <span class="n">linelist</span> <span class="o">=</span> <span class="n">coilfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">r</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="n">xy2rp</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+                    <span class="k">if</span> <span class="n">phi</span> <span class="o">&gt;=</span> <span class="n">zeta</span> <span class="ow">and</span> <span class="n">phi</span> <span class="o">&lt;=</span> <span class="n">zeta1</span><span class="p">:</span>
+                        <span class="n">Lc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                        <span class="n">ox</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                        <span class="n">oy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+                        <span class="n">oz</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+                        <span class="n">Ic</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">4</span><span class="p">]))</span>
+                        <span class="n">mm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+                        <span class="n">mt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">6</span><span class="p">]))</span>
+                        <span class="n">mp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">7</span><span class="p">]))</span>
+                <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Fourier coils</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">11</span><span class="p">):</span>
+                        <span class="n">coilfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Invalid coiltype = </span><span class="si">{:d}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">linelist</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                    <span class="p">)</span>
+        <span class="n">nc</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ox</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nc</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: no dipoles was read from &quot;</span> <span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;Read </span><span class="si">{:d}</span><span class="s2"> dipoles from </span><span class="si">{:}</span><span class="s2">. Please manually set self.old=True.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">nc</span><span class="p">,</span> <span class="n">filename</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">symm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">symm</span><span class="p">)</span>
+        <span class="n">ox</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ox</span><span class="p">)</span>
+        <span class="n">oy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">oy</span><span class="p">)</span>
+        <span class="n">oz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">oz</span><span class="p">)</span>
+        <span class="n">mm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mm</span><span class="p">)</span>
+        <span class="n">mt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mt</span><span class="p">)</span>
+        <span class="n">mp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mp</span><span class="p">)</span>
+        <span class="n">Lc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Lc</span><span class="p">)</span>
+        <span class="n">Ic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Ic</span><span class="p">)</span>
+        <span class="n">pho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">ox</span><span class="p">)</span>
+        <span class="n">momentq</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">symm</span><span class="o">=</span><span class="n">symm</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+            <span class="n">ox</span><span class="o">=</span><span class="n">ox</span><span class="p">,</span>
+            <span class="n">oy</span><span class="o">=</span><span class="n">oy</span><span class="p">,</span>
+            <span class="n">oz</span><span class="o">=</span><span class="n">oz</span><span class="p">,</span>
+            <span class="n">Ic</span><span class="o">=</span><span class="n">Ic</span><span class="p">,</span>
+            <span class="n">mm</span><span class="o">=</span><span class="n">mm</span><span class="p">,</span>
+            <span class="n">Lc</span><span class="o">=</span><span class="n">Lc</span><span class="p">,</span>
+            <span class="n">mp</span><span class="o">=</span><span class="n">mp</span><span class="p">,</span>
+            <span class="n">mt</span><span class="o">=</span><span class="n">mt</span><span class="p">,</span>
+            <span class="n">pho</span><span class="o">=</span><span class="n">pho</span><span class="p">,</span>
+            <span class="n">momentq</span><span class="o">=</span><span class="n">momentq</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Dipole.from_regcoil"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.from_regcoil">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_regcoil</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">regcoilname</span><span class="p">,</span>
+        <span class="n">winding</span><span class="p">,</span>
+        <span class="n">ilambda</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">symmetry</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">,</span>
+        <span class="n">num_pol</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+        <span class="n">num_tor</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+        <span class="n">m0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">half_shift</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize from REGCOIL current potential</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            regcoilname (str): REGCOIL netcdf output file.</span>
+<span class="sd">            winding (str, optional): NESCOIL input format winding surface.</span>
+<span class="sd">            ilambda (int, optional): Lambda index in REGCOIL output. Defaults to -1.</span>
+<span class="sd">            symmetry (str, optional): Stellarator symmetry option. Defaults to &#39;full&#39;.</span>
+<span class="sd">            num_pol (int, optional): Number of poloidal dipoles. Defaults to 128.</span>
+<span class="sd">            num_tor (int, optional): Number of toroidal dipoles. Defaults to 128.</span>
+<span class="sd">            m0 ([type], optional): Magnetization limit per thickness. Defaults to None.</span>
+<span class="sd">            half_shift (bool, optional): Logical flag to determine if half-grid shifted. Defaults to True.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># read regcoil output</span>
+        <span class="kn">from</span> <span class="nn">scipy.io</span> <span class="kn">import</span> <span class="n">netcdf</span>
+
+        <span class="n">f</span> <span class="o">=</span> <span class="n">netcdf</span><span class="o">.</span><span class="n">netcdf_file</span><span class="p">(</span><span class="n">regcoilname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">mmap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">nfp</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;nfp&quot;</span><span class="p">][()]</span>
+        <span class="n">ntheta_plasma</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;ntheta_plasma&quot;</span><span class="p">][()]</span>
+        <span class="n">ntheta_coil</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;ntheta_coil&quot;</span><span class="p">][()]</span>
+        <span class="n">nzeta_plasma</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;nzeta_plasma&quot;</span><span class="p">][()]</span>
+        <span class="n">nzeta_coil</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;nzeta_coil&quot;</span><span class="p">][()]</span>
+        <span class="n">nzetal_plasma</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;nzetal_plasma&quot;</span><span class="p">][()]</span>
+        <span class="n">nzetal_coil</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;nzetal_coil&quot;</span><span class="p">][()]</span>
+        <span class="n">theta_plasma</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;theta_plasma&quot;</span><span class="p">][()]</span>
+        <span class="n">theta_coil</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;theta_coil&quot;</span><span class="p">][()]</span>
+        <span class="n">zeta_plasma</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;zeta_plasma&quot;</span><span class="p">][()]</span>
+        <span class="n">zeta_coil</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;zeta_coil&quot;</span><span class="p">][()]</span>
+        <span class="n">zetal_plasma</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;zetal_plasma&quot;</span><span class="p">][()]</span>
+        <span class="n">zetal_coil</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;zetal_coil&quot;</span><span class="p">][()]</span>
+        <span class="n">r_plasma</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;r_plasma&quot;</span><span class="p">][()]</span>
+        <span class="c1"># normal_coil = f.variables[&#39;normal_coil&#39;][()]</span>
+        <span class="n">r_coil</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;r_coil&quot;</span><span class="p">][()]</span>
+        <span class="n">xm_coil</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;xm_coil&quot;</span><span class="p">][()]</span>
+        <span class="n">xn_coil</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;xn_coil&quot;</span><span class="p">][()]</span>
+        <span class="n">xm_potential</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;xm_potential&quot;</span><span class="p">][()]</span>
+        <span class="n">xn_potential</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;xn_potential&quot;</span><span class="p">][()]</span>
+        <span class="n">mnmax_coil</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;mnmax_coil&quot;</span><span class="p">][()]</span>
+        <span class="n">chi2_B</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;chi2_B&quot;</span><span class="p">][()]</span>
+        <span class="n">single_valued_current_potential_thetazeta</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span>
+            <span class="s2">&quot;single_valued_current_potential_thetazeta&quot;</span>
+        <span class="p">][()]</span>
+        <span class="n">current_potential</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;current_potential&quot;</span><span class="p">][()]</span>
+        <span class="n">Bnormal_from_plasma_current</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;Bnormal_from_plasma_current&quot;</span><span class="p">][()]</span>
+        <span class="n">Bnormal_from_net_coil_currents</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;Bnormal_from_net_coil_currents&quot;</span><span class="p">][</span>
+            <span class="p">()</span>
+        <span class="p">]</span>
+        <span class="n">Bnormal_total</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;Bnormal_total&quot;</span><span class="p">][()]</span>
+        <span class="n">net_poloidal_current_Amperes</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;net_poloidal_current_Amperes&quot;</span><span class="p">][()]</span>
+        <span class="n">phi_mn</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;single_valued_current_potential_mn&quot;</span><span class="p">][()][</span><span class="n">ilambda</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">symmetry_option</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;symmetry_option&quot;</span><span class="p">][()]</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="n">mn_max</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xm_potential</span><span class="p">)</span>
+        <span class="n">phi_sin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">mn_max</span><span class="p">)</span>
+        <span class="n">phi_cos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">mn_max</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">symmetry_option</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">phi_sin</span> <span class="o">=</span> <span class="n">phi_mn</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">mn_max</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">symmetry_option</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">phi_cos</span> <span class="o">=</span> <span class="n">phi_mn</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">mn_max</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">symmetry_option</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">phi_sin</span> <span class="o">=</span> <span class="n">phi_mn</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">mn_max</span><span class="p">]</span>
+            <span class="n">phi_cos</span> <span class="o">=</span> <span class="n">phi_mn</span><span class="p">[</span><span class="n">mn_max</span><span class="p">:]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Something wrong the symmetry_option: </span><span class="si">{:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">symmetry_option</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">func_new</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">zeta</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;get current potential of (theta, zeta)</span>
+
+<span class="sd">            Parameters:</span>
+<span class="sd">            theta -- float array_like, poloidal angle</span>
+<span class="sd">            zeta -- float array_like, toroidal angle value</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">            phi -- float array_like</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">zeta</span><span class="p">)</span>
+            <span class="p">),</span> <span class="s2">&quot;theta, zeta should be equal size&quot;</span>
+            <span class="c1"># mt - nz (in matrix)</span>
+            <span class="n">_mtnz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xm_potential</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+            <span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xn_potential</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">zeta</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+            <span class="n">_sin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">_mtnz</span><span class="p">)</span>
+            <span class="n">_cos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">_mtnz</span><span class="p">)</span>
+
+            <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">phi_sin</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">_sin</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">phi_cos</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">_cos</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">phi</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+        <span class="c1"># initialize dipoles</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">num_pol</span> <span class="o">*</span> <span class="n">num_tor</span>
+        <span class="k">if</span> <span class="n">symmetry</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;full&quot;</span><span class="p">:</span>
+            <span class="n">zeta_end</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+            <span class="n">symm</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">symmetry</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;one&quot;</span><span class="p">:</span>
+            <span class="n">zeta_end</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">nfp</span>
+            <span class="n">symm</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">symmetry</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;half&quot;</span><span class="p">:</span>
+            <span class="n">zeta_end</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">nfp</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">symm</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No such symmetry option!&quot;</span><span class="p">)</span>
+
+        <span class="n">ox</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">oy</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">oz</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">mt</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">mp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">mm</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># discretization</span>
+        <span class="k">if</span> <span class="n">half_shift</span><span class="p">:</span>  <span class="c1"># toroidally shift half grid</span>
+            <span class="n">half</span> <span class="o">=</span> <span class="n">zeta_end</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_tor</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">half</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">theta_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">num_pol</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">zeta_array</span> <span class="o">=</span> <span class="n">half</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">zeta_end</span><span class="p">,</span> <span class="n">num_tor</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">dtheta</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">num_pol</span>
+        <span class="n">dzeta</span> <span class="o">=</span> <span class="n">zeta_end</span> <span class="o">/</span> <span class="n">num_tor</span>
+        <span class="n">tv</span><span class="p">,</span> <span class="n">zv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">theta_array</span><span class="p">,</span> <span class="n">zeta_array</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
+
+        <span class="kn">from</span> <span class="nn">.surface</span> <span class="kn">import</span> <span class="n">FourSurf</span>
+
+        <span class="n">wind</span> <span class="o">=</span> <span class="n">FourSurf</span><span class="o">.</span><span class="n">read_winding_surfce</span><span class="p">(</span><span class="n">winding</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">wind</span><span class="o">.</span><span class="n">xyz</span><span class="p">(</span><span class="n">tv</span><span class="p">,</span> <span class="n">zv</span><span class="p">,</span> <span class="n">normal</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">func_new</span><span class="p">(</span><span class="n">tv</span><span class="p">,</span> <span class="n">zv</span><span class="p">)</span>
+        <span class="n">ox</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">oy</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">oz</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">nn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">mt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">n</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">nn</span><span class="p">)</span>
+        <span class="n">mp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">n</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">n</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">m0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># not specify the allowable magnetization</span>
+            <span class="n">mm</span> <span class="o">=</span> <span class="o">-</span><span class="n">phi</span> <span class="o">*</span> <span class="n">nn</span> <span class="o">*</span> <span class="n">dtheta</span> <span class="o">*</span> <span class="n">dzeta</span>
+            <span class="n">pho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">mm</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mm</span> <span class="o">=</span> <span class="n">m0</span> <span class="o">*</span> <span class="n">nn</span> <span class="o">*</span> <span class="n">dtheta</span> <span class="o">*</span> <span class="n">dzeta</span>
+            <span class="n">pho</span> <span class="o">=</span> <span class="o">-</span><span class="n">phi</span> <span class="o">/</span> <span class="n">m0</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">symm</span><span class="o">=</span><span class="n">symm</span><span class="p">,</span>
+            <span class="n">ox</span><span class="o">=</span><span class="n">ox</span><span class="p">,</span>
+            <span class="n">oy</span><span class="o">=</span><span class="n">oy</span><span class="p">,</span>
+            <span class="n">oz</span><span class="o">=</span><span class="n">oz</span><span class="p">,</span>
+            <span class="n">mp</span><span class="o">=</span><span class="n">mp</span><span class="p">,</span>
+            <span class="n">mt</span><span class="o">=</span><span class="n">mt</span><span class="p">,</span>
+            <span class="n">mm</span><span class="o">=</span><span class="n">mm</span><span class="p">,</span>
+            <span class="n">pho</span><span class="o">=</span><span class="n">pho</span><span class="p">,</span>
+            <span class="n">Ic</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">ox</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),</span>
+            <span class="n">Lc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">ox</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),</span>
+            <span class="n">momentq</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Dipole.sp2xyz"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.sp2xyz">[docs]</a>    <span class="k">def</span> <span class="nf">sp2xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        spherical coordinates to cartesian coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">sp_switch</span> <span class="o">==</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;You are not using spherical coordinates&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">old</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mt</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mp</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mt</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mp</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mt</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mx</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mt</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mp</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mt</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mp</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xyz_switch</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Dipole.xyz2sp"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.xyz2sp">[docs]</a>    <span class="k">def</span> <span class="nf">xyz2sp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        cartesian coordinates to spherical coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz_switch</span> <span class="o">==</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;You are not using cartesian coordinates&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">old</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mx</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mx</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mz</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mz</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mz</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="p">)</span>
+            <span class="c1"># self.pho = np.ones_like(self.mm)</span>
+            <span class="c1"># self.momentq = 1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mx</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mx</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mz</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mz</span><span class="p">)</span>
+                <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span>
+                <span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span><span class="p">,</span>            
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mz</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">my</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mx</span><span class="p">)</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="n">sp_switch</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Dipole.save"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;write diploes from FOCUS format</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): FOCUS file name.</span>
+<span class="sd">            unique (bool, optional): Writing dipole every self.nfp term. Defaults to False.</span>
+<span class="sd">            tol (float, optional): tolerance to skip zeros. Defaults to 0.</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sp_switch</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xyz2sp</span><span class="p">()</span>
+        <span class="n">cond</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">tol</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">wfile</span><span class="p">:</span>
+            <span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; # Total number of dipoles,  momentq </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">unique</span><span class="p">:</span>
+                <span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:6d}</span><span class="s2">,  </span><span class="si">{:4d}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nfp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:6d}</span><span class="s2">,  </span><span class="si">{:4d}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">cond</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">old</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">icoil</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">unique</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">icoil</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">cond</span><span class="p">[</span><span class="n">icoil</span><span class="p">]:</span>
+                        <span class="k">continue</span>
+                    <span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                        <span class="s2">&quot;#-----------------</span><span class="si">{}</span><span class="s2">---------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">icoil</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#coil_type   symm  coil_name </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                        <span class="s2">&quot;   </span><span class="si">{:1d}</span><span class="s2">  </span><span class="si">{:1d}</span><span class="s2">  </span><span class="si">{:}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">symm</span><span class="p">[</span><span class="n">icoil</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="n">icoil</span><span class="p">]</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#  Lc  ox   oy   oz  Ic  I  mt  mp </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                        <span class="s2">&quot;</span><span class="si">{:6d}</span><span class="s2"> </span><span class="si">{:23.15E}</span><span class="s2"> </span><span class="si">{:23.15E}</span><span class="s2"> </span><span class="si">{:23.15E}</span><span class="s2"> </span><span class="si">{:6d}</span><span class="s2"> </span><span class="si">{:23.15E}</span><span class="s2"> </span><span class="si">{:23.15E}</span><span class="s2"> </span><span class="si">{:23.15E}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">Lc</span><span class="p">[</span><span class="n">icoil</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">[</span><span class="n">icoil</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">oy</span><span class="p">[</span><span class="n">icoil</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">oz</span><span class="p">[</span><span class="n">icoil</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">Ic</span><span class="p">[</span><span class="n">icoil</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="p">[</span><span class="n">icoil</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">mt</span><span class="p">[</span><span class="n">icoil</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">mp</span><span class="p">[</span><span class="n">icoil</span><span class="p">],</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s2">&quot;#coiltype, symmetry,  coilname,  ox,  oy,  oz,  Ic,  M_0,  pho,  Lc,  mp,  mt </span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">unique</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">cond</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                        <span class="k">continue</span>                        
+                    <span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                        <span class="s2">&quot; 2, </span><span class="si">{:1d}</span><span class="s2">, </span><span class="si">{:}</span><span class="s2">, </span><span class="si">{:15.8E}</span><span class="s2">, </span><span class="si">{:15.8E}</span><span class="s2">, </span><span class="si">{:15.8E}</span><span class="s2">, </span><span class="si">{:2d}</span><span class="s2">, </span><span class="si">{:15.8E}</span><span class="s2">,&quot;</span>
+                        <span class="s2">&quot;</span><span class="si">{:15.8E}</span><span class="s2">, </span><span class="si">{:2d}</span><span class="s2">, </span><span class="si">{:15.8E}</span><span class="s2">, </span><span class="si">{:15.8E}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">symm</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">oy</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">oz</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">Ic</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">pho</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">Lc</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">mp</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">mt</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Dipole.toVTK"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.toVTK">[docs]</a>    <span class="k">def</span> <span class="nf">toVTK</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">vtkname</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">close</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ntnz</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">toroidal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;write dipole data into a VTK file</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            vtkname (str): VTK filename, will be appended with .vts or .vtu.</span>
+<span class="sd">            dim (tuple, optional): Dimension information if saved as structured grids. Defaults to (1).</span>
+<span class="sd">            close (bool, optional): Logical flag to manually close the gaps. Defaults to False.</span>
+<span class="sd">            ntnz (bool, optional): Logical flag of theta-zeta order. Defaults to False.</span>
+<span class="sd">            toroidal (bool, optional): Logical flag of filling in the toroidal gap. Defaults to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pyevtk.hl</span> <span class="kn">import</span> <span class="n">gridToVTK</span><span class="p">,</span> <span class="n">pointsToVTK</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz_switch</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sp2xyz</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">vtkname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vtkname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># save as points</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;write VTK as points&quot;</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;m&quot;</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">my</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mz</span><span class="p">)}</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">old</span><span class="p">:</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;rho&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span><span class="p">})</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">pointsToVTK</span><span class="p">(</span>
+                <span class="n">vtkname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">oy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">oz</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span>
+            <span class="p">)</span>  <span class="c1"># .update(kwargs))</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># save as surfaces</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;write VTK as closed surface&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">close</span><span class="p">:</span>
+                <span class="c1"># manually close the gap</span>
+                <span class="n">phi</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span>
+
+                <span class="k">def</span> <span class="nf">map_toroidal</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
+                    <span class="n">rotate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                        <span class="p">[</span>
+                            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+                            <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                        <span class="p">]</span>
+                    <span class="p">)</span>
+                    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">rotate</span><span class="p">)</span>
+
+                <span class="n">data_array</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;ox&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">,</span>
+                    <span class="s2">&quot;oy&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">oy</span><span class="p">,</span>
+                    <span class="s2">&quot;oz&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">oz</span><span class="p">,</span>
+                    <span class="s2">&quot;mx&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mx</span><span class="p">,</span>
+                    <span class="s2">&quot;my&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">my</span><span class="p">,</span>
+                    <span class="s2">&quot;mz&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mz</span><span class="p">,</span>
+                    <span class="s2">&quot;Ic&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ic</span><span class="p">,</span>
+                    <span class="s2">&quot;rho&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span><span class="p">,</span>
+                <span class="p">}</span>
+                <span class="n">data_array</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">nr</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span> <span class="n">nt</span> <span class="o">=</span> <span class="n">dim</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">data_array</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                    <span class="n">new_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nr</span><span class="p">,</span> <span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">ir</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nr</span><span class="p">):</span>
+                        <span class="n">new_vec</span><span class="p">[</span><span class="n">ir</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">data_array</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">dim</span><span class="p">)[</span><span class="n">ir</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+                        <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">toroidal</span><span class="p">:</span>
+                        <span class="n">data_array</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_vec</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">ntnz</span><span class="p">:</span>
+                            <span class="n">data_array</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">new_vec</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">data_array</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">new_vec</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span>
+                <span class="n">ox</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;ox&quot;</span><span class="p">])</span>
+                <span class="n">oy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;oy&quot;</span><span class="p">])</span>
+                <span class="n">oz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;oz&quot;</span><span class="p">])</span>
+                <span class="k">del</span> <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;ox&quot;</span><span class="p">]</span>
+                <span class="k">del</span> <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;oy&quot;</span><span class="p">]</span>
+                <span class="k">del</span> <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;oz&quot;</span><span class="p">]</span>
+                <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;mx&quot;</span><span class="p">],</span> <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;my&quot;</span><span class="p">],</span> <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;mz&quot;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">toroidal</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># not quite sure if should include nfp=1</span>
+                    <span class="k">for</span> <span class="n">ir</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nr</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">ntnz</span><span class="p">:</span>
+                            <span class="n">xyz</span> <span class="o">=</span> <span class="n">map_toroidal</span><span class="p">(</span>
+                                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">ox</span><span class="p">[</span><span class="n">ir</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">oy</span><span class="p">[</span><span class="n">ir</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">oz</span><span class="p">[</span><span class="n">ir</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]])</span>
+                            <span class="p">)</span>
+                            <span class="n">ox</span><span class="p">[</span><span class="n">ir</span><span class="p">,</span> <span class="p">:,</span> <span class="n">nz</span><span class="p">]</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+                            <span class="n">oy</span><span class="p">[</span><span class="n">ir</span><span class="p">,</span> <span class="p">:,</span> <span class="n">nz</span><span class="p">]</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+                            <span class="n">oz</span><span class="p">[</span><span class="n">ir</span><span class="p">,</span> <span class="p">:,</span> <span class="n">nz</span><span class="p">]</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+                            <span class="n">moment</span> <span class="o">=</span> <span class="n">map_toroidal</span><span class="p">(</span>
+                                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span>
+                                    <span class="p">[</span>
+                                        <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;mx&quot;</span><span class="p">][</span><span class="n">ir</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span>
+                                        <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;my&quot;</span><span class="p">][</span><span class="n">ir</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span>
+                                        <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;mz&quot;</span><span class="p">][</span><span class="n">ir</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span>
+                                    <span class="p">]</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+                            <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;m&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">ir</span><span class="p">,</span> <span class="p">:,</span> <span class="n">nz</span><span class="p">]</span> <span class="o">=</span> <span class="n">moment</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+                            <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;m&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">ir</span><span class="p">,</span> <span class="p">:,</span> <span class="n">nz</span><span class="p">]</span> <span class="o">=</span> <span class="n">moment</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+                            <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;m&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="n">ir</span><span class="p">,</span> <span class="p">:,</span> <span class="n">nz</span><span class="p">]</span> <span class="o">=</span> <span class="n">moment</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">xyz</span> <span class="o">=</span> <span class="n">map_toroidal</span><span class="p">(</span>
+                                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">ox</span><span class="p">[</span><span class="n">ir</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">oy</span><span class="p">[</span><span class="n">ir</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">oz</span><span class="p">[</span><span class="n">ir</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]])</span>
+                            <span class="p">)</span>
+                            <span class="n">ox</span><span class="p">[</span><span class="n">ir</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+                            <span class="n">oy</span><span class="p">[</span><span class="n">ir</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+                            <span class="n">oz</span><span class="p">[</span><span class="n">ir</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+                            <span class="n">moment</span> <span class="o">=</span> <span class="n">map_toroidal</span><span class="p">(</span>
+                                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span>
+                                    <span class="p">[</span>
+                                        <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;mx&quot;</span><span class="p">][</span><span class="n">ir</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:],</span>
+                                        <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;my&quot;</span><span class="p">][</span><span class="n">ir</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:],</span>
+                                        <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;mz&quot;</span><span class="p">][</span><span class="n">ir</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:],</span>
+                                    <span class="p">]</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+                            <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;m&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">ir</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">moment</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+                            <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;m&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">ir</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">moment</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+                            <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;m&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="n">ir</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">moment</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+                <span class="k">del</span> <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;mx&quot;</span><span class="p">]</span>
+                <span class="k">del</span> <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;my&quot;</span><span class="p">]</span>
+                <span class="k">del</span> <span class="n">data_array</span><span class="p">[</span><span class="s2">&quot;mz&quot;</span><span class="p">]</span>
+                <span class="n">gridToVTK</span><span class="p">(</span><span class="n">vtkname</span><span class="p">,</span> <span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">oz</span><span class="p">,</span> <span class="n">pointData</span><span class="o">=</span><span class="n">data_array</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ox</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">],</span> <span class="n">dim</span><span class="p">)</span>
+                <span class="n">oy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oy</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">],</span> <span class="n">dim</span><span class="p">)</span>
+                <span class="n">oz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oz</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">],</span> <span class="n">dim</span><span class="p">)</span>
+                <span class="n">mx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mx</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">],</span> <span class="n">dim</span><span class="p">)</span>
+                <span class="n">my</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">my</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">],</span> <span class="n">dim</span><span class="p">)</span>
+                <span class="n">mz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mz</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">],</span> <span class="n">dim</span><span class="p">)</span>
+                <span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pho</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">]</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+                <span class="n">Ic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ic</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">],</span> <span class="n">dim</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;m&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">mx</span><span class="p">,</span> <span class="n">my</span><span class="p">,</span> <span class="n">mz</span><span class="p">),</span> <span class="s2">&quot;rho&quot;</span><span class="p">:</span> <span class="n">rho</span><span class="p">,</span> <span class="s2">&quot;Ic&quot;</span><span class="p">:</span> <span class="n">Ic</span><span class="p">}</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">gridToVTK</span><span class="p">(</span><span class="n">vtkname</span><span class="p">,</span> <span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">oz</span><span class="p">,</span> <span class="n">pointData</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Dipole.full_period"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.full_period">[docs]</a>    <span class="k">def</span> <span class="nf">full_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nfp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        map from one period to full periods</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">nfp</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span> <span class="o">=</span> <span class="n">nfp</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz_switch</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sp2xyz</span><span class="p">()</span>
+        <span class="c1"># change order</span>
+        <span class="k">if</span> <span class="n">dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ox</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">,</span> <span class="n">dim</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">oy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oy</span><span class="p">,</span> <span class="n">dim</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">oz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oz</span><span class="p">,</span> <span class="n">dim</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mx</span><span class="p">,</span> <span class="n">dim</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">my</span><span class="p">,</span> <span class="n">dim</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mz</span><span class="p">,</span> <span class="n">dim</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="n">dim</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Ic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ic</span><span class="p">,</span> <span class="n">dim</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Lc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lc</span><span class="p">,</span> <span class="n">dim</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pho</span><span class="p">,</span> <span class="n">dim</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symm</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># get the stellarator symmetry part first</span>
+            <span class="c1"># Here, we assume no dipoles on the symmetry plane, or only half are listed.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">*=</span> <span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ox</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">oy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">oy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">oy</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">oz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">oz</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">oz</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mx</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">my</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">my</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mz</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mz</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">pho</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pho</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Ic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">Ic</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ic</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Lc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">Lc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lc</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">xyz</span> <span class="o">=</span> <span class="n">toroidal_period</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">oy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">oz</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ox</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">oy</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">oz</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">moment</span> <span class="o">=</span> <span class="n">toroidal_period</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">mx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">my</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mz</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mx</span> <span class="o">=</span> <span class="n">moment</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">=</span> <span class="n">moment</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mz</span> <span class="o">=</span> <span class="n">moment</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pho</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pho</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">momentq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ic</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Lc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">symm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sp_switch</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Dipole.inverse"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.inverse">[docs]</a>    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;get the stellarator symmetric part?&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz_switch</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sp2xyz</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ox</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">oy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oy</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">oz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oz</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mx</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">my</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">my</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mz</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pho</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ic</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Lc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lc</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Dipole.change_momentq"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.change_momentq">[docs]</a>    <span class="k">def</span> <span class="nf">change_momentq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newq</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        change the q factor for the normalized density</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">newq</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="n">pho</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span>
+        <span class="c1"># get signs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sp2xyz</span><span class="p">()</span>
+        <span class="n">sign</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">pho</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">newq</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># even number, flip the orientation when negative</span>
+            <span class="c1"># self.mx *= sign</span>
+            <span class="c1"># self.my *= sign</span>
+            <span class="c1"># self.mz *= sign</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span> <span class="o">=</span> <span class="n">newq</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xyz2sp</span><span class="p">()</span>
+            <span class="c1"># convert to positive rho</span>
+            <span class="c1"># self.pho = np.power(np.abs(pho), 1.0/newq)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># odd exponetial index</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span> <span class="o">=</span> <span class="n">newq</span>
+            <span class="c1"># convert to positive rho</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">pho</span><span class="p">),</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">newq</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">*=</span> <span class="n">sign</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Dipole.plot_rho_profile"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.plot_rho_profile">[docs]</a>    <span class="k">def</span> <span class="nf">plot_rho_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nrange</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">nofigure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+        <span class="n">pho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pho</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span><span class="p">)</span>
+        <span class="n">zone</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">nrange</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nrange</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">count</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">pho</span> <span class="o">&gt;=</span> <span class="n">zone</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pho</span> <span class="o">&lt;</span> <span class="n">zone</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+        <span class="n">count</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">pho</span> <span class="o">&gt;=</span> <span class="n">zone</span><span class="p">[</span><span class="n">nrange</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pho</span> <span class="o">&lt;=</span> <span class="n">zone</span><span class="p">[</span><span class="n">nrange</span><span class="p">]))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">nofigure</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_fignums</span><span class="p">():</span>
+                <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+                <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+                <span class="n">zone</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">count</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">),</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.9</span> <span class="o">/</span> <span class="n">nrange</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$|\rho|$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;fraction [%]&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">count</span></div>
+
+<div class="viewcode-block" id="Dipole.volume"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.volume">[docs]</a>    <span class="k">def</span> <span class="nf">volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnitization</span><span class="o">=</span><span class="mf">1.1e6</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_moment</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_moment</span> <span class="o">/</span> <span class="n">magnitization</span></div>
+
+<div class="viewcode-block" id="Dipole.orientation"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.orientation">[docs]</a>    <span class="k">def</span> <span class="nf">orientation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">uniform</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">oldq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">change_momentq</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># to a even number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">change_momentq</span><span class="p">(</span><span class="n">oldq</span><span class="p">)</span>  <span class="c1"># recover</span>
+        <span class="k">if</span> <span class="n">unit</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="p">[:]</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">if</span> <span class="n">uniform</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pho</span><span class="p">[:]</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sp2xyz</span><span class="p">()</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Dipole.plot"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;pyplot&quot;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span>
+        <span class="k">if</span> <span class="n">engine</span> <span class="o">==</span> <span class="s2">&quot;pyplot&quot;</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+            <span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">oy</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">oz</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">engine</span> <span class="o">==</span> <span class="s2">&quot;plotly&quot;</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter_3d</span><span class="p">(</span>
+                <span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span>
+                <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">oy</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span>
+                <span class="n">z</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">oz</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span>
+                <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">],</span>
+                <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Dipole.bfield"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.bfield">[docs]</a>    <span class="k">def</span> <span class="nf">bfield</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the magnetic field at an arbitrary position.</span>
+<span class="sd">           No symmetry info considered for now.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pos (array_like): [x,y,z] Cartesian coordinates in space.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            numpy.array: The total magnetic field produced by all dipoles</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="c1"># calculate mx, my, mz if needed</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz_switch</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sp2xyz</span><span class="p">()</span>
+        <span class="c1"># Biot-Savart law</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">oxyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">oy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">oz</span><span class="p">])</span>
+        <span class="n">rxyz</span> <span class="o">=</span> <span class="n">oxyz</span> <span class="o">-</span> <span class="n">pos</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rxyz</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">mxyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">mx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">my</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mz</span><span class="p">])</span>
+        <span class="n">Bvec</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mxyz</span><span class="o">*</span><span class="n">rxyz</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">r</span><span class="o">**</span><span class="mi">5</span><span class="o">*</span><span class="n">rxyz</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">r</span><span class="o">**</span><span class="mi">3</span><span class="o">*</span><span class="n">mxyz</span>
+        <span class="k">return</span> <span class="mf">1E-7</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Bvec</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;FAMUS dipole class, num=</span><span class="si">{:d}</span><span class="s2">, symmetry=</span><span class="si">{:}</span><span class="s2">, filename=</span><span class="si">{:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symm</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Combine two dipole files together&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sp_switch</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xyz2sp</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentq</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">momentq</span><span class="p">,</span> <span class="s2">&quot;Two classes should use the same momentq.&quot;</span>
+        <span class="k">return</span> <span class="n">Dipole</span><span class="p">(</span>
+            <span class="n">symm</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">symm</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">symm</span><span class="p">)),</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span><span class="p">)),</span>
+            <span class="n">ox</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">ox</span><span class="p">)),</span>
+            <span class="n">oy</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">oy</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">oy</span><span class="p">)),</span>
+            <span class="n">oz</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">oz</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">oz</span><span class="p">)),</span>
+            <span class="n">Ic</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">Ic</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">Ic</span><span class="p">)),</span>
+            <span class="n">mm</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">mm</span><span class="p">)),</span>
+            <span class="n">Lc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">Lc</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">Lc</span><span class="p">)),</span>
+            <span class="n">mp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mp</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">mp</span><span class="p">)),</span>
+            <span class="n">mt</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mt</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">mt</span><span class="p">)),</span>
+            <span class="n">pho</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">pho</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">pho</span><span class="p">)),</span>
+            <span class="n">momentq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">momentq</span><span class="p">,</span>
+            <span class="n">filename</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;+&quot;</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">class_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span></div>
+
+
+<div class="viewcode-block" id="GAdipole"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.GAdipole">[docs]</a><span class="k">class</span> <span class="nc">GAdipole</span><span class="p">(</span><span class="n">Dipole</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;main&quot;</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.25 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">coilpy.dipole</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Caoxiang Zhu.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
+    </div>
+  </body>
+</html>

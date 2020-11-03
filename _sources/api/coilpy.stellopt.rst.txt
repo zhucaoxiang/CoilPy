@@ -1,0 +1,7 @@
+coilpy.stellopt 
+======================
+
+.. automodule:: coilpy.stellopt
+   :members:
+   :undoc-members:
+   :show-inheritance:

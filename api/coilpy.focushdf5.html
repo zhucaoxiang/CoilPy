@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>coilpy.focushdf5 &#8212; coilpy 0.2.25 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.25 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">coilpy.focushdf5</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-coilpy.focushdf5">
+<span id="coilpy-focushdf5"></span><h1>coilpy.focushdf5<a class="headerlink" href="#module-coilpy.focushdf5" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="coilpy.focushdf5.FOCUSHDF5">
+<em class="property">class </em><code class="sig-prename descclassname">coilpy.focushdf5.</code><code class="sig-name descname">FOCUSHDF5</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">periodic</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/focushdf5.html#FOCUSHDF5"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.focushdf5.FOCUSHDF5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="coilpy.hdf5.html#coilpy.hdf5.HDF5" title="coilpy.hdf5.HDF5"><code class="xref py py-class docutils literal notranslate"><span class="pre">coilpy.hdf5.HDF5</span></code></a></p>
+<p>FOCUS output hdf5 file</p>
+<dl class="py method">
+<dt id="coilpy.focushdf5.FOCUSHDF5.Bmod">
+<code class="sig-name descname">Bmod</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/focushdf5.html#FOCUSHDF5.Bmod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.focushdf5.FOCUSHDF5.Bmod" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.focushdf5.FOCUSHDF5.Bnorm">
+<code class="sig-name descname">Bnorm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plottype</span><span class="o">=</span><span class="default_value">'2D'</span></em>, <em class="sig-param"><span class="n">source</span><span class="o">=</span><span class="default_value">'all'</span></em>, <em class="sig-param"><span class="n">axes</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">flip</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/focushdf5.html#FOCUSHDF5.Bnorm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.focushdf5.FOCUSHDF5.Bnorm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot Bn distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Keyword Arguments</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>-- string</strong><strong>, </strong><strong>'2D'</strong> (<em>plottype</em>) – </p></li>
+<li><p><strong>-- string</strong><strong>, </strong><strong>'coil'</strong><strong>, </strong><strong>'plasma'</strong><strong>, </strong><strong>'sum'</strong><strong> or </strong><strong>'all'</strong> (<em>source</em>) – </p></li>
+<li><p><strong>-- matplotlib.pyplot</strong><strong> or </strong><strong>mayavi.mlab axis</strong><strong>, </strong><strong>axis to be</strong> (<em>axes</em>) – plotted on  (default None)</p></li>
+<li><p><strong>-- logical</strong><strong>, </strong><strong>determine how to calculate Bn from coil</strong><strong>,</strong> (<em>flip</em>) – True: coil_Bn = Bn - plas_Bn; False: coil_Bn = Bn + plas_Bn</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>obj – matplotlib.pyplot or mayavi.mlab plotting object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.focushdf5.FOCUSHDF5.convergence">
+<code class="sig-name descname">convergence</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">term</span><span class="o">=</span><span class="default_value">'bnorm'</span></em>, <em class="sig-param"><span class="n">iteration</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">axes</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/focushdf5.html#FOCUSHDF5.convergence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.focushdf5.FOCUSHDF5.convergence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.focushdf5.FOCUSHDF5.poincare_plot">
+<code class="sig-name descname">poincare_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">color</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/focushdf5.html#FOCUSHDF5.poincare_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.focushdf5.FOCUSHDF5.poincare_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Poincare plot
+:param color: dot colors; default None (rainbow).
+:type color: matplotlib color, or None
+:param kwargs: matplotlib scatter keyword arguments</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.focushdf5.FOCUSHDF5.toVTK">
+<code class="sig-name descname">toVTK</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">full</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/focushdf5.html#FOCUSHDF5.toVTK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.focushdf5.FOCUSHDF5.toVTK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save surface and magnetic field data into VTK file
+:param name – string, VTK file name. default: None, if None, using self.filename
+:param full – boolean, if save the entire torus:
+:param **kwargs – external data will be saved in VTK file:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>VTK file name</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/coilpy.focushdf5.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.25 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">coilpy.focushdf5</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Caoxiang Zhu.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+coilpy.dipole 
+====================
+
+.. automodule:: coilpy.dipole
+   :members:
+   :undoc-members:
+   :show-inheritance:

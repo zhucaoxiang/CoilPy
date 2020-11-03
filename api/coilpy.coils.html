@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>coilpy.coils &#8212; coilpy 0.2.25 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.25 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">coilpy.coils</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-coilpy.coils">
+<span id="coilpy-coils"></span><h1>coilpy.coils<a class="headerlink" href="#module-coilpy.coils" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="coilpy.coils.Coil">
+<em class="property">class </em><code class="sig-prename descclassname">coilpy.coils.</code><code class="sig-name descname">Coil</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xx</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">yy</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">zz</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">II</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">names</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">groups</span><span class="o">=</span><span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#Coil"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.coils.Coil" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="coilpy.coils.Coil.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">irange</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">engine</span><span class="o">=</span><span class="default_value">'pyplot'</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fig</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">show</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#Coil.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.coils.Coil.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot coils in mayavi or matplotlib</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>irange</strong> (<em>list</em><em>, </em><em>optional</em>) – Coil list to be plotted. Defaults to [].</p></li>
+<li><p><strong>optional</strong><strong>)</strong> (<em>engine（string</em><em>,</em>) – Plotting engine, one of {‘pyplot’ (default), ‘mayavi’, ‘plotly’}.</p></li>
+<li><p><strong>fig</strong> (<em>, </em><em>optional</em>) – figure to be plotted ion (default: None)</p></li>
+<li><p><strong>ax</strong> (<em>, </em><em>optional</em>) – axis to be plotted ion (default: None)</p></li>
+<li><p><strong>(</strong><strong>bool</strong><strong>, </strong><strong>optional）</strong> (<em>show</em>) – if show the plotly figure immediately (default: True)</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keyword dict for plotting settings.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.coils.Coil.read_makegrid">
+<em class="property">classmethod </em><code class="sig-name descname">read_makegrid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#Coil.read_makegrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.coils.Coil.read_makegrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>read MAKEGRID format
+:param filename: file path and name
+:type filename: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Coil class</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.coils.Coil.save_makegrid">
+<code class="sig-name descname">save_makegrid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">nfp</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#Coil.save_makegrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.coils.Coil.save_makegrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>write in MAKEGRID format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>{str} -- file name and path</strong> (<em>filename</em>) – </p></li>
+<li><p><strong>{int} -- number of toroidal periodicity</strong><strong> (</strong><strong>default</strong> (<em>nfp</em>) – <ol class="arabic simple">
+<li></li>
+</ol>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.coils.Coil.toVTK">
+<code class="sig-name descname">toVTK</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vtkname</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#Coil.toVTK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.coils.Coil.toVTK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write entire coil set into a VTK file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vtkname</strong> (<em>str</em>) – VTK filename</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Optional kwargs passed to “polyLinesToVTK”</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="coilpy.coils.SingleCoil">
+<em class="property">class </em><code class="sig-prename descclassname">coilpy.coils.</code><code class="sig-name descname">SingleCoil</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">z</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">I</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'coil1'</span></em>, <em class="sig-param"><span class="n">group</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#SingleCoil"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.coils.SingleCoil" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Single coil class represented as discrete points in Cartesian coordinates</p>
+<dl class="py method">
+<dt id="coilpy.coils.SingleCoil.bfield">
+<code class="sig-name descname">bfield</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pos</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#SingleCoil.bfield"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.coils.SingleCoil.bfield" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.coils.SingleCoil.bfield_HH">
+<code class="sig-name descname">bfield_HH</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pos</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#SingleCoil.bfield_HH"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.coils.SingleCoil.bfield_HH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate B field at an arbitrary point using the Hanson-Hirshman expression</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>{array-like} -- Cartesian coordinates for the evaluation point</strong> (<em>pos</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ndarray – the calculated magnetic field vector</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.coils.SingleCoil.fourier_tangent">
+<code class="sig-name descname">fourier_tangent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#SingleCoil.fourier_tangent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.coils.SingleCoil.fourier_tangent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.coils.SingleCoil.interpolate">
+<code class="sig-name descname">interpolate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num</span><span class="o">=</span><span class="default_value">256</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#SingleCoil.interpolate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.coils.SingleCoil.interpolate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate to increase more data points</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.coils.SingleCoil.magnify">
+<code class="sig-name descname">magnify</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ratio</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#SingleCoil.magnify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.coils.SingleCoil.magnify" title="Permalink to this definition">¶</a></dt>
+<dd><p>magnify coil with a ratio</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.coils.SingleCoil.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">engine</span><span class="o">=</span><span class="default_value">'mayavi'</span></em>, <em class="sig-param"><span class="n">fig</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">show</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#SingleCoil.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.coils.SingleCoil.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot coil as a line</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.coils.SingleCoil.rectangle">
+<code class="sig-name descname">rectangle</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">width</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">height</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">frame</span><span class="o">=</span><span class="default_value">'centroid'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#SingleCoil.rectangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.coils.SingleCoil.rectangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function expand single coil filament to a rectangle coil;</p>
+<p>width
+height
+winding : winding surface data;
+tol: root find tolarence</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.coils.SingleCoil.spline_tangent">
+<code class="sig-name descname">spline_tangent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">der</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#SingleCoil.spline_tangent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.coils.SingleCoil.spline_tangent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the tangent of coil using spline interpolation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>order</strong> (<em>int</em><em>, </em><em>optional</em>) – Order of spline interpolation used. Defaults to 3.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.coils.SingleCoil.toVTK">
+<code class="sig-name descname">toVTK</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vtkname</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#SingleCoil.toVTK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.coils.SingleCoil.toVTK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a VTK file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vtkname</strong> (<em>string</em>) – VTK filename</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/coilpy.coils.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.25 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">coilpy.coils</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Caoxiang Zhu.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
+    </div>
+  </body>
+</html>

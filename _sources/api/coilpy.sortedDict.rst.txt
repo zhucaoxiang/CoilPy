@@ -1,0 +1,7 @@
+coilpy.sortedDict 
+========================
+
+.. automodule:: coilpy.sortedDict
+   :members:
+   :undoc-members:
+   :show-inheritance:

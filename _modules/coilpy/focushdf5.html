@@ -1,0 +1,460 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>coilpy.focushdf5 &#8212; coilpy 0.2.25 documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.25 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">coilpy.focushdf5</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for coilpy.focushdf5</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.hdf5</span> <span class="kn">import</span> <span class="n">HDF5</span>
+<span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">get_figure</span><span class="p">,</span> <span class="n">map_matrix</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">FuncFormatter</span>
+
+
+<div class="viewcode-block" id="FOCUSHDF5"><a class="viewcode-back" href="../../api/coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5">[docs]</a><span class="k">class</span> <span class="nc">FOCUSHDF5</span><span class="p">(</span><span class="n">HDF5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;FOCUS output hdf5 file&quot;&quot;&quot;</span>
+
+    <span class="c1"># initialization, test = FOCUSHDF5(&#39;focus_test.h5&#39;)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">periodic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialization</span>
+
+<span class="sd">        Keyword arguments:</span>
+<span class="sd">            filenmae -- string, path and name to FOCUS output hdf5 file,</span>
+<span class="sd">                        usually in the format of &#39;focus_*.h5&#39;</span>
+<span class="sd">            periodic -- logical, map all 2D surface data automatically,</span>
+<span class="sd">                        (default: True)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># read data</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="c1"># print version</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FOCUS version: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot; is not a valid FOCUS output. Please check.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span>
+        <span class="c1"># add additional colume and row for plotting</span>
+        <span class="k">if</span> <span class="n">periodic</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xsurf</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xsurf</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ysurf</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ysurf</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">zsurf</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zsurf</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nx</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nx</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ny</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ny</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nz</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nz</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nn</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nn</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Bx</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Bx</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">By</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">By</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Bz</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Bz</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Bn</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Bn</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plas_Bn</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plas_Bn</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># convergence plot</span>
+<div class="viewcode-block" id="FOCUSHDF5.convergence"><a class="viewcode-back" href="../../api/coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.convergence">[docs]</a>    <span class="k">def</span> <span class="nf">convergence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="o">=</span><span class="s2">&quot;bnorm&quot;</span><span class="p">,</span> <span class="n">iteration</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># get figure</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">get_figure</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span>
+        <span class="c1"># set default plotting parameters</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;linewidth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;linewidth&quot;</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>  <span class="c1"># line width</span>
+        <span class="c1"># kwargs[&#39;marker&#39;] = kwargs.get(&#39;marker&#39;, &#39;o&#39;) # extent</span>
+        <span class="c1"># get iteration data</span>
+        <span class="k">if</span> <span class="n">iteration</span><span class="p">:</span>
+            <span class="n">abscissa</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iout</span><span class="p">)</span>
+            <span class="n">_xlabel</span> <span class="o">=</span> <span class="s2">&quot;iteration&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">abscissa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolution</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>  <span class="c1"># be careful; DF is not saving wall-time</span>
+            <span class="n">_xlabel</span> <span class="o">=</span> <span class="s2">&quot;wall time [Second]&quot;</span>
+        <span class="c1"># plot data</span>
+        <span class="k">if</span> <span class="n">term</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;chi&quot;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolution</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$\chi^2$&quot;</span><span class="p">)</span>  <span class="c1"># line label</span>
+        <span class="k">elif</span> <span class="n">term</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;gradient&quot;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolution</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$|d \chi^2 / d {\bf X}|$&quot;</span>
+            <span class="p">)</span>  <span class="c1"># line label</span>
+        <span class="k">elif</span> <span class="n">term</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;bnorm&quot;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolution</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$f_</span><span class="si">{B_n}</span><span class="s2">$&quot;</span><span class="p">)</span>  <span class="c1"># line label</span>
+        <span class="k">elif</span> <span class="n">term</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;bharm&quot;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolution</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$f_{B_</span><span class="si">{mn}</span><span class="s2">}$&quot;</span><span class="p">)</span>  <span class="c1"># line label</span>
+        <span class="k">elif</span> <span class="n">term</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;tflux&quot;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolution</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$f_{\Psi}$&quot;</span><span class="p">)</span>  <span class="c1"># line label</span>
+        <span class="k">elif</span> <span class="n">term</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;ttlen&quot;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolution</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$f_L$&quot;</span><span class="p">)</span>  <span class="c1"># line label</span>
+        <span class="k">elif</span> <span class="n">term</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;cssep&quot;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolution</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$f_</span><span class="si">{CS}</span><span class="s2">$&quot;</span><span class="p">)</span>  <span class="c1"># line label</span>
+        <span class="k">elif</span> <span class="n">term</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;curv&quot;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolution</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$f_</span><span class="si">{curv}</span><span class="s2">$&quot;</span><span class="p">)</span>  <span class="c1"># line label</span>
+        <span class="k">elif</span> <span class="n">term</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">convergence</span><span class="p">(</span>
+                    <span class="n">term</span><span class="o">=</span><span class="s2">&quot;chi&quot;</span><span class="p">,</span>
+                    <span class="n">iteration</span><span class="o">=</span><span class="n">iteration</span><span class="p">,</span>
+                    <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span>
+                    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">convergence</span><span class="p">(</span>
+                    <span class="n">term</span><span class="o">=</span><span class="s2">&quot;gradient&quot;</span><span class="p">,</span>
+                    <span class="n">iteration</span><span class="o">=</span><span class="n">iteration</span><span class="p">,</span>
+                    <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span>
+                    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">convergence</span><span class="p">(</span>
+                    <span class="n">term</span><span class="o">=</span><span class="s2">&quot;bnorm&quot;</span><span class="p">,</span>
+                    <span class="n">iteration</span><span class="o">=</span><span class="n">iteration</span><span class="p">,</span>
+                    <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span>
+                    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-.&quot;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">convergence</span><span class="p">(</span>
+                    <span class="n">term</span><span class="o">=</span><span class="s2">&quot;tflux&quot;</span><span class="p">,</span>
+                    <span class="n">iteration</span><span class="o">=</span><span class="n">iteration</span><span class="p">,</span>
+                    <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span>
+                    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-.&quot;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;g&quot;</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">convergence</span><span class="p">(</span>
+                    <span class="n">term</span><span class="o">=</span><span class="s2">&quot;bharm&quot;</span><span class="p">,</span>
+                    <span class="n">iteration</span><span class="o">=</span><span class="n">iteration</span><span class="p">,</span>
+                    <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span>
+                    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-.&quot;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">convergence</span><span class="p">(</span>
+                    <span class="n">term</span><span class="o">=</span><span class="s2">&quot;ttlen&quot;</span><span class="p">,</span>
+                    <span class="n">iteration</span><span class="o">=</span><span class="n">iteration</span><span class="p">,</span>
+                    <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span>
+                    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-.&quot;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">convergence</span><span class="p">(</span>
+                    <span class="n">term</span><span class="o">=</span><span class="s2">&quot;cssep&quot;</span><span class="p">,</span>
+                    <span class="n">iteration</span><span class="o">=</span><span class="n">iteration</span><span class="p">,</span>
+                    <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span>
+                    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-.&quot;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">convergence</span><span class="p">(</span>
+                    <span class="n">term</span><span class="o">=</span><span class="s2">&quot;curv&quot;</span><span class="p">,</span>
+                    <span class="n">iteration</span><span class="o">=</span><span class="n">iteration</span><span class="p">,</span>
+                    <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span>
+                    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-.&quot;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="c1"># fig.legend(loc=&#39;upper right&#39;, frameon=False, ncol=2, prop={&#39;size&#39;:16})</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">lines</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unsupported option for term&quot;</span><span class="p">)</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abscissa</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">_xlabel</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;cost functions&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="c1"># fig.legend(loc=&#39;upper right&#39;, frameon=False, prop={&#39;size&#39;:24, &#39;weight&#39;:&#39;bold&#39;})</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">line</span></div>
+
+    <span class="c1"># poincare plot</span>
+<div class="viewcode-block" id="FOCUSHDF5.poincare_plot"><a class="viewcode-back" href="../../api/coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.poincare_plot">[docs]</a>    <span class="k">def</span> <span class="nf">poincare_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Poincare plot</span>
+<span class="sd">        Args:</span>
+<span class="sd">             color (matplotlib color, or None): dot colors; default None (rainbow).</span>
+<span class="sd">             kwargs : matplotlib scatter keyword arguments</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">             None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+        <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span>
+
+        <span class="c1"># get figure and ax data</span>
+        <span class="k">if</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_fignums</span><span class="p">():</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+        <span class="c1"># get colors</span>
+        <span class="k">if</span> <span class="n">color</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">rainbow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pp_ns</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">color</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pp_ns</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>  <span class="c1"># dotsize</span>
+        <span class="c1"># scatter plot</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pp_ns</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ppr</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">ppz</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;R [m]&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Z [m]&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+    <span class="c1"># Bnorm plot</span>
+<div class="viewcode-block" id="FOCUSHDF5.Bnorm"><a class="viewcode-back" href="../../api/coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.Bnorm">[docs]</a>    <span class="k">def</span> <span class="nf">Bnorm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plottype</span><span class="o">=</span><span class="s2">&quot;2D&quot;</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot Bn distribution.</span>
+
+<span class="sd">        Keyword arguments:</span>
+<span class="sd">            plottype -- string, &#39;2D&#39; (default) or &#39;3D&#39;, determine the plottype</span>
+<span class="sd">            source -- string, &#39;coil&#39;, &#39;plasma&#39;, &#39;sum&#39; or &#39;all&#39; (default), data source</span>
+<span class="sd">            axes  -- matplotlib.pyplot or mayavi.mlab axis, axis to be</span>
+<span class="sd">                     plotted on  (default None)</span>
+<span class="sd">            flip -- logical, determine how to calculate Bn from coil,</span>
+<span class="sd">                    True: coil_Bn = Bn - plas_Bn; False: coil_Bn = Bn + plas_Bn</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">           obj -- matplotlib.pyplot or mayavi.mlab plotting object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># check coil_Bn</span>
+        <span class="k">if</span> <span class="n">flip</span><span class="p">:</span>
+            <span class="n">coil_Bn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Bn</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">plas_Bn</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">coil_Bn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Bn</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">plas_Bn</span>
+        <span class="c1"># 2D plots</span>
+        <span class="k">if</span> <span class="n">plottype</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;2d&quot;</span><span class="p">:</span>
+            <span class="c1"># prepare coordinates</span>
+            <span class="n">ntheta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nteta</span>
+            <span class="n">nzeta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nzeta</span>
+            <span class="n">nt</span><span class="p">,</span> <span class="n">nz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Bn</span><span class="o">.</span><span class="n">shape</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">IsSymmetric</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">zeta_end</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">IsSymmetric</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">zeta_end</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nfp</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">IsSymmetric</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">zeta_end</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nfp</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Something wrong with IsSymmetric.&quot;</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">theta</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{:3.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">ntheta</span> <span class="o">+</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">/</span> <span class="n">ntheta</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">zeta</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{:3.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">zeta_end</span> <span class="o">/</span> <span class="n">nzeta</span> <span class="o">+</span> <span class="n">x</span> <span class="o">*</span> <span class="n">zeta_end</span> <span class="o">/</span> <span class="n">nzeta</span><span class="p">)</span>
+
+            <span class="n">theta_format</span> <span class="o">=</span> <span class="n">FuncFormatter</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+            <span class="n">zeta_format</span> <span class="o">=</span> <span class="n">FuncFormatter</span><span class="p">(</span><span class="n">zeta</span><span class="p">)</span>
+            <span class="c1"># planar plotting</span>
+            <span class="k">if</span> <span class="n">source</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+                <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">get_figure</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">axes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span>
+                <span class="c1"># kwargs[&#39;aspect&#39;] = kwargs.get(&#39;aspect&#39;, nt/(2.0*nz*self.Nfp))</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;aspect&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aspect&quot;</span><span class="p">,</span> <span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">get_figure</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span>
+                <span class="n">axes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;aspect&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aspect&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">nt</span> <span class="o">/</span> <span class="n">nz</span><span class="p">))</span>
+            <span class="c1"># prepare axes</span>
+            <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">zeta_format</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">theta_format</span><span class="p">)</span>
+            <span class="c1"># set default plotting parameters</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cmap&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">,</span> <span class="s2">&quot;RdBu_r&quot;</span><span class="p">)</span>  <span class="c1"># colormap</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;origin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;origin&quot;</span><span class="p">,</span> <span class="s2">&quot;lower&quot;</span><span class="p">)</span>  <span class="c1"># number of contours</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;extent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;extent&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nz</span><span class="p">])</span>  <span class="c1"># extent</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+            <span class="c1"># imshow</span>
+            <span class="k">if</span> <span class="n">source</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;coil&quot;</span><span class="p">:</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">coil_Bn</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+                <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Bn from coils&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\theta$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\phi$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">source</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;plasma&quot;</span><span class="p">:</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plas_Bn</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+                <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Bn from plasma&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\theta$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\phi$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">source</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;sum&quot;</span><span class="p">:</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Bn</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+                <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Residual Bn&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\theta$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\phi$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">source</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+                <span class="n">vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">plas_Bn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Bn</span><span class="p">,</span> <span class="n">coil_Bn</span><span class="p">])</span>
+                <span class="n">vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">plas_Bn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Bn</span><span class="p">,</span> <span class="n">coil_Bn</span><span class="p">])</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plas_Bn</span><span class="p">),</span> <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="c1"># plt.setp(axes[0].get_xticklabels(), visible=False)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+                    <span class="s2">&quot;Bn from plasma (left), coil (mid), overall(right).&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span>
+                <span class="p">)</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">coil_Bn</span><span class="p">),</span> <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="c1"># axes[1].set_title(&#39;Bn from coils&#39;, fontsize=15)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">(),</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Bn</span><span class="p">),</span> <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">(),</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># axes[2].set_title(&#39;Residual Bn&#39;, fontsize=15)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\theta$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+                <span class="c1"># axes[1].set_ylabel(r&#39;$\theta$&#39;, fontsize=14)</span>
+                <span class="c1"># axes[2].set_ylabel(r&#39;$\theta$&#39;, fontsize=14)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\phi$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\phi$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+                <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\phi$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unsupported option for source&quot;</span><span class="p">)</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">right</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+            <span class="n">cbar_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.86</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cax</span><span class="o">=</span><span class="n">cbar_ax</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">obj</span></div>
+
+    <span class="c1"># Bmod plot</span>
+<div class="viewcode-block" id="FOCUSHDF5.Bmod"><a class="viewcode-back" href="../../api/coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.Bmod">[docs]</a>    <span class="k">def</span> <span class="nf">Bmod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span></div>
+
+    <span class="c1"># write vtk</span>
+<div class="viewcode-block" id="FOCUSHDF5.toVTK"><a class="viewcode-back" href="../../api/coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.toVTK">[docs]</a>    <span class="k">def</span> <span class="nf">toVTK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save surface and magnetic field data into VTK file</span>
+<span class="sd">        Arguments:</span>
+<span class="sd">          name -- string, VTK file name. default: None, if None, using self.filename</span>
+<span class="sd">          full -- boolean, if save the entire torus</span>
+<span class="sd">          **kwargs -- external data will be saved in VTK file</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">          VTK file name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pyevtk.hl</span> <span class="kn">import</span> <span class="n">gridToVTK</span>
+
+        <span class="c1"># automatically get a file name, focus_*.h5 -&gt; vtk_*</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;focus_&quot;</span><span class="p">,</span> <span class="s2">&quot;vtk_&quot;</span><span class="p">)</span>
+        <span class="n">xx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xsurf</span>
+        <span class="n">yy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ysurf</span>
+        <span class="n">zz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">zsurf</span>
+        <span class="n">Bx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Bx</span>
+        <span class="n">By</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">By</span>
+        <span class="n">Bz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Bz</span>
+        <span class="n">Bn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Bn</span>
+        <span class="n">plas_Bn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plas_Bn</span>
+        <span class="n">toroidal</span> <span class="o">=</span> <span class="n">full</span>
+        <span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">map_matrix</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="n">toroidal</span><span class="p">))</span>
+        <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">map_matrix</span><span class="p">(</span><span class="n">yy</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="n">toroidal</span><span class="p">))</span>
+        <span class="n">zz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">map_matrix</span><span class="p">(</span><span class="n">zz</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="n">toroidal</span><span class="p">))</span>
+        <span class="n">Bn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">map_matrix</span><span class="p">(</span><span class="n">Bn</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="n">toroidal</span><span class="p">))</span>
+        <span class="n">plas_Bn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">map_matrix</span><span class="p">(</span><span class="n">plas_Bn</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="n">toroidal</span><span class="p">))</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">map_matrix</span><span class="p">(</span><span class="n">Bx</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="n">toroidal</span><span class="p">)),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">map_matrix</span><span class="p">(</span><span class="n">By</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="n">toroidal</span><span class="p">)),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">map_matrix</span><span class="p">(</span><span class="n">Bz</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="n">toroidal</span><span class="p">)),</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">full</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Bn&quot;</span><span class="p">:</span> <span class="n">Bn</span><span class="p">,</span> <span class="s2">&quot;plas_Bn&quot;</span><span class="p">:</span> <span class="n">plas_Bn</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="n">B</span><span class="p">}</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">gridToVTK</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="p">,</span> <span class="n">pointData</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.25 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">coilpy.focushdf5</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Caoxiang Zhu.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
+    </div>
+  </body>
+</html>

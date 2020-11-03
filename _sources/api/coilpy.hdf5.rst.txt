@@ -1,0 +1,7 @@
+coilpy.hdf5 
+==================
+
+.. automodule:: coilpy.hdf5
+   :members:
+   :undoc-members:
+   :show-inheritance:

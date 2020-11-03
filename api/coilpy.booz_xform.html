@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>coilpy.booz_xform &#8212; coilpy 0.2.25 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.25 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">coilpy.booz_xform</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-coilpy.booz_xform">
+<span id="coilpy-booz-xform"></span><h1>coilpy.booz_xform<a class="headerlink" href="#module-coilpy.booz_xform" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="coilpy.booz_xform.BOOZ_XFORM">
+<em class="property">class </em><code class="sig-prename descclassname">coilpy.booz_xform.</code><code class="sig-name descname">BOOZ_XFORM</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/booz_xform.html#BOOZ_XFORM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.booz_xform.BOOZ_XFORM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict" title="coilpy.sortedDict.SortedDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">coilpy.sortedDict.SortedDict</span></code></a></p>
+<dl class="py method">
+<dt id="coilpy.booz_xform.BOOZ_XFORM.from_vmec">
+<em class="property">static </em><code class="sig-name descname">from_vmec</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wout</span></em>, <em class="sig-param"><span class="n">mbooz</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">nbooz</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">surfaces</span><span class="o">=</span><span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/booz_xform.html#BOOZ_XFORM.from_vmec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.booz_xform.BOOZ_XFORM.from_vmec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare BOOZ_XFORM input file from VMEC wout file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wout</strong> (<em>str</em>) – VMEC wout filename.</p></li>
+<li><p><strong>mbooz</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum poloildal mode number. Defaults to 0 (4*Mpol).</p></li>
+<li><p><strong>nbooz</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum toroidal mode number. Defaults to 0 (4*Ntor).</p></li>
+<li><p><strong>surfaces</strong> (<em>list</em><em>, </em><em>optional</em>) – Flux surfaces list. Defaults to [] (1:NS).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.booz_xform.BOOZ_XFORM.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ordering</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">mn</span><span class="o">=</span><span class="default_value">None, None</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">log</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/booz_xform.html#BOOZ_XFORM.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.booz_xform.BOOZ_XFORM.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot <a href="#id1"><span class="problematic" id="id2">|B|</span></a> components 1D profile</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ordering</strong> (<em>integer</em><em>, </em><em>optional</em>) – Plot the leading Nordering asymmetric modes. Defaults to 0.</p></li>
+<li><p><strong>mn</strong> (<em>tuple</em><em>, </em><em>optional</em>) – Plot the particular (m,n) mode. Defaults to (None, None).</p></li>
+<li><p><strong>ax</strong> (<em>Matplotlib axis</em><em>, </em><em>optional</em>) – Matplotlib axis to be plotted on. Defaults to None.</p></li>
+<li><p><strong>log</strong> (<em>bool</em><em>, </em><em>optional</em>) – Plot in log scale. Default to True.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments for matplotlib.pyplot.plot. Defaults to {}.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matplotlib axis plotted on.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ax (Matplotlib axis)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.booz_xform.BOOZ_XFORM.plot2d">
+<code class="sig-name descname">plot2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ns</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">npol</span><span class="o">=</span><span class="default_value">128</span></em>, <em class="sig-param"><span class="n">ntor</span><span class="o">=</span><span class="default_value">128</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">contour</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/booz_xform.html#BOOZ_XFORM.plot2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.booz_xform.BOOZ_XFORM.plot2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot <a href="#id3"><span class="problematic" id="id4">|B|</span></a> contour on the flux surface</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ns</strong> (<em>int</em><em>, </em><em>optional</em>) – Flux surface index in self.jlist. Defaults to -1.</p></li>
+<li><p><strong>npol</strong> (<em>int</em><em>, </em><em>optional</em>) – Poloidal resolution. Defaults to 128.</p></li>
+<li><p><strong>ntor</strong> (<em>int</em><em>, </em><em>optional</em>) – Toroidal resolution. Defaults to 128.</p></li>
+<li><p><strong>ax</strong> (<em>Matplotlib axis</em><em>, </em><em>optional</em>) – Matplotlib axis to be plotted on. Defaults to None.</p></li>
+<li><p><strong>contour</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether plotting the contour lines. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matplotlib axis plotted on.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ax (Matplotlib axis)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.booz_xform.BOOZ_XFORM.plot_helicity">
+<em class="property">static </em><code class="sig-name descname">plot_helicity</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/booz_xform.html#BOOZ_XFORM.plot_helicity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.booz_xform.BOOZ_XFORM.plot_helicity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.booz_xform.BOOZ_XFORM.to_FOCUS">
+<code class="sig-name descname">to_FOCUS</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ns</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">focus_file</span><span class="o">=</span><span class="default_value">'plasma.boundary'</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">1e-08</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/booz_xform.html#BOOZ_XFORM.to_FOCUS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.booz_xform.BOOZ_XFORM.to_FOCUS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a FOCUS plasma boundary file in Boozer coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ns</strong> (<em>int</em><em>, </em><em>optional</em>) – Flux surface label to be exported. Defaults to -1.</p></li>
+<li><p><strong>focus_file</strong> (<em>str</em><em>, </em><em>optional</em>) – FOCUS plasma boundary file name. Defaults to ‘plasma.boundary’.</p></li>
+<li><p><strong>tol</strong> (<em>float</em><em>, </em><em>optional</em>) – Truncated tolerance. Defaults to 1.0E-8.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coilpy.booz_xform.BOOZ_XFORM.write_input">
+<em class="property">static </em><code class="sig-name descname">write_input</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extension</span></em>, <em class="sig-param"><span class="n">mbooz</span></em>, <em class="sig-param"><span class="n">nbooz</span></em>, <em class="sig-param"><span class="n">surfaces</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/booz_xform.html#BOOZ_XFORM.write_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.booz_xform.BOOZ_XFORM.write_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a BOO_XFORM input file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extension</strong> (<em>str</em>) – VMEC output extension.</p></li>
+<li><p><strong>mbooz</strong> (<em>int</em>) – Maximum poloidal mode.</p></li>
+<li><p><strong>nbooz</strong> (<em>int</em>) – Maximum toroidal mode</p></li>
+<li><p><strong>surfaces</strong> (<em>list</em>) – List of flux surfaces.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/coilpy.booz_xform.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.25 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">coilpy.booz_xform</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Caoxiang Zhu.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
+    </div>
+  </body>
+</html>
