@@ -1,3 +1,3 @@
 Examples
 ==================================
-:doc: /examples/basic.html
+`Basic tutorial <examples/basic.html>`_
