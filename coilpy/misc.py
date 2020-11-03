@@ -344,7 +344,7 @@ def vmec2focus(
             "Please check your argument. Should be VMEC input or output!"
         )
     # parse BNORM output if necessary
-    if bnorm_file is "":
+    if bnorm_file == "":
         Nbnf = 0
     else:
         bm = []
