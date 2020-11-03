@@ -390,7 +390,7 @@ class STELLout(SortedDict, OMFITascii):
         plt.ylabel("chisq")
         return ax
 
-    def plot_helicity(self, it=-1, ordering=0, mn=(None, None), ax=None, **kwargs):
+    def plot_helicity(self, it=-1, ordering=0, mn=(None, None), ax=None, log=True, **kwargs):
         """Plot |B| components in Boozer coordinates from BOOZ_XFORM
 
         Args:
@@ -398,6 +398,7 @@ class STELLout(SortedDict, OMFITascii):
             ordering (integer, optional): Plot the leading Nordering asymmetric modes. Defaults to 0.
             mn (tuple, optional): Plot the particular (m,n) mode. Defaults to (None, None).
             ax (Matplotlib axis, optional): Matplotlib axis to be plotted on. Defaults to None.
+            log (bool, optional): Plot in log scale. Default to True.
             kwargs (dict): Keyword arguments for matplotlib.pyplot.plot. Defaults to {}.
 
         Returns:
@@ -413,7 +414,7 @@ class STELLout(SortedDict, OMFITascii):
         xm = np.reshape(np.array(self["HELICITY_FULL_m"][it], dtype=int), (ns, -1))
         xn = np.reshape(np.array(self["HELICITY_FULL_n"][it], dtype=int), (ns, -1))
         return BOOZ_XFORM.plot_helicity(
-            vals, xm[0, :], xn[0, :], xx, ordering, mn, ax, **kwargs
+            vals, xm[0, :], xn[0, :], xx, ordering, mn, ax, log, **kwargs
         )
 
     def plot_balloon(self, it=-1, ax=None, **kwargs):
