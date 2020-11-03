@@ -1,12 +1,12 @@
 Welcome to coilpy's documentation!
 ==================================
 This is Caoxiang Zhu's personal Python package for plotting and data processing.
-You can check the API documentation.
 
+You can check the Python API documentation.
 :doc:`api/coilpy`
 
-Or check some examples.
-`examples <examples/index.md>
+Or check the examples.
+:doc:`example`
 
 .. toctree::
    :maxdepth: 4

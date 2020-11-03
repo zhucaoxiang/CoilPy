@@ -21,9 +21,10 @@ docs:
 	for f in ./api/*.rst; do\
 	    perl -pi -e 's/(module|package)$$// if $$. == 1' $$f ;\
 	done
-	
+
 gh-pages:
 	rm -rf /tmp/gh-pages
+	cp -r examples $(BUILDDIR)/html
 	cp -r $(BUILDDIR)/html /tmp/gh-pages
 	git checkout gh-pages
 	cd .. && rm -rf * && cp -r /tmp/gh-pages/* ./ && rm -rf /tmp/gh-pages && git add . && git commit -m "Updated gh-pages" && git push && git checkout master
