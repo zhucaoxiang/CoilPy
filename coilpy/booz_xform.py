@@ -59,7 +59,7 @@ class BOOZ_XFORM(SortedDict):
         """
         import xarray
 
-        vmec = xarray.open_dataset(wout, "r")
+        vmec = xarray.open_dataset(wout)
         ind = wout.index("wout_") + 5
         end = wout.index(".nc")
         extension = wout[ind:end]

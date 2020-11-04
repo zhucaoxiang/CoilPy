@@ -17,7 +17,7 @@ help:
 
 docs:
 	rm -rf ./api ./_build
-	sphinx-apidoc -MeT -o api $(PYTHONDIR)
+	sphinx-apidoc -Mef -o api $(PYTHONDIR)
 	for f in ./api/*.rst; do\
 	    perl -pi -e 's/(module|package)$$// if $$. == 1' $$f ;\
 	done
