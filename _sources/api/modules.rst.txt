@@ -1,0 +1,7 @@
+coilpy
+======
+
+.. toctree::
+   :maxdepth: 4
+
+   coilpy
