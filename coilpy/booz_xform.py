@@ -107,11 +107,13 @@ class BOOZ_XFORM(SortedDict):
                 ind = ind_arg[-1 - i]  # index of the i-th largest term
                 m = xm[ind]
                 n = xn[ind]
+                if m==0 and n==0:
+                    continue
                 kwargs["label"] = "m={:}, n={:}".format(int(m), int(n))
                 if log:
                     ax.semilogy(xx, np.abs(vals[:, ind]), **kwargs)
                 else:
-                    ax.plot(xx, vals[:, ind], **kwargs)
+                    ax.plot(xx, np.abs(vals[:, ind]), **kwargs)
             ylabel = r"$\frac{B_{m,n}}{ \Vert B_{n=0} \Vert }$"
         else:
             # determine filter condition
