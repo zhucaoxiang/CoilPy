@@ -163,9 +163,13 @@ class SingleCoil(object):
         assert cur_len > 0
         theta = np.linspace(0, 1, num=cur_len, endpoint=True)
         theta_new = np.linspace(0, 1, num=num, endpoint=True)
-        for xyz in [self.x, self.y, self.z]:
-            f = interp1d(theta, xyz, kind='cubic')
-            xyz[:] = f(theta_new)
+        # interpolate
+        f = interp1d(theta, self.x, kind='cubic')
+        self.x = f(theta_new)
+        f = interp1d(theta, self.y, kind='cubic')
+        self.y = f(theta_new)
+        f = interp1d(theta, self.z, kind='cubic')
+        self.z = f(theta_new)
         return
     
     def magnify(self, ratio):
@@ -224,12 +228,27 @@ class SingleCoil(object):
         dy = ob_pos[1] - self.y[:-1]
         dz = ob_pos[2] - self.z[:-1]
         dr = dx*dx + dy*dy +dz*dz
-        Bx = (dz*self.yt[:-1] - dy*self.zt[:-1])*np.power(dr, -1.5)
-        By = (dx*self.zt[:-1] - dz*self.xt[:-1])*np.power(dr, -1.5)
-        Bz = (dy*self.xt[:-1] - dx*self.yt[:-1])*np.power(dr, -1.5)
-        B = np.array([np.sum(Bx), np.sum(By), np.sum(Bz)])*self.dt*u0_d_4pi*self.I
-        return B        
-    
+        Bx = (dz*self.yt[:-1] - dy*self.zt[:-1])*np.power(dr, -1.5)*self.dt
+        By = (dx*self.zt[:-1] - dz*self.xt[:-1])*np.power(dr, -1.5)*self.dt
+        Bz = (dy*self.xt[:-1] - dx*self.yt[:-1])*np.power(dr, -1.5)*self.dt
+        B = np.array([np.sum(Bx), np.sum(By), np.sum(Bz)])*u0_d_4pi*self.I
+        return B
+
+    def bfield_fd(self, pos):
+        pos = np.atleast_1d(pos)
+        xt = self.x[1:] - self.x[:-1]
+        yt = self.y[1:] - self.y[:-1] 
+        zt = self.z[1:] - self.z[:-1]
+        dx = pos[0] - (self.x[:-1]+self.x[1:])/2
+        dy = pos[1] - (self.y[:-1]+self.y[1:])/2 
+        dz = pos[2] - (self.z[:-1]+self.z[1:])/2
+        dr = dx*dx + dy*dy +dz*dz
+        Bx = (dz*yt - dy*zt)*np.power(dr, -1.5)
+        By = (dx*zt - dz*xt)*np.power(dr, -1.5)
+        Bz = (dy*xt - dx*yt)*np.power(dr, -1.5)
+        B = np.array([np.sum(Bx), np.sum(By), np.sum(Bz)])*u0_d_4pi*self.I                
+        return B
+
     def spline_tangent(self, order=3, der=1):
         """Calculate the tangent of coil using spline interpolation
 
@@ -272,7 +291,7 @@ class SingleCoil(object):
         """        
         from pyevtk.hl import polyLinesToVTK
         kwargs.setdefault('cellData', {})
-        kwargs['cellData'].setdefault('I', np.array(elf.I))
+        kwargs['cellData'].setdefault('I', np.array([self.I]))
         polyLinesToVTK(vtkname, np.array(self.x), np.array(self.y), np.array(self.z),
                        np.array([len(self.x)]), **kwargs)
         return
