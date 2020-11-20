@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.misc &#8212; coilpy 0.2.28 documentation</title>
+    <title>coilpy.misc &#8212; coilpy 0.2.29 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.28 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.29 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">coilpy.misc</a></li> 
       </ul>
@@ -278,8 +278,37 @@
         <span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span>
     <span class="k">return</span> <span class="n">ifft</span><span class="p">(</span><span class="n">comp</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="trig2real"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.trig2real">[docs]</a><span class="k">def</span> <span class="nf">trig2real</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">zeta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xm</span><span class="o">=</span><span class="p">[],</span> <span class="n">xn</span><span class="o">=</span><span class="p">[],</span> <span class="n">fmnc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Trigonometric coefficients to real space points</span>
 
-<div class="viewcode-block" id="trig2real"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.trig2real">[docs]</a><span class="k">def</span> <span class="nf">trig2real</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">xm</span><span class="p">,</span> <span class="n">xn</span><span class="p">,</span> <span class="n">fmnc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="sd">    Args:</span>
+<span class="sd">        theta (numpy.ndarray): Theta values to be evaluated.</span>
+<span class="sd">        zeta (numpy.ndarray, optional): Zeta values to be evaluated if discretizing in 2D. Defaults to None.</span>
+<span class="sd">        xm (list, optional): Poloidal Fourier modes. Defaults to [].</span>
+<span class="sd">        xn (list, optional): Toroidal Fourier modes. Defaults to [].</span>
+<span class="sd">        fmnc ([type], optional): Cosine Fourier coefficients Defaults to None.</span>
+<span class="sd">        fmns ([type], optional): Sin Fourier coefficients. Defaults to None.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: The discretized values in real space.</span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="k">if</span> <span class="n">zeta</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_trig2real_1d</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">xm</span><span class="p">,</span> <span class="n">fmnc</span><span class="p">,</span> <span class="n">fmns</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_trig2real_2d</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">xm</span><span class="p">,</span> <span class="n">xn</span><span class="p">,</span> <span class="n">fmnc</span><span class="p">,</span> <span class="n">fmns</span><span class="p">)</span></div>
+
+<span class="k">def</span> <span class="nf">_trig2real_1d</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">xm</span><span class="p">,</span> <span class="n">fmnc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">_mt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xm</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">theta</span>
+    <span class="n">_cos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">_mt</span><span class="p">)</span>
+    <span class="n">_sin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">_mt</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">theta</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">fmnc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">fmnc</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">_cos</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">fmns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">fmns</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">_sin</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>   
+
+<span class="k">def</span> <span class="nf">_trig2real_2d</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">xm</span><span class="p">,</span> <span class="n">xn</span><span class="p">,</span> <span class="n">fmnc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">npol</span><span class="p">,</span> <span class="n">ntor</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">zeta</span><span class="p">)</span>
     <span class="n">_tv</span><span class="p">,</span> <span class="n">_zv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">zeta</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
     <span class="c1"># mt - nz (in matrix)</span>
@@ -294,7 +323,7 @@
         <span class="n">f</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">fmnc</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">_cos</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">fmns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">f</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">fmns</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">_sin</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">npol</span><span class="p">,</span> <span class="n">ntor</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">npol</span><span class="p">,</span> <span class="n">ntor</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="vmec2focus"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.vmec2focus">[docs]</a><span class="k">def</span> <span class="nf">vmec2focus</span><span class="p">(</span>
@@ -460,14 +489,14 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.28 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.29 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">coilpy.misc</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Caoxiang Zhu.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.3.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
     </div>
   </body>
 </html>

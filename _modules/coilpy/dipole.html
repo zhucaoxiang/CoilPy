@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.dipole &#8212; coilpy 0.2.28 documentation</title>
+    <title>coilpy.dipole &#8212; coilpy 0.2.29 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.28 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.29 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">coilpy.dipole</a></li> 
       </ul>
@@ -827,6 +827,36 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sp2xyz</span><span class="p">()</span>
         <span class="k">return</span></div>
 
+<div class="viewcode-block" id="Dipole.round_angle"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.round_angle">[docs]</a>    <span class="k">def</span> <span class="nf">round_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;round off the moment orientation to the closest preferred axis</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dipole class: return a new dipole class with rounded orientations</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+        <span class="n">new</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">phi1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">oy</span><span class="p">,</span> <span class="n">new</span><span class="o">.</span><span class="n">ox</span><span class="p">)</span>
+        <span class="n">phi2</span> <span class="o">=</span> <span class="n">phi1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">mxyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">mt</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">mp</span><span class="p">),</span> 
+                            <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">mt</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">mp</span><span class="p">),</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">mt</span><span class="p">)])</span>
+        <span class="n">xvec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">phi1</span><span class="p">)])</span>
+        <span class="n">yvec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">phi1</span><span class="p">)])</span>
+        <span class="n">zvec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">new</span><span class="o">.</span><span class="n">num</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">cosx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mxyz</span><span class="o">*</span><span class="n">xvec</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">cosy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mxyz</span><span class="o">*</span><span class="n">yvec</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">cosz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mxyz</span><span class="o">*</span><span class="n">zvec</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">cos_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">cosx</span><span class="p">[:],</span> <span class="n">cosy</span><span class="p">[:],</span> <span class="n">cosz</span><span class="p">[:]])</span>
+        <span class="n">argmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">cos_arr</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">theta_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">new</span><span class="o">.</span><span class="n">num</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">phi_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">phi1</span><span class="p">,</span> <span class="n">phi2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">phi1</span><span class="p">)])</span>
+        <span class="n">new</span><span class="o">.</span><span class="n">mt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">theta_arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">argmin</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">num</span><span class="p">)])</span>
+        <span class="n">new</span><span class="o">.</span><span class="n">mp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">phi_arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">argmin</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">num</span><span class="p">)])</span>
+        <span class="n">sign_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">([</span><span class="n">cos_arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">argmin</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">num</span><span class="p">)])</span>
+        <span class="n">new</span><span class="o">.</span><span class="n">pho</span> <span class="o">*=</span> <span class="n">sign_arr</span>
+        <span class="n">new</span><span class="o">.</span><span class="n">rho</span> <span class="o">*=</span> <span class="n">sign_arr</span>
+        <span class="k">return</span> <span class="n">new</span></div>
+
 <div class="viewcode-block" id="Dipole.plot"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;pyplot&quot;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span>
@@ -942,14 +972,14 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.28 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.29 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">coilpy.dipole</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Caoxiang Zhu.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.3.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
     </div>
   </body>
 </html>
