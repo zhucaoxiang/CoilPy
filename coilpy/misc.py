@@ -238,8 +238,37 @@ def fft_deriv(y):
         ) * 1j
     return ifft(comp * dt)
 
+def trig2real(theta, zeta=None, xm=[], xn=[], fmnc=None, fmns=None):
+    """Trigonometric coefficients to real space points
 
-def trig2real(theta, zeta, xm, xn, fmnc=None, fmns=None):
+    Args:
+        theta (numpy.ndarray): Theta values to be evaluated.
+        zeta (numpy.ndarray, optional): Zeta values to be evaluated if discretizing in 2D. Defaults to None.
+        xm (list, optional): Poloidal Fourier modes. Defaults to [].
+        xn (list, optional): Toroidal Fourier modes. Defaults to [].
+        fmnc ([type], optional): Cosine Fourier coefficients Defaults to None.
+        fmns ([type], optional): Sin Fourier coefficients. Defaults to None.
+
+    Returns:
+        numpy.ndarray: The discretized values in real space.
+    """    
+    if zeta is None:
+        return _trig2real_1d(theta, xm, fmnc, fmns)
+    else:
+        return _trig2real_2d(theta, zeta, xm, xn, fmnc, fmns)
+
+def _trig2real_1d(theta, xm, fmnc=None, fmns=None):
+    _mt = np.reshape(xm, (-1, 1)) * theta
+    _cos = np.cos(_mt)
+    _sin = np.sin(_mt)
+    f = np.zeros((1, len(theta)))
+    if fmnc is not None:
+        f += np.matmul(np.reshape(fmnc, (1, -1)), _cos)
+    if fmns is not None:
+        f += np.matmul(np.reshape(fmns, (1, -1)), _sin)
+    return f.ravel()   
+
+def _trig2real_2d(theta, zeta, xm, xn, fmnc=None, fmns=None):
     npol, ntor = len(theta), len(zeta)
     _tv, _zv = np.meshgrid(theta, zeta, indexing="ij")
     # mt - nz (in matrix)
