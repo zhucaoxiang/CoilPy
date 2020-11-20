@@ -787,6 +787,36 @@ class Dipole(object):
         self.sp2xyz()
         return
 
+    def round_angle(self):
+        """round off the moment orientation to the closest preferred axis
+
+        Returns:
+            Dipole class: return a new dipole class with rounded orientations
+        """        
+        from copy import deepcopy
+        new = deepcopy(self)
+        phi1 = np.arctan2(new.oy, new.ox)
+        phi2 = phi1 + np.pi/2
+        mxyz = np.transpose([np.sin(new.mt)*np.cos(new.mp), 
+                            np.sin(new.mt)*np.sin(new.mp),
+                            np.cos(new.mt)])
+        xvec = np.transpose([np.cos(phi1), np.sin(phi1), np.zeros_like(phi1)])
+        yvec = np.transpose([np.cos(phi2), np.sin(phi2), np.zeros_like(phi1)])
+        zvec = np.reshape(np.tile([0,0,1], new.num), (-1, 3))
+        cosx = np.sum(mxyz*xvec, axis=1)
+        cosy = np.sum(mxyz*yvec, axis=1)
+        cosz = np.sum(mxyz*zvec, axis=1)
+        cos_arr = np.transpose([cosx[:], cosy[:], cosz[:]])
+        argmin = np.argmin(np.abs(cos_arr), axis=1)
+        theta_arr = np.reshape(np.tile([np.pi/2, np.pi/2, 0], new.num), (-1, 3))
+        phi_arr = np.transpose([phi1, phi2, np.zeros_like(phi1)])
+        new.mt = np.array([theta_arr[i, argmin[i]] for i in range(new.num)])
+        new.mp = np.array([phi_arr[i, argmin[i]] for i in range(new.num)])
+        sign_arr = np.sign([cos_arr[i, argmin[i]] for i in range(new.num)])
+        new.pho *= sign_arr
+        new.rho *= sign_arr
+        return new
+
     def plot(self, engine="pyplot", start=0, end=None, **kwargs):
         if end is None:
             end = self.num

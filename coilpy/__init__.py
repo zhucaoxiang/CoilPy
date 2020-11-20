@@ -2,7 +2,7 @@
 This is a cutomized python package for plotting and data processing in stellarator optimization.
 
 """
-__version__ = '0.2.28'
+__version__ = '0.2.29'
 
 # local packages
 from .misc import colorbar, get_figure, kwargs2dict, map_matrix
