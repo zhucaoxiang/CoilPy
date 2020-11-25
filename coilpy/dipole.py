@@ -817,6 +817,30 @@ class Dipole(object):
         new.rho *= sign_arr
         return new
 
+    def mimic(self, template, **kwargs):
+        """Mimic rho, mp, mt following the "template" dipole set
+
+        Args:
+            template (Dipole class): The template Dipole class to be mirrored.
+
+        Returns:
+            None: None
+        """        
+        # find the cloest dipole in real space
+        def closest(i):
+            dis = (self.ox[i]-template.ox)**2 \
+                + (self.oy[i]-template.oy)**2 \
+                + (self.oz[i]-template.oz)**2
+            return np.argmin(dis)
+        # assign rho, mt, mp
+        for i in range(self.num):
+            ind = closest(i)
+            self.rho[i] = template.rho[ind]
+            self.mt[i] = template.mt[ind]
+            self.mp[i] = template.mp[ind]
+        self.pho = self.rho**(1./self.momentq)
+    return
+
     def plot(self, engine="pyplot", start=0, end=None, **kwargs):
         if end is None:
             end = self.num
