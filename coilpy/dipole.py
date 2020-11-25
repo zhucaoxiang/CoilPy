@@ -839,7 +839,7 @@ class Dipole(object):
             self.mt[i] = template.mt[ind]
             self.mp[i] = template.mp[ind]
         self.pho = self.rho**(1./self.momentq)
-    return
+        return
 
     def plot(self, engine="pyplot", start=0, end=None, **kwargs):
         if end is None:
