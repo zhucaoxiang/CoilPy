@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.vmec &#8212; coilpy 0.2.33 documentation</title>
+    <title>coilpy.vmec &#8212; coilpy 0.2.34 documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.33 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.34 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">coilpy.vmec</a></li> 
       </ul>
     </div>  
@@ -38,14 +38,35 @@
             
   <div class="section" id="module-coilpy.vmec">
 <span id="coilpy-vmec"></span><h1>coilpy.vmec<a class="headerlink" href="#module-coilpy.vmec" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.vmec.vmec.html">coilpy.vmec.vmec</a></li>
+<dl class="py class">
+<dt id="coilpy.vmec.VMECout">
+<em class="property">class </em><code class="sig-prename descclassname">coilpy.vmec.</code><code class="sig-name descname">VMECout</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/vmec.html#VMECout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.vmec.VMECout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>VMEC wout file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> – filename passed to OMFITnc class</p>
+</dd>
+</dl>
+<p>All additional key word arguments passed to OMFITnc</p>
+<dl class="py method">
+<dt id="coilpy.vmec.VMECout.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot_name</span><span class="o">=</span><span class="default_value">'none'</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/vmec.html#VMECout.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.vmec.VMECout.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot various VMEC quantities</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>plot_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The quantity to be plotted, should be one of
+iota, q, pressue, &lt;Buco&gt;, &lt;Bvco&gt;, &lt;jcuru&gt;, &lt;jcurv&gt;,
+&lt;j.B&gt;, LPK, none. Defaults to ‘none’.</p></li>
+<li><p><strong>ax</strong> (<em>Matplotlib axis</em><em>, </em><em>optional</em>) – The Matplotlib axis to be plotted on. Defaults to None.</p></li>
 </ul>
-</div>
-</div>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -55,14 +76,6 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">coilpy.vmec</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-</ul>
-</li>
-</ul>
-
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -93,7 +106,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.33 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.34 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">coilpy.vmec</a></li> 
       </ul>
     </div>

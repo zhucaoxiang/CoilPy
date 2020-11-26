@@ -6,14 +6,6 @@ coilpy
    :undoc-members:
    :show-inheritance:
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   coilpy.vmec
-
 Submodules
 ----------
 
@@ -29,3 +21,4 @@ Submodules
    coilpy.sortedDict
    coilpy.stellopt
    coilpy.surface
+   coilpy.vmec
