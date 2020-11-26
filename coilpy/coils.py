@@ -462,9 +462,9 @@ class Coil(object):
 
     A convenient way for construction is to use `self.read_makegrid(filename)`, like
 
-        ```
+        ``
         coil = CoilSet.read_makegrid('coils.sth')
-        ```
+        ``
 
     Each coil is stored in `self.data` in the format of `coilpy.coils.SingleCoil`.
 
@@ -502,6 +502,23 @@ class Coil(object):
 
     def __len__(self):
         return self.num
+
+    def __add__(self, other):
+        """Join two coil sets.
+
+        Args:
+            other (`coilpy.coil.Coil`): The coilset to be added.
+
+        Returns:
+            `coilpy.coil.Coil`: The total coil set.
+        """
+        from copy import deepcopy
+
+        total = deepcopy(self)
+        total.num += other.num
+        total.data += other.data
+        total.index = 0
+        return total
 
     @classmethod
     def read_makegrid(cls, filename):
