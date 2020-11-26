@@ -1,10 +1,14 @@
 import numpy as np
-u0_d_4pi = 1.0E-7
+
+u0_d_4pi = 1.0e-7
+
+
 class SingleCoil(object):
-    '''
+    """
     Single coil class represented as discrete points in Cartesian coordinates
-    '''
-    def __init__(self, x=[], y=[], z=[], I=0.0, name='coil1', group=1):
+    """
+
+    def __init__(self, x=[], y=[], z=[], I=0.0, name="coil1", group=1):
         assert len(x) == len(y) == len(z), "dimension not consistent"
         self.x = np.asarray(x)
         self.y = np.asarray(y)
@@ -16,162 +20,177 @@ class SingleCoil(object):
         self.yt = None
         self.zt = None
         return
-    
-    def __del__(self):
-        class_name = self.__class__.__name__
-        #print(class_name, "destroyed")
 
-    def plot(self, engine='mayavi', fig=None, ax=None, show=True, **kwargs):
-        '''
+    def plot(self, engine="mayavi", fig=None, ax=None, show=True, **kwargs):
+        """
         plot coil as a line
-        '''
-        if engine == 'pyplot':
+        """
+        if engine == "pyplot":
             import matplotlib.pyplot as plt
-            from mpl_toolkits.mplot3d import Axes3D
+
             # plot in matplotlib.pyplot
-            if ax is None or ax.name != '3d':
+            if ax is None or ax.name != "3d":
                 fig = plt.figure()
-                ax = fig.add_subplot(111, projection='3d')
+                ax = fig.add_subplot(111, projection="3d")
             ax.plot(self.x, self.y, self.z, **kwargs)
-        elif engine == 'mayavi':
+        elif engine == "mayavi":
             # plot 3D line in mayavi.mlab
-            from mayavi import mlab # to overrid plt.mlab
+            from mayavi import mlab  # to overrid plt.mlab
+
             mlab.plot3d(self.x, self.y, self.z, **kwargs)
-        elif engine == 'plotly':
+        elif engine == "plotly":
             import plotly.graph_objects as go
+
             if fig is None:
                 fig = go.Figure()
-            fig.add_trace(go.Scatter3d(x=self.x, y=self.y, z=self.z, 
-                                       mode="lines", **kwargs))
-            fig.update_layout(scene_aspectmode='data')
+            fig.add_trace(
+                go.Scatter3d(x=self.x, y=self.y, z=self.z, mode="lines", **kwargs)
+            )
+            fig.update_layout(scene_aspectmode="data")
             if show:
                 fig.show()
         else:
-            raise ValueError('Invalid engine option {pyplot, mayavi, plotly}')
-        return        
+            raise ValueError("Invalid engine option {pyplot, mayavi, plotly}")
+        return
 
-    def rectangle(self, width=0.1, height=0.1, frame='centroid', **kwargs):
-        '''
+    def rectangle(self, width=0.1, height=0.1, frame="centroid", **kwargs):
+        """
         This function expand single coil filament to a rectangle coil;
-        
+
         width
         height
         winding : winding surface data;
         tol: root find tolarence
-        '''
+        """
         n = np.size(self.x)
-        dt = 2*np.pi/(n-1)
-        # calculate the tangent 
+        # calculate the tangent
         if self.xt is None:
             self.spline_tangent()
         xt = self.xt
         yt = self.yt
         zt = self.zt
+        # dt = 2 * np.pi / (n - 1)
         # xt = np.gradient(self.x)/dt
         # yt = np.gradient(self.y)/dt
         # zt = np.gradient(self.z)/dt
-        tt = np.sqrt(xt*xt + yt*yt + zt*zt)
-        xt = xt/tt
-        yt = yt/tt
-        zt = zt/tt
+        tt = np.sqrt(xt * xt + yt * yt + zt * zt)
+        xt = xt / tt
+        yt = yt / tt
+        zt = zt / tt
 
         # use surface normal if needed
-        if frame == 'centroid':
+        if frame == "centroid":
             # use the geometry center is a good idea
-            center_x = np.average(self.x[0:n-1])
-            center_y = np.average(self.y[0:n-1])
-            center_z = np.average(self.z[0:n-1])
+            center_x = np.average(self.x[0 : n - 1])
+            center_y = np.average(self.y[0 : n - 1])
+            center_z = np.average(self.z[0 : n - 1])
             xn = self.x - center_x
             yn = self.y - center_y
             zn = self.z - center_z
-            nt = xn*xt + yn*yt + zn*zt
-            xn = xn - nt*xt
-            yn = yn - nt*yt
-            zn = zn - nt*zt
-        elif frame == 'frenet':
+            nt = xn * xt + yn * yt + zn * zt
+            xn = xn - nt * xt
+            yn = yn - nt * yt
+            zn = zn - nt * zt
+        elif frame == "frenet":
             self.spline_tangent(der=2)
             xn = self.xa
             yn = self.ya
             zn = self.za
-        elif frame == 'parallel':
-            # parallel transport frame 
+        elif frame == "parallel":
+            # parallel transport frame
             # Hanson & Ma, Parallel Transp ort Approach to Curve Framing, 1995
             def rotate(x, ang):
                 c = np.cos(ang)
                 s = np.sin(ang)
-                return [[c + x[0]**2*(1-c), x[0]*x[1]*(1-c)-s*x[2], x[2]*x[0]*(1-c)+s*x[1]],
-                        [x[0]*x[1]*(1-c)+s*x[2], c+x[1]**2*(1-c), x[2]*x[1]*(1-c)-s*x[0]],
-                        [x[0]*x[2]*(1-c)-s*x[1], x[1]*x[2]*(1-c)+s*x[0], c+x[2]**2*(1-c)]]
+                return [
+                    [
+                        c + x[0] ** 2 * (1 - c),
+                        x[0] * x[1] * (1 - c) - s * x[2],
+                        x[2] * x[0] * (1 - c) + s * x[1],
+                    ],
+                    [
+                        x[0] * x[1] * (1 - c) + s * x[2],
+                        c + x[1] ** 2 * (1 - c),
+                        x[2] * x[1] * (1 - c) - s * x[0],
+                    ],
+                    [
+                        x[0] * x[2] * (1 - c) - s * x[1],
+                        x[1] * x[2] * (1 - c) + s * x[0],
+                        c + x[2] ** 2 * (1 - c),
+                    ],
+                ]
+
             T = np.transpose([self.xt, self.yt, self.zt])
-            T = T/np.linalg.norm(T, axis=1)[:, np.newaxis]
+            T = T / np.linalg.norm(T, axis=1)[:, np.newaxis]
             B = np.cross(T[:-1], T[1:], axis=1)
-            B = B/np.linalg.norm(B, axis=1)[:, np.newaxis]
-            theta = np.arccos(np.sum(T[:-1]*T[1:], axis=1))
+            B = B / np.linalg.norm(B, axis=1)[:, np.newaxis]
+            theta = np.arccos(np.sum(T[:-1] * T[1:], axis=1))
             V = np.zeros_like(T)
-            vx = kwargs['vx']
-            vy = kwargs['vy']
-            vz = -(vx*T[0,0] + vy*T[0,1])/T[0,2]
+            vx = kwargs["vx"]
+            vy = kwargs["vy"]
+            vz = -(vx * T[0, 0] + vy * T[0, 1]) / T[0, 2]
             vv = np.linalg.norm([vx, vy, vz])
-            V[0,:] = [vx/vv, vy/vv, vz/vv]
-            print(np.dot(V[0,:], T[0,:]))
+            V[0, :] = [vx / vv, vy / vv, vz / vv]
+            print(np.dot(V[0, :], T[0, :]))
             for i in range(len(theta)):
-                V[i+1,:] = rotate(B[i,:], theta[i]) @ V[i,:]
-            xn = V[:,0]
-            yn = V[:,1]
-            zn = V[:,2]
+                V[i + 1, :] = rotate(B[i, :], theta[i]) @ V[i, :]
+            xn = V[:, 0]
+            yn = V[:, 1]
+            zn = V[:, 2]
         else:
             assert True, "not finished"
-        
-        nn = np.sqrt(xn*xn + yn*yn + zn*zn)
-        xn = xn/nn
-        yn = yn/nn
-        zn = zn/nn
+
+        nn = np.sqrt(xn * xn + yn * yn + zn * zn)
+        xn = xn / nn
+        yn = yn / nn
+        zn = zn / nn
         # calculate the bi-normal
-        xb = yt*zn - yn*zt
-        yb = zt*xn - zn*xt
-        zb = xt*yn - xn*yt
-        bb = np.sqrt(xb*xb + yb*yb + zb*zb)
-        xb = xb/bb
-        yb = yb/bb
-        zb = zb/bb
+        xb = yt * zn - yn * zt
+        yb = zt * xn - zn * xt
+        zb = xt * yn - xn * yt
+        bb = np.sqrt(xb * xb + yb * yb + zb * zb)
+        xb = xb / bb
+        yb = yb / bb
+        zb = zb / bb
         # get the boundary lines
-        z1 = self.z - width/2*zb + height/2*zn
-        x1 = self.x - width/2*xb + height/2*xn
-        x2 = self.x + width/2*xb + height/2*xn
-        y2 = self.y + width/2*yb + height/2*yn
-        z2 = self.z + width/2*zb + height/2*zn
-        x3 = self.x + width/2*xb - height/2*xn
-        y3 = self.y + width/2*yb - height/2*yn
-        z3 = self.z + width/2*zb - height/2*zn
-        x4 = self.x - width/2*xb - height/2*xn
-        y4 = self.y - width/2*yb - height/2*yn
-        z4 = self.z - width/2*zb - height/2*zn
-        y1 = self.y - width/2*yb + height/2*yn
-        # assemble 
+        z1 = self.z - width / 2 * zb + height / 2 * zn
+        x1 = self.x - width / 2 * xb + height / 2 * xn
+        x2 = self.x + width / 2 * xb + height / 2 * xn
+        y2 = self.y + width / 2 * yb + height / 2 * yn
+        z2 = self.z + width / 2 * zb + height / 2 * zn
+        x3 = self.x + width / 2 * xb - height / 2 * xn
+        y3 = self.y + width / 2 * yb - height / 2 * yn
+        z3 = self.z + width / 2 * zb - height / 2 * zn
+        x4 = self.x - width / 2 * xb - height / 2 * xn
+        y4 = self.y - width / 2 * yb - height / 2 * yn
+        z4 = self.z - width / 2 * zb - height / 2 * zn
+        y1 = self.y - width / 2 * yb + height / 2 * yn
+        # assemble
         xx = np.array([x1, x2, x3, x4, x1])
         yy = np.array([y1, y2, y3, y4, y1])
         zz = np.array([z1, z2, z3, z4, z1])
 
         return xx, yy, zz
-        
+
     def interpolate(self, num=256):
-        '''
+        """
         Interpolate to increase more data points
-        '''
+        """
         from scipy.interpolate import interp1d
+
         cur_len = len(self.x)
         assert cur_len > 0
         theta = np.linspace(0, 1, num=cur_len, endpoint=True)
         theta_new = np.linspace(0, 1, num=num, endpoint=True)
         # interpolate
-        f = interp1d(theta, self.x, kind='cubic')
+        f = interp1d(theta, self.x, kind="cubic")
         self.x = f(theta_new)
-        f = interp1d(theta, self.y, kind='cubic')
+        f = interp1d(theta, self.y, kind="cubic")
         self.y = f(theta_new)
-        f = interp1d(theta, self.z, kind='cubic')
+        f = interp1d(theta, self.z, kind="cubic")
         self.z = f(theta_new)
         return
-    
+
     def magnify(self, ratio):
         """
         magnify coil with a ratio
@@ -179,18 +198,22 @@ class SingleCoil(object):
         # number of points
         nseg = len(self.x)
         # assuming closed curve; should be revised
-        if True: #abs(self.x[0] - self.x[-1]) < 1.0E-8:
+        if True:  # abs(self.x[0] - self.x[-1]) < 1.0E-8:
             nseg -= 1
-        assert nseg>1
+        assert nseg > 1
         # get centroid
-        centroid = np.array([np.sum(self.x[0:nseg])/nseg, 
-                             np.sum(self.y[0:nseg])/nseg,
-                             np.sum(self.z[0:nseg])/nseg])
+        centroid = np.array(
+            [
+                np.sum(self.x[0:nseg]) / nseg,
+                np.sum(self.y[0:nseg]) / nseg,
+                np.sum(self.z[0:nseg]) / nseg,
+            ]
+        )
         # magnify
         for i in range(nseg):
             xyz = np.array([self.x[i], self.y[i], self.z[i]])
-            dr = xyz-centroid
-            [self.x[i], self.y[i], self.z[i]] = centroid + ratio*dr
+            dr = xyz - centroid
+            [self.x[i], self.y[i], self.z[i]] = centroid + ratio * dr
         try:
             self.x[nseg] = self.x[0]
             self.y[nseg] = self.y[0]
@@ -207,46 +230,55 @@ class SingleCoil(object):
 
         Returns:
             ndarray -- the calculated magnetic field vector
-        """        
+        """
         xyz = np.array([self.x, self.y, self.z]).T
         pos = np.atleast_2d(pos)
-        assert (pos.shape)[1]  == 3
-        Rvec = pos[:,np.newaxis,:] - xyz[np.newaxis,:,:]
+        assert (pos.shape)[1] == 3
+        Rvec = pos[:, np.newaxis, :] - xyz[np.newaxis, :, :]
         assert (Rvec.shape)[-1] == 3
         RR = np.linalg.norm(Rvec, axis=2)
         Riv = Rvec[:, :-1, :]
         Rfv = Rvec[:, 1:, :]
-        Ri = RR[:,:-1]
-        Rf = RR[:,1:]
-        B = np.sum(np.cross(Riv, Rfv)*((Ri+Rf)/((Ri*Rf)*(Ri*Rf+np.sum(Riv*Rfv, axis=2))))[:, :, np.newaxis], axis=1)\
-            *u0_d_4pi*self.I
+        Ri = RR[:, :-1]
+        Rf = RR[:, 1:]
+        B = (
+            np.sum(
+                np.cross(Riv, Rfv)
+                * ((Ri + Rf) / ((Ri * Rf) * (Ri * Rf + np.sum(Riv * Rfv, axis=2))))[
+                    :, :, np.newaxis
+                ],
+                axis=1,
+            )
+            * u0_d_4pi
+            * self.I
+        )
         return B
 
-    def bfield(self, pos):        
+    def bfield(self, pos):
         ob_pos = np.atleast_1d(pos)
         dx = ob_pos[0] - self.x[:-1]
         dy = ob_pos[1] - self.y[:-1]
         dz = ob_pos[2] - self.z[:-1]
-        dr = dx*dx + dy*dy +dz*dz
-        Bx = (dz*self.yt[:-1] - dy*self.zt[:-1])*np.power(dr, -1.5)*self.dt
-        By = (dx*self.zt[:-1] - dz*self.xt[:-1])*np.power(dr, -1.5)*self.dt
-        Bz = (dy*self.xt[:-1] - dx*self.yt[:-1])*np.power(dr, -1.5)*self.dt
-        B = np.array([np.sum(Bx), np.sum(By), np.sum(Bz)])*u0_d_4pi*self.I
+        dr = dx * dx + dy * dy + dz * dz
+        Bx = (dz * self.yt[:-1] - dy * self.zt[:-1]) * np.power(dr, -1.5) * self.dt
+        By = (dx * self.zt[:-1] - dz * self.xt[:-1]) * np.power(dr, -1.5) * self.dt
+        Bz = (dy * self.xt[:-1] - dx * self.yt[:-1]) * np.power(dr, -1.5) * self.dt
+        B = np.array([np.sum(Bx), np.sum(By), np.sum(Bz)]) * u0_d_4pi * self.I
         return B
 
     def bfield_fd(self, pos):
         pos = np.atleast_1d(pos)
         xt = self.x[1:] - self.x[:-1]
-        yt = self.y[1:] - self.y[:-1] 
+        yt = self.y[1:] - self.y[:-1]
         zt = self.z[1:] - self.z[:-1]
-        dx = pos[0] - (self.x[:-1]+self.x[1:])/2
-        dy = pos[1] - (self.y[:-1]+self.y[1:])/2 
-        dz = pos[2] - (self.z[:-1]+self.z[1:])/2
-        dr = dx*dx + dy*dy +dz*dz
-        Bx = (dz*yt - dy*zt)*np.power(dr, -1.5)
-        By = (dx*zt - dz*xt)*np.power(dr, -1.5)
-        Bz = (dy*xt - dx*yt)*np.power(dr, -1.5)
-        B = np.array([np.sum(Bx), np.sum(By), np.sum(Bz)])*u0_d_4pi*self.I                
+        dx = pos[0] - (self.x[:-1] + self.x[1:]) / 2
+        dy = pos[1] - (self.y[:-1] + self.y[1:]) / 2
+        dz = pos[2] - (self.z[:-1] + self.z[1:]) / 2
+        dr = dx * dx + dy * dy + dz * dz
+        Bx = (dz * yt - dy * zt) * np.power(dr, -1.5)
+        By = (dx * zt - dz * xt) * np.power(dr, -1.5)
+        Bz = (dy * xt - dx * yt) * np.power(dr, -1.5)
+        B = np.array([np.sum(Bx), np.sum(By), np.sum(Bz)]) * u0_d_4pi * self.I
         return B
 
     def spline_tangent(self, order=3, der=1):
@@ -254,10 +286,11 @@ class SingleCoil(object):
 
         Args:
             order (int, optional): Order of spline interpolation used. Defaults to 3.
-        """        
+        """
         from scipy import interpolate
-        t = np.linspace(0, 2*np.pi, len(self.x), endpoint=True)
-        self.dt = 2*np.pi/(len(self.x)-1)
+
+        t = np.linspace(0, 2 * np.pi, len(self.x), endpoint=True)
+        self.dt = 2 * np.pi / (len(self.x) - 1)
         fx = interpolate.splrep(t, self.x, s=0, k=order)
         fy = interpolate.splrep(t, self.y, s=0, k=order)
         fz = interpolate.splrep(t, self.z, s=0, k=order)
@@ -268,12 +301,13 @@ class SingleCoil(object):
             self.xa = interpolate.splev(t, fx, der=2)
             self.ya = interpolate.splev(t, fy, der=2)
             self.za = interpolate.splev(t, fz, der=2)
-        return 
+        return
 
     def fourier_tangent(self):
         from .misc import fft_deriv
-        self.dt = 2*np.pi/(len(self.x)-1)
-        fftxy = fft_deriv(self.x[:-1]+1j*self.y[:-1])
+
+        self.dt = 2 * np.pi / (len(self.x) - 1)
+        fftxy = fft_deriv(self.x[:-1] + 1j * self.y[:-1])
         fftz = fft_deriv(self.z[:-1])
         self.xt = np.real(fftxy)
         self.yt = np.imag(fftxy)
@@ -281,30 +315,44 @@ class SingleCoil(object):
         self.xt = np.concatenate((self.xt, self.xt[0:1]))
         self.yt = np.concatenate((self.yt, self.yt[0:1]))
         self.zt = np.concatenate((self.zt, self.zt[0:1]))
-        return         
+        return
 
     def toVTK(self, vtkname, **kwargs):
         """Write a VTK file
 
         Args:
             vtkname (string): VTK filename
-        """        
+        """
         from pyevtk.hl import polyLinesToVTK
-        kwargs.setdefault('cellData', {})
-        kwargs['cellData'].setdefault('I', np.array([self.I]))
-        polyLinesToVTK(vtkname, np.array(self.x), np.array(self.y), np.array(self.z),
-                       np.array([len(self.x)]), **kwargs)
+
+        kwargs.setdefault("cellData", {})
+        kwargs["cellData"].setdefault("I", np.array([self.I]))
+        polyLinesToVTK(
+            vtkname,
+            np.array(self.x),
+            np.array(self.y),
+            np.array(self.z),
+            np.array([len(self.x)]),
+            **kwargs
+        )
         return
-        
+
+
 class Coil(object):
     def __init__(self, xx=[], yy=[], zz=[], II=[], names=[], groups=[]):
-        assert len(xx) == len(yy) == len(zz) == len(II) == len(names) == len(groups), "dimension not consistent"
+        assert (
+            len(xx) == len(yy) == len(zz) == len(II) == len(names) == len(groups)
+        ), "dimension not consistent"
         self.num = len(xx)
         self.data = []
         for i in range(self.num):
-            self.data.append(SingleCoil(x=xx[i], y=yy[i], z=zz[i], I=II[i], name=names[i], group=groups[i]))
+            self.data.append(
+                SingleCoil(
+                    x=xx[i], y=yy[i], z=zz[i], I=II[i], name=names[i], group=groups[i]
+                )
+            )
         self.index = 0
-        return 
+        return
 
     def __iter__(self):
         return self
@@ -312,9 +360,9 @@ class Coil(object):
     def __next__(self):
         if self.index < self.num:
             self.index += 1
-            return self.data[self.index-1]
+            return self.data[self.index - 1]
         else:
-            self.index = 0 
+            self.index = 0
             raise StopIteration()
 
     def __len__(self):
@@ -322,84 +370,102 @@ class Coil(object):
 
     @classmethod
     def read_makegrid(cls, filename):
-        """read MAKEGRID format 
+        """Read MAKEGRID format
+
         Args:
             filename (str) : file path and name
+
+        Raises:
+            IOError: Check if file exists
+
         Returns:
-            Coil class
+            Coil class: the python class Coil
         """
         import os
+
         # check existence
-        if not os.path.exists(filename) :
-            raise IOError ("File not existed. Please check again!")
+        if not os.path.exists(filename):
+            raise IOError("File not existed. Please check again!")
         # read and parse data
-        cls.header = ''
-        with open(filename,'r') as coilfile: #read coil xyz and I
-            cls.header = ''.join((coilfile.readline(), coilfile.readline(), coilfile.readline()))
+        cls.header = ""
+        with open(filename, "r") as coilfile:  # read coil xyz and I
+            cls.header = "".join(
+                (coilfile.readline(), coilfile.readline(), coilfile.readline())
+            )
             icoil = 0
-            xx = [[]]; yy = [[]]; zz = [[]]
-            II = []; names = []; groups = []
+            xx = [[]]
+            yy = [[]]
+            zz = [[]]
+            II = []
+            names = []
+            groups = []
             tmpI = 0.0
             for line in coilfile:
                 linelist = line.split()
-                if len(linelist) < 4 :
-                    #print("End of file or invalid format!")                    
+                if len(linelist) < 4:
+                    # print("End of file or invalid format!")
                     break
                 xx[icoil].append(float(linelist[0]))
                 yy[icoil].append(float(linelist[1]))
                 zz[icoil].append(float(linelist[2]))
-                if len(linelist) == 4 :
+                if len(linelist) == 4:
                     tmpI = float(linelist[-1])
-                if len(linelist) > 4 :
+                if len(linelist) > 4:
                     II.append(tmpI)
                     try:
                         group = int(linelist[4])
-                    except:
+                    except ValueError:
                         group = len(groups) + 1
                     groups.append(group)
                     try:
                         name = linelist[5]
                     except IndexError:
-                        name = 'coil'
+                        name = "coil"
                     names.append(name)
                     icoil = icoil + 1
-                    xx.append([]); yy.append([]); zz.append([])
-        xx.pop(); yy.pop(); zz.pop()
+                    xx.append([])
+                    yy.append([])
+                    zz.append([])
+        xx.pop()
+        yy.pop()
+        zz.pop()
         # print(len(xx) , len(yy) , len(zz) , len(II) , len(names) , len(groups))
         return cls(xx=xx, yy=yy, zz=zz, II=II, names=names, groups=groups)
 
-    def plot(self, irange=[], engine='pyplot', ax=None, fig=None, show=True, **kwargs):
-        """Plot coils in mayavi or matplotlib  
+    def plot(self, irange=[], engine="pyplot", ax=None, fig=None, show=True, **kwargs):
+        """Plot coils in mayavi or matplotlib or plotly.
 
         Args:
             irange (list, optional): Coil list to be plotted. Defaults to [].
-            engine（string, optional): Plotting engine, one of {'pyplot' (default), 'mayavi', 'plotly'}.
-            fig (, optional): figure to be plotted ion (default: None)
-            ax (, optional): axis to be plotted ion (default: None)
-            show (bool, optional）: if show the plotly figure immediately (default: True)
+            engine（string, optional): Plotting engine. One of {'pyplot', 'mayavi', 'plotly'}. Defaults to "pyplot".
+            fig (, optional): figure to be plotted on. Defaults to None.
+            ax (, optional): axis to be plotted on. Defaults to None.
+            show (bool, optional): if show the plotly figure immediately. Defaults to True.
             kwargs (dict, optional): Keyword dict for plotting settings.
-        """        
-        if len(irange)==0:
+        """
+        if len(irange) == 0:
             irange = range(self.num)
-        if engine == 'pyplot':
+        if engine == "pyplot":
             import matplotlib.pyplot as plt
-            from mpl_toolkits.mplot3d import Axes3D
+
             # plot in matplotlib.pyplot
-            if ax is None or ax.name != '3d':
+            if ax is None or ax.name != "3d":
                 fig = plt.figure()
-                ax = fig.add_subplot(111, projection='3d')
-        elif engine == 'plotly':
+                ax = fig.add_subplot(111, projection="3d")
+        elif engine == "plotly":
             import plotly.graph_objects as Go
+
             if fig is None:
                 fig = Go.Figure()
                 ax = None
         for i in irange:
-            if engine == 'plotly':
-                kwargs['legendgroup'] = self.data[i].group
-                kwargs['show'] = False
+            if engine == "plotly":
+                kwargs["legendgroup"] = self.data[i].group
+                kwargs["show"] = False
             self.data[i].plot(engine=engine, fig=fig, ax=ax, **kwargs)
-        if engine == 'plotly':
-            if show: fig.show()
+        if engine == "plotly":
+            if show:
+                fig.show()
         return
 
     def save_makegrid(self, filename, nfp=1, **kwargs):
@@ -410,18 +476,24 @@ class Coil(object):
             nfp {int} -- number of toroidal periodicity (default: 1)
         """
         assert len(self) > 0
-        with open(filename, 'w') as wfile :
+        with open(filename, "w") as wfile:
             wfile.write("periods {:3d} \n".format(nfp))
             wfile.write("begin filament \n")
             wfile.write("mirror NIL \n")
             for icoil in list(self):
-                Nseg = len(icoil.x) # number of segments;
+                Nseg = len(icoil.x)  # number of segments;
                 assert Nseg > 1
-                for iseg in range(Nseg-1): # the last point match the first one;
-                    wfile.write("{:15.7E} {:15.7E} {:15.7E} {:15.7E}\n".format(
-                        icoil.x[iseg], icoil.y[iseg], icoil.z[iseg], icoil.I))
-                wfile.write("{:15.7E} {:15.7E} {:15.7E} {:15.7E} {:} {:10} \n".format(
-                    icoil.x[0], icoil.y[0], icoil.z[0], 0.0, icoil.group, icoil.name))
+                for iseg in range(Nseg - 1):  # the last point match the first one;
+                    wfile.write(
+                        "{:15.7E} {:15.7E} {:15.7E} {:15.7E}\n".format(
+                            icoil.x[iseg], icoil.y[iseg], icoil.z[iseg], icoil.I
+                        )
+                    )
+                wfile.write(
+                    "{:15.7E} {:15.7E} {:15.7E} {:15.7E} {:} {:10} \n".format(
+                        icoil.x[0], icoil.y[0], icoil.z[0], 0.0, icoil.group, icoil.name
+                    )
+                )
             wfile.write("end \n")
         return
 
@@ -431,8 +503,9 @@ class Coil(object):
         Args:
             vtkname (str): VTK filename
             kwargs (dict): Optional kwargs passed to "polyLinesToVTK"
-        """        
+        """
         from pyevtk.hl import polyLinesToVTK
+
         currents = []
         groups = []
         x = []
@@ -446,12 +519,15 @@ class Coil(object):
             y.append(icoil.y)
             z.append(icoil.z)
             lx.append(len(icoil.x))
-        kwargs.setdefault('cellData', {})
-        kwargs['cellData'].setdefault('I', np.array(currents))
-        kwargs['cellData'].setdefault('Igroup', np.array(groups))
-        polyLinesToVTK(vtkname, np.concatenate(x), np.concatenate(y), np.concatenate(z),
-                        np.array(lx), **kwargs)
+        kwargs.setdefault("cellData", {})
+        kwargs["cellData"].setdefault("I", np.array(currents))
+        kwargs["cellData"].setdefault("Igroup", np.array(groups))
+        polyLinesToVTK(
+            vtkname,
+            np.concatenate(x),
+            np.concatenate(y),
+            np.concatenate(z),
+            np.array(lx),
+            **kwargs
+        )
         return
-
-    def __del__(self):
-        class_name = self.__class__.__name__
