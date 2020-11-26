@@ -4,8 +4,19 @@ u0_d_4pi = 1.0e-7
 
 
 class SingleCoil(object):
-    """
-    Single coil class represented as discrete points in Cartesian coordinates
+    """Python class representing a single coil as discrete points in Cartesian coordinates.
+
+    Attributes
+    ----------
+    x: Data in x-coordinate
+
+    Args:
+        x (list, optional): Data in x-coordinate. Defaults to [].
+        y (list, optional): Data in y-coordinate. Defaults to [].
+        z (list, optional): Data in z-coordinate Defaults to [].
+        I (float, optional): Coil current. Defaults to 0.0.
+        name (str, optional): Coil name. Defaults to "coil1".
+        group (int, optional): Coil group for labeling. Defaults to 1.
     """
 
     def __init__(self, x=[], y=[], z=[], I=0.0, name="coil1", group=1):
@@ -21,9 +32,182 @@ class SingleCoil(object):
         self.zt = None
         return
 
-    def plot(self, engine="mayavi", fig=None, ax=None, show=True, **kwargs):
+    def bfield(self, pos):
+        """Calculate the magnetic field at an arbitrary point using `self.dt`.
+
+        Args:
+            pos (list): Evaluation point in Cartesian coordinates.
+
+        Returns:
+            numpy.ndarray: B vector produced by the coil.
         """
-        plot coil as a line
+        ob_pos = np.atleast_1d(pos)
+        dx = ob_pos[0] - self.x[:-1]
+        dy = ob_pos[1] - self.y[:-1]
+        dz = ob_pos[2] - self.z[:-1]
+        dr = dx * dx + dy * dy + dz * dz
+        Bx = (dz * self.yt[:-1] - dy * self.zt[:-1]) * np.power(dr, -1.5) * self.dt
+        By = (dx * self.zt[:-1] - dz * self.xt[:-1]) * np.power(dr, -1.5) * self.dt
+        Bz = (dy * self.xt[:-1] - dx * self.yt[:-1]) * np.power(dr, -1.5) * self.dt
+        B = np.array([np.sum(Bx), np.sum(By), np.sum(Bz)]) * u0_d_4pi * self.I
+        return B
+
+    def bfield_fd(self, pos):
+        """Calculate the magnetic field at an arbitrary point using finite difference.
+
+        Args:
+            pos (list): Evaluation point in Cartesian coordinates.
+
+        Returns:
+            numpy.ndarray: B vector produced by the coil.
+        """
+        pos = np.atleast_1d(pos)
+        xt = self.x[1:] - self.x[:-1]
+        yt = self.y[1:] - self.y[:-1]
+        zt = self.z[1:] - self.z[:-1]
+        dx = pos[0] - (self.x[:-1] + self.x[1:]) / 2
+        dy = pos[1] - (self.y[:-1] + self.y[1:]) / 2
+        dz = pos[2] - (self.z[:-1] + self.z[1:]) / 2
+        dr = dx * dx + dy * dy + dz * dz
+        Bx = (dz * yt - dy * zt) * np.power(dr, -1.5)
+        By = (dx * zt - dz * xt) * np.power(dr, -1.5)
+        Bz = (dy * xt - dx * yt) * np.power(dr, -1.5)
+        B = np.array([np.sum(Bx), np.sum(By), np.sum(Bz)]) * u0_d_4pi * self.I
+        return B
+
+    def bfield_HH(self, pos, **kwargs):
+        """Calculate B field at an arbitrary point using the Hanson-Hirshman expression
+
+        Arguments:
+            pos (list): Cartesian coordinates for the evaluation point.
+
+        Returns:
+            numpy.ndarray: B vector produced by the coil.
+        """
+        xyz = np.array([self.x, self.y, self.z]).T
+        pos = np.atleast_2d(pos)
+        assert (pos.shape)[1] == 3
+        Rvec = pos[:, np.newaxis, :] - xyz[np.newaxis, :, :]
+        assert (Rvec.shape)[-1] == 3
+        RR = np.linalg.norm(Rvec, axis=2)
+        Riv = Rvec[:, :-1, :]
+        Rfv = Rvec[:, 1:, :]
+        Ri = RR[:, :-1]
+        Rf = RR[:, 1:]
+        B = (
+            np.sum(
+                np.cross(Riv, Rfv)
+                * ((Ri + Rf) / ((Ri * Rf) * (Ri * Rf + np.sum(Riv * Rfv, axis=2))))[
+                    :, :, np.newaxis
+                ],
+                axis=1,
+            )
+            * u0_d_4pi
+            * self.I
+        )
+        return B
+
+    def fourier_tangent(self):
+        """
+        Approximate the tangent using Fourier representation.
+        """
+        from .misc import fft_deriv
+
+        self.dt = 2 * np.pi / (len(self.x) - 1)
+        fftxy = fft_deriv(self.x[:-1] + 1j * self.y[:-1])
+        fftz = fft_deriv(self.z[:-1])
+        self.xt = np.real(fftxy)
+        self.yt = np.imag(fftxy)
+        self.zt = np.real(fftz)
+        self.xt = np.concatenate((self.xt, self.xt[0:1]))
+        self.yt = np.concatenate((self.yt, self.yt[0:1]))
+        self.zt = np.concatenate((self.zt, self.zt[0:1]))
+        return
+
+    def interpolate(self, num=256, kind="fft", nf=-1):
+        """Interpolate to get more data points.
+
+        Args:
+            num (int, optional): The total number of points after interpolation. Defaults to 256.
+            kind (str, optional): Specifies the kind of interpolation, could be 'fft'
+                                  or scipy.interp1d.kind.  Defaults to 'cubic'.
+            nf (int, optional): Number of truncated Fourier modes. Defaults to -1.
+        """
+        from scipy.interpolate import interp1d
+        from coilpy.misc import trigfft, trig2real
+
+        cur_len = len(self.x)
+        assert cur_len > 0
+        theta = np.linspace(0, 1, num=cur_len, endpoint=True)
+        theta_new = np.linspace(0, 1, num=num, endpoint=True)
+        if kind == "fft":
+            # FFT
+            fftxy = trigfft(self.x[:-1] + 1j * self.y[:-1], tr=nf)
+            fftz = trigfft(self.z[:-1], tr=nf)
+            xm = fftxy["n"]
+            xc = fftxy["rcos"]
+            xs = fftxy["rsin"]
+            yc = fftxy["icos"]
+            ys = fftxy["isin"]
+            zc = fftz["rcos"]
+            zs = fftz["rsin"]
+            self.x = trig2real(theta_new, zeta=None, xm=xm, xn=None, fmnc=xc, fmns=xs)
+            self.y = trig2real(theta_new, zeta=None, xm=xm, xn=None, fmnc=yc, fmns=ys)
+            self.z = trig2real(theta_new, zeta=None, xm=xm, xn=None, fmnc=zc, fmns=zs)
+        else:
+            # splines
+            f = interp1d(theta, self.x, kind="cubic")
+            self.x = f(theta_new)
+            f = interp1d(theta, self.y, kind="cubic")
+            self.y = f(theta_new)
+            f = interp1d(theta, self.z, kind="cubic")
+            self.z = f(theta_new)
+        return
+
+    def magnify(self, ratio):
+        """Magnify the coil with a ratio.
+
+        Args:
+            ratio (float): The magnifying ratio.
+        """
+        # number of points
+        nseg = len(self.x)
+        # assuming closed curve; should be revised
+        if True:  # abs(self.x[0] - self.x[-1]) < 1.0E-8:
+            nseg -= 1
+        assert nseg > 1
+        # get centroid
+        centroid = np.array(
+            [
+                np.sum(self.x[0:nseg]) / nseg,
+                np.sum(self.y[0:nseg]) / nseg,
+                np.sum(self.z[0:nseg]) / nseg,
+            ]
+        )
+        # magnify
+        for i in range(nseg):
+            xyz = np.array([self.x[i], self.y[i], self.z[i]])
+            dr = xyz - centroid
+            [self.x[i], self.y[i], self.z[i]] = centroid + ratio * dr
+        try:
+            self.x[nseg] = self.x[0]
+            self.y[nseg] = self.y[0]
+            self.z[nseg] = self.z[0]
+            return
+        except ValueError:
+            return
+
+    def plot(self, engine="mayavi", fig=None, ax=None, show=True, **kwargs):
+        """Plot the coil in a specified engine.
+
+        Args:
+            engine (str, optional): Plot enginer, could be {pyplot, mayavi, plotly}. Defaults to "mayavi".
+            fig (, optional): Figure to be plotted ion. Defaults to None.
+            ax (matplotlib.axis, optional): Axis to be plotted on. Defaults to None.
+            show (bool, optional): If show the plotly figure immediately. Defaults to True.
+
+        Raises:
+            ValueError: Invalid engine option, should be one of {pyplot, mayavi, plotly}.
         """
         if engine == "pyplot":
             import matplotlib.pyplot as plt
@@ -53,14 +237,63 @@ class SingleCoil(object):
             raise ValueError("Invalid engine option {pyplot, mayavi, plotly}")
         return
 
-    def rectangle(self, width=0.1, height=0.1, frame="centroid", **kwargs):
-        """
-        This function expand single coil filament to a rectangle coil;
+    def plot2d(
+        self,
+        engine="mayavi",
+        fig=None,
+        ax=None,
+        show=True,
+        width=0.1,
+        height=0.1,
+        frame="centroid",
+        **kwargs
+    ):
+        """Plot the coil with finite size.
 
-        width
-        height
-        winding : winding surface data;
-        tol: root find tolarence
+        Args:
+            engine (str, optional): Plot enginer, could be {pyplot, mayavi, plotly}. Defaults to "mayavi".
+            fig (, optional): Figure to be plotted ion. Defaults to None.
+            ax (matplotlib.axis, optional): Axis to be plotted on. Defaults to None.
+            show (bool, optional): If show the plotly figure immediately. Defaults to True.
+            width (float, optional): Coil width. Defaults to 0.1.
+            height (float, optional): Coil height. Defaults to 0.1.
+            frame (str, optional): Finite-build frame, could be one of
+                                  ("centroid", "frenet", "parallel"). Defaults to "centroid".
+        """
+        xx, yy, zz = self.rectangle(width, height, frame)
+        if engine == "pyplot":
+            pass
+        elif engine == "mayavi":
+            # plot 3D line in mayavi.mlab
+            from mayavi import mlab  # to overrid plt.mlab
+
+            mlab.mesh(xx, yy, zz, **kwargs)
+        elif engine == "plotly":
+            import plotly.graph_objects as go
+
+            if fig is None:
+                fig = go.Figure()
+            fig.add_trace(go.Surface(x=xx, y=yy, z=zz, **kwargs))
+            fig.update_layout(scene_aspectmode="data")
+            if show:
+                fig.show()
+        else:
+            raise ValueError("Invalid engine option {pyplot, mayavi, plotly}")
+        return
+
+    def rectangle(self, width=0.1, height=0.1, frame="centroid", **kwargs):
+        """Expand single coil filament to a finite-build coil.
+
+        Args:
+            width (float, optional): Coil width. Defaults to 0.1.
+            height (float, optional): Coil height. Defaults to 0.1.
+            frame (str, optional): Finite-build frame, could be one of
+                                  ("centroid", "frenet", "parallel"). Defaults to "centroid".
+
+        Returns:
+            numpy.ndarry: x-coordiante for plotting as a mesh.
+            numpy.ndarry: y-coordiante for plotting as a mesh.
+            numpy.ndarry: z-coordiante for plotting as a mesh.
         """
         n = np.size(self.x)
         # calculate the tangent
@@ -126,6 +359,8 @@ class SingleCoil(object):
             B = B / np.linalg.norm(B, axis=1)[:, np.newaxis]
             theta = np.arccos(np.sum(T[:-1] * T[1:], axis=1))
             V = np.zeros_like(T)
+            kwargs.setdefault("vx", self.x[0] - np.average(self.x[0:-1]))
+            kwargs.setdefault("vy", self.y[0] - np.average(self.y[0:-1]))
             vx = kwargs["vx"]
             vy = kwargs["vy"]
             vz = -(vx * T[0, 0] + vy * T[0, 1]) / T[0, 2]
@@ -169,117 +404,7 @@ class SingleCoil(object):
         xx = np.array([x1, x2, x3, x4, x1])
         yy = np.array([y1, y2, y3, y4, y1])
         zz = np.array([z1, z2, z3, z4, z1])
-
         return xx, yy, zz
-
-    def interpolate(self, num=256):
-        """
-        Interpolate to increase more data points
-        """
-        from scipy.interpolate import interp1d
-
-        cur_len = len(self.x)
-        assert cur_len > 0
-        theta = np.linspace(0, 1, num=cur_len, endpoint=True)
-        theta_new = np.linspace(0, 1, num=num, endpoint=True)
-        # interpolate
-        f = interp1d(theta, self.x, kind="cubic")
-        self.x = f(theta_new)
-        f = interp1d(theta, self.y, kind="cubic")
-        self.y = f(theta_new)
-        f = interp1d(theta, self.z, kind="cubic")
-        self.z = f(theta_new)
-        return
-
-    def magnify(self, ratio):
-        """
-        magnify coil with a ratio
-        """
-        # number of points
-        nseg = len(self.x)
-        # assuming closed curve; should be revised
-        if True:  # abs(self.x[0] - self.x[-1]) < 1.0E-8:
-            nseg -= 1
-        assert nseg > 1
-        # get centroid
-        centroid = np.array(
-            [
-                np.sum(self.x[0:nseg]) / nseg,
-                np.sum(self.y[0:nseg]) / nseg,
-                np.sum(self.z[0:nseg]) / nseg,
-            ]
-        )
-        # magnify
-        for i in range(nseg):
-            xyz = np.array([self.x[i], self.y[i], self.z[i]])
-            dr = xyz - centroid
-            [self.x[i], self.y[i], self.z[i]] = centroid + ratio * dr
-        try:
-            self.x[nseg] = self.x[0]
-            self.y[nseg] = self.y[0]
-            self.z[nseg] = self.z[0]
-            return
-        except:
-            return
-
-    def bfield_HH(self, pos, **kwargs):
-        """Calculate B field at an arbitrary point using the Hanson-Hirshman expression
-
-        Arguments:
-            pos {array-like} -- Cartesian coordinates for the evaluation point
-
-        Returns:
-            ndarray -- the calculated magnetic field vector
-        """
-        xyz = np.array([self.x, self.y, self.z]).T
-        pos = np.atleast_2d(pos)
-        assert (pos.shape)[1] == 3
-        Rvec = pos[:, np.newaxis, :] - xyz[np.newaxis, :, :]
-        assert (Rvec.shape)[-1] == 3
-        RR = np.linalg.norm(Rvec, axis=2)
-        Riv = Rvec[:, :-1, :]
-        Rfv = Rvec[:, 1:, :]
-        Ri = RR[:, :-1]
-        Rf = RR[:, 1:]
-        B = (
-            np.sum(
-                np.cross(Riv, Rfv)
-                * ((Ri + Rf) / ((Ri * Rf) * (Ri * Rf + np.sum(Riv * Rfv, axis=2))))[
-                    :, :, np.newaxis
-                ],
-                axis=1,
-            )
-            * u0_d_4pi
-            * self.I
-        )
-        return B
-
-    def bfield(self, pos):
-        ob_pos = np.atleast_1d(pos)
-        dx = ob_pos[0] - self.x[:-1]
-        dy = ob_pos[1] - self.y[:-1]
-        dz = ob_pos[2] - self.z[:-1]
-        dr = dx * dx + dy * dy + dz * dz
-        Bx = (dz * self.yt[:-1] - dy * self.zt[:-1]) * np.power(dr, -1.5) * self.dt
-        By = (dx * self.zt[:-1] - dz * self.xt[:-1]) * np.power(dr, -1.5) * self.dt
-        Bz = (dy * self.xt[:-1] - dx * self.yt[:-1]) * np.power(dr, -1.5) * self.dt
-        B = np.array([np.sum(Bx), np.sum(By), np.sum(Bz)]) * u0_d_4pi * self.I
-        return B
-
-    def bfield_fd(self, pos):
-        pos = np.atleast_1d(pos)
-        xt = self.x[1:] - self.x[:-1]
-        yt = self.y[1:] - self.y[:-1]
-        zt = self.z[1:] - self.z[:-1]
-        dx = pos[0] - (self.x[:-1] + self.x[1:]) / 2
-        dy = pos[1] - (self.y[:-1] + self.y[1:]) / 2
-        dz = pos[2] - (self.z[:-1] + self.z[1:]) / 2
-        dr = dx * dx + dy * dy + dz * dz
-        Bx = (dz * yt - dy * zt) * np.power(dr, -1.5)
-        By = (dx * zt - dz * xt) * np.power(dr, -1.5)
-        Bz = (dy * xt - dx * yt) * np.power(dr, -1.5)
-        B = np.array([np.sum(Bx), np.sum(By), np.sum(Bz)]) * u0_d_4pi * self.I
-        return B
 
     def spline_tangent(self, order=3, der=1):
         """Calculate the tangent of coil using spline interpolation
@@ -303,22 +428,8 @@ class SingleCoil(object):
             self.za = interpolate.splev(t, fz, der=2)
         return
 
-    def fourier_tangent(self):
-        from .misc import fft_deriv
-
-        self.dt = 2 * np.pi / (len(self.x) - 1)
-        fftxy = fft_deriv(self.x[:-1] + 1j * self.y[:-1])
-        fftz = fft_deriv(self.z[:-1])
-        self.xt = np.real(fftxy)
-        self.yt = np.imag(fftxy)
-        self.zt = np.real(fftz)
-        self.xt = np.concatenate((self.xt, self.xt[0:1]))
-        self.yt = np.concatenate((self.yt, self.yt[0:1]))
-        self.zt = np.concatenate((self.zt, self.zt[0:1]))
-        return
-
     def toVTK(self, vtkname, **kwargs):
-        """Write a VTK file
+        """Write the coil as a VTK file
 
         Args:
             vtkname (string): VTK filename
@@ -339,6 +450,30 @@ class SingleCoil(object):
 
 
 class Coil(object):
+    """Python object for a set of coils.
+
+    Args:
+        xx (list, optional): Coil data in x-coordinates. Defaults to [[]].
+        yy (list, optional): Coil data in y-coordinates. Defaults to [[]].
+        zz (list, optional): Coil data in z-coordinates. Defaults to [[]].
+        II (list, optional): Coil currents. Defaults to [[]].
+        names (list, optional): Coil names. Defaults to [[]].
+        groups (list, optional): Coil groups. Defaults to [[]].
+
+    A convenient way for construction is to use `self.read_makegrid(filename)`, like
+
+        ```
+        coil = CoilSet.read_makegrid('coils.sth')
+        ```
+
+    Each coil is stored in `self.data` in the format of `coilpy.coils.SingleCoil`.
+
+    You can plot the coilset using `self.plot`.
+
+    The coilset can be saved in the format of MAKEGRID using `self.save_makegrid`
+    and saved as VTK files using `self.toVTK`.
+    """
+
     def __init__(self, xx=[], yy=[], zz=[], II=[], names=[], groups=[]):
         assert (
             len(xx) == len(yy) == len(zz) == len(II) == len(names) == len(groups)
@@ -370,10 +505,10 @@ class Coil(object):
 
     @classmethod
     def read_makegrid(cls, filename):
-        """Read MAKEGRID format
+        """Read coils from the MAKEGRID format.
 
         Args:
-            filename (str) : file path and name
+            filename (str): file path and name
 
         Raises:
             IOError: Check if file exists
@@ -432,12 +567,22 @@ class Coil(object):
         # print(len(xx) , len(yy) , len(zz) , len(II) , len(names) , len(groups))
         return cls(xx=xx, yy=yy, zz=zz, II=II, names=names, groups=groups)
 
-    def plot(self, irange=[], engine="pyplot", ax=None, fig=None, show=True, **kwargs):
+    def plot(
+        self,
+        irange=[],
+        engine="pyplot",
+        plot2d=False,
+        ax=None,
+        fig=None,
+        show=True,
+        **kwargs
+    ):
         """Plot coils in mayavi or matplotlib or plotly.
 
         Args:
             irange (list, optional): Coil list to be plotted. Defaults to [].
-            engine（string, optional): Plotting engine. One of {'pyplot', 'mayavi', 'plotly'}. Defaults to "pyplot".
+            engine (string, optional): Plotting engine. One of {'pyplot', 'mayavi', 'plotly'}. Defaults to "pyplot".
+            plot2d (bool, optional): If plotting with finite size. Defaults to False.
             fig (, optional): figure to be plotted on. Defaults to None.
             ax (, optional): axis to be plotted on. Defaults to None.
             show (bool, optional): if show the plotly figure immediately. Defaults to True.
@@ -462,18 +607,21 @@ class Coil(object):
             if engine == "plotly":
                 kwargs["legendgroup"] = self.data[i].group
                 kwargs["show"] = False
-            self.data[i].plot(engine=engine, fig=fig, ax=ax, **kwargs)
+            if plot2d:
+                self.data[i].plot2d(engine=engine, fig=fig, ax=ax, **kwargs)
+            else:
+                self.data[i].plot(engine=engine, fig=fig, ax=ax, **kwargs)
         if engine == "plotly":
             if show:
                 fig.show()
         return
 
     def save_makegrid(self, filename, nfp=1, **kwargs):
-        """write in MAKEGRID format
+        """Write coils in the MAKEGRID format.
 
-        Arguments:
-            filename {str} -- file name and path
-            nfp {int} -- number of toroidal periodicity (default: 1)
+        Args:
+            filename (str): File name and path.
+            nfp (int, optional): Number of toroidal periodicity. Defaults to 1.
         """
         assert len(self) > 0
         with open(filename, "w") as wfile:
