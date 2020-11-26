@@ -1,7 +1,15 @@
 coilpy.vmec 
-==================
+===================
 
 .. automodule:: coilpy.vmec
    :members:
    :undoc-members:
    :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   coilpy.vmec.vmec

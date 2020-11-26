@@ -1,0 +1,7 @@
+coilpy.vmec.vmec 
+=======================
+
+.. automodule:: coilpy.vmec.vmec
+   :members:
+   :undoc-members:
+   :show-inheritance:
