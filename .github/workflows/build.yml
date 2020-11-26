@@ -45,6 +45,7 @@ jobs:
         pip install -r requirements.txt
         pip install setuptools wheel twine 
         pip install sphinx
+        pip install pydata-sphinx-theme
 
     - name: Build coilpy
       run: |
