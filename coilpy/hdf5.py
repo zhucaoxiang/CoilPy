@@ -1,5 +1,4 @@
 import h5py
-import numpy as np  # for isscalar
 import os  # for path.abspath
 import keyword  # for getting python keywords
 
@@ -7,14 +6,27 @@ import keyword  # for getting python keywords
 
 
 class HDF5:
-    # use as s = HDF5(filename), e.g. s=HDF5("ext.h5")
+    """Create a python object for a HDF5 file.
+
+    Returns:
+        HDF5 class: python HDF5 object.
+
+    Use as s = HDF5(filename), e.g. s=HDF5("ext.h5")
+    This class can be iterated or entered.
+    To check all the items, you can use `self.inventory()`.
+    """
+
     def __init__(self, *args, **kwargs):
-        # args[0] should always be the name of a file or an item inside the root object
-        # if args[0] is not a filename, kwargs['content'] should be the content to be added
-        # as self.`args[0]`
+        """Constructor
+
+        Args:
+            arg[0] (str): The name of a file or an item inside the root object.
+                          If args[0] is not a filename, kwargs['content'] should be the
+                          content to be added as self.`args[0]`.
+        """
 
         _content = None
-        if kwargs.get("content") == None:
+        if kwargs.get("content") is None:
             # assume arg[0] is a filename
             _content = h5py.File(args[0], "r")
 
@@ -23,7 +35,7 @@ class HDF5:
         elif isinstance(kwargs["content"], h5py.Group):
             _content = kwargs["content"]
 
-        if _content != None:
+        if _content is not None:
             for key in _content:
                 if isinstance(_content[key], h5py.Group):
                     # recurse into group
@@ -61,8 +73,12 @@ class HDF5:
     def __exit__(self, t, v, tb):
         return
 
-    # print a list of items contained in this object
     def inventory(self, prefix=""):
+        """Print a list of items contained in this object
+
+        Args:
+            prefix (str, optional): Header to be printed. Defaults to "".
+        """
         _prefix = ""
         if prefix != "":
             _prefix = prefix + "/"
@@ -71,10 +87,6 @@ class HDF5:
             try:
                 # recurse into member
                 getattr(self, a).inventory(prefix=_prefix + a)
-            except:
+            except AttributeError:
                 # print item name
                 print(_prefix + a)
-
-    # delete
-    def __del__(self):
-        class_name = self.__class__.__name__
