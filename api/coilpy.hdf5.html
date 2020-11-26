@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.hdf5 &#8212; coilpy 0.2.30 documentation</title>
+    <title>coilpy.hdf5 &#8212; coilpy 0.2.31 documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.30 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.31 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">coilpy.hdf5</a></li> 
       </ul>
     </div>  
@@ -42,10 +42,28 @@
 <dt id="coilpy.hdf5.HDF5">
 <em class="property">class </em><code class="sig-prename descclassname">coilpy.hdf5.</code><code class="sig-name descname">HDF5</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/hdf5.html#HDF5"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.hdf5.HDF5" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Create a python object for a HDF5 file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>python HDF5 object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>HDF5 class</p>
+</dd>
+</dl>
+<p>Use as s = HDF5(filename), e.g. s=HDF5(“ext.h5”)
+This class can be iterated or entered.
+To check all the items, you can use <cite>self.inventory()</cite>.</p>
 <dl class="py method">
 <dt id="coilpy.hdf5.HDF5.inventory">
 <code class="sig-name descname">inventory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/hdf5.html#HDF5.inventory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#coilpy.hdf5.HDF5.inventory" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Print a list of items contained in this object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>prefix</strong> (<em>str</em><em>, </em><em>optional</em>) – Header to be printed. Defaults to “”.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -88,7 +106,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.30 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">coilpy 0.2.31 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">coilpy.hdf5</a></li> 
       </ul>
     </div>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.hdf5 &#8212; coilpy 0.2.30 documentation</title>
+    <title>coilpy.hdf5 &#8212; coilpy 0.2.31 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.30 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.31 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">coilpy.hdf5</a></li> 
       </ul>
@@ -39,7 +39,6 @@
             
   <h1>Source code for coilpy.hdf5</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">h5py</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># for isscalar</span>
 <span class="kn">import</span> <span class="nn">os</span>  <span class="c1"># for path.abspath</span>
 <span class="kn">import</span> <span class="nn">keyword</span>  <span class="c1"># for getting python keywords</span>
 
@@ -47,14 +46,27 @@
 
 
 <div class="viewcode-block" id="HDF5"><a class="viewcode-back" href="../../api/coilpy.hdf5.html#coilpy.hdf5.HDF5">[docs]</a><span class="k">class</span> <span class="nc">HDF5</span><span class="p">:</span>
-    <span class="c1"># use as s = HDF5(filename), e.g. s=HDF5(&quot;ext.h5&quot;)</span>
+    <span class="sd">&quot;&quot;&quot;Create a python object for a HDF5 file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HDF5 class: python HDF5 object.</span>
+
+<span class="sd">    Use as s = HDF5(filename), e.g. s=HDF5(&quot;ext.h5&quot;)</span>
+<span class="sd">    This class can be iterated or entered.</span>
+<span class="sd">    To check all the items, you can use `self.inventory()`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="c1"># args[0] should always be the name of a file or an item inside the root object</span>
-        <span class="c1"># if args[0] is not a filename, kwargs[&#39;content&#39;] should be the content to be added</span>
-        <span class="c1"># as self.`args[0]`</span>
+        <span class="sd">&quot;&quot;&quot;Constructor</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            arg[0] (str): The name of a file or an item inside the root object.</span>
+<span class="sd">                          If args[0] is not a filename, kwargs[&#39;content&#39;] should be the</span>
+<span class="sd">                          content to be added as self.`args[0]`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">_content</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># assume arg[0] is a filename</span>
             <span class="n">_content</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
 
@@ -63,7 +75,7 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;content&quot;</span><span class="p">],</span> <span class="n">h5py</span><span class="o">.</span><span class="n">Group</span><span class="p">):</span>
             <span class="n">_content</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;content&quot;</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">_content</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">_content</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">_content</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_content</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">h5py</span><span class="o">.</span><span class="n">Group</span><span class="p">):</span>
                     <span class="c1"># recurse into group</span>
@@ -101,8 +113,12 @@
     <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">tb</span><span class="p">):</span>
         <span class="k">return</span>
 
-    <span class="c1"># print a list of items contained in this object</span>
 <div class="viewcode-block" id="HDF5.inventory"><a class="viewcode-back" href="../../api/coilpy.hdf5.html#coilpy.hdf5.HDF5.inventory">[docs]</a>    <span class="k">def</span> <span class="nf">inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print a list of items contained in this object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prefix (str, optional): Header to be printed. Defaults to &quot;&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_prefix</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">if</span> <span class="n">prefix</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="n">_prefix</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
@@ -111,13 +127,9 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="c1"># recurse into member</span>
                 <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">inventory</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">_prefix</span> <span class="o">+</span> <span class="n">a</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                 <span class="c1"># print item name</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">_prefix</span> <span class="o">+</span> <span class="n">a</span><span class="p">)</span></div>
-
-    <span class="c1"># delete</span>
-    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">class_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span></div>
+                <span class="nb">print</span><span class="p">(</span><span class="n">_prefix</span> <span class="o">+</span> <span class="n">a</span><span class="p">)</span></div></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -149,7 +161,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.30 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.31 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">coilpy.hdf5</a></li> 
       </ul>
