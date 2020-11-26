@@ -2,18 +2,23 @@
 
 import numpy as np
 import xarray
-from .misc import trig2real
-from .surface import FourSurf
+from ..misc import trig2real
+from ..surface import FourSurf
 
 __all__ = ["VMECout"]
 
 
 class VMECout(object):
-    """VMEC wout file in NETCDF.
+    """VMEC wout file read from NETCDF.
 
     Args:
         filename (str): Path to the VMEC wout file.
 
+    The original NETCDF file is stored in `self.wout`.
+
+    Some key data is stored in `self.data` as a dict.
+
+    Flux surfaces are stored in the list `self.surface` in the format of `FourSurf`.
     """
 
     def __init__(self, filename):
