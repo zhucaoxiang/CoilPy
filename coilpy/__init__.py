@@ -1,8 +1,11 @@
 """
-This is a cutomized python package for plotting and data processing in stellarator optimization.
-
+This is a python package for plotting and data processing in stellarator optimization.
+It contains several python functions on HDF5, Fourier surfaces, FOCUS, cois, 
+magnetic dipoles, STELLOPT, VMEC, BOOZ_XFORM, etc.
+The repository is available at https://github.com/zhucaoxiang/CoilPy
+For full documenation, please check https://zhucaoxiang.github.io/CoilPy/api/coilpy.html
 """
-__version__ = '0.2.30'
+__version__ = "0.2.31"
 
 # local packages
 from .misc import colorbar, get_figure, kwargs2dict, map_matrix
