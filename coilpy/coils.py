@@ -567,6 +567,33 @@ class Coil(object):
         # print(len(xx) , len(yy) , len(zz) , len(II) , len(names) , len(groups))
         return cls(xx=xx, yy=yy, zz=zz, II=II, names=names, groups=groups)
 
+    @classmethod
+    def read_gepc_coils(cls, filename, current=1.0):
+        """Read coils from GPEC files.
+
+        Args:
+            filename (str): File name.
+            current (float, optional): Coil current. Defaults to 1.0.
+
+        Returns:
+            Coil: Coil object.
+        """
+        import os
+
+        with open(filename, "r") as f:
+            line1 = f.readline()
+            ncoil, s, nsec, nw = list(map(int, list(map(float, line1.split()))))
+        x, y, z = np.genfromtxt(filename, skip_header=1).T.reshape(3, ncoil, s, nsec)
+        c = nw
+        # not quite sure what is s
+        xx = x[:, 0, :]
+        yy = y[:, 0, :]
+        zz = z[:, 0, :]
+        II = nw * np.ones(ncoil) * current
+        names = [os.path.split(filename)[-1].split(".")[0] for i in range(ncoil)]
+        groups = range(1, ncoil + 1)
+        return cls(xx=xx, yy=yy, zz=zz, II=II, names=names, groups=groups)
+
     def plot(
         self,
         irange=[],
