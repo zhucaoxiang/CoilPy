@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.coils &#8212; coilpy 0.2.34 documentation</title>
+    <title>coilpy.coils &#8212; coilpy 0.2.35 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.34 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.35 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">coilpy.coils</a></li> 
       </ul>
@@ -502,9 +502,9 @@
 
 <span class="sd">    A convenient way for construction is to use `self.read_makegrid(filename)`, like</span>
 
-<span class="sd">        ```</span>
+<span class="sd">        ``</span>
 <span class="sd">        coil = CoilSet.read_makegrid(&#39;coils.sth&#39;)</span>
-<span class="sd">        ```</span>
+<span class="sd">        ``</span>
 
 <span class="sd">    Each coil is stored in `self.data` in the format of `coilpy.coils.SingleCoil`.</span>
 
@@ -542,6 +542,23 @@
 
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span>
+
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Join two coil sets.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            other (`coilpy.coil.Coil`): The coilset to be added.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            `coilpy.coil.Coil`: The total coil set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+        <span class="n">total</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">total</span><span class="o">.</span><span class="n">num</span> <span class="o">+=</span> <span class="n">other</span><span class="o">.</span><span class="n">num</span>
+        <span class="n">total</span><span class="o">.</span><span class="n">data</span> <span class="o">+=</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">total</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">total</span>
 
 <div class="viewcode-block" id="Coil.read_makegrid"><a class="viewcode-back" href="../../api/coilpy.coils.html#coilpy.coils.Coil.read_makegrid">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">read_makegrid</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
@@ -605,6 +622,33 @@
         <span class="n">yy</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
         <span class="n">zz</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
         <span class="c1"># print(len(xx) , len(yy) , len(zz) , len(II) , len(names) , len(groups))</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">xx</span><span class="o">=</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="o">=</span><span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="o">=</span><span class="n">zz</span><span class="p">,</span> <span class="n">II</span><span class="o">=</span><span class="n">II</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Coil.read_gepc_coils"><a class="viewcode-back" href="../../api/coilpy.coils.html#coilpy.coils.Coil.read_gepc_coils">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read_gepc_coils</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read coils from GPEC files.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): File name.</span>
+<span class="sd">            current (float, optional): Coil current. Defaults to 1.0.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Coil: Coil object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">os</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">line1</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="n">ncoil</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">nsec</span><span class="p">,</span> <span class="n">nw</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">line1</span><span class="o">.</span><span class="n">split</span><span class="p">()))))</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">skip_header</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncoil</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">nsec</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">nw</span>
+        <span class="c1"># not quite sure what is s</span>
+        <span class="n">xx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">yy</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">zz</span> <span class="o">=</span> <span class="n">z</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">II</span> <span class="o">=</span> <span class="n">nw</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">ncoil</span><span class="p">)</span> <span class="o">*</span> <span class="n">current</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncoil</span><span class="p">)]</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncoil</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">xx</span><span class="o">=</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="o">=</span><span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="o">=</span><span class="n">zz</span><span class="p">,</span> <span class="n">II</span><span class="o">=</span><span class="n">II</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Coil.plot"><a class="viewcode-back" href="../../api/coilpy.coils.html#coilpy.coils.Coil.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span>
@@ -750,7 +794,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.34 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">coilpy 0.2.35 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">coilpy.coils</a></li> 
       </ul>
