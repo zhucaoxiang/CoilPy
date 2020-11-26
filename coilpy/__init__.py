@@ -7,7 +7,6 @@ magnetic dipoles, STELLOPT, VMEC, BOOZ_XFORM, etc.
 The repository is available at https://github.com/zhucaoxiang/CoilPy.
 
 For full documenation, please check https://zhucaoxiang.github.io/CoilPy/api/coilpy.html.
-
 """
 __version__ = "0.2.33"
 
