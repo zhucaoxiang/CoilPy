@@ -423,9 +423,6 @@ class Dipole(object):
             unique (bool, optional): Writing dipole every self.nfp term. Defaults to False.
             tol (float, optional): tolerance to skip zeros. Defaults to 0.
         """        
-        """
-        
-        """
         if not self.sp_switch:
             self.xyz2sp()
         cond = np.abs(self.rho) >= tol
@@ -807,7 +804,7 @@ class Dipole(object):
         cosy = np.sum(mxyz*yvec, axis=1)
         cosz = np.sum(mxyz*zvec, axis=1)
         cos_arr = np.transpose([cosx[:], cosy[:], cosz[:]])
-        argmin = np.argmin(np.abs(cos_arr), axis=1)
+        argmin = np.argmax(np.abs(cos_arr), axis=1)
         theta_arr = np.reshape(np.tile([np.pi/2, np.pi/2, 0], new.num), (-1, 3))
         phi_arr = np.transpose([phi1, phi2, np.zeros_like(phi1)])
         new.mt = np.array([theta_arr[i, argmin[i]] for i in range(new.num)])
