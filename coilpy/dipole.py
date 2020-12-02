@@ -74,7 +74,7 @@ class Dipole(object):
         with open(filename, "r") as coilfile:
             coilfile.readline()
             line = coilfile.readline()
-            line = line.replace(',', ' ')
+            line = line.replace(",", " ")
             line = line.split()
             num = int(line[0])
             try:
@@ -234,37 +234,8 @@ class Dipole(object):
 
         f = netcdf.netcdf_file(regcoilname, "r", mmap=False)
         nfp = f.variables["nfp"][()]
-        ntheta_plasma = f.variables["ntheta_plasma"][()]
-        ntheta_coil = f.variables["ntheta_coil"][()]
-        nzeta_plasma = f.variables["nzeta_plasma"][()]
-        nzeta_coil = f.variables["nzeta_coil"][()]
-        nzetal_plasma = f.variables["nzetal_plasma"][()]
-        nzetal_coil = f.variables["nzetal_coil"][()]
-        theta_plasma = f.variables["theta_plasma"][()]
-        theta_coil = f.variables["theta_coil"][()]
-        zeta_plasma = f.variables["zeta_plasma"][()]
-        zeta_coil = f.variables["zeta_coil"][()]
-        zetal_plasma = f.variables["zetal_plasma"][()]
-        zetal_coil = f.variables["zetal_coil"][()]
-        r_plasma = f.variables["r_plasma"][()]
-        # normal_coil = f.variables['normal_coil'][()]
-        r_coil = f.variables["r_coil"][()]
-        xm_coil = f.variables["xm_coil"][()]
-        xn_coil = f.variables["xn_coil"][()]
         xm_potential = f.variables["xm_potential"][()]
         xn_potential = f.variables["xn_potential"][()]
-        mnmax_coil = f.variables["mnmax_coil"][()]
-        chi2_B = f.variables["chi2_B"][()]
-        single_valued_current_potential_thetazeta = f.variables[
-            "single_valued_current_potential_thetazeta"
-        ][()]
-        current_potential = f.variables["current_potential"][()]
-        Bnormal_from_plasma_current = f.variables["Bnormal_from_plasma_current"][()]
-        Bnormal_from_net_coil_currents = f.variables["Bnormal_from_net_coil_currents"][
-            ()
-        ]
-        Bnormal_total = f.variables["Bnormal_total"][()]
-        net_poloidal_current_Amperes = f.variables["net_poloidal_current_Amperes"][()]
         phi_mn = f.variables["single_valued_current_potential_mn"][()][ilambda, :]
         symmetry_option = f.variables["symmetry_option"][()]
         f.close()
@@ -408,10 +379,10 @@ class Dipole(object):
             self.pho = np.power(
                 np.sqrt(self.mx * self.mx + self.my * self.my + self.mz * self.mz)
                 / self.mm,
-                1.0 / self.momentq,            
+                1.0 / self.momentq,
             )
             self.mt = np.arccos(self.mz / (self.mm * self.pho ** self.momentq))
-        self.mp = np.arctan2(self.my, self.mx)        
+        self.mp = np.arctan2(self.my, self.mx)
         self.sp_switch = True
         return
 
@@ -422,16 +393,22 @@ class Dipole(object):
             filename (str): FOCUS file name.
             unique (bool, optional): Writing dipole every self.nfp term. Defaults to False.
             tol (float, optional): tolerance to skip zeros. Defaults to 0.
-        """        
+        """
         if not self.sp_switch:
             self.xyz2sp()
         cond = np.abs(self.rho) >= tol
         with open(filename, "w") as wfile:
             wfile.write(" # Total number of dipoles,  momentq \n")
             if unique:
-                wfile.write("{:6d},  {:4d}\n".format(np.count_nonzero(cond)/self.nfp, self.momentq))
+                wfile.write(
+                    "{:6d},  {:4d}\n".format(
+                        np.count_nonzero(cond) / self.nfp, self.momentq
+                    )
+                )
             else:
-                wfile.write("{:6d},  {:4d}\n".format(np.count_nonzero(cond), self.momentq))
+                wfile.write(
+                    "{:6d},  {:4d}\n".format(np.count_nonzero(cond), self.momentq)
+                )
             if self.old:
                 for icoil in range(self.num):
                     if unique:
@@ -472,7 +449,7 @@ class Dipole(object):
                         if np.mod(i, self.nfp) == 0:
                             continue
                     if not cond[i]:
-                        continue                        
+                        continue
                     wfile.write(
                         " 2, {:1d}, {:}, {:15.8E}, {:15.8E}, {:15.8E}, {:2d}, {:15.8E},"
                         "{:15.8E}, {:2d}, {:15.8E}, {:15.8E} \n".format(
@@ -695,7 +672,7 @@ class Dipole(object):
         self.mz = moment[:, 2].copy()
         self.mm = np.tile(self.mm, self.nfp)
         self.pho = np.tile(self.pho, self.nfp)
-        self.rho = self.pho**self.momentq
+        self.rho = self.pho ** self.momentq
         self.Ic = np.tile(self.Ic, self.nfp)
         self.Lc = np.tile(self.Lc, self.nfp)
         self.name = np.tile(self.name, self.nfp)
@@ -789,23 +766,28 @@ class Dipole(object):
 
         Returns:
             Dipole class: return a new dipole class with rounded orientations
-        """        
+        """
         from copy import deepcopy
+
         new = deepcopy(self)
         phi1 = np.arctan2(new.oy, new.ox)
-        phi2 = phi1 + np.pi/2
-        mxyz = np.transpose([np.sin(new.mt)*np.cos(new.mp), 
-                            np.sin(new.mt)*np.sin(new.mp),
-                            np.cos(new.mt)])
+        phi2 = phi1 + np.pi / 2
+        mxyz = np.transpose(
+            [
+                np.sin(new.mt) * np.cos(new.mp),
+                np.sin(new.mt) * np.sin(new.mp),
+                np.cos(new.mt),
+            ]
+        )
         xvec = np.transpose([np.cos(phi1), np.sin(phi1), np.zeros_like(phi1)])
         yvec = np.transpose([np.cos(phi2), np.sin(phi2), np.zeros_like(phi1)])
-        zvec = np.reshape(np.tile([0,0,1], new.num), (-1, 3))
-        cosx = np.sum(mxyz*xvec, axis=1)
-        cosy = np.sum(mxyz*yvec, axis=1)
-        cosz = np.sum(mxyz*zvec, axis=1)
+        zvec = np.reshape(np.tile([0, 0, 1], new.num), (-1, 3))
+        cosx = np.sum(mxyz * xvec, axis=1)
+        cosy = np.sum(mxyz * yvec, axis=1)
+        cosz = np.sum(mxyz * zvec, axis=1)
         cos_arr = np.transpose([cosx[:], cosy[:], cosz[:]])
         argmin = np.argmax(np.abs(cos_arr), axis=1)
-        theta_arr = np.reshape(np.tile([np.pi/2, np.pi/2, 0], new.num), (-1, 3))
+        theta_arr = np.reshape(np.tile([np.pi / 2, np.pi / 2, 0], new.num), (-1, 3))
         phi_arr = np.transpose([phi1, phi2, np.zeros_like(phi1)])
         new.mt = np.array([theta_arr[i, argmin[i]] for i in range(new.num)])
         new.mp = np.array([phi_arr[i, argmin[i]] for i in range(new.num)])
@@ -822,20 +804,23 @@ class Dipole(object):
 
         Returns:
             None: None
-        """        
+        """
         # find the cloest dipole in real space
         def closest(i):
-            dis = (self.ox[i]-template.ox)**2 \
-                + (self.oy[i]-template.oy)**2 \
-                + (self.oz[i]-template.oz)**2
+            dis = (
+                (self.ox[i] - template.ox) ** 2
+                + (self.oy[i] - template.oy) ** 2
+                + (self.oz[i] - template.oz) ** 2
+            )
             return np.argmin(dis)
+
         # assign rho, mt, mp
         for i in range(self.num):
             ind = closest(i)
             self.rho[i] = template.rho[ind]
             self.mt[i] = template.mt[ind]
             self.mp[i] = template.mp[ind]
-        self.pho = self.rho**(1./self.momentq)
+        self.pho = self.rho ** (1.0 / self.momentq)
         return
 
     def plot(self, engine="pyplot", start=0, end=None, **kwargs):
@@ -843,7 +828,6 @@ class Dipole(object):
             end = self.num
         if engine == "pyplot":
             import matplotlib.pyplot as plt
-            from mpl_toolkits.mplot3d import Axes3D
 
             fig = plt.figure()
             ax = fig.add_subplot(111, projection="3d")
@@ -872,18 +856,18 @@ class Dipole(object):
 
         Returns:
             numpy.array: The total magnetic field produced by all dipoles
-        """        
+        """
         # calculate mx, my, mz if needed
         if not self.xyz_switch:
             self.sp2xyz()
         # Biot-Savart law
-        pos = np.reshape(pos, (3,1))
+        pos = np.reshape(pos, (3, 1))
         oxyz = np.asarray([self.ox, self.oy, self.oz])
         rxyz = oxyz - pos
         r = np.linalg.norm(rxyz, axis=0)
         mxyz = np.asarray([self.mx, self.my, self.mz])
-        Bvec = 3*np.sum(mxyz*rxyz, axis=0)/r**5*rxyz - 1/r**3*mxyz
-        return 1E-7*np.sum(Bvec, axis=1)
+        Bvec = 3 * np.sum(mxyz * rxyz, axis=0) / r ** 5 * rxyz - 1 / r ** 3 * mxyz
+        return 1e-7 * np.sum(Bvec, axis=1)
 
     def __repr__(self):
         return "FAMUS dipole class, num={:d}, symmetry={:}, filename={:}".format(
@@ -910,9 +894,6 @@ class Dipole(object):
             momentq=self.momentq,
             filename=self.filename + "+" + other.filename,
         )
-
-    def __del__(self):
-        class_name = self.__class__.__name__
 
 
 class GAdipole(Dipole):
