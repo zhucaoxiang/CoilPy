@@ -113,6 +113,8 @@ class SingleCoil(object):
         """
         from .misc import fft_deriv
 
+        if not np.isclose(self.x[0], self.x[-1]):
+            print("Warning: Spectral derivatives using FFT are used for closed coils.")
         self.dt = 2 * np.pi / (len(self.x) - 1)
         fftxy = fft_deriv(self.x[:-1] + 1j * self.y[:-1])
         fftz = fft_deriv(self.z[:-1])

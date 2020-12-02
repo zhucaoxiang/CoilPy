@@ -222,6 +222,72 @@ def trigfft(y, tr=-1):
     }
 
 
+def trigfft2(y):
+    """calculate trigonometric coefficients using FFT
+    Assuming the periodicity is 2*pi
+    params:
+        y -- 2D array for Fourier transformation
+    return:
+        a dict containing
+        'n' -- 1D array, n index
+        'm' -- 1D array, m index
+        'rcos' -- 2D array, cos coefficients of the real part
+        'rsin' -- 2D array, sin coefficients of the real part
+        'icos' -- 2D array, cos coefficients of the imag part
+        'isin' -- 2D array, sin coefficients of the imag part
+    """
+    from scipy.fftpack import fft2, fftshift
+
+    M, N = y.shape
+    mn = M * N
+    comp = fft2(y) / mn
+    if M % 2 == 0:  # even
+        half = M // 2 - 1
+        end = half + 2
+    else:
+        half = (M - 1) // 2
+        end = half + 1
+    if N % 2 == 0:  # even
+        mid0 = N // 2
+        start = 1
+        nmin = -N // 2
+        nmax = N // 2 - 1
+    else:
+        mid0 = (N - 1) // 2
+        start = 0
+        nmin = -(N - 1) // 2
+        nmax = (N - 1) // 2
+    a_k = np.zeros((end, N), dtype=np.complex)
+    b_k = np.zeros((end, N), dtype=np.complex)
+    # find mapping
+    a_k[0, 0] = comp[0, 0]
+    for n in range(1, N):
+        a_k[0, n] = comp[0, n] + comp[0, N - n]
+        b_k[0, n] = (comp[0, n] - comp[0, N - n]) * 1j
+    for m in range(1, (M + 1) // 2):
+        a_k[m, 0] = comp[m, 0] + comp[M - m, 0]
+        b_k[m, 0] = (comp[m, 0] - comp[M - m, 0]) * 1j
+        for n in range(1, N):
+            a_k[m, n] = comp[m, n] + comp[M - m, N - n]
+            b_k[m, n] = (comp[m, n] - comp[M - m, N - n]) * 1j
+    if M % 2 == 0 and N % 2 == 0:  # even
+        a_k[end - 1, N // 2] = comp[M // 2, N // 2]
+    a_k = fftshift(a_k, axes=1)
+    b_k = fftshift(b_k, axes=1)
+    a_k[0, start:mid0] = 0 + 1j * 0
+    b_k[0, start:mid0] = 0 + 1j * 0
+    mm = np.arange(end)
+    nn = np.arange(nmin, nmax + 1)
+    return {
+        "n": nn,
+        "m": mm,
+        "rcos": np.real(a_k),
+        "rsin": np.real(b_k),
+        "icos": np.imag(a_k),
+        "isin": np.imag(b_k),
+    }
+
+
 def fft_deriv(y):
     from scipy.fftpack import fft, ifft
 
@@ -238,6 +304,7 @@ def fft_deriv(y):
         ) * 1j
     return ifft(comp * dt)
 
+
 def trig2real(theta, zeta=None, xm=[], xn=[], fmnc=None, fmns=None):
     """Trigonometric coefficients to real space points
 
@@ -251,11 +318,12 @@ def trig2real(theta, zeta=None, xm=[], xn=[], fmnc=None, fmns=None):
 
     Returns:
         numpy.ndarray: The discretized values in real space.
-    """    
+    """
     if zeta is None:
         return _trig2real_1d(theta, xm, fmnc, fmns)
     else:
         return _trig2real_2d(theta, zeta, xm, xn, fmnc, fmns)
+
 
 def _trig2real_1d(theta, xm, fmnc=None, fmns=None):
     _mt = np.reshape(xm, (-1, 1)) * theta
@@ -266,7 +334,8 @@ def _trig2real_1d(theta, xm, fmnc=None, fmns=None):
         f += np.matmul(np.reshape(fmnc, (1, -1)), _cos)
     if fmns is not None:
         f += np.matmul(np.reshape(fmns, (1, -1)), _sin)
-    return f.ravel()   
+    return f.ravel()
+
 
 def _trig2real_2d(theta, zeta, xm, xn, fmnc=None, fmns=None):
     npol, ntor = len(theta), len(zeta)
