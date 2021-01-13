@@ -487,3 +487,58 @@ def vmec2focus(
             )
             # FOCUS uses mu - nv
     return
+
+
+def booz2focus(booz_file, ns=-1, focus_file="plasma.boundary", tol=1e-6, Nfp=1):
+    """convert BOOZ_XFORM output into FOCUS format plasma surface (in Boozer coordinates)
+
+    Args:
+        booz_file (str): Netcdf file of BOOZ_XFORM output
+        ns (int, optional): The specific flux surface you want to convert. Defaults to -1.
+        focus_file (str, optional): FOCUS plasma boundary filename. Defaults to 'plasma.boundary'.
+        tol ([type], optional): Tolerance to truncate. Defaults to 1E-6.
+        Nfp (int, optional): [description]. Defaults to 1.
+    """
+    """
+    
+    input arguments:
+          booz_file : boozmn_xxx.nc 
+          ns        : the specific flux surface you want to convert, default: -1
+          focus_file: writing FOCUS format input plasma
+    """
+    import xarray
+
+    booz = xarray.open_dataset(booz_file)
+    mn = int(booz["mnboz_b"].values)
+    xm = np.array(booz["ixm_b"])
+    xn = np.array(booz["ixn_b"]) / Nfp
+    rbc = np.array(booz["rmnc_b"][ns, :])
+    # rbs = np.zeros(mn)
+    zbs = np.array(booz["zmns_b"][ns, :])
+    # zbc = np.zeros(mn)
+    pmns = np.array(booz["pmns_b"][ns, :])
+    # pmnc = np.zeros(mn)
+
+    # Nfp = 1
+    Nbnf = 0
+
+    amn = 0
+    for imn in range(mn):
+        if (abs(rbc[imn]) + abs(zbs[imn] + abs(pmns[imn]))) > tol:
+            amn += 1  # number of nonzero coef.
+    with open(focus_file, "w") as fofile:
+        fofile.write("# bmn   bNfp   nbf " + "\n")
+        fofile.write("{:d} \t {:d} \t {:d} \n".format(amn, Nfp, Nbnf))
+        fofile.write("#plasma boundary" + "\n")
+        fofile.write("# n m Rbc Rbs Zbc Zbs Pmnc Pmns" + "\n")
+        for imn in range(mn):
+            if (abs(rbc[imn]) + abs(zbs[imn] + abs(pmns[imn]))) > tol:
+                fofile.write(
+                    "{:4d}  {:4d} \t {:23.15E}  {:12.5E}  {:12.5E}  {:23.15E}  {:12.5E}  {:23.15E} \n".format(
+                        xn[imn], xm[imn], rbc[imn], 0.0, 0.0, zbs[imn], 0.0, pmns[imn]
+                    )
+                )
+        fofile.write("#Bn harmonics \n")
+        fofile.write("# n m bnc bns" + "\n")
+    print("Finished write FOCUS input file at ", focus_file)
+    return

@@ -107,7 +107,7 @@ class BOOZ_XFORM(SortedDict):
                 ind = ind_arg[-1 - i]  # index of the i-th largest term
                 m = xm[ind]
                 n = xn[ind]
-                if m==0 and n==0:
+                if m == 0 and n == 0:
                     continue
                 kwargs["label"] = "m={:}, n={:}".format(int(m), int(n))
                 if log:
@@ -218,7 +218,7 @@ class BOOZ_XFORM(SortedDict):
                 if (abs(rbc[imn]) + abs(zbs[imn] + abs(pmns[imn]))) > tol:
                     fofile.write(
                         "{:4d}  {:4d} \t {:23.15E}  {:12.5E}  {:12.5E} {:23.15E} {:12.5E}  {:23.15E} \n".format(
-                            self.xn[imn],
+                            int(self.xn[imn]),
                             self.xm[imn],
                             rbc[imn],
                             0.0,
