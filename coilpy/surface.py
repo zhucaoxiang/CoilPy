@@ -1,4 +1,5 @@
 import numpy as np
+from .misc import read_focus_boundary
 
 
 class FourSurf(object):
@@ -41,33 +42,17 @@ class FourSurf(object):
         Returns:
           fourier_surface class
         """
-        with open(filename, "r") as f:
-            line = f.readline()  # skip one line
-            line = f.readline()
-            num = int(line.split()[0])  # harmonics number
-            nfp = int(line.split()[1])  # number of field periodicity
-            nbn = int(line.split()[2])  # number of Bn harmonics
-            xm = []
-            xn = []
-            rbc = []
-            rbs = []
-            zbc = []
-            zbs = []
-            line = f.readline()  # skip one line
-            line = f.readline()  # skip one line
-            for i in range(num):
-                line = f.readline()
-                line_list = line.split()
-                n = int(line_list[0])
-                m = int(line_list[1])
-                if abs(m) > Mpol or abs(n) > Ntor:
-                    continue
-                xm.append(m)
-                xn.append(n)
-                rbc.append(float(line_list[2]))
-                rbs.append(float(line_list[3]))
-                zbc.append(float(line_list[4]))
-                zbs.append(float(line_list[5]))
+        focus = read_focus_boundary(filename)
+        nfp = focus["nfp"]
+        xm = focus["surface"]["xm"]
+        xn = focus["surface"]["xn"]
+        cond = np.logical_and(np.abs(xm) <= Mpol, np.abs(xn) <= Ntor)
+        xm = xm[cond]
+        xn = xn[cond]
+        rbc = focus["surface"]["rbc"][cond]
+        rbs = focus["surface"]["rbs"][cond]
+        zbc = focus["surface"]["zbc"][cond]
+        zbs = focus["surface"]["zbs"][cond]
         return cls(
             xm=np.array(xm),
             xn=np.array(xn) * nfp,

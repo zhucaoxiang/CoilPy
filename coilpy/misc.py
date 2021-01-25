@@ -355,6 +355,41 @@ def _trig2real_2d(theta, zeta, xm, xn, fmnc=None, fmns=None):
     return f.reshape(npol, ntor)
 
 
+def real2trig_2d(f, xm, xn, theta, zeta):
+    """Fourier decomposition in 2D
+
+    Args:
+        f (numpy.ndarray): The 2D function to be decomposed. Size: [npol, ntor].
+        xm (numpy.ndarray): Poloildal mode number. Size: [mn,]
+        xn (numpy.ndarray): Toroildal mode number. Size: [mn,]
+        theta (numpy.ndarray): Poloidal angles. Size:[npol,].
+        zeta (numpy.ndarray): Toroidal angles. Size:[ntor,]
+
+    Returns:
+        numpy.ndarray, numpy.ndarray: Cos harmonics, sin harmonics. Size: [mn,]
+    """
+    npol, ntor = len(theta), len(zeta)
+    assert (npol, ntor) == np.shape(
+        f
+    ), "F function dimension should be consistent with theta, zeta."
+    _tv, _zv = np.meshgrid(theta, zeta, indexing="ij")
+    # mt - nz (in matrix)
+    _mtnz = np.matmul(np.reshape(xm, (-1, 1)), np.reshape(_tv, (1, -1))) - np.matmul(
+        np.reshape(xn, (-1, 1)), np.reshape(_zv, (1, -1))
+    )
+    _cos = np.cos(_mtnz)
+    _sin = np.sin(_mtnz)
+
+    fmnc = np.ravel(np.matmul(_cos, f.reshape(-1, 1)))
+    fmns = np.ravel(np.matmul(_sin, f.reshape(-1, 1)))
+    fac = 2.0 / (npol * ntor)
+    # m=0, n=0 term or m=0 terms?
+    ind = np.logical_and(xm == 0, xn == 0)
+    fmnc[ind] *= 0.5
+    fmns[ind] *= 0.5
+    return fmnc * fac, fmns * fac
+
+
 def vmec2focus(
     vmec_file,
     focus_file="plasma.boundary",
@@ -499,13 +534,6 @@ def booz2focus(booz_file, ns=-1, focus_file="plasma.boundary", tol=1e-6, Nfp=1):
         tol ([type], optional): Tolerance to truncate. Defaults to 1E-6.
         Nfp (int, optional): [description]. Defaults to 1.
     """
-    """
-    
-    input arguments:
-          booz_file : boozmn_xxx.nc 
-          ns        : the specific flux surface you want to convert, default: -1
-          focus_file: writing FOCUS format input plasma
-    """
     import xarray
 
     booz = xarray.open_dataset(booz_file)
@@ -542,3 +570,81 @@ def booz2focus(booz_file, ns=-1, focus_file="plasma.boundary", tol=1e-6, Nfp=1):
         fofile.write("# n m bnc bns" + "\n")
     print("Finished write FOCUS input file at ", focus_file)
     return
+
+
+def read_focus_boundary(filename):
+    """Read FOCUS/FAMUS plasma boundary file
+
+    Args:
+        filename (str): File name and path.
+
+    Returns:
+        boundary (dict): Dict contains the parsed data.
+            nfp : number of toroidal periods
+            nfou : number of Fourier harmonics for describing the boundary
+            nbn : number of Fourier harmonics for Bn
+            surface : Toroidal surface dict, containing 'xm', 'xn', 'rbc', 'rbs', 'zbc', 'zbs'
+            bnormal : Input Bn dict, containing 'xm', 'xn', 'bnc', 'bns'
+    """
+    boundary = {}
+    surf = {}
+    bn = {}
+    with open(filename, "r") as f:
+        line = f.readline()  # skip one line
+        line = f.readline()
+        num = int(line.split()[0])  # harmonics number
+        nfp = int(line.split()[1])  # number of field periodicity
+        nbn = int(line.split()[2])  # number of Bn harmonics
+        boundary["nfp"] = nfp
+        boundary["nfou"] = num
+        boundary["nbn"] = nbn
+        # read boundary harmonics
+        xm = []
+        xn = []
+        rbc = []
+        rbs = []
+        zbc = []
+        zbs = []
+        line = f.readline()  # skip one line
+        line = f.readline()  # skip one line
+        for i in range(num):
+            line = f.readline()
+            line_list = line.split()
+            n = int(line_list[0])
+            m = int(line_list[1])
+            xm.append(m)
+            xn.append(n)
+            rbc.append(float(line_list[2]))
+            rbs.append(float(line_list[3]))
+            zbc.append(float(line_list[4]))
+            zbs.append(float(line_list[5]))
+        surf["xm"] = np.array(xm)
+        surf["xn"] = np.array(xn)
+        surf["rbc"] = np.array(rbc)
+        surf["rbs"] = np.array(rbs)
+        surf["zbc"] = np.array(zbc)
+        surf["zbs"] = np.array(zbs)
+        boundary["surface"] = surf
+        # read Bn fourier harmonics
+        xm = []
+        xn = []
+        bnc = []
+        bns = []
+        if nbn > 0:
+            line = f.readline()  # skip one line
+            line = f.readline()  # skip one line
+        for i in range(nbn):
+            line = f.readline()
+            line_list = line.split()
+            n = int(line_list[0])
+            m = int(line_list[1])
+            xm.append(m)
+            xn.append(n)
+            bnc.append(float(line_list[2]))
+            bns.append(float(line_list[3]))
+        bn["xm"] = np.array(xm)
+        bn["xn"] = np.array(xn)
+        bn["bnc"] = np.array(bnc)
+        bn["bns"] = np.array(bns)
+        boundary["bnormal"] = bn
+    return boundary

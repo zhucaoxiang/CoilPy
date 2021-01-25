@@ -14,6 +14,7 @@ __version__ = "0.2.36"
 from .misc import colorbar, get_figure, kwargs2dict, map_matrix
 from .misc import print_progress, toroidal_period, vmecMN, xy2rp
 from .misc import trigfft, fft_deriv, trig2real, vmec2focus
+from .misc import real2trig_2d, booz2focus, read_focus_boundary
 from .hdf5 import HDF5
 from .surface import FourSurf
 from .dipole import Dipole
