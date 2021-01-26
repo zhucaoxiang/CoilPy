@@ -559,6 +559,46 @@ class FourSurf(object):
         gridToVTK(vtkname, _xx, _yy, _zz, pointData=kwargs)
         return
 
+    def toSTL(self, stlname, npol=360, ntor=360):
+        """save surface shape a stl file using meshio
+
+        Parameters:
+          stlname -- string, the filename you want to save, final name is 'stlname.vts'
+          npol -- integer, number of poloidal discretization points (default: 360)
+          ntor -- integer, number of toroidal discretization points (default: 360)
+          kwargs -- optional keyword arguments for saving as pointdata
+
+        Returns:
+          mesh: Mesh object in meshio
+
+        """
+        import meshio
+
+        _xx, _yy, _zz, _nn = self.plot3d(
+            "noplot",
+            zeta0=0.0,
+            zeta1=2 * np.pi,
+            theta0=0.0,
+            theta1=2 * np.pi,
+            npol=npol,
+            ntor=ntor,
+            normal=False,
+        )
+
+        points = np.ascontiguousarray(
+            np.transpose([_xx.ravel(), _yy.ravel(), _zz.ravel()])
+        )
+        con = []
+        for i in range(ntor - 1):
+            for j in range(npol - 1):
+                ij = i * ntor + j
+                con.append([ij, ij + 1, ij + ntor + 1])
+                con.append([ij, ij + ntor, ij + ntor + 1])
+        cells = [("triangle", np.array(con))]
+        mesh = meshio.Mesh(points, cells)
+        mesh.write(stlname)
+        return mesh
+
     def write_focus_input(self, filename, Nfp=1, tol=1e-8, **kwargs):
         """write the Fourier harmonics down in FOCUS format
 
