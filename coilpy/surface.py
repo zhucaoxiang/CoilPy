@@ -559,14 +559,12 @@ class FourSurf(object):
         gridToVTK(vtkname, _xx, _yy, _zz, pointData=kwargs)
         return
 
-    def toSTL(self, stlname, npol=360, ntor=360):
+    def toSTL(self, stlname, **kwargs):
         """save surface shape a stl file using meshio
 
         Parameters:
           stlname -- string, the filename you want to save, final name is 'stlname.vts'
-          npol -- integer, number of poloidal discretization points (default: 360)
-          ntor -- integer, number of toroidal discretization points (default: 360)
-          kwargs -- optional keyword arguments for saving as pointdata
+          kwargs -- optional keyword arguments used for self.plot3d.
 
         Returns:
           mesh: Mesh object in meshio
@@ -574,23 +572,17 @@ class FourSurf(object):
         """
         import meshio
 
-        _xx, _yy, _zz, _nn = self.plot3d(
-            "noplot",
-            zeta0=0.0,
-            zeta1=2 * np.pi,
-            theta0=0.0,
-            theta1=2 * np.pi,
-            npol=npol,
-            ntor=ntor,
-            normal=False,
-        )
-
+        kwargs.setdefault("npol", 120)
+        kwargs.setdefault("ntor", 180)
+        _xx, _yy, _zz, _nn = self.plot3d("noplot", **kwargs)
+        npol = kwargs["npol"]
+        ntor = kwargs["ntor"]
         points = np.ascontiguousarray(
             np.transpose([_xx.ravel(), _yy.ravel(), _zz.ravel()])
         )
         con = []
-        for i in range(ntor - 1):
-            for j in range(npol - 1):
+        for i in range(npol - 1):
+            for j in range(ntor - 1):
                 ij = i * ntor + j
                 con.append([ij, ij + 1, ij + ntor + 1])
                 con.append([ij, ij + ntor, ij + ntor + 1])
