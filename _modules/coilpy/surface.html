@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.surface &#8212; coilpy 0.2.35 documentation</title>
+    <title>coilpy.surface &#8212; coilpy 0.2.39 documentation</title>
     
-  <link rel="stylesheet" href="../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+  <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
     
   <link rel="stylesheet"
@@ -29,13 +29,12 @@
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     
-  <link rel="preload" as="script" href="../../_static/js/index.3da636dd464baa7582d2.js">
+  <link rel="preload" as="script" href="../../_static/js/index.d3f166471bb80abb5163.js">
 
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -116,6 +115,7 @@
                 
   <h1>Source code for coilpy.surface</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">read_focus_boundary</span>
 
 
 <div class="viewcode-block" id="FourSurf"><a class="viewcode-back" href="../../api/coilpy.surface.html#coilpy.surface.FourSurf">[docs]</a><span class="k">class</span> <span class="nc">FourSurf</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -158,33 +158,17 @@
 <span class="sd">        Returns:</span>
 <span class="sd">          fourier_surface class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>  <span class="c1"># skip one line</span>
-            <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
-            <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># harmonics number</span>
-            <span class="n">nfp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># number of field periodicity</span>
-            <span class="n">nbn</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">2</span><span class="p">])</span>  <span class="c1"># number of Bn harmonics</span>
-            <span class="n">xm</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">xn</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">rbc</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">rbs</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">zbc</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">zbs</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>  <span class="c1"># skip one line</span>
-            <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>  <span class="c1"># skip one line</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
-                <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
-                <span class="n">line_list</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-                <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="n">m</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line_list</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">Mpol</span> <span class="ow">or</span> <span class="nb">abs</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">Ntor</span><span class="p">:</span>
-                    <span class="k">continue</span>
-                <span class="n">xm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
-                <span class="n">xn</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-                <span class="n">rbc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">line_list</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
-                <span class="n">rbs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">line_list</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
-                <span class="n">zbc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">line_list</span><span class="p">[</span><span class="mi">4</span><span class="p">]))</span>
-                <span class="n">zbs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">line_list</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+        <span class="n">focus</span> <span class="o">=</span> <span class="n">read_focus_boundary</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">nfp</span> <span class="o">=</span> <span class="n">focus</span><span class="p">[</span><span class="s2">&quot;nfp&quot;</span><span class="p">]</span>
+        <span class="n">xm</span> <span class="o">=</span> <span class="n">focus</span><span class="p">[</span><span class="s2">&quot;surface&quot;</span><span class="p">][</span><span class="s2">&quot;xm&quot;</span><span class="p">]</span>
+        <span class="n">xn</span> <span class="o">=</span> <span class="n">focus</span><span class="p">[</span><span class="s2">&quot;surface&quot;</span><span class="p">][</span><span class="s2">&quot;xn&quot;</span><span class="p">]</span>
+        <span class="n">cond</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">xm</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">Mpol</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">xn</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">Ntor</span><span class="p">)</span>
+        <span class="n">xm</span> <span class="o">=</span> <span class="n">xm</span><span class="p">[</span><span class="n">cond</span><span class="p">]</span>
+        <span class="n">xn</span> <span class="o">=</span> <span class="n">xn</span><span class="p">[</span><span class="n">cond</span><span class="p">]</span>
+        <span class="n">rbc</span> <span class="o">=</span> <span class="n">focus</span><span class="p">[</span><span class="s2">&quot;surface&quot;</span><span class="p">][</span><span class="s2">&quot;rbc&quot;</span><span class="p">][</span><span class="n">cond</span><span class="p">]</span>
+        <span class="n">rbs</span> <span class="o">=</span> <span class="n">focus</span><span class="p">[</span><span class="s2">&quot;surface&quot;</span><span class="p">][</span><span class="s2">&quot;rbs&quot;</span><span class="p">][</span><span class="n">cond</span><span class="p">]</span>
+        <span class="n">zbc</span> <span class="o">=</span> <span class="n">focus</span><span class="p">[</span><span class="s2">&quot;surface&quot;</span><span class="p">][</span><span class="s2">&quot;zbc&quot;</span><span class="p">][</span><span class="n">cond</span><span class="p">]</span>
+        <span class="n">zbs</span> <span class="o">=</span> <span class="n">focus</span><span class="p">[</span><span class="s2">&quot;surface&quot;</span><span class="p">][</span><span class="s2">&quot;zbs&quot;</span><span class="p">][</span><span class="n">cond</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
             <span class="n">xm</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xm</span><span class="p">),</span>
             <span class="n">xn</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xn</span><span class="p">)</span> <span class="o">*</span> <span class="n">nfp</span><span class="p">,</span>
@@ -691,6 +675,38 @@
         <span class="n">gridToVTK</span><span class="p">(</span><span class="n">vtkname</span><span class="p">,</span> <span class="n">_xx</span><span class="p">,</span> <span class="n">_yy</span><span class="p">,</span> <span class="n">_zz</span><span class="p">,</span> <span class="n">pointData</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span></div>
 
+<div class="viewcode-block" id="FourSurf.toSTL"><a class="viewcode-back" href="../../api/coilpy.surface.html#coilpy.surface.FourSurf.toSTL">[docs]</a>    <span class="k">def</span> <span class="nf">toSTL</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stlname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;save surface shape a stl file using meshio</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">          stlname -- string, the filename you want to save, final name is &#39;stlname.vts&#39;</span>
+<span class="sd">          kwargs -- optional keyword arguments used for self.plot3d.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">          mesh: Mesh object in meshio</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">meshio</span>
+
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;npol&quot;</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;ntor&quot;</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
+        <span class="n">_xx</span><span class="p">,</span> <span class="n">_yy</span><span class="p">,</span> <span class="n">_zz</span><span class="p">,</span> <span class="n">_nn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot3d</span><span class="p">(</span><span class="s2">&quot;noplot&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">npol</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;npol&quot;</span><span class="p">]</span>
+        <span class="n">ntor</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ntor&quot;</span><span class="p">]</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">_xx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">_yy</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">_zz</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+        <span class="p">)</span>
+        <span class="n">con</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">npol</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ntor</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">ij</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">ntor</span> <span class="o">+</span> <span class="n">j</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">ij</span><span class="p">,</span> <span class="n">ij</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ij</span> <span class="o">+</span> <span class="n">ntor</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">ij</span><span class="p">,</span> <span class="n">ij</span> <span class="o">+</span> <span class="n">ntor</span><span class="p">,</span> <span class="n">ij</span> <span class="o">+</span> <span class="n">ntor</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">cells</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;triangle&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">con</span><span class="p">))]</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">meshio</span><span class="o">.</span><span class="n">Mesh</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">cells</span><span class="p">)</span>
+        <span class="n">mesh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">stlname</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mesh</span></div>
+
 <div class="viewcode-block" id="FourSurf.write_focus_input"><a class="viewcode-back" href="../../api/coilpy.surface.html#coilpy.surface.FourSurf.write_focus_input">[docs]</a>    <span class="k">def</span> <span class="nf">write_focus_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">Nfp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;write the Fourier harmonics down in FOCUS format</span>
 
@@ -762,14 +778,14 @@
     </div>
 
     
-  <script src="../../_static/js/index.3da636dd464baa7582d2.js"></script>
+  <script src="../../_static/js/index.d3f166471bb80abb5163.js"></script>
 
 
     <footer class="footer mt-5 mt-md-0">
   <div class="container">
     <p>
           &copy; Copyright 2020, Caoxiang Zhu.<br/>
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.3.1.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
     </p>
   </div>
 </footer>
