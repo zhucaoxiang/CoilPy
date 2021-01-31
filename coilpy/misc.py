@@ -648,3 +648,7 @@ def read_focus_boundary(filename):
         bn["bns"] = np.array(bns)
         boundary["bnormal"] = bn
     return boundary
+
+
+def div0(a, b):
+    return np.divide(a, b, out=np.zeros_like(a), where=b != 0)

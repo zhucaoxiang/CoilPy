@@ -1,5 +1,5 @@
 import numpy as np
-from .misc import xy2rp, map_matrix, toroidal_period
+from .misc import xy2rp, map_matrix, toroidal_period, div0
 
 
 class Dipole(object):
@@ -375,14 +375,13 @@ class Dipole(object):
             div = np.divide(
                 self.mz, self.mm, out=np.zeros_like(self.mz), where=self.mm != 0
             )
-            self.mt = np.arccos(div)
+            self.mt = np.arccos(div0(self.mz, self.mm))
             # self.pho = np.ones_like(self.mm)
             # self.momentq = 1
         else:
             mmag = np.sqrt(self.mx * self.mx + self.my * self.my + self.mz * self.mz)
-            div = np.divide(mmag, self.mm, out=np.zeros_like(mmag), where=self.mm != 0)
-            self.pho = np.power(div, 1.0 / self.momentq)
-            self.mt = np.arccos(self.mz / (self.mm * self.pho ** self.momentq))
+            self.pho = np.power(div0(mmag, self.mm), 1.0 / self.momentq)
+            self.mt = np.arccos(div0(self.mz, (self.mm * self.pho ** self.momentq)))
         self.mp = np.arctan2(self.my, self.mx)
         self.sp_switch = True
         return
