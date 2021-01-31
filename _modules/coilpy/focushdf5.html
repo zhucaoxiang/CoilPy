@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.focushdf5 &#8212; coilpy 0.2.39 documentation</title>
+    <title>coilpy.focushdf5 &#8212; coilpy 0.2.40 documentation</title>
     
   <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -138,6 +138,10 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="c1"># print version</span>
         <span class="k">try</span><span class="p">:</span>
+            <span class="n">abc</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">:</span>
+                <span class="n">abc</span> <span class="o">+=</span> <span class="n">i</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">abc</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FOCUS version: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot; is not a valid FOCUS output. Please check.&quot;</span><span class="p">)</span>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.hdf5 &#8212; coilpy 0.2.39 documentation</title>
+    <title>coilpy.hdf5 &#8212; coilpy 0.2.40 documentation</title>
     
   <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -161,18 +161,13 @@
                         <span class="n">key</span> <span class="ow">in</span> <span class="n">keyword</span><span class="o">.</span><span class="n">kwlist</span>
                     <span class="p">):</span>  <span class="c1"># add underscore avoiding assigning python keywords</span>
                         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">_content</span><span class="p">[</span><span class="n">key</span><span class="p">][()])</span>
-                    <span class="k">else</span><span class="p">:</span>  <span class="c1"># if just one element, use the value directly</span>
-                        <span class="k">try</span><span class="p">:</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">try</span><span class="p">:</span>  <span class="c1"># this should be simplified when FOCUS writes the correct format</span>
                             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_content</span><span class="p">[</span><span class="n">key</span><span class="p">][()])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                                <span class="c1"># if just one element, use the value directly</span>
                                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">_content</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-                            <span class="k">else</span><span class="p">:</span>
+                            <span class="k">else</span><span class="p">:</span>  <span class="c1"># arrays</span>
                                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">_content</span><span class="p">[</span><span class="n">key</span><span class="p">][()])</span>
-                            <span class="c1"># glue string together</span>
-                            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_content</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="nb">bytes</span><span class="p">):</span>
-                                <span class="n">abc</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-                                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">_content</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
-                                    <span class="n">abc</span> <span class="o">+=</span> <span class="n">i</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-                                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">abc</span><span class="p">)</span>
                         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>  <span class="c1"># scalar</span>
                             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">_content</span><span class="p">[</span><span class="n">key</span><span class="p">][()])</span>
 
