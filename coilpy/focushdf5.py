@@ -22,6 +22,10 @@ class FOCUSHDF5(HDF5):
         super().__init__(filename)
         # print version
         try:
+            abc = ""
+            for i in self.version:
+                abc += i.decode("utf-8")
+            self.version = abc
             print("FOCUS version: " + self.version)
         except AttributeError:
             print(filename + " is not a valid FOCUS output. Please check.")
