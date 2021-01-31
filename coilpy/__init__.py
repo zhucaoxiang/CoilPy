@@ -8,7 +8,7 @@ The repository is available at https://github.com/zhucaoxiang/CoilPy.
 
 For full documenation, please check https://zhucaoxiang.github.io/CoilPy/api/coilpy.html.
 """
-__version__ = "0.2.37"
+__version__ = "0.2.38"
 
 # local packages
 from .misc import colorbar, get_figure, kwargs2dict, map_matrix

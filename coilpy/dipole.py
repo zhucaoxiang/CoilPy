@@ -369,18 +369,19 @@ class Dipole(object):
         """
         cartesian coordinates to spherical coordinates
         """
-        assert self.xyz_switch == True, "You are not using cartesian coordinates"
+        assert self.xyz_switch is True, "You are not using cartesian coordinates"
         if self.old:
             self.mm = np.sqrt(self.mx * self.mx + self.my * self.my + self.mz * self.mz)
-            self.mt = np.arccos(self.mz / self.mm)
+            div = np.divide(
+                self.mz, self.mm, out=np.zeros_like(self.mz), where=self.mm != 0
+            )
+            self.mt = np.arccos(div)
             # self.pho = np.ones_like(self.mm)
             # self.momentq = 1
         else:
-            self.pho = np.power(
-                np.sqrt(self.mx * self.mx + self.my * self.my + self.mz * self.mz)
-                / self.mm,
-                1.0 / self.momentq,
-            )
+            mmag = np.sqrt(self.mx * self.mx + self.my * self.my + self.mz * self.mz)
+            div = np.divide(mmag, self.mm, out=np.zeros_like(mmag), where=self.mm != 0)
+            self.pho = np.power(div, 1.0 / self.momentq)
             self.mt = np.arccos(self.mz / (self.mm * self.pho ** self.momentq))
         self.mp = np.arctan2(self.my, self.mx)
         self.sp_switch = True
