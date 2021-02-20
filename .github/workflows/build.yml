@@ -54,6 +54,10 @@ jobs:
         pip install -e ${GITHUB_WORKSPACE}
         python3 -c "from coilpy import *"
 
+    - name: Test
+      run: |
+        python3 ${GITHUB_WORKSPACE}/test/coil/test_coil.py
+
     - name: Cache publish
       uses: actions/cache@v2
       id: cache-pypi
