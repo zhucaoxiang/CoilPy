@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.surface &#8212; coilpy 0.2.40 documentation</title>
+    <title>coilpy.surface &#8212; coilpy 0.2.41 documentation</title>
     
   <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -584,8 +584,8 @@
 <span class="sd">          npol -- integer, number of poloidal discretization points (default: 360)</span>
 <span class="sd">          ntor -- integer, number of toroidal discretization points (default: 360)</span>
 <span class="sd">          normal -- bool, if calculating the normal vector (default: False)</span>
-<span class="sd">          fig -- , figure to be plotted ion (default: None)</span>
-<span class="sd">          ax -- , axis to be plotted ion (default: None)</span>
+<span class="sd">          fig -- , figure to be plotted on (default: None)</span>
+<span class="sd">          ax -- , axis to be plotted on (default: None)</span>
 <span class="sd">          show -- bool, if show the plotly figure immediately (default: True)</span>
 <span class="sd">          kwargs -- optional keyword arguments for plotting</span>
 
@@ -625,6 +625,10 @@
         <span class="k">elif</span> <span class="n">engine</span> <span class="o">==</span> <span class="s2">&quot;plotly&quot;</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
 
+            <span class="k">if</span> <span class="s2">&quot;color&quot;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
+                <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;colorscale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="p">]]</span>
             <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
             <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">xsurf</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">ysurf</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">zsurf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
@@ -785,7 +789,7 @@
   <div class="container">
     <p>
           &copy; Copyright 2020, Caoxiang Zhu.<br/>
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.1.<br/>
     </p>
   </div>
 </footer>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.focushdf5 &#8212; coilpy 0.2.40 documentation</title>
+    <title>coilpy.focushdf5 &#8212; coilpy 0.2.41 documentation</title>
     
   <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -456,6 +456,69 @@
 <div class="viewcode-block" id="FOCUSHDF5.Bmod"><a class="viewcode-back" href="../../api/coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.Bmod">[docs]</a>    <span class="k">def</span> <span class="nf">Bmod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span></div>
 
+<div class="viewcode-block" id="FOCUSHDF5.plot"><a class="viewcode-back" href="../../api/coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;plotly&quot;</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;bn&quot;</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot 3D field on the plasma from FOCUS ouput</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            engine (str, optional): 3D plot engine, one of [&quot;mayavi&quot;, &quot;pyplot&quot;, &quot;plotly&quot;]. Defaults to &quot;plotly&quot;.</span>
+<span class="sd">            scalars (str, optional): Scalar function on the surface, one of [&quot;Bn&quot;, &quot;B&quot;, &quot;plas_Bn&quot;] or 2D arrays. Defaults to &quot;bn&quot;.</span>
+<span class="sd">            fig (, optional): Figure to be plotted on. Defaults to None.</span>
+<span class="sd">            ax (, optional): Axis to be plotted on. Defaults to None.</span>
+<span class="sd">            show (bool, optional): If show the plotly figure immediately. Defaults to True.</span>
+<span class="sd">            kwargs: optional keyword arguments for plotting.</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: Plot engine should be one value of [&quot;mayavi&quot;, &quot;pyplot&quot;, &quot;plotly&quot;].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">full</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">IsSymmetric</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">False</span>
+        <span class="n">xsurf</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xsurf</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="n">full</span><span class="p">)</span>
+        <span class="n">ysurf</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ysurf</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="n">full</span><span class="p">)</span>
+        <span class="n">zsurf</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zsurf</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="n">full</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;plasma&quot;</span>
+        <span class="k">if</span> <span class="n">scalars</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;bn&quot;</span><span class="p">:</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Bn</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Bn&quot;</span>
+        <span class="k">elif</span> <span class="n">scalars</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;plas_bn&quot;</span><span class="p">:</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plas_Bn</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Bn_plasma&quot;</span>
+        <span class="k">elif</span> <span class="n">scalars</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Bx</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">By</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Bz</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;|B|&quot;</span>
+        <span class="n">scalars</span> <span class="o">=</span> <span class="n">map_matrix</span><span class="p">(</span><span class="n">scalars</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="n">full</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">engine</span> <span class="o">==</span> <span class="s2">&quot;pyplot&quot;</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+            <span class="c1"># plot in matplotlib.pyplot</span>
+            <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">ax</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s2">&quot;3d&quot;</span><span class="p">:</span>
+                <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+                <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">,</span> <span class="s2">&quot;coolwarm&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">xsurf</span><span class="p">,</span> <span class="n">ysurf</span><span class="p">,</span> <span class="n">zsurf</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">scalars</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">engine</span> <span class="o">==</span> <span class="s2">&quot;mayavi&quot;</span><span class="p">:</span>
+            <span class="c1"># plot 3D surface in mayavi.mlab</span>
+            <span class="kn">from</span> <span class="nn">mayavi</span> <span class="kn">import</span> <span class="n">mlab</span>  <span class="c1"># to overrid plt.mlab</span>
+
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;colormap&quot;</span><span class="p">,</span> <span class="s2">&quot;coolwarm&quot;</span><span class="p">)</span>
+            <span class="n">mlab</span><span class="o">.</span><span class="n">mesh</span><span class="p">(</span><span class="n">xsurf</span><span class="p">,</span> <span class="n">ysurf</span><span class="p">,</span> <span class="n">zsurf</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="n">scalars</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">mlab</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">engine</span> <span class="o">==</span> <span class="s2">&quot;plotly&quot;</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;colorbar&quot;</span><span class="p">,</span> <span class="n">go</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">ColorBar</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">label</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+                <span class="n">go</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">xsurf</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">ysurf</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">zsurf</span><span class="p">,</span> <span class="n">surfacecolor</span><span class="o">=</span><span class="n">scalars</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">scene_aspectmode</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+                <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid engine option {pyplot, mayavi, noplot}&quot;</span><span class="p">)</span></div>
+
     <span class="c1"># write vtk</span>
 <div class="viewcode-block" id="FOCUSHDF5.toVTK"><a class="viewcode-back" href="../../api/coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.toVTK">[docs]</a>    <span class="k">def</span> <span class="nf">toVTK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Save surface and magnetic field data into VTK file</span>
@@ -520,7 +583,7 @@
   <div class="container">
     <p>
           &copy; Copyright 2020, Caoxiang Zhu.<br/>
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.1.<br/>
     </p>
   </div>
 </footer>

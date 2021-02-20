@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.coils &#8212; coilpy 0.2.40 documentation</title>
+    <title>coilpy.coils &#8212; coilpy 0.2.41 documentation</title>
     
   <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -320,7 +320,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            engine (str, optional): Plot enginer, could be {pyplot, mayavi, plotly}. Defaults to &quot;mayavi&quot;.</span>
-<span class="sd">            fig (, optional): Figure to be plotted ion. Defaults to None.</span>
+<span class="sd">            fig (, optional): Figure to be plotted on. Defaults to None.</span>
 <span class="sd">            ax (matplotlib.axis, optional): Axis to be plotted on. Defaults to None.</span>
 <span class="sd">            show (bool, optional): If show the plotly figure immediately. Defaults to True.</span>
 
@@ -343,10 +343,18 @@
         <span class="k">elif</span> <span class="n">engine</span> <span class="o">==</span> <span class="s2">&quot;plotly&quot;</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
 
+            <span class="k">if</span> <span class="s2">&quot;color&quot;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
+                <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;line&quot;</span><span class="p">,</span> <span class="n">go</span><span class="o">.</span><span class="n">scatter3d</span><span class="o">.</span><span class="n">Line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
             <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
-                <span class="n">go</span><span class="o">.</span><span class="n">Scatter3d</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">go</span><span class="o">.</span><span class="n">Scatter3d</span><span class="p">(</span>
+                    <span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
             <span class="p">)</span>
             <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">scene_aspectmode</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
@@ -370,7 +378,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            engine (str, optional): Plot enginer, could be {pyplot, mayavi, plotly}. Defaults to &quot;mayavi&quot;.</span>
-<span class="sd">            fig (, optional): Figure to be plotted ion. Defaults to None.</span>
+<span class="sd">            fig (, optional): Figure to be plotted on. Defaults to None.</span>
 <span class="sd">            ax (matplotlib.axis, optional): Axis to be plotted on. Defaults to None.</span>
 <span class="sd">            show (bool, optional): If show the plotly figure immediately. Defaults to True.</span>
 <span class="sd">            width (float, optional): Coil width. Defaults to 0.1.</span>
@@ -389,6 +397,11 @@
         <span class="k">elif</span> <span class="n">engine</span> <span class="o">==</span> <span class="s2">&quot;plotly&quot;</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
 
+            <span class="k">if</span> <span class="s2">&quot;color&quot;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
+                <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;colorscale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="p">]]</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;showscale&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
             <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">xx</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">yy</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">zz</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
@@ -807,39 +820,62 @@
             <span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;end </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="Coil.toVTK"><a class="viewcode-back" href="../../api/coilpy.coils.html#coilpy.coils.Coil.toVTK">[docs]</a>    <span class="k">def</span> <span class="nf">toVTK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vtkname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Coil.toVTK"><a class="viewcode-back" href="../../api/coilpy.coils.html#coilpy.coils.Coil.toVTK">[docs]</a>    <span class="k">def</span> <span class="nf">toVTK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vtkname</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Write entire coil set into a VTK file</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            vtkname (str): VTK filename</span>
-<span class="sd">            kwargs (dict): Optional kwargs passed to &quot;polyLinesToVTK&quot;</span>
+<span class="sd">            vtkname (str): VTK filename.</span>
+<span class="sd">            line (bool): Save coils as polylines or surfaces. Defaults to True.</span>
+<span class="sd">            kwargs (dict): Optional kwargs passed to &quot;polyLinesToVTK&quot; or width/height.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">pyevtk.hl</span> <span class="kn">import</span> <span class="n">polyLinesToVTK</span>
+        <span class="kn">from</span> <span class="nn">pyevtk.hl</span> <span class="kn">import</span> <span class="n">polyLinesToVTK</span><span class="p">,</span> <span class="n">gridToVTK</span>
 
-        <span class="n">currents</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">groups</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">lx</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">icoil</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="n">currents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">icoil</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
-            <span class="n">groups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">icoil</span><span class="o">.</span><span class="n">group</span><span class="p">)</span>
-            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">icoil</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
-            <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">icoil</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
-            <span class="n">z</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">icoil</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
-            <span class="n">lx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">icoil</span><span class="o">.</span><span class="n">x</span><span class="p">))</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;cellData&quot;</span><span class="p">,</span> <span class="p">{})</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cellData&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">currents</span><span class="p">))</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cellData&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;Igroup&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">groups</span><span class="p">))</span>
-        <span class="n">polyLinesToVTK</span><span class="p">(</span>
-            <span class="n">vtkname</span><span class="p">,</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">z</span><span class="p">),</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lx</span><span class="p">),</span>
-            <span class="o">**</span><span class="n">kwargs</span>
-        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">line</span><span class="p">:</span>
+            <span class="n">currents</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">groups</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">lx</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">icoil</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="n">currents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">icoil</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+                <span class="n">groups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">icoil</span><span class="o">.</span><span class="n">group</span><span class="p">)</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">icoil</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+                <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">icoil</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+                <span class="n">z</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">icoil</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+                <span class="n">lx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">icoil</span><span class="o">.</span><span class="n">x</span><span class="p">))</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;cellData&quot;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cellData&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">currents</span><span class="p">))</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cellData&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;Igroup&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">groups</span><span class="p">))</span>
+            <span class="n">polyLinesToVTK</span><span class="p">(</span>
+                <span class="n">vtkname</span><span class="p">,</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">z</span><span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lx</span><span class="p">),</span>
+                <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">icoil</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">vtkname</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span> <span class="o">=</span> <span class="n">icoil</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span>
+                    <span class="n">width</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;height&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span>
+                <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">yy</span><span class="p">)</span>
+                <span class="n">zz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_3d</span><span class="p">(</span><span class="n">zz</span><span class="p">)</span>
+                <span class="n">gridToVTK</span><span class="p">(</span>
+                    <span class="n">name</span><span class="p">,</span>
+                    <span class="n">xx</span><span class="p">,</span>
+                    <span class="n">yy</span><span class="p">,</span>
+                    <span class="n">zz</span><span class="p">,</span>
+                    <span class="n">pointData</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s2">&quot;I&quot;</span><span class="p">:</span> <span class="n">icoil</span><span class="o">.</span><span class="n">I</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">xx</span><span class="p">),</span>
+                        <span class="s2">&quot;Igroup&quot;</span><span class="p">:</span> <span class="n">icoil</span><span class="o">.</span><span class="n">group</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">xx</span><span class="p">),</span>
+                    <span class="p">},</span>
+                <span class="p">)</span>
         <span class="k">return</span></div></div>
 </pre></div>
 
@@ -865,7 +901,7 @@
   <div class="container">
     <p>
           &copy; Copyright 2020, Caoxiang Zhu.<br/>
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.1.<br/>
     </p>
   </div>
 </footer>
