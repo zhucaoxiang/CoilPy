@@ -509,6 +509,10 @@ class FourSurf(object):
         elif engine == "plotly":
             import plotly.graph_objects as go
 
+            if "color" in list(kwargs.keys()):
+                color = kwargs["color"]
+                del kwargs["color"]
+                kwargs["colorscale"] = [[0, color], [1, color]]
             if fig is None:
                 fig = go.Figure()
             fig.add_trace(go.Surface(x=xsurf, y=ysurf, z=zsurf, **kwargs))

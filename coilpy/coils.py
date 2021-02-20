@@ -227,10 +227,18 @@ class SingleCoil(object):
         elif engine == "plotly":
             import plotly.graph_objects as go
 
+            if "color" in list(kwargs.keys()):
+                color = kwargs["color"]
+                del kwargs["color"]
+            else:
+                color = "blue"
+            kwargs.setdefault("line", go.scatter3d.Line(color=color, width=4))
             if fig is None:
                 fig = go.Figure()
             fig.add_trace(
-                go.Scatter3d(x=self.x, y=self.y, z=self.z, mode="lines", **kwargs)
+                go.Scatter3d(
+                    x=self.x, y=self.y, z=self.z, mode="lines", name=self.name, **kwargs
+                )
             )
             fig.update_layout(scene_aspectmode="data")
             if show:
@@ -273,6 +281,11 @@ class SingleCoil(object):
         elif engine == "plotly":
             import plotly.graph_objects as go
 
+            if "color" in list(kwargs.keys()):
+                color = kwargs["color"]
+                del kwargs["color"]
+                kwargs["colorscale"] = [[0, color], [1, color]]
+            kwargs.setdefault("showscale", False)
             if fig is None:
                 fig = go.Figure()
             fig.add_trace(go.Surface(x=xx, y=yy, z=zz, **kwargs))
@@ -691,37 +704,59 @@ class Coil(object):
             wfile.write("end \n")
         return
 
-    def toVTK(self, vtkname, **kwargs):
+    def toVTK(self, vtkname, line=True, **kwargs):
         """Write entire coil set into a VTK file
 
         Args:
             vtkname (str): VTK filename
             kwargs (dict): Optional kwargs passed to "polyLinesToVTK"
         """
-        from pyevtk.hl import polyLinesToVTK
+        from pyevtk.hl import polyLinesToVTK, gridToVTK
 
-        currents = []
-        groups = []
-        x = []
-        y = []
-        z = []
-        lx = []
-        for icoil in list(self):
-            currents.append(icoil.I)
-            groups.append(icoil.group)
-            x.append(icoil.x)
-            y.append(icoil.y)
-            z.append(icoil.z)
-            lx.append(len(icoil.x))
-        kwargs.setdefault("cellData", {})
-        kwargs["cellData"].setdefault("I", np.array(currents))
-        kwargs["cellData"].setdefault("Igroup", np.array(groups))
-        polyLinesToVTK(
-            vtkname,
-            np.concatenate(x),
-            np.concatenate(y),
-            np.concatenate(z),
-            np.array(lx),
-            **kwargs
-        )
+        if line:
+            currents = []
+            groups = []
+            x = []
+            y = []
+            z = []
+            lx = []
+            for icoil in list(self):
+                currents.append(icoil.I)
+                groups.append(icoil.group)
+                x.append(icoil.x)
+                y.append(icoil.y)
+                z.append(icoil.z)
+                lx.append(len(icoil.x))
+            kwargs.setdefault("cellData", {})
+            kwargs["cellData"].setdefault("I", np.array(currents))
+            kwargs["cellData"].setdefault("Igroup", np.array(groups))
+            polyLinesToVTK(
+                vtkname,
+                np.concatenate(x),
+                np.concatenate(y),
+                np.concatenate(z),
+                np.array(lx),
+                **kwargs
+            )
+        else:
+            kwargs.setdefault("width", 0.1)
+            kwargs.setdefault("height", 0.1)
+            for i, icoil in enumerate(self):
+                name = vtkname + "{:d}".format(i)
+                xx, yy, zz = icoil.rectangle(
+                    width=kwargs["width"], height=kwargs["height"]
+                )
+                xx = np.atleast_3d(xx)
+                yy = np.atleast_3d(yy)
+                zz = np.atleast_3d(zz)
+                gridToVTK(
+                    name,
+                    xx,
+                    yy,
+                    zz,
+                    pointData={
+                        "I": icoil.I * np.ones_like(xx),
+                        "Igroup": icoil.group * np.ones_like(xx),
+                    },
+                )
         return
