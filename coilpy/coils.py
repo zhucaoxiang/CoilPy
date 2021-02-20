@@ -204,7 +204,7 @@ class SingleCoil(object):
 
         Args:
             engine (str, optional): Plot enginer, could be {pyplot, mayavi, plotly}. Defaults to "mayavi".
-            fig (, optional): Figure to be plotted ion. Defaults to None.
+            fig (, optional): Figure to be plotted on. Defaults to None.
             ax (matplotlib.axis, optional): Axis to be plotted on. Defaults to None.
             show (bool, optional): If show the plotly figure immediately. Defaults to True.
 
@@ -262,7 +262,7 @@ class SingleCoil(object):
 
         Args:
             engine (str, optional): Plot enginer, could be {pyplot, mayavi, plotly}. Defaults to "mayavi".
-            fig (, optional): Figure to be plotted ion. Defaults to None.
+            fig (, optional): Figure to be plotted on. Defaults to None.
             ax (matplotlib.axis, optional): Axis to be plotted on. Defaults to None.
             show (bool, optional): If show the plotly figure immediately. Defaults to True.
             width (float, optional): Coil width. Defaults to 0.1.
@@ -708,8 +708,9 @@ class Coil(object):
         """Write entire coil set into a VTK file
 
         Args:
-            vtkname (str): VTK filename
-            kwargs (dict): Optional kwargs passed to "polyLinesToVTK"
+            vtkname (str): VTK filename.
+            line (bool): Save coils as polylines or surfaces. Defaults to True.
+            kwargs (dict): Optional kwargs passed to "polyLinesToVTK" or width/height.
         """
         from pyevtk.hl import polyLinesToVTK, gridToVTK
 

@@ -468,8 +468,8 @@ class FourSurf(object):
           npol -- integer, number of poloidal discretization points (default: 360)
           ntor -- integer, number of toroidal discretization points (default: 360)
           normal -- bool, if calculating the normal vector (default: False)
-          fig -- , figure to be plotted ion (default: None)
-          ax -- , axis to be plotted ion (default: None)
+          fig -- , figure to be plotted on (default: None)
+          ax -- , axis to be plotted on (default: None)
           show -- bool, if show the plotly figure immediately (default: True)
           kwargs -- optional keyword arguments for plotting
 

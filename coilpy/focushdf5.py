@@ -340,6 +340,69 @@ class FOCUSHDF5(HDF5):
     def Bmod(self):
         return
 
+    def plot(
+        self, engine="plotly", scalars="bn", fig=None, ax=None, show=True, **kwargs
+    ):
+        """Plot 3D field on the plasma from FOCUS ouput
+
+        Args:
+            engine (str, optional): 3D plot engine, one of ["mayavi", "pyplot", "plotly"]. Defaults to "plotly".
+            scalars (str, optional): Scalar function on the surface, one of ["Bn", "B", "plas_Bn"] or 2D arrays. Defaults to "bn".
+            fig (, optional): Figure to be plotted on. Defaults to None.
+            ax (, optional): Axis to be plotted on. Defaults to None.
+            show (bool, optional): If show the plotly figure immediately. Defaults to True.
+            kwargs: optional keyword arguments for plotting.
+        Raises:
+            ValueError: Plot engine should be one value of ["mayavi", "pyplot", "plotly"].
+        """
+        full = True if self.IsSymmetric == 0 else False
+        xsurf = map_matrix(self.xsurf, first=full)
+        ysurf = map_matrix(self.ysurf, first=full)
+        zsurf = map_matrix(self.zsurf, first=full)
+        label = "plasma"
+        if scalars.lower() == "bn":
+            scalars = self.Bn
+            label = "Bn"
+        elif scalars.lower() == "plas_bn":
+            scalars = self.plas_Bn
+            label = "Bn_plasma"
+        elif scalars.lower() == "b":
+            scalars = np.sqrt(self.Bx ** 2 + self.By ** 2 + self.Bz ** 2)
+            label = "|B|"
+        scalars = map_matrix(scalars, first=full)
+        if engine == "pyplot":
+            import matplotlib.pyplot as plt
+
+            # plot in matplotlib.pyplot
+            if ax is None or ax.name != "3d":
+                fig = plt.figure()
+                ax = fig.add_subplot(111, projection="3d")
+            kwargs.setdefault("cmap", "coolwarm")
+            ax.plot_surface(xsurf, ysurf, zsurf, c=scalars, **kwargs)
+            ax.set_title(label)
+            fig.colorbar()
+        elif engine == "mayavi":
+            # plot 3D surface in mayavi.mlab
+            from mayavi import mlab  # to overrid plt.mlab
+
+            kwargs.setdefault("colormap", "coolwarm")
+            mlab.mesh(xsurf, ysurf, zsurf, scalars=scalars, **kwargs)
+            mlab.colorbar(title=label)
+        elif engine == "plotly":
+            import plotly.graph_objects as go
+
+            kwargs.setdefault("colorbar", go.surface.ColorBar(title=label))
+            if fig is None:
+                fig = go.Figure()
+            fig.add_trace(
+                go.Surface(x=xsurf, y=ysurf, z=zsurf, surfacecolor=scalars, **kwargs)
+            )
+            fig.update_layout(scene_aspectmode="data")
+            if show:
+                fig.show()
+        else:
+            raise ValueError("Invalid engine option {pyplot, mayavi, noplot}")
+
     # write vtk
     def toVTK(self, name=None, full=False, **kwargs):
         """Save surface and magnetic field data into VTK file
