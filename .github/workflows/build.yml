@@ -56,7 +56,8 @@ jobs:
 
     - name: Test
       run: |
-        python3 ${GITHUB_WORKSPACE}/test/coil/test_coil.py
+        cd ${GITHUB_WORKSPACE}/test/coil/
+        python3 test_coil.py
 
     - name: Cache publish
       uses: actions/cache@v2
