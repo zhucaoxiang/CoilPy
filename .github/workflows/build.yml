@@ -74,9 +74,11 @@ jobs:
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: |
-        python setup.py sdist bdist_wheel
-        twine upload dist/*
+      # if true then github actions won't stop even if build for this job fails
+      continue-on-error: true
+      # run: |
+      #   python setup.py sdist bdist_wheel
+      #   twine upload dist/*
 
     - name: Update documentation
       run: |
