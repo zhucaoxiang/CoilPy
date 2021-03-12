@@ -17,6 +17,7 @@ Submodules
    coilpy.dipole
    coilpy.focushdf5
    coilpy.hdf5
+   coilpy.mgrid
    coilpy.misc
    coilpy.sortedDict
    coilpy.stellopt

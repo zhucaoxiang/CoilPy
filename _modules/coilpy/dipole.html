@@ -5,9 +5,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.dipole &#8212; coilpy 0.2.41 documentation</title>
+    <title>coilpy.dipole &#8212; coilpy 0.2.44 documentation</title>
     
-  <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.101715efdecc9b59cb6e1ddfa685c31f.css" rel="stylesheet" />
 
     
   <link rel="stylesheet"
@@ -19,17 +20,13 @@
 
     
       
-  <link rel="stylesheet"
-    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
-  <link rel="stylesheet"
-    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
 
     
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     
-  <link rel="preload" as="script" href="../../_static/js/index.d3f166471bb80abb5163.js">
+  <link rel="preload" as="script" href="../../_static/js/index.d8bbf5861d671d414e1a.js">
 
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -42,31 +39,27 @@
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
-    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
-<div class="container-xl">
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
 
+
+    
     <a class="navbar-brand" href="../../index.html">
-    
       <p class="title">coilpy</p>
-    
     </a>
+    
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
+    
     <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
       <ul id="navbar-main-elements" class="navbar-nav mr-auto">
         
         
-        
       </ul>
 
-
-      
-
-      <ul class="navbar-nav">
-        
-        
+      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
       </ul>
     </div>
 </div>
@@ -76,21 +69,19 @@
     <div class="container-xl">
       <div class="row">
           
-          <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form>
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-
-    <div class="bd-toc-item active">
+  <div class="bd-toc-item active">
     
-  
-    <ul class="nav bd-sidenav">
-        
-      </ul>
-  
-  </nav>
-          </div>
+  </div>
+</nav>
+            </div>
+            
           
 
           
@@ -98,9 +89,7 @@
               
 
 <nav id="bd-toc-nav">
-    <ul class="nav section-nav flex-column">
     
-    </ul>
 </nav>
 
 
@@ -108,6 +97,9 @@
           </div>
           
 
+          
+          
+            
           
           <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
               
@@ -1009,7 +1001,32 @@
             <span class="n">pho</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">pho</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">pho</span><span class="p">)),</span>
             <span class="n">momentq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">momentq</span><span class="p">,</span>
             <span class="n">filename</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;+&quot;</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="Dipole.truncate"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.Dipole.truncate">[docs]</a>    <span class="k">def</span> <span class="nf">truncate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cond</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Truncate dipole set following a condition</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cond (array-like, bool): Slicing conditions</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dipole: Truncated dipole</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Dipole</span><span class="p">(</span>
+            <span class="n">symm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">symm</span><span class="p">[</span><span class="n">cond</span><span class="p">],</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">ox</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ox</span><span class="p">[</span><span class="n">cond</span><span class="p">],</span>
+            <span class="n">oy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">oy</span><span class="p">[</span><span class="n">cond</span><span class="p">],</span>
+            <span class="n">oz</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">oz</span><span class="p">[</span><span class="n">cond</span><span class="p">],</span>
+            <span class="n">Ic</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Ic</span><span class="p">[</span><span class="n">cond</span><span class="p">],</span>
+            <span class="n">mm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="p">[</span><span class="n">cond</span><span class="p">],</span>
+            <span class="n">Lc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Lc</span><span class="p">[</span><span class="n">cond</span><span class="p">],</span>
+            <span class="n">mp</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mp</span><span class="p">[</span><span class="n">cond</span><span class="p">],</span>
+            <span class="n">mt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mt</span><span class="p">[</span><span class="n">cond</span><span class="p">],</span>
+            <span class="n">pho</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pho</span><span class="p">[</span><span class="n">cond</span><span class="p">],</span>
+            <span class="n">momentq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">momentq</span><span class="p">,</span>
+            <span class="n">filename</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;_clip&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="GAdipole"><a class="viewcode-back" href="../../api/coilpy.dipole.html#coilpy.dipole.GAdipole">[docs]</a><span class="k">class</span> <span class="nc">GAdipole</span><span class="p">(</span><span class="n">Dipole</span><span class="p">):</span>
@@ -1036,14 +1053,14 @@
     </div>
 
     
-  <script src="../../_static/js/index.d3f166471bb80abb5163.js"></script>
+  <script src="../../_static/js/index.d8bbf5861d671d414e1a.js"></script>
 
 
     <footer class="footer mt-5 mt-md-0">
   <div class="container">
     <p>
           &copy; Copyright 2020, Caoxiang Zhu.<br/>
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.1.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.2.<br/>
     </p>
   </div>
 </footer>

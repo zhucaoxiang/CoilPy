@@ -1,0 +1,7 @@
+coilpy.mgrid 
+===================
+
+.. automodule:: coilpy.mgrid
+   :members:
+   :undoc-members:
+   :show-inheritance:
