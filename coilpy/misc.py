@@ -617,8 +617,8 @@ def read_focus_boundary(filename):
         for i in range(num):
             line = f.readline()
             line_list = line.split()
-            n = int(line_list[0])
-            m = int(line_list[1])
+            n = int(float(line_list[0]))
+            m = int(float(line_list[1]))
             xm.append(m)
             xn.append(n)
             rbc.append(float(line_list[2]))
@@ -643,8 +643,8 @@ def read_focus_boundary(filename):
         for i in range(nbn):
             line = f.readline()
             line_list = line.split()
-            n = int(line_list[0])
-            m = int(line_list[1])
+            n = int(float(line_list[0]))
+            m = int(float(line_list[1]))
             xm.append(m)
             xn.append(n)
             bnc.append(float(line_list[2]))
