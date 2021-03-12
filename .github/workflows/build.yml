@@ -69,6 +69,7 @@ jobs:
         key: ${{ runner.os }}-pypi-${{ hashFiles('coilpy/__init__.py') }}
 
     - name: publish to PYPI
+      uses:  Niraj-Kamdar/manylinux-wheel-builder@master
       if: steps.cache-pypi.outputs.cache-hit != 'true'
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
@@ -87,3 +88,30 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./docs/_build/html
+  # Build and deploy wheels for macos and windows using setup-python action.
+  # This has nothing to do with manylinux-wheel-builder.
+  # I have just put them for the purpose of completion.
+  Matrix-build:
+    runs-on: ${{ matrix.os }}
+    env:
+      TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+      TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+        python-version: [3.6, 3.7, 3.8]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: build wheel
+        run: |
+          pip install wheel
+          python setup.py bdist_wheel
+      - name: upload wheel
+        run: |
+          pip install twine
+          twine upload dist/*
+        continue-on-error: true

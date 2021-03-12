@@ -17,3 +17,6 @@
 
 # docs
 /docs
+
+# lib
+coilpy_fortran*.so
