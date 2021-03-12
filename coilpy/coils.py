@@ -614,7 +614,7 @@ class Coil(object):
         return cls(xx=xx, yy=yy, zz=zz, II=II, names=names, groups=groups)
 
     @classmethod
-    def read_gepc_coils(cls, filename, current=1.0):
+    def read_gpec_coils(cls, filename, current=1.0):
         """Read coils from GPEC files.
 
         Args:
