@@ -107,6 +107,20 @@ class SingleCoil(object):
         )
         return B
 
+    def hanson_hirshman(self, pos):
+        """Wrapper for the fortran code biotsavart.hanson_hirshman
+
+        Args:
+            pos (ndarray, (n,3)): Evaluation points in space
+
+        Returns:
+            ndarray, (n,3): Magnetic field at the evaluation point
+        """
+        from ..coilpy_fortran import hanson_hirshman
+
+        xyz = np.transpose([self.x, self.y, self.z])
+        return hanson_hirshman(pos, xyz, self.I)
+
     def fourier_tangent(self):
         """
         Approximate the tangent using Fourier representation.
