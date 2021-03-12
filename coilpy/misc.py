@@ -563,7 +563,14 @@ def booz2focus(booz_file, ns=-1, focus_file="plasma.boundary", tol=1e-6, Nfp=1):
             if (abs(rbc[imn]) + abs(zbs[imn] + abs(pmns[imn]))) > tol:
                 fofile.write(
                     "{:4d}  {:4d} \t {:23.15E}  {:12.5E}  {:12.5E}  {:23.15E}  {:12.5E}  {:23.15E} \n".format(
-                        xn[imn], xm[imn], rbc[imn], 0.0, 0.0, zbs[imn], 0.0, pmns[imn]
+                        int(xn[imn]),
+                        xm[imn],
+                        rbc[imn],
+                        0.0,
+                        0.0,
+                        zbs[imn],
+                        0.0,
+                        pmns[imn],
                     )
                 )
         fofile.write("#Bn harmonics \n")

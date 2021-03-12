@@ -895,6 +895,31 @@ class Dipole(object):
             filename=self.filename + "+" + other.filename,
         )
 
+    def truncate(self, cond):
+        """Truncate dipole set following a condition
+
+        Args:
+            cond (array-like, bool): Slicing conditions
+
+        Returns:
+            Dipole: Truncated dipole
+        """
+        return Dipole(
+            symm=self.symm[cond],
+            name=self.name,
+            ox=self.ox[cond],
+            oy=self.oy[cond],
+            oz=self.oz[cond],
+            Ic=self.Ic[cond],
+            mm=self.mm[cond],
+            Lc=self.Lc[cond],
+            mp=self.mp[cond],
+            mt=self.mt[cond],
+            pho=self.pho[cond],
+            momentq=self.momentq,
+            filename=self.filename + "_clip",
+        )
+
 
 class GAdipole(Dipole):
     def __init__(self, **kwargs):
