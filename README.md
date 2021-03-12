@@ -19,8 +19,11 @@ Or from the GitHub
 pip install git+https://github.com/zhucaoxiang/CoilPy
 ```
 
-You can also install it by cloning the source code.
-
+You can also install it after cloning the source code (this is useful if you have errors using `pip`).
+```
+pip install -e .
+```
+or
 ```
 python setup.py install
 ```
