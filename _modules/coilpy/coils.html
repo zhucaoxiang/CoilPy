@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.coils &#8212; coilpy 0.2.44 documentation</title>
+    <title>coilpy.coils &#8212; coilpy 0.3.01 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
-  <link href="../../_static/css/index.101715efdecc9b59cb6e1ddfa685c31f.css" rel="stylesheet" />
+  <link href="../../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
 
     
   <link rel="stylesheet"
@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     
-  <link rel="preload" as="script" href="../../_static/js/index.d8bbf5861d671d414e1a.js">
+  <link rel="preload" as="script" href="../../_static/js/index.1e043a052b0af929e4d8.js">
 
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -224,10 +224,17 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            ndarray, (n,3): Magnetic field at the evaluation point</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">..coilpy_fortran</span> <span class="kn">import</span> <span class="n">hanson_hirshman</span>
+        <span class="kn">from</span> <span class="nn">coilpy_fortran</span> <span class="kn">import</span> <span class="n">hanson_hirshman</span>
 
         <span class="n">xyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">hanson_hirshman</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">I</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SingleCoil.biot_savart"><a class="viewcode-back" href="../../api/coilpy.coils.html#coilpy.coils.SingleCoil.biot_savart">[docs]</a>    <span class="k">def</span> <span class="nf">biot_savart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">coilpy_fortran</span> <span class="kn">import</span> <span class="n">biot_savart</span>
+
+        <span class="n">xyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">])</span>
+        <span class="n">dxyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">xt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">zt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">biot_savart</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">xyz</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">dxyz</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span></div>
 
 <div class="viewcode-block" id="SingleCoil.fourier_tangent"><a class="viewcode-back" href="../../api/coilpy.coils.html#coilpy.coils.SingleCoil.fourier_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">fourier_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -721,8 +728,8 @@
         <span class="c1"># print(len(xx) , len(yy) , len(zz) , len(II) , len(names) , len(groups))</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">xx</span><span class="o">=</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="o">=</span><span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="o">=</span><span class="n">zz</span><span class="p">,</span> <span class="n">II</span><span class="o">=</span><span class="n">II</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Coil.read_gepc_coils"><a class="viewcode-back" href="../../api/coilpy.coils.html#coilpy.coils.Coil.read_gepc_coils">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">read_gepc_coils</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<div class="viewcode-block" id="Coil.read_gpec_coils"><a class="viewcode-back" href="../../api/coilpy.coils.html#coilpy.coils.Coil.read_gpec_coils">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read_gpec_coils</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Read coils from GPEC files.</span>
 
 <span class="sd">        Args:</span>
@@ -900,14 +907,14 @@
     </div>
 
     
-  <script src="../../_static/js/index.d8bbf5861d671d414e1a.js"></script>
+  <script src="../../_static/js/index.1e043a052b0af929e4d8.js"></script>
 
 
     <footer class="footer mt-5 mt-md-0">
   <div class="container">
     <p>
           &copy; Copyright 2020, Caoxiang Zhu.<br/>
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.2.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.3.<br/>
     </p>
   </div>
 </footer>
