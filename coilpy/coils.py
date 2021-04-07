@@ -116,10 +116,17 @@ class SingleCoil(object):
         Returns:
             ndarray, (n,3): Magnetic field at the evaluation point
         """
-        from ..coilpy_fortran import hanson_hirshman
+        from coilpy_fortran import hanson_hirshman
 
         xyz = np.transpose([self.x, self.y, self.z])
         return hanson_hirshman(pos, xyz, self.I)
+
+    def biot_savart(self, pos):
+        from coilpy_fortran import biot_savart
+
+        xyz = np.transpose([self.x, self.y, self.z])
+        dxyz = np.transpose([self.xt * self.dt, self.yt * self.dt, self.zt * self.dt])
+        return biot_savart(pos, xyz[:-1, :], self.I, dxyz[:-1, :])
 
     def fourier_tangent(self):
         """

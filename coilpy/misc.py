@@ -659,3 +659,14 @@ def read_focus_boundary(filename):
 
 def div0(a, b):
     return np.divide(a, b, out=np.zeros_like(a), where=b != 0)
+
+
+def biot_savart(pos, xyz, current, dxyz=None):
+    from coilpy_fortran import hanson_hirshman, biot_savart
+
+    if dxyz is None:
+        # no tangent provided
+        return hanson_hirshman(pos, xyz, current)
+    else:
+        # tangent provided
+        return biot_savart(pos, xyz, current, dxyz)
