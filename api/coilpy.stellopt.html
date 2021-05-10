@@ -4,12 +4,11 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
-    <title>coilpy.stellopt &#8212; coilpy 0.3.01 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>coilpy.stellopt &#8212; coilpy 0.3.02 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.f6b7ca918bee2f46fd9abac01cfb07d5.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
 
     
   <link rel="stylesheet"
@@ -23,13 +22,13 @@
       
 
     
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.1e043a052b0af929e4d8.js">
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -37,32 +36,51 @@
     <link rel="search" title="Search" href="../search.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
+    
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
+    <div class="container-fluid" id="banner"></div>
+
+    
     <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
 
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="../index.html">
+<p class="title">coilpy</p>
+</a>
 
     
-    <a class="navbar-brand" href="../index.html">
-      <p class="title">coilpy</p>
-    </a>
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
     
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
     
-    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
-      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
-        
-        
-      </ul>
-
-      <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-      </ul>
+</ul>
+      </div>
+      
     </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
 </div>
     </nav>
     
@@ -75,10 +93,66 @@
             <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form>
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <div class="bd-toc-item active">
-    
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.booz_xform.html">
+   coilpy.booz_xform
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.coils.html">
+   coilpy.coils
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.dipole.html">
+   coilpy.dipole
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.focushdf5.html">
+   coilpy.focushdf5
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.hdf5.html">
+   coilpy.hdf5
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.mgrid.html">
+   coilpy.mgrid
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.misc.html">
+   coilpy.misc
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.sortedDict.html">
+   coilpy.sortedDict
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   coilpy.stellopt
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.surface.html">
+   coilpy.surface
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.vmec.html">
+   coilpy.vmec
+  </a>
+ </li>
+</ul>
+
   </div>
 </nav>
             </div>
@@ -87,14 +161,21 @@
 
           
           <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
               
+              <div class="toc-item">
+                
 
 <nav id="bd-toc-nav">
     
 </nav>
-
-
+              </div>
               
+              <div class="toc-item">
+                
+              </div>
+              
+            
           </div>
           
 
@@ -106,11 +187,11 @@
               
               <div>
                 
-  <section id="module-coilpy.stellopt">
+  <div class="section" id="module-coilpy.stellopt">
 <span id="coilpy-stellopt"></span><h1>coilpy.stellopt<a class="headerlink" href="#module-coilpy.stellopt" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt id="coilpy.stellopt.OMFITascii">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">coilpy.stellopt.</span></code><code class="sig-name descname"><span class="pre">OMFITascii</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#OMFITascii"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.OMFITascii" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="coilpy.stellopt.OMFITascii">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">coilpy.stellopt.</span></span><span class="sig-name descname"><span class="pre">OMFITascii</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#OMFITascii"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.OMFITascii" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>OMFIT class used to interface with ASCII files</p>
 <dl class="field-list simple">
@@ -123,8 +204,8 @@
 </dd>
 </dl>
 <dl class="py method">
-<dt id="coilpy.stellopt.OMFITascii.append">
-<code class="sig-name descname"><span class="pre">append</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#OMFITascii.append"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.OMFITascii.append" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="coilpy.stellopt.OMFITascii.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#OMFITascii.append"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.OMFITascii.append" title="Permalink to this definition">¶</a></dt>
 <dd><p>Append string value to ASCII file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -137,8 +218,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="coilpy.stellopt.OMFITascii.read">
-<code class="sig-name descname"><span class="pre">read</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#OMFITascii.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.OMFITascii.read" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="coilpy.stellopt.OMFITascii.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#OMFITascii.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.OMFITascii.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read ASCII file and return content</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -148,8 +229,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="coilpy.stellopt.OMFITascii.write">
-<code class="sig-name descname"><span class="pre">write</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#OMFITascii.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.OMFITascii.write" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="coilpy.stellopt.OMFITascii.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#OMFITascii.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.OMFITascii.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write string value to ASCII file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -164,8 +245,8 @@
 </dd></dl>
 
 <dl class="py class">
-<dt id="coilpy.stellopt.STELLout">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">coilpy.stellopt.</span></code><code class="sig-name descname"><span class="pre">STELLout</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#STELLout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.STELLout" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="coilpy.stellopt.STELLout">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">coilpy.stellopt.</span></span><span class="sig-name descname"><span class="pre">STELLout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#STELLout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.STELLout" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict" title="coilpy.sortedDict.SortedDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">coilpy.sortedDict.SortedDict</span></code></a>, <a class="reference internal" href="#coilpy.stellopt.OMFITascii" title="coilpy.stellopt.OMFITascii"><code class="xref py py-class docutils literal notranslate"><span class="pre">coilpy.stellopt.OMFITascii</span></code></a></p>
 <p>OMFITobject used to interface with stellopt.* file in STELLOPT outputs.</p>
 <dl class="field-list simple">
@@ -175,19 +256,19 @@
 </dl>
 <p>All additional key word arguments passed to OMFITascii</p>
 <dl class="py method">
-<dt id="coilpy.stellopt.STELLout.load">
-<code class="sig-name descname"><span class="pre">load</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#STELLout.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.STELLout.load" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="coilpy.stellopt.STELLout.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#STELLout.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.STELLout.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load the file and parse it into a sorted dictionary</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="coilpy.stellopt.STELLout.plot">
-<code class="sig-name descname"><span class="pre">plot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#STELLout.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.STELLout.plot" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="coilpy.stellopt.STELLout.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#STELLout.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.STELLout.plot" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="coilpy.stellopt.STELLout.plot_balloon">
-<code class="sig-name descname"><span class="pre">plot_balloon</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">it</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#STELLout.plot_balloon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.STELLout.plot_balloon" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="coilpy.stellopt.STELLout.plot_balloon">
+<span class="sig-name descname"><span class="pre">plot_balloon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">it</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#STELLout.plot_balloon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.STELLout.plot_balloon" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot Ballooning instability from COBRAVMEC</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -207,8 +288,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="coilpy.stellopt.STELLout.plot_helicity">
-<code class="sig-name descname"><span class="pre">plot_helicity</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">it</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ordering</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(None,</span> <span class="pre">None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#STELLout.plot_helicity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.STELLout.plot_helicity" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="coilpy.stellopt.STELLout.plot_helicity">
+<span class="sig-name descname"><span class="pre">plot_helicity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">it</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ordering</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(None,</span> <span class="pre">None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logical_not</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#STELLout.plot_helicity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.STELLout.plot_helicity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot <a href="#id1"><span class="problematic" id="id2">|B|</span></a> components in Boozer coordinates from BOOZ_XFORM</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -217,7 +298,9 @@
 <li><p><strong>ordering</strong> (<em>integer</em><em>, </em><em>optional</em>) – Plot the leading Nordering asymmetric modes. Defaults to 0.</p></li>
 <li><p><strong>mn</strong> (<em>tuple</em><em>, </em><em>optional</em>) – Plot the particular (m,n) mode. Defaults to (None, None).</p></li>
 <li><p><strong>ax</strong> (<em>Matplotlib axis</em><em>, </em><em>optional</em>) – Matplotlib axis to be plotted on. Defaults to None.</p></li>
-<li><p><strong>log</strong> (<em>bool</em><em>, </em><em>optional</em>) – Plot in log scale. Default to True.</p></li>
+<li><p><strong>log</strong> (<em>bool</em><em>, </em><em>optional</em>) – Plot in log scale. Defaults to True.</p></li>
+<li><p><strong>normalize</strong> (<em>bool</em><em>, </em><em>optionl</em>) – Normalized to B_00. Defaults to False.</p></li>
+<li><p><strong>logical_not</strong> (<em>bool</em><em>, </em><em>optional</em>) – Unselect mn modes. Defaults to False.</p></li>
 <li><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments for matplotlib.pyplot.plot. Defaults to {}.</p></li>
 </ul>
 </dd>
@@ -231,8 +314,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="coilpy.stellopt.STELLout.plot_neo">
-<code class="sig-name descname"><span class="pre">plot_neo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">it</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#STELLout.plot_neo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.STELLout.plot_neo" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="coilpy.stellopt.STELLout.plot_neo">
+<span class="sig-name descname"><span class="pre">plot_neo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">it</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/stellopt.html#STELLout.plot_neo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.stellopt.STELLout.plot_neo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot effective ripple from NEO</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -253,7 +336,7 @@
 
 </dd></dl>
 
-</section>
+</div>
 
 
               </div>
@@ -269,17 +352,24 @@
 
       </div>
     </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
-    
-  <script src="../_static/js/index.1e043a052b0af929e4d8.js"></script>
-
-
-    <footer class="footer mt-5 mt-md-0">
+  <footer class="footer mt-5 mt-md-0">
   <div class="container">
-    <p>
-          &copy; Copyright 2020, Caoxiang Zhu.<br/>
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.3.<br/>
-    </p>
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2020, Caoxiang Zhu.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.0.<br/>
+</p>
+    </div>
+    
   </div>
 </footer>
   </body>
