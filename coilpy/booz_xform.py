@@ -73,14 +73,25 @@ class BOOZ_XFORM(SortedDict):
         vmec.close()
         return BOOZ_XFORM.write_input(extension, mbooz, nbooz, surfaces)
 
-    def plot(self, ordering=0, mn=(None, None), ax=None, log=True, **kwargs):
+    def plot(
+        self,
+        ordering=0,
+        mn=(None, None),
+        ax=None,
+        log=True,
+        normalize=True,
+        logical_not=False,
+        **kwargs
+    ):
         """Plot |B| components 1D profile
 
         Args:
             ordering (integer, optional): Plot the leading Nordering asymmetric modes. Defaults to 0.
             mn (tuple, optional): Plot the particular (m,n) mode. Defaults to (None, None).
             ax (Matplotlib axis, optional): Matplotlib axis to be plotted on. Defaults to None.
-            log (bool, optional): Plot in log scale. Default to True.
+            log (bool, optional): Plot in log scale. Defaults to True.
+            normalize(bool, optionl): Normalized to B_00. Defaults to True.
+            logical_not (bool, optional): Unselect mn modes. Defaults to False.
             kwargs (dict): Keyword arguments for matplotlib.pyplot.plot. Defaults to {}.
 
         Returns:
@@ -88,16 +99,43 @@ class BOOZ_XFORM(SortedDict):
         """
         xx = self.jlist / self.ns
         return self.plot_helicity(
-            self.bmnc, self.xm, self.xn, xx, ordering, mn, ax, log, **kwargs
+            self.bmnc,
+            self.xm,
+            self.xn,
+            xx,
+            ordering,
+            mn,
+            ax,
+            log,
+            normalize,
+            logical_not,
+            **kwargs
         )
 
     @staticmethod
-    def plot_helicity(*args, **kwargs):
-        vals, xm, xn, xx, ordering, mn, ax, log = args
+    def plot_helicity(
+        vals,
+        xm,
+        xn,
+        xx,
+        ordering=0,
+        mn=(None, None),
+        ax=None,
+        log=False,
+        normalize=False,
+        logical_not=False,
+        **kwargs
+    ):
         # get figure and ax data
         if ax is None:
             fig, ax = plt.subplots()
         plt.sca(ax)
+        # check if normalizing to B_00
+        if normalize:
+            try:
+                vals /= vals[:, np.logical_and(xm == 0, xn == 0)]
+            except ValueError:
+                print("Something wrong with the normalization to B_00")
         # select the top ordering asymmetric terms
         if ordering:
             assert ordering >= 1
@@ -127,9 +165,11 @@ class BOOZ_XFORM(SortedDict):
                 nfilter = xn == mn[1]
                 n = "n={:}".format(mn[1])
             else:
-                nfilter = xn != 0
-                n = r"n \neq 0"
+                nfilter = np.full(np.shape(xn), True)
+                n = "n"
             cond = np.logical_and(mfilter, nfilter)
+            if logical_not:
+                cond = np.logical_not(cond)
             # data = np.reshape(vals[:, cond], (ns, -1))
             data = vals[:, cond]
             if log:

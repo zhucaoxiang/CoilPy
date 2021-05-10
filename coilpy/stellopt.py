@@ -390,7 +390,17 @@ class STELLout(SortedDict, OMFITascii):
         plt.ylabel("chisq")
         return ax
 
-    def plot_helicity(self, it=-1, ordering=0, mn=(None, None), ax=None, log=True, **kwargs):
+    def plot_helicity(
+        self,
+        it=-1,
+        ordering=0,
+        mn=(None, None),
+        ax=None,
+        log=True,
+        normalize=False,
+        logical_not=False,
+        **kwargs
+    ):
         """Plot |B| components in Boozer coordinates from BOOZ_XFORM
 
         Args:
@@ -398,7 +408,9 @@ class STELLout(SortedDict, OMFITascii):
             ordering (integer, optional): Plot the leading Nordering asymmetric modes. Defaults to 0.
             mn (tuple, optional): Plot the particular (m,n) mode. Defaults to (None, None).
             ax (Matplotlib axis, optional): Matplotlib axis to be plotted on. Defaults to None.
-            log (bool, optional): Plot in log scale. Default to True.
+            log (bool, optional): Plot in log scale. Defaults to True.
+            normalize(bool, optionl): Normalized to B_00. Defaults to False.
+            logical_not (bool, optional): Unselect mn modes. Defaults to False.
             kwargs (dict): Keyword arguments for matplotlib.pyplot.plot. Defaults to {}.
 
         Returns:
@@ -414,7 +426,17 @@ class STELLout(SortedDict, OMFITascii):
         xm = np.reshape(np.array(self["HELICITY_FULL_m"][it], dtype=int), (ns, -1))
         xn = np.reshape(np.array(self["HELICITY_FULL_n"][it], dtype=int), (ns, -1))
         return BOOZ_XFORM.plot_helicity(
-            vals, xm[0, :], xn[0, :], xx, ordering, mn, ax, log, **kwargs
+            vals,
+            xm[0, :],
+            xn[0, :],
+            xx,
+            ordering,
+            mn,
+            ax,
+            log,
+            normalize,
+            logical_not,
+            **kwargs
         )
 
     def plot_balloon(self, it=-1, ax=None, **kwargs):
@@ -427,7 +449,7 @@ class STELLout(SortedDict, OMFITascii):
 
         Returns:
             ax (Matplotlib axis): Matplotlib axis plotted on.
-        """        
+        """
         fig, ax = get_figure(ax)
         ax.plot(self["BALLOON_k"][it], self["BALLOON_grate"][it], "o")
         ax.set_xlabel("Radial Grid")
@@ -445,7 +467,7 @@ class STELLout(SortedDict, OMFITascii):
 
         Returns:
             ax (Matplotlib axis): Matplotlib axis plotted on.
-        """        
+        """
         fig, ax = get_figure(ax)
         xs = self["NEO_k"][it]
         xx = (xs - 1) / np.max(xs)  # max(xs) might be different from NS
@@ -453,4 +475,4 @@ class STELLout(SortedDict, OMFITascii):
         ax.set_xlabel("Normalized flux (s) ")
         ax.set_ylabel(r"${\epsilon_{\mathrm{eff}}}^{3/2}$")
         ax.set_title("Effective ripple from NEO")
-        return ax       
+        return ax
