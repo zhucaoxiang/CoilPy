@@ -725,6 +725,52 @@ class Coil(object):
             wfile.write("end \n")
         return
 
+    def save_gpec_coils(self, filename, split=True, nw=1, **kwargs):
+        """Write the data in standard ascii format for GPEC
+
+        Args:
+            filename (str): path (if split==True) or file name to be saved.
+            split (bool, optional): write each coil into a separate file. Defaults to True
+            nw (integer, optional): number of windings. Defaults to 1.
+        """
+        if split:
+            # write in independent files
+            for icoil in list(self):
+                with open(filename + icoil.name + ".dat", "w") as f:
+                    # write the defining parameters
+                    ncoil = 1
+                    s = 1  # have to assume this?
+                    nsec = len(icoil.x)
+                    f.write(
+                        "{:>5}{:>5}{:>5}{:8.2f}\n".format(ncoil, s, nsec, nw)
+                    )  # the first line with periods
+                    # write each coil x, y, z
+                    for i in range(len(icoil.x)):
+                        f.write(
+                            "{:13.4e}{:13.4e}{:13.4e}\n".format(
+                                icoil.x[i], icoil.y[i], icoil.z[i]
+                            )
+                        )
+        else:
+            # write into one file
+            with open(filename, "w") as f:
+                # write the defining parameters
+                ncoil = len(self)
+                s = 1  # have to assume this?
+                nsec = len(self.data[0].x)
+                f.write(
+                    "{:>5}{:>5}{:>5}{:8.2f}\n".format(ncoil, s, nsec, nw)
+                )  # the first line with periods
+                # write each coil x, y, z
+                for icoil in list(self):
+                    for i in range(len(icoil.x)):
+                        f.write(
+                            "{:13.4e}{:13.4e}{:13.4e}\n".format(
+                                icoil.x[i], icoil.y[i], icoil.z[i]
+                            )
+                        )
+        return
+
     def toVTK(self, vtkname, line=True, **kwargs):
         """Write entire coil set into a VTK file
 
