@@ -25,7 +25,7 @@ jobs:
           #CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
           CIBW_SKIP: cp27-*
           CIBW_DEPENDENCY_VERSIONS: latest
-          CIBW_BEFORE_BUILD_LINUX: pip install --upgrade pip setuptools wheel twine
+          CIBW_BEFORE_BUILD_LINUX: pip install --upgrade pip setuptools wheel twine numpy
 
       - uses: actions/upload-artifact@v2
         with:
