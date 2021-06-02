@@ -637,8 +637,8 @@ class FourSurf(object):
                 for i in range(self.mn):
                     f.write(
                         "RBC({n:d},{m:d}) = {r:15.7E} \t ZBS({n:d},{m:d}) = {z:15.7E} \n".format(
-                            n=self.xn[i] // nfp,
-                            m=self.xm[i],
+                            n=int(self.xn[i]) // nfp,
+                            m=int(self.xm[i]),
                             r=self.rbc[i],
                             z=self.zbs[i],
                         )
