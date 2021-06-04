@@ -670,3 +670,29 @@ def biot_savart(pos, xyz, current, dxyz=None):
     else:
         # tangent provided
         return biot_savart(pos, xyz, current, dxyz)
+
+
+def rotation_matrix(alpha=0.0, beta=0.0, gamma=0.0):
+    """A genera rotation matrix using yaw, pitch, and roll angles
+
+    Args:
+        alpha (float, optional): The yaw angle (rotating around the z-axis). Defaults to 0.0.
+        beta (float, optional): The pitch angle (rotating around the y-axis). Defaults to 0.0.
+        gamma (float, optional): The roll angle (rotating around the x-axis). Defaults to 0.0.
+
+    Returns:
+        [type]: [description]
+    """
+    ca = np.cos(alpha)
+    sa = np.sin(alpha)
+    cb = np.cos(beta)
+    sb = np.sin(beta)
+    cc = np.cos(gamma)
+    sc = np.sin(gamma)
+    return np.array(
+        [
+            [ca * cb, ca * sb * sc - sa * cc, ca * sb * cc + sa * sc],
+            [sa * cb, sa * sb * sc + ca * cc, sa * sb * cc - ca * sc],
+            [-sb, cb * sc, cb * cc],
+        ]
+    )
