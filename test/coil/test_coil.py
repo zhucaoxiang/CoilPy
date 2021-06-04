@@ -12,9 +12,17 @@ assert ellipse.data[10].group == 3, "Coil group is read incorrectly!"
 ellipse.plot(irange=range(0, 16, 4))
 ellipse.plot(irange=range(0, 16, 4), enginer="plotly", plot2d=True)
 
-# save VTK
+# save as VTK files
+# lines
 ellipse.toVTK("ellipse")
-ellipse.toVTK("ellipse", line=False, width=0.05, heigh=0.05)
+# finite-build
+label = []
+for icoil in list(ellipse):
+    zsign = icoil.z[:-1] > 0
+    label += zsign.astype(int).tolist()
+ellipse.toVTK(
+    "ellipse", line=False, width=0.05, heigh=0.05, cell_data={"z_sign": [label]}
+)
 
 # calculate B field
 b = np.array([-5.85704462e-04, 2.94453517e-03, -1.63013362e-18])

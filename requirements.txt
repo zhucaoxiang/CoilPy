@@ -8,4 +8,5 @@ numpy
 pyevtk
 classes
 f90nml
+meshio
 #mayavi # has issues
