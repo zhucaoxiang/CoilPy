@@ -21,7 +21,7 @@ for icoil in list(ellipse):
     zsign = icoil.z[:-1] > 0
     label += zsign.astype(int).tolist()
 ellipse.toVTK(
-    "ellipse", line=False, width=0.05, height=0.05, cell_data={"z_sign": [label]}
+    "ellipse.vtk", line=False, width=0.05, height=0.05, cell_data={"z_sign": [label]}
 )
 
 # calculate B field
