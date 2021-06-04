@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.coils &#8212; coilpy 0.3.03 documentation</title>
+    <title>coilpy.coils &#8212; coilpy 0.3.05 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -306,14 +306,16 @@ and saved as VTK files using <cite>self.toVTK</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.coils.Coil.toVTK">
-<span class="sig-name descname"><span class="pre">toVTK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vtkname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#Coil.toVTK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.coils.Coil.toVTK" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">toVTK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vtkname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#Coil.toVTK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.coils.Coil.toVTK" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write entire coil set into a VTK file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>vtkname</strong> (<em>str</em>) – VTK filename.</p></li>
-<li><p><strong>line</strong> (<em>bool</em>) – Save coils as polylines or surfaces. Defaults to True.</p></li>
-<li><p><strong>kwargs</strong> (<em>dict</em>) – Optional kwargs passed to “polyLinesToVTK” or width/height.</p></li>
+<li><p><strong>line</strong> (<em>bool</em><em>, </em><em>optional</em>) – Save coils as polylines or surfaces. Defaults to True.</p></li>
+<li><p><strong>height</strong> (<em>float</em><em>, </em><em>optional</em>) – Rectangle height when expanded to a finite cross-section. Defaults to 0.1.</p></li>
+<li><p><strong>width</strong> (<em>float</em><em>, </em><em>optional</em>) – Rectangle width when expanded to a finite cross-section. Defaults to 0.1.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Optional kwargs passed to “polyLinesToVTK” or “meshio.Mesh.write”.</p></li>
 </ul>
 </dd>
 </dl>
