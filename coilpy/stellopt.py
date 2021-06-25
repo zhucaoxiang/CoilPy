@@ -359,6 +359,11 @@ class STELLout(SortedDict, OMFITascii):
                 self[item + "_SCAL11"] = np.array(self[item][:, :, 12])
                 self[item + "_SCAL33"] = np.array(self[item][:, :, 13])
                 self[item + "_SCAL31"] = np.array(self[item][:, :, 14])
+            elif item == "GAMMA_C":
+                self[item + "_target"] = np.array(self[item][:, :, 0])
+                self[item + "_sigma"] = np.array(self[item][:, :, 1])
+                self[item + "_equil"] = np.array(self[item][:, :, 2])
+                self[item + "_K"] = np.array(self[item][:, :, 3])
         self["chisq"] = ((self["TARGETS"] - self["VALS"]) / self["SIGMAS"]) ** 2
         return
 
