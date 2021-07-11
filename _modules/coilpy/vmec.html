@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.vmec &#8212; coilpy 0.3.06 documentation</title>
+    <title>coilpy.vmec &#8212; coilpy 0.3.07 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -130,11 +130,18 @@
 
 <div class="viewcode-block" id="VMECout"><a class="viewcode-back" href="../../api/coilpy.vmec.html#coilpy.vmec.VMECout">[docs]</a><span class="k">class</span> <span class="nc">VMECout</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    VMEC wout file</span>
+<span class="sd">    Class to parse a VMEC wout file</span>
 
-<span class="sd">    :param filename: filename passed to OMFITnc class</span>
+<span class="sd">    :param filename: filename passed to xarray.open_dataset()</span>
 
-<span class="sd">    All additional key word arguments passed to OMFITnc</span>
+<span class="sd">    The entire dataset is stored in `self.wout` and you can access</span>
+<span class="sd">    to variables via `self.wout[&#39;iotaf&#39;].values`.</span>
+<span class="sd">    The flux surfaces are all parsed as `FourSurf` classes and stored</span>
+<span class="sd">    in the list of `self.surface`.</span>
+<span class="sd">    Magnetic fields are Fourier transformed to real space</span>
+<span class="sd">    (only the stellarator symmetric part, `bmnc`) and store in `self.data[&#39;b]`.</span>
+
+<span class="sd">    `self.plot` has several options to plot the profiles, etc.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -193,7 +200,7 @@
             <span class="n">fig</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_figure</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">plot_name</span> <span class="o">==</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You can plot: iota, q, pressue, &lt;Buco&gt;, &lt;Bvco&gt;, &lt;jcuru&gt;, &lt;jcurv&gt;, &quot;</span><span class="p">)</span>
-            <span class="n">Print</span><span class="p">(</span><span class="s2">&quot;               &lt;j.B&gt;, LPK&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;               &lt;j.B&gt;, LPK&quot;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">plot_name</span> <span class="o">==</span> <span class="s2">&quot;iota&quot;</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;nflux&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">wout</span><span class="p">[</span><span class="s2">&quot;iotaf&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Normalized Flux&quot;</span><span class="p">)</span>
@@ -277,7 +284,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.3.<br/>
 </p>
     </div>
     

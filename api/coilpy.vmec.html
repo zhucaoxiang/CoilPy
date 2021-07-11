@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.vmec &#8212; coilpy 0.3.06 documentation</title>
+    <title>coilpy.vmec &#8212; coilpy 0.3.07 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -193,13 +193,19 @@
 <dt class="sig sig-object py" id="coilpy.vmec.VMECout">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">coilpy.vmec.</span></span><span class="sig-name descname"><span class="pre">VMECout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/vmec.html#VMECout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.vmec.VMECout" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>VMEC wout file</p>
+<p>Class to parse a VMEC wout file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> – filename passed to OMFITnc class</p>
+<dd class="field-odd"><p><strong>filename</strong> – filename passed to xarray.open_dataset()</p>
 </dd>
 </dl>
-<p>All additional key word arguments passed to OMFITnc</p>
+<p>The entire dataset is stored in <cite>self.wout</cite> and you can access
+to variables via <cite>self.wout[‘iotaf’].values</cite>.
+The flux surfaces are all parsed as <cite>FourSurf</cite> classes and stored
+in the list of <cite>self.surface</cite>.
+Magnetic fields are Fourier transformed to real space
+(only the stellarator symmetric part, <cite>bmnc</cite>) and store in <cite>self.data[‘b]</cite>.</p>
+<p><cite>self.plot</cite> has several options to plot the profiles, etc.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.vmec.VMECout.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'none'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/vmec.html#VMECout.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.vmec.VMECout.plot" title="Permalink to this definition">¶</a></dt>
@@ -248,7 +254,7 @@ iota, q, pressue, &lt;Buco&gt;, &lt;Bvco&gt;, &lt;jcuru&gt;, &lt;jcurv&gt;,
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.3.<br/>
 </p>
     </div>
     
