@@ -11,11 +11,18 @@ __all__ = ["VMECout"]
 
 class VMECout(object):
     """
-    VMEC wout file
+    Class to parse a VMEC wout file
 
-    :param filename: filename passed to OMFITnc class
+    :param filename: filename passed to xarray.open_dataset()
 
-    All additional key word arguments passed to OMFITnc
+    The entire dataset is stored in `self.wout` and you can access
+    to variables via `self.wout['iotaf'].values`.
+    The flux surfaces are all parsed as `FourSurf` classes and stored
+    in the list of `self.surface`.
+    Magnetic fields are Fourier transformed to real space
+    (only the stellarator symmetric part, `bmnc`) and store in `self.data['b]`.
+
+    `self.plot` has several options to plot the profiles, etc.
 
     """
 
@@ -74,7 +81,7 @@ class VMECout(object):
             fig = ax.get_figure()
         if plot_name == "none":
             print("You can plot: iota, q, pressue, <Buco>, <Bvco>, <jcuru>, <jcurv>, ")
-            Print("               <j.B>, LPK")
+            print("               <j.B>, LPK")
         elif plot_name == "iota":
             ax.plot(self.data["nflux"], self.wout["iotaf"].values)
             ax.set_xlabel("Normalized Flux")

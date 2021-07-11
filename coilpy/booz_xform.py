@@ -227,15 +227,25 @@ class BOOZ_XFORM(SortedDict):
         ax.yaxis.set_minor_locator(tck.AutoMinorLocator())
         return ax
 
-    def to_FOCUS(self, ns=-1, focus_file="plasma.boundary", tol=1.0e-8):
+    def to_FOCUS(self, ns=-1, focus_file="plasma.boundary", tol=1.0e-8, iota=None):
         """Write a FOCUS plasma boundary file in Boozer coordinates
 
         Args:
             ns (int, optional): Flux surface label to be exported. Defaults to -1.
             focus_file (str, optional): FOCUS plasma boundary file name. Defaults to 'plasma.boundary'.
             tol (float, optional): Truncated tolerance. Defaults to 1.0E-8.
+            iota (float, optional): The target iota to be extracted. Defaults to None.
         """
         mn = int(self.output["mnboz_b"].values)
+        # find the closest ns if specifying an iota
+        if iota is not None:
+            ns = np.argmin(np.abs(self.output["iota_b"].values - iota))
+            print(
+                "Target iota: ",
+                iota,
+                ", closest value: ",
+                self.output["iota_b"].values[ns],
+            )
         rbc = np.array(self.output["rmnc_b"][ns, :])
         # rbs = np.zeros(mn)
         zbs = np.array(self.output["zmns_b"][ns, :])

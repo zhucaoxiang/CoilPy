@@ -364,6 +364,10 @@ class STELLout(SortedDict, OMFITascii):
                 self[item + "_sigma"] = np.array(self[item][:, :, 1])
                 self[item + "_equil"] = np.array(self[item][:, :, 2])
                 self[item + "_K"] = np.array(self[item][:, :, 3])
+                self[item + "_chisq"] = (
+                    (self[item + "_target"] - self[item + "_equil"])
+                    / self[item + "_sigma"]
+                ) ** 2
         self["chisq"] = ((self["TARGETS"] - self["VALS"]) / self["SIGMAS"]) ** 2
         return
 
