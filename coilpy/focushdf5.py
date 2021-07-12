@@ -443,3 +443,40 @@ class FOCUSHDF5(HDF5):
         data = {"Bn": Bn, "plas_Bn": plas_Bn, "B": B}
         data.update(kwargs)
         return gridToVTK(name, xx, yy, zz, pointData=data)
+
+    def curvature(self, iteration=True, axes=None, icoil=1, NS=128, **kwargs):
+        """curvature ploting for the FOCUS-spline paper [arXiv:2107.02123] by N. Lonigro
+
+        Args:
+            iteration (bool, optional): [description]. Defaults to True.
+            axes ([type], optional): [description]. Defaults to None.
+            icoil (int, optional): [description]. Defaults to 1.
+            NS (int, optional): [description]. Defaults to 128.
+        """
+        # get figure
+        fig, axes = get_figure(axes)
+        # set default plotting parameters
+        kwargs["linewidth"] = kwargs.get("linewidth", 2.5)  # line width
+        # kwargs['marker'] = kwargs.get('marker', 'o') # extent
+        # get iteration data
+        if iteration:
+            abscissa = np.arange(NS)
+            _xlabel = "Segment number"
+        else:
+            abscissa = self.evolution[0, :]  # be careful; DF is not saving wall-time
+            _xlabel = "wall time [Second]"
+        # plot data
+        lines = []
+        data = object.__getattribute__(self, "curvature_{:}".format(icoil))
+        kwargs["label"] = kwargs.get("label", "curvature")  # line label
+        lines.append(axes.plot(abscissa, data, **kwargs))
+        data_s = object.__getattribute__(self, "straight_{:}".format(icoil))
+        kwargs["label"] = "straight"
+        lines.append(axes.plot(abscissa, data_s, **kwargs))
+        axes.tick_params(axis="both", which="major", labelsize=15)
+        axes.set_xlabel(_xlabel, fontsize=15)
+        axes.set_ylabel("curvature", fontsize=15)
+        axes.set_title("Curvature of coil " + str(icoil))
+        # fig.legend(loc='upper right', frameon=False, prop={'size':24, 'weight':'bold'})
+        plt.legend()
+        return lines
