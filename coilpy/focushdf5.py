@@ -183,10 +183,11 @@ class FOCUSHDF5(HDF5):
         return line
 
     # poincare plot
-    def poincare_plot(self, color=None, **kwargs):
-        """Poincare plot
+    def poincare_plot(self, color=None, prange="full", **kwargs):
+        """Poincare plot from FOCUS output.
         Args:
-             color (matplotlib color, or None): dot colors; default None (rainbow).
+             color (matplotlib color, or None): dot colors. Defaults to None (rainbow).
+             prange (str, optional): Plot range, one of ["upper", "lower", "all"]. Defaults to "full".
              kwargs : matplotlib scatter keyword arguments
 
         Returns:
@@ -203,14 +204,23 @@ class FOCUSHDF5(HDF5):
             fig, ax = plt.subplots()
 
         # get colors
-        if color == None:
+        if color is None:
             colors = cm.rainbow(np.linspace(1, 0, self.pp_ns))
         else:
             colors = [color] * self.pp_ns
         kwargs["s"] = kwargs.get("s", 0.1)  # dotsize
         # scatter plot
         for i in range(self.pp_ns):
-            ax.scatter(self.ppr[:, i], self.ppz[:, i], color=colors[i], **kwargs)
+            # determine whether plot upper or lower
+            if prange == "upper":
+                cond = self.ppz[:, i] > 0
+            elif prange == "lower":
+                cond = self.ppz[:, i] < 0
+            else:
+                cond = np.ones_like(self.ppz[:, i], dtype=bool)
+            ax.scatter(
+                self.ppr[:, i][cond], self.ppz[:, i][cond], color=colors[i], **kwargs
+            )
         plt.axis("equal")
         plt.xlabel("R [m]", fontsize=20)
         plt.ylabel("Z [m]", fontsize=20)
@@ -444,16 +454,34 @@ class FOCUSHDF5(HDF5):
         data.update(kwargs)
         return gridToVTK(name, xx, yy, zz, pointData=data)
 
-    def curvature(self, iteration=True, axes=None, icoil=1, NS=128, **kwargs):
-        """curvature ploting for the FOCUS-spline paper [arXiv:2107.02123] by N. Lonigro
+    def curvature(
+        self,
+        iteration=True,
+        vlines=True,
+        shift_ind=0,
+        axes=None,
+        icoil=1,
+        NS=128,
+        **kwargs
+    ):
+        """Curvature ploting for the FOCUS-spline paper [arXiv:2107.02123] by N. Lonigro
 
         Args:
             iteration (bool, optional): [description]. Defaults to True.
+            vlines (bool, optional): [description]. Defaults to True.
+            shift_ind (int, optional): [description]. Defaults to 0.
             axes ([type], optional): [description]. Defaults to None.
             icoil (int, optional): [description]. Defaults to 1.
             NS (int, optional): [description]. Defaults to 128.
+
+        Returns:
+            [type]: [description]
         """
+        import math
+
         # get figure
+        max_ind = -1
+        min_ind = -1
         fig, axes = get_figure(axes)
         # set default plotting parameters
         kwargs["linewidth"] = kwargs.get("linewidth", 2.5)  # line width
@@ -466,17 +494,88 @@ class FOCUSHDF5(HDF5):
             abscissa = self.evolution[0, :]  # be careful; DF is not saving wall-time
             _xlabel = "wall time [Second]"
         # plot data
-        lines = []
         data = object.__getattribute__(self, "curvature_{:}".format(icoil))
-        kwargs["label"] = kwargs.get("label", "curvature")  # line label
-        lines.append(axes.plot(abscissa, data, **kwargs))
         data_s = object.__getattribute__(self, "straight_{:}".format(icoil))
-        kwargs["label"] = "straight"
-        lines.append(axes.plot(abscissa, data_s, **kwargs))
+
+        if (data_s[0] == 0) and (data_s[NS - 1] != 0) and (data_s[k + 1] == 0):
+            max_ind = 0
+        if (data_s[0] == 0) and (data_s[1] != 0) and (data_s[k - 1] == 0):
+            min_ind = 0
+        if (data_s[NS - 1] == 0) and (data_s[NS - 2] != 0) and (data_s[0] == 0):
+            max_ind = NS - 1
+        if (data_s[NS - 1] == 0) and (data_s[0] != 0) and (data_s[NS - 2] == 0):
+            min_ind = NS - 1
+        for k in range(1, len(data_s) - 2):
+            if (data_s[k] == 0) and (data_s[k - 1] != 0) and (data_s[k + 1] == 0):
+                max_ind = np.max([max_ind, k])
+            if (
+                (data_s[k] == 0)
+                and (data_s[k + 1] != 0)
+                and (data_s[k - 1] == 0)
+                and min_ind != -1
+            ):
+                min_ind = np.min([min_ind, k])
+            if (
+                (data_s[k] == 0)
+                and (data_s[k + 1] != 0)
+                and (data_s[k - 1] == 0)
+                and min_ind == -1
+            ):
+                min_ind = k
+        if max_ind > min_ind and shift_ind == 0:
+            shift_ind = math.floor(0.5 * (NS - max_ind - min_ind))
+        if max_ind < min_ind and shift_ind == 0:
+            shift_ind = math.floor(0.5 * NS + 0.5 * (NS - max_ind - min_ind))
+        lines = []
+        data = np.concatenate((data[-shift_ind:], data[:-shift_ind]))
+        kwargs["label"] = kwargs.get("label", r"$curvature$")
+        lines.append(axes.plot(abscissa, data, **kwargs))
+        if max_ind > min_ind and vlines:
+            lines.append(
+                plt.vlines(
+                    math.floor(0.5 * (NS - max_ind + min_ind)),
+                    0,
+                    np.max(data),
+                    colors="black",
+                    linestyles="dashed",
+                    linewidth=5.0,
+                )
+            )
+            lines.append(
+                plt.vlines(
+                    math.floor(0.5 * (NS + max_ind - min_ind)),
+                    0,
+                    np.max(data),
+                    colors="black",
+                    linestyles="dashed",
+                    linewidth=5.0,
+                )
+            )
+        if max_ind < min_ind and vlines:
+            lines.append(
+                plt.vlines(
+                    math.floor(0.5 * (NS - max_ind - NS + min_ind)),
+                    0,
+                    np.max(data),
+                    colors="black",
+                    linestyles="dashed",
+                    linewidth=5.0,
+                )
+            )
+            lines.append(
+                plt.vlines(
+                    math.floor(0.5 * (NS + max_ind + NS - min_ind)),
+                    0,
+                    np.max(data),
+                    colors="black",
+                    linestyles="dashed",
+                    linewidth=5.0,
+                )
+            )
         axes.tick_params(axis="both", which="major", labelsize=15)
         axes.set_xlabel(_xlabel, fontsize=15)
         axes.set_ylabel("curvature", fontsize=15)
         axes.set_title("Curvature of coil " + str(icoil))
         # fig.legend(loc='upper right', frameon=False, prop={'size':24, 'weight':'bold'})
         plt.legend()
-        return lines
+        return [shift_ind, max_ind - min_ind]
