@@ -136,6 +136,26 @@ class BOOZ_XFORM(SortedDict):
                 vals /= vals[:, np.logical_and(xm == 0, xn == 0)]
             except ValueError:
                 print("Something wrong with the normalization to B_00")
+        # determine filter condition
+        if mn[0] is not None:
+            mfilter = xm == mn[0]
+            m = "m={:}".format(mn[0])
+        else:
+            mfilter = np.full(np.shape(xm), True)
+            m = "m"
+        if mn[1] is not None:
+            nfilter = xn == mn[1]
+            n = "n={:}".format(mn[1])
+        else:
+            nfilter = np.full(np.shape(xn), True)
+            n = "n"
+        cond = np.logical_and(mfilter, nfilter)
+        if logical_not:
+            cond = np.logical_not(cond)
+        # data = np.reshape(vals[:, cond], (ns, -1))
+        vals = vals[:, cond]
+        xm = xm[cond]
+        xn = xn[cond]
         # select the top ordering asymmetric terms
         if ordering:
             assert ordering >= 1
@@ -152,31 +172,13 @@ class BOOZ_XFORM(SortedDict):
                     ax.semilogy(xx, np.abs(vals[:, ind]), **kwargs)
                 else:
                     ax.plot(xx, np.abs(vals[:, ind]), **kwargs)
-            ylabel = r"$\frac{B_{m,n}}{ \Vert B_{n=0} \Vert }$"
+            ylabel = r"$\frac{B_{m,n}}{ B_{00} }$"
         else:
-            # determine filter condition
-            if mn[0] is not None:
-                mfilter = xm == mn[0]
-                m = "m={:}".format(mn[0])
-            else:
-                mfilter = np.full(np.shape(xm), True)
-                m = "m"
-            if mn[1] is not None:
-                nfilter = xn == mn[1]
-                n = "n={:}".format(mn[1])
-            else:
-                nfilter = np.full(np.shape(xn), True)
-                n = "n"
-            cond = np.logical_and(mfilter, nfilter)
-            if logical_not:
-                cond = np.logical_not(cond)
-            # data = np.reshape(vals[:, cond], (ns, -1))
-            data = vals[:, cond]
             if log:
-                line = ax.semilogy(xx, np.linalg.norm(data, axis=1), **kwargs)
+                line = ax.semilogy(xx, np.linalg.norm(vals, axis=1), **kwargs)
             else:
-                line = ax.plot(xx, np.linalg.norm(data, axis=1), **kwargs)
-            ylabel = r"$ \frac{{ \Vert B_{{ {:},{:} }} \Vert }}{{ \Vert B_{{n=0}} \Vert }} $".format(
+                line = ax.plot(xx, np.linalg.norm(vals, axis=1), **kwargs)
+            ylabel = r"$ \frac{{ \Vert B_{{ {:},{:} }} \Vert }}{{ B_{{00}} }} $".format(
                 m, n
             )
         plt.xlabel("normalized flux (s)", fontsize=16)
