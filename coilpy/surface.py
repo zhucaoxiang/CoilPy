@@ -1,5 +1,5 @@
 import numpy as np
-from .misc import read_focus_boundary
+from .misc import read_focus_boundary, write_focus_boundary
 
 
 class FourSurf(object):
@@ -595,38 +595,22 @@ class FourSurf(object):
         mesh.write(stlname)
         return mesh
 
-    def write_focus_input(self, filename, Nfp=1, tol=1e-8, **kwargs):
-        """write the Fourier harmonics down in FOCUS format
+    def write_focus_input(self, filename, nfp=1, bn=None):
+        """Write the Fourier harmonics down in FOCUS format
 
-        Parameters:
-          filename -- string, the saved FOCUS boundary name
-          Nfp -- int, default: 1, number of field periodicity, n will be divided by Nfp
-          tol -- float, default: 1E-8, tolerance for truncating modes
+        Args:
+            filename ([type]): Output file name.
+            nfp (int, optional): Number of toroidal periodicity Defaults to 1.
+            bn (dict, optional): Bn dict, containing 'xm', 'xn', 'bnc', 'bns'. Defaults to None.
         """
-        # count non-zero
-        nonzero = abs(self.rbc) + abs(self.rbs) + abs(self.zbc) + abs(self.zbs)
-        amn = np.sum(nonzero > tol)
-        # write Fourier coefficients
-        with open(filename, "w") as fofile:
-            fofile.write("# bmn   bNfp   nbf " + "\n")
-            fofile.write("{:d} \t {:d} \t {:d} \n".format(amn, Nfp, 0))
-            fofile.write("#plasma boundary" + "\n")
-            fofile.write("# n m Rbc Rbs Zbc Zbs" + "\n")
-            for imn in range(self.mn):
-                if nonzero[imn] > tol:
-                    fofile.write(
-                        "{:4d}  {:4d} \t {:23.15E}  {:23.15E}  {:23.15E}  {:23.15E} \n".format(
-                            self.xn[imn] // Nfp,
-                            self.xm[imn],
-                            self.rbc[imn],
-                            self.rbs[imn],
-                            self.zbc[imn],
-                            self.zbs[imn],
-                        )
-                    )
-            fofile.write("#Bn harmonics \n")
-            fofile.write("# n m bnc bns \n")
-        print("Finished write FOCUS input file at ", filename)
+        surf = {}
+        surf["xn"] = self.xn // nfp
+        surf["xm"] = self.xm
+        surf["rbc"] = self.rbc
+        surf["rbs"] = self.rbs
+        surf["zbc"] = self.zbc
+        surf["zbs"] = self.zbs
+        write_focus_boundary(filename, surf, nfp, bn)
         return
 
     def write_vmec_input(self, filename, template=None, nfp=1, **kwargs):
