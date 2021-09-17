@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>coilpy.pm4stell &#8212; coilpy 0.3.11 documentation</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="../../index.html">
+<p class="title">coilpy</p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <h1>Source code for coilpy.pm4stell</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Some useful functions used for the PM4STELL project</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.dipole</span> <span class="kn">import</span> <span class="n">Dipole</span>
+
+
+<div class="viewcode-block" id="blocks2vtk"><a class="viewcode-back" href="../../api/coilpy.pm4stell.html#coilpy.pm4stell.blocks2vtk">[docs]</a><span class="k">def</span> <span class="nf">blocks2vtk</span><span class="p">(</span><span class="n">block_file</span><span class="p">,</span> <span class="n">vtk_file</span><span class="p">,</span> <span class="n">moment_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dipole_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+    <span class="kn">import</span> <span class="nn">meshio</span>
+
+    <span class="n">blocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">block_file</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># remove space in headers</span>
+    <span class="n">blocks</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;xb1&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;xb2&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;xb3&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;xb4&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;xt1&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;xt2&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;xt3&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;xt4&quot;</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;yb1&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;yb2&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;yb3&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;yb4&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;yt1&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;yt2&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;yt3&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;yt4&quot;</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;zb1&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;zb2&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;zb3&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;zb4&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;zt1&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;zt2&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;zt3&quot;</span><span class="p">],</span>
+            <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;zt4&quot;</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">nmag</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span>
+        <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;xb1&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">nmag</span><span class="p">))</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">]))</span>
+    <span class="n">hedrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">ind</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nmag</span><span class="p">)]</span>
+    <span class="c1"># parse moment data</span>
+    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;cell_data&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="k">if</span> <span class="n">moment_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">moments</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">moment_file</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">moments</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span>
+            <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;Mx&quot;</span><span class="p">],</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;My&quot;</span><span class="p">],</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;Mz&quot;</span><span class="p">]])</span>
+                <span class="p">)</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">]])</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]])</span>
+    <span class="k">if</span> <span class="n">dipole_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dipoles</span> <span class="o">=</span> <span class="n">Dipole</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">dipole_file</span><span class="p">)</span>
+        <span class="n">dipoles</span><span class="o">.</span><span class="n">sp2xyz</span><span class="p">()</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span>
+            <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">dipoles</span><span class="o">.</span><span class="n">mx</span><span class="p">,</span> <span class="n">dipoles</span><span class="o">.</span><span class="n">my</span><span class="p">,</span> <span class="n">dipoles</span><span class="o">.</span><span class="n">mz</span><span class="p">]))],</span>
+        <span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">dipoles</span><span class="o">.</span><span class="n">rho</span><span class="p">])</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;Lc&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">dipoles</span><span class="o">.</span><span class="n">Lc</span><span class="p">])</span>
+    <span class="c1"># write VTK</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">meshio</span><span class="o">.</span><span class="n">Mesh</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">cells</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;hexahedron&quot;</span><span class="p">,</span> <span class="n">hedrs</span><span class="p">)],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">vtk_file</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="blocks2ficus"><a class="viewcode-back" href="../../api/coilpy.pm4stell.html#coilpy.pm4stell.blocks2ficus">[docs]</a><span class="k">def</span> <span class="nf">blocks2ficus</span><span class="p">(</span>
+    <span class="n">block_file</span><span class="p">,</span>
+    <span class="n">ficus_file</span><span class="p">,</span>
+    <span class="n">moment_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">dipole_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">magnitization</span><span class="o">=</span><span class="mf">1.1e6</span><span class="p">,</span>
+    <span class="n">clip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+    <span class="kn">import</span> <span class="nn">FICUS.Magnet3D</span> <span class="k">as</span> <span class="nn">m3</span>
+
+    <span class="n">blocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">block_file</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">blocks</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;tmp.csv&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">blocks</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">7</span><span class="p">:],</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">corner</span> <span class="o">=</span> <span class="n">m3</span><span class="o">.</span><span class="n">Magnet_3D</span><span class="p">(</span><span class="s2">&quot;tmp.csv&quot;</span><span class="p">)</span>
+    <span class="n">muse_data</span> <span class="o">=</span> <span class="n">corner</span><span class="o">.</span><span class="n">export_source</span><span class="p">()</span>
+    <span class="n">muse_data</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">magnitization</span>
+    <span class="c1"># read dipole moment</span>
+    <span class="k">if</span> <span class="n">moment_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">moments</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">moment_file</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">moments</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">mx</span> <span class="o">=</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;Mx&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">my</span> <span class="o">=</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;My&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">mz</span> <span class="o">=</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;Mz&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">rho</span> <span class="o">=</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">dipole_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dipoles</span> <span class="o">=</span> <span class="n">Dipole</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">dipole_file</span><span class="p">)</span>
+        <span class="n">dipoles</span><span class="o">.</span><span class="n">sp2xyz</span><span class="p">()</span>
+        <span class="n">mx</span> <span class="o">=</span> <span class="n">dipoles</span><span class="o">.</span><span class="n">mx</span>
+        <span class="n">my</span> <span class="o">=</span> <span class="n">dipoles</span><span class="o">.</span><span class="n">my</span>
+        <span class="n">mz</span> <span class="o">=</span> <span class="n">dipoles</span><span class="o">.</span><span class="n">mz</span>
+        <span class="n">rho</span> <span class="o">=</span> <span class="n">dipoles</span><span class="o">.</span><span class="n">rho</span>
+    <span class="c1"># filter</span>
+    <span class="k">if</span> <span class="n">clip</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cond</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">rho</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cond</span> <span class="o">=</span> <span class="n">rho</span> <span class="o">&gt;</span> <span class="n">clip</span>
+    <span class="n">muse_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">muse_data</span><span class="p">,</span> <span class="n">mx</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">my</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">mz</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="n">muse_data</span><span class="p">[</span><span class="n">cond</span><span class="p">],</span>
+        <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+            <span class="s2">&quot;ox&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;oy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;oz&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;nx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ny&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;nz&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ux&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;uy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;uz&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;H&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;L&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;M&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;mx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;my&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;mz&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">dt</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">ficus_file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dt</span></div>
+</pre></div>
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2020, Caoxiang Zhu.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

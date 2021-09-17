@@ -19,6 +19,7 @@ Submodules
    coilpy.hdf5
    coilpy.mgrid
    coilpy.misc
+   coilpy.pm4stell
    coilpy.sortedDict
    coilpy.stellopt
    coilpy.surface

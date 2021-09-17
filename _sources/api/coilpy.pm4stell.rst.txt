@@ -1,0 +1,7 @@
+coilpy.pm4stell 
+======================
+
+.. automodule:: coilpy.pm4stell
+   :members:
+   :undoc-members:
+   :show-inheritance:

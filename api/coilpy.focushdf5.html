@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.focushdf5 &#8212; coilpy 0.3.07 documentation</title>
+    <title>coilpy.focushdf5 &#8212; coilpy 0.3.11 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -132,6 +132,11 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.pm4stell.html">
+   coilpy.pm4stell
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="coilpy.sortedDict.html">
    coilpy.sortedDict
   </a>
@@ -206,10 +211,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">Keyword Arguments</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong><strong>, </strong><strong>'2D'</strong> (<em>plottype</em>) – </p></li>
-<li><p><strong>-- string</strong><strong>, </strong><strong>'coil'</strong><strong>, </strong><strong>'plasma'</strong><strong>, </strong><strong>'sum'</strong><strong> or </strong><strong>'all'</strong> (<em>source</em>) – </p></li>
-<li><p><strong>-- matplotlib.pyplot</strong><strong> or </strong><strong>mayavi.mlab axis</strong><strong>, </strong><strong>axis to be</strong> (<em>axes</em>) – plotted on  (default None)</p></li>
-<li><p><strong>-- logical</strong><strong>, </strong><strong>determine how to calculate Bn from coil</strong><strong>,</strong> (<em>flip</em>) – True: coil_Bn = Bn - plas_Bn; False: coil_Bn = Bn + plas_Bn</p></li>
+<li><p><strong>'2D'</strong> (<em>plottype -- string</em><em>,</em>) – </p></li>
+<li><p><strong>'all'</strong> (<em>source -- string</em><em>, </em><em>'coil'</em><em>, </em><em>'plasma'</em><em>, </em><em>'sum' or</em>) – </p></li>
+<li><p><strong>be</strong> (<em>axes  -- matplotlib.pyplot</em><em> or </em><em>mayavi.mlab axis</em><em>, </em><em>axis to</em>) – plotted on  (default None)</p></li>
+<li><p><strong>coil</strong><strong>,</strong> (<em>flip -- logical</em><em>, </em><em>determine how to calculate Bn from</em>) – True: coil_Bn = Bn - plas_Bn; False: coil_Bn = Bn + plas_Bn</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -222,6 +227,30 @@
 <dt class="sig sig-object py" id="coilpy.focushdf5.FOCUSHDF5.convergence">
 <span class="sig-name descname"><span class="pre">convergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bnorm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iteration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/focushdf5.html#FOCUSHDF5.convergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.focushdf5.FOCUSHDF5.convergence" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="coilpy.focushdf5.FOCUSHDF5.curvature">
+<span class="sig-name descname"><span class="pre">curvature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iteration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vlines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift_ind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">icoil</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">NS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/focushdf5.html#FOCUSHDF5.curvature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.focushdf5.FOCUSHDF5.curvature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Curvature ploting for the FOCUS-spline paper [arXiv:2107.02123] by N. Lonigro</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iteration</strong> (<em>bool</em><em>, </em><em>optional</em>) – [description]. Defaults to True.</p></li>
+<li><p><strong>vlines</strong> (<em>bool</em><em>, </em><em>optional</em>) – [description]. Defaults to True.</p></li>
+<li><p><strong>shift_ind</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 0.</p></li>
+<li><p><strong>axes</strong> (<em>[</em><em>type</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to None.</p></li>
+<li><p><strong>icoil</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
+<li><p><strong>NS</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 128.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[description]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[type]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.focushdf5.FOCUSHDF5.plot">
@@ -246,10 +275,12 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.focushdf5.FOCUSHDF5.poincare_plot">
-<span class="sig-name descname"><span class="pre">poincare_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/focushdf5.html#FOCUSHDF5.poincare_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.focushdf5.FOCUSHDF5.poincare_plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Poincare plot
-:param color: dot colors; default None (rainbow).
+<span class="sig-name descname"><span class="pre">poincare_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prange</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/focushdf5.html#FOCUSHDF5.poincare_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.focushdf5.FOCUSHDF5.poincare_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Poincare plot from FOCUS output.
+:param color: dot colors. Defaults to None (rainbow).
 :type color: matplotlib color, or None
+:param prange: Plot range, one of [“upper”, “lower”, “all”]. Defaults to “full”.
+:type prange: str, optional
 :param kwargs: matplotlib scatter keyword arguments</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -306,7 +337,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.3.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
 </p>
     </div>
     

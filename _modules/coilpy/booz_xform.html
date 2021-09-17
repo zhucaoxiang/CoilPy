@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.booz_xform &#8212; coilpy 0.3.07 documentation</title>
+    <title>coilpy.booz_xform &#8212; coilpy 0.3.11 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -255,6 +255,26 @@
                 <span class="n">vals</span> <span class="o">/=</span> <span class="n">vals</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">xm</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">xn</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)]</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Something wrong with the normalization to B_00&quot;</span><span class="p">)</span>
+        <span class="c1"># determine filter condition</span>
+        <span class="k">if</span> <span class="n">mn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mfilter</span> <span class="o">=</span> <span class="n">xm</span> <span class="o">==</span> <span class="n">mn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="s2">&quot;m=</span><span class="si">{:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mfilter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">xm</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="s2">&quot;m&quot;</span>
+        <span class="k">if</span> <span class="n">mn</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">nfilter</span> <span class="o">=</span> <span class="n">xn</span> <span class="o">==</span> <span class="n">mn</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="s2">&quot;n=</span><span class="si">{:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nfilter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">xn</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="s2">&quot;n&quot;</span>
+        <span class="n">cond</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">mfilter</span><span class="p">,</span> <span class="n">nfilter</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">logical_not</span><span class="p">:</span>
+            <span class="n">cond</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
+        <span class="c1"># data = np.reshape(vals[:, cond], (ns, -1))</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[:,</span> <span class="n">cond</span><span class="p">]</span>
+        <span class="n">xm</span> <span class="o">=</span> <span class="n">xm</span><span class="p">[</span><span class="n">cond</span><span class="p">]</span>
+        <span class="n">xn</span> <span class="o">=</span> <span class="n">xn</span><span class="p">[</span><span class="n">cond</span><span class="p">]</span>
         <span class="c1"># select the top ordering asymmetric terms</span>
         <span class="k">if</span> <span class="n">ordering</span><span class="p">:</span>
             <span class="k">assert</span> <span class="n">ordering</span> <span class="o">&gt;=</span> <span class="mi">1</span>
@@ -271,31 +291,13 @@
                     <span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vals</span><span class="p">[:,</span> <span class="n">ind</span><span class="p">]),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vals</span><span class="p">[:,</span> <span class="n">ind</span><span class="p">]),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-            <span class="n">ylabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\frac{B_{m,n}}{ \Vert B_{n=0} \Vert }$&quot;</span>
+            <span class="n">ylabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\frac{B_{m,n}}{ B_</span><span class="si">{00}</span><span class="s2"> }$&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># determine filter condition</span>
-            <span class="k">if</span> <span class="n">mn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">mfilter</span> <span class="o">=</span> <span class="n">xm</span> <span class="o">==</span> <span class="n">mn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">m</span> <span class="o">=</span> <span class="s2">&quot;m=</span><span class="si">{:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">mfilter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">xm</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
-                <span class="n">m</span> <span class="o">=</span> <span class="s2">&quot;m&quot;</span>
-            <span class="k">if</span> <span class="n">mn</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">nfilter</span> <span class="o">=</span> <span class="n">xn</span> <span class="o">==</span> <span class="n">mn</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">n</span> <span class="o">=</span> <span class="s2">&quot;n=</span><span class="si">{:}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">nfilter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">xn</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
-                <span class="n">n</span> <span class="o">=</span> <span class="s2">&quot;n&quot;</span>
-            <span class="n">cond</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">mfilter</span><span class="p">,</span> <span class="n">nfilter</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">logical_not</span><span class="p">:</span>
-                <span class="n">cond</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
-            <span class="c1"># data = np.reshape(vals[:, cond], (ns, -1))</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[:,</span> <span class="n">cond</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">log</span><span class="p">:</span>
-                <span class="n">line</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">line</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-            <span class="n">ylabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$ \frac{{ \Vert B_{{ </span><span class="si">{:}</span><span class="s2">,</span><span class="si">{:}</span><span class="s2"> }} \Vert }}{{ \Vert B_{{n=0}} \Vert }} $&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">ylabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$ \frac{{ \Vert B_{{ </span><span class="si">{:}</span><span class="s2">,</span><span class="si">{:}</span><span class="s2"> }} \Vert }}{{ B_{{00}} }} $&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">m</span><span class="p">,</span> <span class="n">n</span>
             <span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;normalized flux (s)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
@@ -429,7 +431,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.3.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
 </p>
     </div>
     

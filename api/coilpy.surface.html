@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.surface &#8212; coilpy 0.3.07 documentation</title>
+    <title>coilpy.surface &#8212; coilpy 0.3.11 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -132,6 +132,11 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.pm4stell.html">
+   coilpy.pm4stell
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="coilpy.sortedDict.html">
    coilpy.sortedDict
   </a>
@@ -233,17 +238,17 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- float</strong> (<em>zeta</em>) – </p></li>
-<li><p><strong>angle value</strong> (<em>toroidal</em>) – </p></li>
-<li><p><strong>-- integer</strong> (<em>npoints</em>) – <ol class="arabic simple" start="360">
+<li><p><strong>float</strong> (<em>zeta --</em>) – </p></li>
+<li><p><strong>value</strong> (<em>toroidal angle</em>) – </p></li>
+<li><p><strong>integer</strong> (<em>npoints --</em>) – <ol class="arabic simple" start="360">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>of discretization points</strong><strong> (</strong><strong>default</strong> (<em>number</em>) – <ol class="arabic simple" start="360">
+<li><p><strong>(</strong><strong>default</strong> (<em>number of discretization points</em>) – <ol class="arabic simple" start="360">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>-- optional keyword arguments for pyplot</strong> (<em>kwargs</em>) – </p></li>
+<li><p><strong>pyplot</strong> (<em>kwargs -- optional keyword arguments for</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -259,41 +264,41 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong> (<em>engine</em>) – </p></li>
-<li><p><strong>engine {'pyplot'</strong> (<em>plotting</em>) – </p></li>
-<li><p><strong>-- float</strong> (<em>zeta1</em>) – 0.0)</p></li>
-<li><p><strong>poloidal angle</strong><strong> (</strong><strong>default</strong> (<em>ending</em>) – 0.0)</p></li>
-<li><p><strong>-- float</strong> – 2*np.pi)</p></li>
-<li><p><strong>poloidal angle</strong><strong> (</strong><strong>default</strong> – 2*np.pi)</p></li>
-<li><p><strong>-- float</strong> – 0.0)</p></li>
-<li><p><strong>toroidal angle</strong><strong> (</strong><strong>default</strong> (<em>ending</em>) – 0.0)</p></li>
-<li><p><strong>-- float</strong> – 2*np.pi)</p></li>
-<li><p><strong>toroidal angle</strong><strong> (</strong><strong>default</strong> – 2*np.pi)</p></li>
-<li><p><strong>-- integer</strong> (<em>ntor</em>) – <ol class="arabic simple" start="360">
+<li><p><strong>string</strong> (<em>engine --</em>) – </p></li>
+<li><p><strong>{'pyplot'</strong> (<em>plotting engine</em>) – </p></li>
+<li><p><strong>float</strong> (<em>zeta1 --</em>) – 0.0)</p></li>
+<li><p><strong>(</strong><strong>default</strong> (<em>if show the plotly figure immediately</em>) – 0.0)</p></li>
+<li><p><strong>float</strong> – 2*np.pi)</p></li>
+<li><p><strong>(</strong><strong>default</strong> – 2*np.pi)</p></li>
+<li><p><strong>float</strong> – 0.0)</p></li>
+<li><p><strong>(</strong><strong>default</strong> – 0.0)</p></li>
+<li><p><strong>float</strong> – 2*np.pi)</p></li>
+<li><p><strong>(</strong><strong>default</strong> – 2*np.pi)</p></li>
+<li><p><strong>integer</strong> (<em>ntor --</em>) – <ol class="arabic simple" start="360">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>of poloidal discretization points</strong><strong> (</strong><strong>default</strong> (<em>number</em>) – <ol class="arabic simple" start="360">
+<li><p><strong>(</strong><strong>default</strong> – <ol class="arabic simple" start="360">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>-- integer</strong> – <ol class="arabic simple" start="360">
+<li><p><strong>integer</strong> – <ol class="arabic simple" start="360">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>of toroidal discretization points</strong><strong> (</strong><strong>default</strong> (<em>number</em>) – <ol class="arabic simple" start="360">
+<li><p><strong>(</strong><strong>default</strong> – <ol class="arabic simple" start="360">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>-- bool</strong> (<em>show</em>) – False)</p></li>
-<li><p><strong>calculating the normal vector</strong><strong> (</strong><strong>default</strong> (<em>if</em>) – False)</p></li>
+<li><p><strong>bool</strong> (<em>show --</em>) – False)</p></li>
+<li><p><strong>(</strong><strong>default</strong> – False)</p></li>
 <li><p><strong>--</strong> (<em>ax</em>) – None)</p></li>
-<li><p><strong>to be plotted on</strong><strong> (</strong><strong>default</strong> (<em>axis</em>) – None)</p></li>
+<li><p><strong>(</strong><strong>default</strong> – None)</p></li>
 <li><p><strong>--</strong> – None)</p></li>
-<li><p><strong>to be plotted on</strong><strong> (</strong><strong>default</strong> – None)</p></li>
-<li><p><strong>-- bool</strong> – True)</p></li>
-<li><p><strong>show the plotly figure immediately</strong><strong> (</strong><strong>default</strong> (<em>if</em>) – True)</p></li>
-<li><p><strong>-- optional keyword arguments for plotting</strong> (<em>kwargs</em>) – </p></li>
+<li><p><strong>(</strong><strong>default</strong> – None)</p></li>
+<li><p><strong>bool</strong> – True)</p></li>
+<li><p><strong>(</strong><strong>default</strong> – True)</p></li>
+<li><p><strong>plotting</strong> (<em>kwargs -- optional keyword arguments for</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -309,13 +314,13 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong> (<em>filename</em>) – </p></li>
-<li><p><strong>+ name to the FOCUS input boundary file</strong> (<em>path</em>) – </p></li>
-<li><p><strong>-- maximum truncated poloidal mode number</strong><strong> (</strong><strong>default</strong> (<em>Mpol</em>) – <ol class="arabic simple" start="9999">
+<li><p><strong>string</strong> (<em>filename --</em>) – </p></li>
+<li><p><strong>file</strong> (<em>path + name to the FOCUS input boundary</em>) – </p></li>
+<li><p><strong>(</strong><strong>default</strong> (<em>Ntol -- maximum truncated toroidal mode number</em>) – <ol class="arabic simple" start="9999">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>-- maximum truncated toroidal mode number</strong><strong> (</strong><strong>default</strong> (<em>Ntol</em>) – <ol class="arabic simple" start="9999">
+<li><p><strong>(</strong><strong>default</strong> – <ol class="arabic simple" start="9999">
 <li></li>
 </ol>
 </p></li>
@@ -334,13 +339,13 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong> (<em>filename</em>) – </p></li>
-<li><p><strong>+ name to the FOCUS input boundary file</strong> (<em>path</em>) – </p></li>
-<li><p><strong>-- maximum truncated poloidal mode number</strong><strong> (</strong><strong>default</strong> (<em>Mpol</em>) – <ol class="arabic simple" start="9999">
+<li><p><strong>string</strong> (<em>filename --</em>) – </p></li>
+<li><p><strong>file</strong> (<em>path + name to the FOCUS input boundary</em>) – </p></li>
+<li><p><strong>(</strong><strong>default</strong> (<em>Ntol -- maximum truncated toroidal mode number</em>) – <ol class="arabic simple" start="9999">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>-- maximum truncated toroidal mode number</strong><strong> (</strong><strong>default</strong> (<em>Ntol</em>) – <ol class="arabic simple" start="9999">
+<li><p><strong>(</strong><strong>default</strong> – <ol class="arabic simple" start="9999">
 <li></li>
 </ol>
 </p></li>
@@ -359,10 +364,10 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- SPEC class</strong> (<em>spec_out</em>) – </p></li>
-<li><p><strong>hdf5 results</strong> (<em>SPEC</em>) – </p></li>
-<li><p><strong>-- integer</strong> (<em>ns</em>) – -1)</p></li>
-<li><p><strong>index of SPEC interface</strong><strong> (</strong><strong>default</strong> (<em>the</em>) – -1)</p></li>
+<li><p><strong>class</strong> (<em>spec_out -- SPEC</em>) – </p></li>
+<li><p><strong>results</strong> (<em>SPEC hdf5</em>) – </p></li>
+<li><p><strong>integer</strong> (<em>ns --</em>) – -1)</p></li>
+<li><p><strong>(</strong><strong>default</strong> (<em>the index of SPEC interface</em>) – -1)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -378,10 +383,10 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong> (<em>woutfile</em>) – </p></li>
-<li><p><strong>+ name to the wout file from VMEC output</strong> (<em>path</em>) – </p></li>
-<li><p><strong>-- integer</strong> (<em>ns</em>) – -1)</p></li>
-<li><p><strong>index of VMEC nested flux surfaces</strong><strong> (</strong><strong>default</strong> (<em>the</em>) – -1)</p></li>
+<li><p><strong>string</strong> (<em>woutfile --</em>) – </p></li>
+<li><p><strong>output</strong> (<em>path + name to the wout file from VMEC</em>) – </p></li>
+<li><p><strong>integer</strong> (<em>ns --</em>) – -1)</p></li>
+<li><p><strong>(</strong><strong>default</strong> (<em>the index of VMEC nested flux surfaces</em>) – -1)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -397,10 +402,10 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong> (<em>woutfile</em>) – </p></li>
-<li><p><strong>+ name to the wout file from VMEC output</strong> (<em>path</em>) – </p></li>
-<li><p><strong>-- integer</strong> (<em>ns</em>) – -1)</p></li>
-<li><p><strong>index of VMEC nested flux surfaces</strong><strong> (</strong><strong>default</strong> (<em>the</em>) – -1)</p></li>
+<li><p><strong>string</strong> (<em>woutfile --</em>) – </p></li>
+<li><p><strong>output</strong> (<em>path + name to the wout file from VMEC</em>) – </p></li>
+<li><p><strong>integer</strong> (<em>ns --</em>) – -1)</p></li>
+<li><p><strong>(</strong><strong>default</strong> (<em>the index of VMEC nested flux surfaces</em>) – -1)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -416,13 +421,13 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong> (<em>filename</em>) – </p></li>
-<li><p><strong>+ name to the NESCOIL input boundary file</strong> (<em>path</em>) – </p></li>
-<li><p><strong>-- maximum truncated poloidal mode number</strong><strong> (</strong><strong>default</strong> (<em>Mpol</em>) – <ol class="arabic simple" start="9999">
+<li><p><strong>string</strong> (<em>filename --</em>) – </p></li>
+<li><p><strong>file</strong> (<em>path + name to the NESCOIL input boundary</em>) – </p></li>
+<li><p><strong>(</strong><strong>default</strong> (<em>Ntol -- maximum truncated toroidal mode number</em>) – <ol class="arabic simple" start="9999">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>-- maximum truncated toroidal mode number</strong><strong> (</strong><strong>default</strong> (<em>Ntol</em>) – <ol class="arabic simple" start="9999">
+<li><p><strong>(</strong><strong>default</strong> – <ol class="arabic simple" start="9999">
 <li></li>
 </ol>
 </p></li>
@@ -441,12 +446,12 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- float array_like</strong> (<em>zeta</em>) – </p></li>
+<li><p><strong>array_like</strong> (<em>zeta -- float</em>) – </p></li>
 <li><p><strong>angle</strong> (<em>poloidal</em>) – </p></li>
-<li><p><strong>-- float array_like</strong> – </p></li>
-<li><p><strong>angle value</strong> (<em>toroidal</em>) – </p></li>
-<li><p><strong>-- logical</strong> (<em>normal</em>) – False)</p></li>
-<li><p><strong>the normal vector</strong><strong> or </strong><strong>not</strong><strong> (</strong><strong>default</strong> (<em>calculate</em>) – False)</p></li>
+<li><p><strong>array_like</strong> – </p></li>
+<li><p><strong>value</strong> (<em>toroidal angle</em>) – </p></li>
+<li><p><strong>logical</strong> (<em>normal --</em>) – False)</p></li>
+<li><p><strong>(</strong><strong>default</strong> (<em>calculate the normal vector</em><em> or </em><em>not</em>) – False)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -463,10 +468,10 @@ r, z, [rt, zt], [rz, zz] – if normal</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong> (<em>stlname</em>) – </p></li>
-<li><p><strong>filename you want to save</strong> (<em>the</em>) – </p></li>
-<li><p><strong>name is 'stlname.vts'</strong> (<em>final</em>) – </p></li>
-<li><p><strong>-- optional keyword arguments used for self.plot3d.</strong> (<em>kwargs</em>) – </p></li>
+<li><p><strong>string</strong> (<em>stlname --</em>) – </p></li>
+<li><p><strong>save</strong> (<em>the filename you want to</em>) – </p></li>
+<li><p><strong>'stlname.vts'</strong> (<em>final name is</em>) – </p></li>
+<li><p><strong>self.plot3d.</strong> (<em>kwargs -- optional keyword arguments used for</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -485,26 +490,26 @@ r, z, [rt, zt], [rz, zz] – if normal</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong> (<em>vtkname</em>) – </p></li>
-<li><p><strong>filename you want to save</strong> (<em>the</em>) – </p></li>
-<li><p><strong>name is 'vtkname.vts'</strong> (<em>final</em>) – </p></li>
-<li><p><strong>-- integer</strong> (<em>ntor</em>) – <ol class="arabic simple" start="360">
+<li><p><strong>string</strong> (<em>vtkname --</em>) – </p></li>
+<li><p><strong>save</strong> (<em>the filename you want to</em>) – </p></li>
+<li><p><strong>'vtkname.vts'</strong> (<em>final name is</em>) – </p></li>
+<li><p><strong>integer</strong> (<em>ntor --</em>) – <ol class="arabic simple" start="360">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>of poloidal discretization points</strong><strong> (</strong><strong>default</strong> (<em>number</em>) – <ol class="arabic simple" start="360">
+<li><p><strong>(</strong><strong>default</strong> (<em>number of toroidal discretization points</em>) – <ol class="arabic simple" start="360">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>-- integer</strong> – <ol class="arabic simple" start="360">
+<li><p><strong>integer</strong> – <ol class="arabic simple" start="360">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>of toroidal discretization points</strong><strong> (</strong><strong>default</strong> (<em>number</em>) – <ol class="arabic simple" start="360">
+<li><p><strong>(</strong><strong>default</strong> – <ol class="arabic simple" start="360">
 <li></li>
 </ol>
 </p></li>
-<li><p><strong>-- optional keyword arguments for saving as pointdata</strong> (<em>kwargs</em>) – </p></li>
+<li><p><strong>pointdata</strong> (<em>kwargs -- optional keyword arguments for saving as</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -513,17 +518,14 @@ r, z, [rt, zt], [rz, zz] – if normal</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.surface.FourSurf.write_focus_input">
-<span class="sig-name descname"><span class="pre">write_focus_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nfp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.write_focus_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.write_focus_input" title="Permalink to this definition">¶</a></dt>
-<dd><p>write the Fourier harmonics down in FOCUS format</p>
+<span class="sig-name descname"><span class="pre">write_focus_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.write_focus_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.write_focus_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the Fourier harmonics down in FOCUS format</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- string</strong> (<em>filename</em>) – </p></li>
-<li><p><strong>saved FOCUS boundary name</strong> (<em>the</em>) – </p></li>
-<li><p><strong>-- int</strong> (<em>Nfp</em>) – 1, number of field periodicity, n will be divided by Nfp</p></li>
-<li><p><strong>default</strong> – 1, number of field periodicity, n will be divided by Nfp</p></li>
-<li><p><strong>-- float</strong> (<em>tol</em>) – 1E-8, tolerance for truncating modes</p></li>
-<li><p><strong>default</strong> – 1E-8, tolerance for truncating modes</p></li>
+<li><p><strong>filename</strong> (<em>[</em><em>type</em><em>]</em>) – Output file name.</p></li>
+<li><p><strong>nfp</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of toroidal periodicity Defaults to 1.</p></li>
+<li><p><strong>bn</strong> (<em>dict</em><em>, </em><em>optional</em>) – Bn dict, containing ‘xm’, ‘xn’, ‘bnc’, ‘bns’. Defaults to None.</p></li>
 </ul>
 </dd>
 </dl>
@@ -541,12 +543,12 @@ r, z, [rt, zt], [rz, zz] – if normal</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- float array_like</strong> (<em>zeta</em>) – </p></li>
+<li><p><strong>array_like</strong> (<em>zeta -- float</em>) – </p></li>
 <li><p><strong>angle</strong> (<em>poloidal</em>) – </p></li>
-<li><p><strong>-- float array_like</strong> – </p></li>
-<li><p><strong>angle value</strong> (<em>toroidal</em>) – </p></li>
-<li><p><strong>-- logical</strong> (<em>normal</em>) – False)</p></li>
-<li><p><strong>the normal vector</strong><strong> or </strong><strong>not</strong><strong> (</strong><strong>default</strong> (<em>calculate</em>) – False)</p></li>
+<li><p><strong>array_like</strong> – </p></li>
+<li><p><strong>value</strong> (<em>toroidal angle</em>) – </p></li>
+<li><p><strong>logical</strong> (<em>normal --</em>) – False)</p></li>
+<li><p><strong>(</strong><strong>default</strong> (<em>calculate the normal vector</em><em> or </em><em>not</em>) – False)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -588,7 +590,7 @@ x, y, z, [nx, ny, nz] – if normal</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.3.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
 </p>
     </div>
     

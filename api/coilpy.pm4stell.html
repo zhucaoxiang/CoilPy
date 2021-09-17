@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy &#8212; coilpy 0.3.11 documentation</title>
+    <title>coilpy.pm4stell &#8212; coilpy 0.3.11 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -95,7 +95,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <div class="bd-toc-item active">
-    <ul class="nav bd-sidenav">
+    <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="coilpy.booz_xform.html">
    coilpy.booz_xform
@@ -131,8 +131,8 @@
    coilpy.misc
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.pm4stell.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    coilpy.pm4stell
   </a>
  </li>
@@ -170,19 +170,9 @@
               
               <div class="toc-item">
                 
-<div class="tocsection onthispage pt-5 pb-3">
-    <i class="fas fa-list"></i> On this page
-</div>
 
 <nav id="bd-toc-nav">
-    <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#submodules">
-   Submodules
-  </a>
- </li>
-</ul>
-
+    
 </nav>
               </div>
               
@@ -202,32 +192,19 @@
               
               <div>
                 
-  <div class="section" id="module-coilpy">
-<span id="coilpy"></span><h1>coilpy<a class="headerlink" href="#module-coilpy" title="Permalink to this headline">¶</a></h1>
-<p>This is a python package for plotting and data processing in stellarator optimization.</p>
-<p>It contains several python functions on HDF5, Fourier surfaces, FOCUS, cois,
-magnetic dipoles, STELLOPT, VMEC, BOOZ_XFORM, etc.</p>
-<p>The repository is available at <a class="reference external" href="https://github.com/zhucaoxiang/CoilPy">https://github.com/zhucaoxiang/CoilPy</a>.</p>
-<p>For full documenation, please check <a class="reference external" href="https://zhucaoxiang.github.io/CoilPy/api/coilpy.html">https://zhucaoxiang.github.io/CoilPy/api/coilpy.html</a>.</p>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.booz_xform.html">coilpy.booz_xform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.coils.html">coilpy.coils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.dipole.html">coilpy.dipole</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.focushdf5.html">coilpy.focushdf5</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.hdf5.html">coilpy.hdf5</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.mgrid.html">coilpy.mgrid</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.misc.html">coilpy.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.pm4stell.html">coilpy.pm4stell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.sortedDict.html">coilpy.sortedDict</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.stellopt.html">coilpy.stellopt</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.surface.html">coilpy.surface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.vmec.html">coilpy.vmec</a></li>
-</ul>
-</div>
-</div>
+  <div class="section" id="module-coilpy.pm4stell">
+<span id="coilpy-pm4stell"></span><h1>coilpy.pm4stell<a class="headerlink" href="#module-coilpy.pm4stell" title="Permalink to this headline">¶</a></h1>
+<p>Some useful functions used for the PM4STELL project</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="coilpy.pm4stell.blocks2ficus">
+<span class="sig-prename descclassname"><span class="pre">coilpy.pm4stell.</span></span><span class="sig-name descname"><span class="pre">blocks2ficus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ficus_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moment_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dipole_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magnitization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1100000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/pm4stell.html#blocks2ficus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.pm4stell.blocks2ficus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="coilpy.pm4stell.blocks2vtk">
+<span class="sig-prename descclassname"><span class="pre">coilpy.pm4stell.</span></span><span class="sig-name descname"><span class="pre">blocks2vtk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vtk_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moment_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dipole_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/pm4stell.html#blocks2vtk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.pm4stell.blocks2vtk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 
 
