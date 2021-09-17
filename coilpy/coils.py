@@ -266,7 +266,7 @@ class SingleCoil(object):
                 fig.show()
         else:
             raise ValueError("Invalid engine option {pyplot, mayavi, plotly}")
-        return
+        return fig
 
     def plot2d(
         self,

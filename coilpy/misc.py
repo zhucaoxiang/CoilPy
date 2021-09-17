@@ -657,6 +657,53 @@ def read_focus_boundary(filename):
     return boundary
 
 
+def write_focus_boundary(filename, surf, nfp=1, bn=None, **kwargs):
+    """Write the Fourier harmonics down in FOCUS format
+
+    Args:
+        filename (str): File name to be saved.
+        surf (dict): Plasma surface information, containing 'xm', 'xn', 'rbc', 'rbs', 'zbc', zbs'.
+        nfp (int, optional): Number of field periodicity. Defaults to 1.
+        bn (dict, optional): Nonzero Bn information, containing 'xm', 'xn', 'bnc', 'bns'. Defaults to None.
+    """
+    # write Fourier coefficients
+    mn = len(surf["xn"])
+    try:
+        nbn = len(bn["xn"])
+    except TypeError:
+        nbn = 0
+    # write data
+    with open(filename, "w") as fofile:
+        fofile.write("# bmn   bNfp   nbf " + "\n")
+        fofile.write("{:d} \t {:d} \t {:d} \n".format(mn, nfp, nbn))
+        fofile.write("#plasma boundary" + "\n")
+        fofile.write("# n m Rbc Rbs Zbc Zbs" + "\n")
+        for imn in range(mn):
+            fofile.write(
+                "{:4d}  {:4d} \t {:23.15E}  {:23.15E}  {:23.15E}  {:23.15E} \n".format(
+                    surf["xn"][imn],
+                    surf["xm"][imn],
+                    surf["rbc"][imn],
+                    surf["rbs"][imn],
+                    surf["zbc"][imn],
+                    surf["zbs"][imn],
+                )
+            )
+        fofile.write("#Bn harmonics \n")
+        fofile.write("# n m bnc bns \n")
+        if nbn > 0:
+            for imn in range(nbn):
+                fofile.write(
+                    "{:4d}  {:4d} \t {:23.15E}  {:23.15E}  \n".format(
+                        bn["xn"][imn],
+                        bn["xm"][imn],
+                        bn["bnc"][imn],
+                        bn["bns"][imn],
+                    )
+                )
+    return
+
+
 def div0(a, b):
     return np.divide(a, b, out=np.zeros_like(a), where=b != 0)
 
