@@ -459,10 +459,8 @@ class FOCUSHDF5(HDF5):
         iteration=True,
         vlines=True,
         shift_ind=0,
-        axes=None,
         icoil=1,
         NS=128,
-        **kwargs
     ):
         """Curvature ploting for the FOCUS-spline paper [arXiv:2107.02123] by N. Lonigro
 
@@ -470,7 +468,6 @@ class FOCUSHDF5(HDF5):
             iteration (bool, optional): [description]. Defaults to True.
             vlines (bool, optional): [description]. Defaults to True.
             shift_ind (int, optional): [description]. Defaults to 0.
-            axes ([type], optional): [description]. Defaults to None.
             icoil (int, optional): [description]. Defaults to 1.
             NS (int, optional): [description]. Defaults to 128.
 
@@ -482,10 +479,6 @@ class FOCUSHDF5(HDF5):
         # get figure
         max_ind = -1
         min_ind = -1
-        fig, axes = get_figure(axes)
-        # set default plotting parameters
-        kwargs["linewidth"] = kwargs.get("linewidth", 2.5)  # line width
-        # kwargs['marker'] = kwargs.get('marker', 'o') # extent
         # get iteration data
         if iteration:
             abscissa = np.arange(NS)
@@ -493,7 +486,7 @@ class FOCUSHDF5(HDF5):
         else:
             abscissa = self.evolution[0, :]  # be careful; DF is not saving wall-time
             _xlabel = "wall time [Second]"
-        # plot data
+        # get data
         data = object.__getattribute__(self, "curvature_{:}".format(icoil))
         data_s = object.__getattribute__(self, "straight_{:}".format(icoil))
 
@@ -526,56 +519,4 @@ class FOCUSHDF5(HDF5):
             shift_ind = math.floor(0.5 * (NS - max_ind - min_ind))
         if max_ind < min_ind and shift_ind == 0:
             shift_ind = math.floor(0.5 * NS + 0.5 * (NS - max_ind - min_ind))
-        lines = []
-        data = np.concatenate((data[-shift_ind:], data[:-shift_ind]))
-        kwargs["label"] = kwargs.get("label", r"$curvature$")
-        lines.append(axes.plot(abscissa, data, **kwargs))
-        if max_ind > min_ind and vlines:
-            lines.append(
-                plt.vlines(
-                    math.floor(0.5 * (NS - max_ind + min_ind)),
-                    0,
-                    np.max(data),
-                    colors="black",
-                    linestyles="dashed",
-                    linewidth=5.0,
-                )
-            )
-            lines.append(
-                plt.vlines(
-                    math.floor(0.5 * (NS + max_ind - min_ind)),
-                    0,
-                    np.max(data),
-                    colors="black",
-                    linestyles="dashed",
-                    linewidth=5.0,
-                )
-            )
-        if max_ind < min_ind and vlines:
-            lines.append(
-                plt.vlines(
-                    math.floor(0.5 * (NS - max_ind - NS + min_ind)),
-                    0,
-                    np.max(data),
-                    colors="black",
-                    linestyles="dashed",
-                    linewidth=5.0,
-                )
-            )
-            lines.append(
-                plt.vlines(
-                    math.floor(0.5 * (NS + max_ind + NS - min_ind)),
-                    0,
-                    np.max(data),
-                    colors="black",
-                    linestyles="dashed",
-                    linewidth=5.0,
-                )
-            )
-        axes.tick_params(axis="both", which="major", labelsize=15)
-        axes.set_xlabel(_xlabel, fontsize=15)
-        axes.set_ylabel("curvature", fontsize=15)
-        axes.set_title("Curvature of coil " + str(icoil))
-        # fig.legend(loc='upper right', frameon=False, prop={'size':24, 'weight':'bold'})
-        plt.legend()
         return [shift_ind, max_ind - min_ind]
