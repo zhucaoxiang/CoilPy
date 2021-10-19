@@ -631,5 +631,23 @@ class FourSurf(object):
             pass
         return
 
+    def grid_box(self, ntor=64, npol=64):
+        """Return the max R & Z values of the surface
+
+        Args:
+            ntor (int, optional): Toroidal resolution. Defaults to 64.
+            npol (int, optional): Poloidal resolution. Defaults to 64.
+
+        Returns:
+            (Rmin, Rmax, Zmin, Zmax): the max R & Z values
+        """
+        _theta = np.linspace(0, 2 * np.pi, npol)
+        _zeta = np.linspace(0, 2 * np.pi, ntor)
+        _tv, _zv = np.meshgrid(_theta, _zeta, indexing="ij")
+        data = self.rz(_tv, _zv)
+        r = data[0]
+        z = data[1]
+        return (np.min(r), np.max(r), np.min(z), np.max(z))
+
     def __del__(self):
         class_name = self.__class__.__name__
