@@ -2,11 +2,11 @@
 Some useful functions used for the PM4STELL project
 """
 import numpy as np
+import pandas as pd
 from .dipole import Dipole
 
 
-def blocks2vtk(block_file, vtk_file, moment_file=None, dipole_file=None, **kwargs):
-    import pandas as pd
+def blocks2vtk(block_file, vtk_file, moment_file=None, dipole_file=None, **kwargs):    
     import meshio
 
     blocks = pd.read_csv(block_file, skiprows=1)
@@ -146,3 +146,8 @@ def blocks2ficus(
     )
     dt.to_csv(ficus_file, index=False)
     return dt
+
+def read_ansys_bfield(filename):
+    ansys = pd.read_csv(filename, skiprows=[0], delim_whitespace=True, header=None)
+    ansys.columns = ['x', 'y', 'z', 'Bx', 'By', 'Bz']
+    return ansys
