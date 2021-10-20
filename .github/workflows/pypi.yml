@@ -25,11 +25,11 @@ jobs:
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
           # Only build for python 3.{7,8,9}
-          CIBW_BUILD : cp38-* cp39-*
+          CIBW_BUILD : cp37-* cp38-* cp39-*
           # Supports only x86_64 arch for linux
           CIBW_ARCHS_LINUX: x86_64
           # Use manylinux2014
-          CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
+          # CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
           CIBW_SKIP: cp27-*
           CIBW_DEPENDENCY_VERSIONS: latest
           CIBW_BEFORE_BUILD_LINUX: pip install --upgrade pip setuptools wheel twine ; pip install -r requirements.txt
