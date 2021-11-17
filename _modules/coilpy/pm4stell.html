@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.pm4stell &#8212; coilpy 0.3.12 documentation</title>
+    <title>coilpy.pm4stell &#8212; coilpy 0.3.13 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
   <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -128,12 +128,63 @@
 <span class="kn">from</span> <span class="nn">.dipole</span> <span class="kn">import</span> <span class="n">Dipole</span>
 
 
-<div class="viewcode-block" id="blocks2vtk"><a class="viewcode-back" href="../../api/coilpy.pm4stell.html#coilpy.pm4stell.blocks2vtk">[docs]</a><span class="k">def</span> <span class="nf">blocks2vtk</span><span class="p">(</span><span class="n">block_file</span><span class="p">,</span> <span class="n">vtk_file</span><span class="p">,</span> <span class="n">moment_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dipole_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>    
+<div class="viewcode-block" id="blocks2vtk"><a class="viewcode-back" href="../../api/coilpy.pm4stell.html#coilpy.pm4stell.blocks2vtk">[docs]</a><span class="k">def</span> <span class="nf">blocks2vtk</span><span class="p">(</span>
+    <span class="n">block_file</span><span class="p">,</span> <span class="n">vtk_file</span><span class="p">,</span> <span class="n">moment_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dipole_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Write a VTK file from the blocks file</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        block_file (str): File name and path to the `blocks` file.</span>
+<span class="sd">        vtk_file (str): VTK file name to be saved.</span>
+<span class="sd">        moment_file (str, optional): File name and path to the `moments` file. Defaults to None.</span>
+<span class="sd">        dipole_file (str, optional): File name and path to the FAMUS dipole file (`*.focus`). Defaults to None.</span>
+<span class="sd">        clip (int, optional): The threshold value to clip magents with rho&gt;=clip. Defaults to 0.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        meshio.Mesh: The constructed `meshio.Mesh` object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">meshio</span>
 
+    <span class="k">assert</span> <span class="s2">&quot;.vtk&quot;</span> <span class="ow">in</span> <span class="n">vtk_file</span><span class="p">,</span> <span class="s2">&quot;.vtk must be in the filename.&quot;</span>
+    <span class="k">assert</span> <span class="n">clip</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;the clip value should be &gt;=0.&quot;</span>
     <span class="n">blocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">block_file</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="c1"># remove space in headers</span>
     <span class="n">blocks</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">nmag</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span>
+        <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;xb1&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">cond</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">nmag</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># parse moment data</span>
+    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;cell_data&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="k">if</span> <span class="n">moment_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">moments</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">moment_file</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">moments</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span>
+            <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;Mx&quot;</span><span class="p">],</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;My&quot;</span><span class="p">],</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;Mz&quot;</span><span class="p">]])</span>
+                <span class="p">)</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">]])</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]])</span>
+    <span class="k">if</span> <span class="n">dipole_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dipoles</span> <span class="o">=</span> <span class="n">Dipole</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">dipole_file</span><span class="p">)</span>
+        <span class="n">dipoles</span><span class="o">.</span><span class="n">sp2xyz</span><span class="p">()</span>
+        <span class="n">cond</span> <span class="o">=</span> <span class="n">dipoles</span><span class="o">.</span><span class="n">rho</span> <span class="o">&gt;=</span> <span class="n">clip</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span>
+            <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">dipoles</span><span class="o">.</span><span class="n">mx</span><span class="p">[</span><span class="n">cond</span><span class="p">],</span> <span class="n">dipoles</span><span class="o">.</span><span class="n">my</span><span class="p">[</span><span class="n">cond</span><span class="p">],</span> <span class="n">dipoles</span><span class="o">.</span><span class="n">mz</span><span class="p">[</span><span class="n">cond</span><span class="p">]])</span>
+                <span class="p">)</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">dipoles</span><span class="o">.</span><span class="n">rho</span><span class="p">[</span><span class="n">cond</span><span class="p">]])</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;Lc&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">dipoles</span><span class="o">.</span><span class="n">Lc</span><span class="p">[</span><span class="n">cond</span><span class="p">]])</span>
+    <span class="c1"># update blocks based on cond</span>
+    <span class="n">blocks</span> <span class="o">=</span> <span class="n">blocks</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cond</span><span class="p">]</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
         <span class="p">[</span>
             <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;xb1&quot;</span><span class="p">],</span>
@@ -170,37 +221,11 @@
             <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;zt4&quot;</span><span class="p">],</span>
         <span class="p">]</span>
     <span class="p">)</span>
-    <span class="n">nmag</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span>
-        <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;xb1&quot;</span><span class="p">],</span>
-    <span class="p">)</span>
+    <span class="c1"># write VTK</span>
+    <span class="n">nmag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
     <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">nmag</span><span class="p">))</span>
     <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">]))</span>
     <span class="n">hedrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">ind</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nmag</span><span class="p">)]</span>
-    <span class="c1"># parse moment data</span>
-    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;cell_data&quot;</span><span class="p">,</span> <span class="p">{})</span>
-    <span class="k">if</span> <span class="n">moment_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">moments</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">moment_file</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">moments</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span>
-            <span class="s2">&quot;m&quot;</span><span class="p">,</span>
-            <span class="p">[</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span>
-                    <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;Mx&quot;</span><span class="p">],</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;My&quot;</span><span class="p">],</span> <span class="n">moments</span><span class="p">[</span><span class="s2">&quot;Mz&quot;</span><span class="p">]])</span>
-                <span class="p">)</span>
-            <span class="p">],</span>
-        <span class="p">)</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">]])</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">moments</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]])</span>
-    <span class="k">if</span> <span class="n">dipole_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">dipoles</span> <span class="o">=</span> <span class="n">Dipole</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">dipole_file</span><span class="p">)</span>
-        <span class="n">dipoles</span><span class="o">.</span><span class="n">sp2xyz</span><span class="p">()</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span>
-            <span class="s2">&quot;m&quot;</span><span class="p">,</span>
-            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">dipoles</span><span class="o">.</span><span class="n">mx</span><span class="p">,</span> <span class="n">dipoles</span><span class="o">.</span><span class="n">my</span><span class="p">,</span> <span class="n">dipoles</span><span class="o">.</span><span class="n">mz</span><span class="p">]))],</span>
-        <span class="p">)</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">dipoles</span><span class="o">.</span><span class="n">rho</span><span class="p">])</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;Lc&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">dipoles</span><span class="o">.</span><span class="n">Lc</span><span class="p">])</span>
-    <span class="c1"># write VTK</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">meshio</span><span class="o">.</span><span class="n">Mesh</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">cells</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;hexahedron&quot;</span><span class="p">,</span> <span class="n">hedrs</span><span class="p">)],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">data</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">vtk_file</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">data</span></div>
@@ -269,9 +294,10 @@
     <span class="n">dt</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">ficus_file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dt</span></div>
 
+
 <div class="viewcode-block" id="read_ansys_bfield"><a class="viewcode-back" href="../../api/coilpy.pm4stell.html#coilpy.pm4stell.read_ansys_bfield">[docs]</a><span class="k">def</span> <span class="nf">read_ansys_bfield</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="n">ansys</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">delim_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-    <span class="n">ansys</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;Bx&#39;</span><span class="p">,</span> <span class="s1">&#39;By&#39;</span><span class="p">,</span> <span class="s1">&#39;Bz&#39;</span><span class="p">]</span>
+    <span class="n">ansys</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="s2">&quot;Bx&quot;</span><span class="p">,</span> <span class="s2">&quot;By&quot;</span><span class="p">,</span> <span class="s2">&quot;Bz&quot;</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">ansys</span></div>
 </pre></div>
 
@@ -300,7 +326,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
 </p>
     </div>
     

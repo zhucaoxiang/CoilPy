@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>coilpy.pm4stell &#8212; coilpy 0.3.12 documentation</title>
+    <title>coilpy.pm4stell &#8212; coilpy 0.3.13 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -206,8 +206,26 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.pm4stell.blocks2vtk">
-<span class="sig-prename descclassname"><span class="pre">coilpy.pm4stell.</span></span><span class="sig-name descname"><span class="pre">blocks2vtk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vtk_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moment_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dipole_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/pm4stell.html#blocks2vtk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.pm4stell.blocks2vtk" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">coilpy.pm4stell.</span></span><span class="sig-name descname"><span class="pre">blocks2vtk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vtk_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moment_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dipole_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/pm4stell.html#blocks2vtk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.pm4stell.blocks2vtk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a VTK file from the blocks file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>block_file</strong> (<em>str</em>) – File name and path to the <cite>blocks</cite> file.</p></li>
+<li><p><strong>vtk_file</strong> (<em>str</em>) – VTK file name to be saved.</p></li>
+<li><p><strong>moment_file</strong> (<em>str</em><em>, </em><em>optional</em>) – File name and path to the <cite>moments</cite> file. Defaults to None.</p></li>
+<li><p><strong>dipole_file</strong> (<em>str</em><em>, </em><em>optional</em>) – File name and path to the FAMUS dipole file (<cite>*.focus</cite>). Defaults to None.</p></li>
+<li><p><strong>clip</strong> (<em>int</em><em>, </em><em>optional</em>) – The threshold value to clip magents with rho&gt;=clip. Defaults to 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The constructed <cite>meshio.Mesh</cite> object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>meshio.Mesh</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.pm4stell.read_ansys_bfield">
@@ -242,7 +260,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
 </p>
     </div>
     
