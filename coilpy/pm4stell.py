@@ -6,12 +6,63 @@ import pandas as pd
 from .dipole import Dipole
 
 
-def blocks2vtk(block_file, vtk_file, moment_file=None, dipole_file=None, **kwargs):    
+def blocks2vtk(
+    block_file, vtk_file, moment_file=None, dipole_file=None, clip=0, **kwargs
+):
+    """Write a VTK file from the blocks file
+
+    Args:
+        block_file (str): File name and path to the `blocks` file.
+        vtk_file (str): VTK file name to be saved.
+        moment_file (str, optional): File name and path to the `moments` file. Defaults to None.
+        dipole_file (str, optional): File name and path to the FAMUS dipole file (`*.focus`). Defaults to None.
+        clip (int, optional): The threshold value to clip magents with rho>=clip. Defaults to 0.
+
+    Returns:
+        meshio.Mesh: The constructed `meshio.Mesh` object.
+    """
     import meshio
 
+    assert ".vtk" in vtk_file, ".vtk must be in the filename."
+    assert clip >= 0, "the clip value should be >=0."
     blocks = pd.read_csv(block_file, skiprows=1)
     # remove space in headers
     blocks.rename(columns=lambda x: x.strip(), inplace=True)
+    nmag = len(
+        blocks["xb1"],
+    )
+    cond = np.full((nmag), True)
+    # parse moment data
+    kwargs.setdefault("cell_data", {})
+    if moment_file is not None:
+        moments = pd.read_csv(moment_file, skiprows=1)
+        moments.rename(columns=lambda x: x.strip(), inplace=True)
+        kwargs["cell_data"].setdefault(
+            "m",
+            [
+                np.ascontiguousarray(
+                    np.transpose([moments["Mx"], moments["My"], moments["Mz"]])
+                )
+            ],
+        )
+        kwargs["cell_data"].setdefault("rho", [moments["rho"]])
+        kwargs["cell_data"].setdefault("type", [moments["type"]])
+    if dipole_file is not None:
+        dipoles = Dipole.open(dipole_file)
+        dipoles.sp2xyz()
+        cond = dipoles.rho >= clip
+        kwargs["cell_data"].setdefault(
+            "m",
+            [
+                np.ascontiguousarray(
+                    np.transpose([dipoles.mx[cond], dipoles.my[cond], dipoles.mz[cond]])
+                )
+            ],
+        )
+        kwargs["cell_data"].setdefault("rho", [dipoles.rho[cond]])
+        kwargs["cell_data"].setdefault("Lc", [dipoles.Lc[cond]])
+    # update blocks based on cond
+    blocks = blocks.loc[cond]
     x = np.concatenate(
         [
             blocks["xb1"],
@@ -48,37 +99,11 @@ def blocks2vtk(block_file, vtk_file, moment_file=None, dipole_file=None, **kwarg
             blocks["zt4"],
         ]
     )
-    nmag = len(
-        blocks["xb1"],
-    )
+    # write VTK
+    nmag = np.count_nonzero(cond)
     ind = np.reshape(np.arange(len(x)), (8, nmag))
     points = np.ascontiguousarray(np.transpose([x, y, z]))
     hedrs = [ind[:, i] for i in range(nmag)]
-    # parse moment data
-    kwargs.setdefault("cell_data", {})
-    if moment_file is not None:
-        moments = pd.read_csv(moment_file, skiprows=1)
-        moments.rename(columns=lambda x: x.strip(), inplace=True)
-        kwargs["cell_data"].setdefault(
-            "m",
-            [
-                np.ascontiguousarray(
-                    np.transpose([moments["Mx"], moments["My"], moments["Mz"]])
-                )
-            ],
-        )
-        kwargs["cell_data"].setdefault("rho", [moments["rho"]])
-        kwargs["cell_data"].setdefault("type", [moments["type"]])
-    if dipole_file is not None:
-        dipoles = Dipole.open(dipole_file)
-        dipoles.sp2xyz()
-        kwargs["cell_data"].setdefault(
-            "m",
-            [np.ascontiguousarray(np.transpose([dipoles.mx, dipoles.my, dipoles.mz]))],
-        )
-        kwargs["cell_data"].setdefault("rho", [dipoles.rho])
-        kwargs["cell_data"].setdefault("Lc", [dipoles.Lc])
-    # write VTK
     data = meshio.Mesh(points=points, cells=[("hexahedron", hedrs)], **kwargs)
     data.write(vtk_file)
     return data
@@ -147,7 +172,8 @@ def blocks2ficus(
     dt.to_csv(ficus_file, index=False)
     return dt
 
+
 def read_ansys_bfield(filename):
     ansys = pd.read_csv(filename, skiprows=[0], delim_whitespace=True, header=None)
-    ansys.columns = ['x', 'y', 'z', 'Bx', 'By', 'Bz']
+    ansys.columns = ["x", "y", "z", "Bx", "By", "Bz"]
     return ansys
