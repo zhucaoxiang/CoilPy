@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04, macOS-10.15]
+        os: [ubuntu-20.04, windows-2019, macOS-10.15]
 
     steps:
       - uses: actions/checkout@v2
@@ -28,7 +28,7 @@ jobs:
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
           CIBW_SKIP: cp27-*
           # CIBW_DEPENDENCY_VERSIONS: latest
-          CIBW_BEFORE_BUILD_LINUX: pip install -r requirements.txt # pip install --upgrade pip setuptools wheel twine ;
+          CIBW_BEFORE_BUILD: pip install -r requirements.txt # pip install --upgrade pip setuptools wheel twine ;
 
       - uses: actions/upload-artifact@v2
         with:
