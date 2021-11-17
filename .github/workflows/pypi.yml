@@ -20,7 +20,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.2.2
         env:
           # Only build for python 3.{7,8,9}
-          # CIBW_BUILD : cp38-* cp39-*
+          CIBW_BUILD : cp38-* cp39-*
           # Supports only x86_64 arch for linux
           # CIBW_ARCHS_LINUX: x86_64
           # Use manylinux2014
