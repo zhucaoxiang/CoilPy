@@ -21,49 +21,17 @@ jobs:
         env:
           # Only build for python 3.{7,8,9}
           CIBW_BUILD : cp38-* cp39-*
-          # Supports only x86_64 arch for linux
-          # CIBW_ARCHS_LINUX: x86_64
           # Use manylinux2014
           CIBW_MANYLINUX_I686_IMAGE: manylinux2014
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
-          CIBW_SKIP: cp27-*
-          # CIBW_DEPENDENCY_VERSIONS: latest
-          CIBW_BEFORE_BUILD: pip install h5py; pip install -r requirements.txt # pip install --upgrade pip setuptools wheel twine ;
+          # h5py doesn't support 32 bit windows
+          CIBW_ARCHS: auto64
+          CIBW_BEFORE_BUILD: pip install -r requirements.txt # pip install --upgrade pip setuptools wheel twine ;
 
       - uses: actions/upload-artifact@v2
         with:
           path: ./wheelhouse/*.whl
 
-
-  # Alternate setup for mac_wheel because cibuildwheel is failing for mac
-  # Need Fortran compilers
-  # mac_wheels:
-  #   name: Build wheels on mac 
-  #   runs-on: macos-10.15
-  #   strategy:
-  #     matrix:
-  #       python: [3.7, 3.8, 3.9]
-  #   steps:
-  #     - uses: actions/checkout@v2
-
-  #     - name: Set up Python
-  #       uses: actions/setup-python@v2
-  #       with:
-  #         python-version: ${{ matrix.python }}
-
-  #     - name: Install wheel builder packages 
-  #       run: |
-  #         python -m pip install --upgrade pip setuptools wheel delocate
-  #         pip install -r requirements.txt
-
-  #     - name: Build and repair wheels
-  #       run: |
-  #         python -m pip wheel -w wheel --no-deps .
-  #         delocate-wheel --require-archs x86_64 -w ./wheelhouse ./wheel/*.whl
-         
-  #     - uses: actions/upload-artifact@v2
-  #       with:
-  #         path: ./wheelhouse/*.whl
 
   build_sdist:
     name: Build source distribution
@@ -71,18 +39,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - uses: actions/setup-python@v2
-        name: Install Python
-        with:
-          python-version: '3.8'
         
       - name: Build sdist
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install setuptools wheel twine
-          python setup.py sdist
+        run: pipx run build --sdist
         
       - uses: actions/upload-artifact@v2
         with:
@@ -108,7 +67,7 @@ jobs:
           path: dist
 
       - uses: pypa/gh-action-pypi-publish@master
-        if: steps.cache-pypi.outputs.cache-hit != 'true'
+        if: steps.cache-pypi.outputs.cache-hit != 'true'  # should use git tags or github releases!
         with:
-          user: ${{ secrets.PYPI_USERNAME }}
+          user: ${{ secrets.PYPI_USERNAME }}  # should be __token__
           password: ${{ secrets.PYPI_PASSWORD }}
