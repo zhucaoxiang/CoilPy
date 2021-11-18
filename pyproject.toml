@@ -1,6 +1,7 @@
 [build-system]
 requires = [
     "setuptools>=42",
+    "setuptools_scm[toml]>=3.4",
     "wheel",
     "oldest-supported-numpy; python_version>='3.5'",
 ]
@@ -9,6 +10,9 @@ build-backend = "setuptools.build_meta"
 [tool.cibuildwheel]
 manylinux-i686-image = "manylinux2014"
 manylinux-x86_64-image = "manylinux2014"
+
+# [tool.setuptools_scm]
+# write_to = "/coilpy/_version.py"
 
 # This should be before-test, and install_requirements should be used
 before-build = "pip install -r requirements.txt"

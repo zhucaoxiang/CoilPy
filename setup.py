@@ -1,7 +1,10 @@
 import setuptools
-from numpy.distutils.core import Extension, setup
+from distutils.core import Extension, setup
 from numpy.distutils.fcompiler import get_default_fcompiler
-from coilpy import __version__
+
+# from coilpy import __version__
+
+__version__ = "0.3.13"
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
