@@ -1,5 +1,5 @@
 import setuptools
-from distutils.core import Extension, setup
+from numpy.distutils.core import Extension, setup
 from numpy.distutils.fcompiler import get_default_fcompiler
 
 # from coilpy import __version__
