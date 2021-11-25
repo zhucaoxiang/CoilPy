@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>coilpy.pm4stell &#8212; coilpy 0.3.13 documentation</title>
+    <title>coilpy.pm4stell &#8212; coilpy 0.3.14 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -202,7 +202,29 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.pm4stell.blocks2ficus">
 <span class="sig-prename descclassname"><span class="pre">coilpy.pm4stell.</span></span><span class="sig-name descname"><span class="pre">blocks2ficus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ficus_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moment_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dipole_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magnitization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1100000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/pm4stell.html#blocks2ficus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.pm4stell.blocks2ficus" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Convert PM4STELL blocks file to FICUS inputs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>block_file</strong> (<em>str</em>) – Path and file name to the blocks file (usually contains <cite>_blocks.csv</cite>).</p></li>
+<li><p><strong>ficus_file</strong> (<em>str</em>) – FICUS input CSV filename.</p></li>
+<li><p><strong>moment_file</strong> (<em>str</em><em>, </em><em>optional</em>) – Moments file to assign the magnetic moment. Defaults to None.</p></li>
+<li><p><strong>dipole_file</strong> (<em>str</em><em>, </em><em>optional</em>) – FAMUS dipole file to assign the magnetic moment. Defaults to None.</p></li>
+<li><p><strong>magnitization</strong> (<em>float</em><em>, </em><em>optional</em>) – The magnetization of the material. Defaults to 1.1e6.</p></li>
+<li><p><strong>clip</strong> (<em>float</em><em>, </em><em>optional</em>) – The minimum rho value to preserve. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Data in the format of pandas.DataFrame</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+<p>Note: This requires to load the MUSE package (<a class="reference external" href="https://github.com/tmqian/MUSE">https://github.com/tmqian/MUSE</a>) to the sys.path.</p>
+<p class="rubric">Example</p>
+<p>magnets = blocks2ficus(“magpie_trial104b_blocks.csv”, “trial104b_ficus.csv”, dipole_file=”disc_ftri_wp0_c9a_tr104b.focus”)</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.pm4stell.blocks2vtk">
