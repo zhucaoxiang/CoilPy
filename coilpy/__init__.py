@@ -8,7 +8,7 @@ The repository is available at https://github.com/zhucaoxiang/CoilPy.
 
 For full documenation, please check https://zhucaoxiang.github.io/CoilPy/api/coilpy.html.
 """
-__version__ = "0.3.13"
+__version__ = "0.3.14"
 
 # local packages
 from .misc import colorbar, get_figure, kwargs2dict, map_matrix
@@ -25,5 +25,6 @@ from .stellopt import STELLout
 from .vmec import VMECout
 from .booz_xform import BOOZ_XFORM
 from .mgrid import Mgrid
+from .pm4stell import blocks2vtk, blocks2ficus
 
 # from coilpy_fortran import hanson_hirshman, biot_savart

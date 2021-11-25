@@ -118,6 +118,25 @@ def blocks2ficus(
     clip=None,
     **kwargs
 ):
+    """Convert PM4STELL blocks file to FICUS inputs
+
+    Args:
+        block_file (str): Path and file name to the blocks file (usually contains `_blocks.csv`).
+        ficus_file (str): FICUS input CSV filename.
+        moment_file (str, optional): Moments file to assign the magnetic moment. Defaults to None.
+        dipole_file (str, optional): FAMUS dipole file to assign the magnetic moment. Defaults to None.
+        magnitization (float, optional): The magnetization of the material. Defaults to 1.1e6.
+        clip (float, optional): The minimum rho value to preserve. Defaults to None.
+
+    Returns:
+        pandas.DataFrame: Data in the format of pandas.DataFrame
+
+    Note: This requires to load the MUSE package (https://github.com/tmqian/MUSE) to the sys.path.
+
+    Example:
+        magnets = blocks2ficus("magpie_trial104b_blocks.csv", "trial104b_ficus.csv", dipole_file="disc_ftri_wp0_c9a_tr104b.focus")
+
+    """
     import pandas as pd
     import FICUS.Magnet3D as m3
 
