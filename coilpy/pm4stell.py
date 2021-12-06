@@ -37,16 +37,19 @@ def blocks2vtk(
     if moment_file is not None:
         moments = pd.read_csv(moment_file, skiprows=1)
         moments.rename(columns=lambda x: x.strip(), inplace=True)
+        cond = moments["rho"] > clip
         kwargs["cell_data"].setdefault(
             "m",
             [
                 np.ascontiguousarray(
-                    np.transpose([moments["Mx"], moments["My"], moments["Mz"]])
+                    np.transpose(
+                        [moments["Mx"][cond], moments["My"][cond], moments["Mz"][cond]]
+                    )
                 )
             ],
         )
-        kwargs["cell_data"].setdefault("rho", [moments["rho"]])
-        kwargs["cell_data"].setdefault("type", [moments["type"]])
+        kwargs["cell_data"].setdefault("rho", [moments["rho"][cond]])
+        kwargs["cell_data"].setdefault("type", [moments["type"][cond]])
     if dipole_file is not None:
         dipoles = Dipole.open(dipole_file)
         dipoles.sp2xyz()
