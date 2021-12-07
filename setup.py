@@ -4,7 +4,7 @@ from numpy.distutils.fcompiler import get_default_fcompiler
 
 # from coilpy import __version__
 
-__version__ = "0.3.15"
+__version__ = "0.3.16"
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
