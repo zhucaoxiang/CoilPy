@@ -126,3 +126,54 @@ def blocks2tiles(block_file, dipole_file, clip=0, mu=(1.05, 1.05), **kwargs):
         ang[i] = [dipoles.mt[cond][i], dipoles.mp[cond][i]]
         Br[i] = dipoles.mm[cond][i] / (lwh[i][0] * lwh[i][1] * lwh[i][2])
     return build_prism(lwh, center, rot, ang, mu, Br)
+
+
+def corner2tiles(corner_file, dipole_file, clip=0, mu=(1.05, 1.05), **kwargs):
+    """Construct magtense.Tiles from MUSE corner file
+
+    Args:
+        corner_file (str): Path and file name to the corner file (usually contains `_corner.csv`).
+        dipole_file (str): FAMUS dipole file to assign the magnetic moment.
+        clip (float, optional): The minimum rho value to preserve. Defaults to 0.
+        mu (tuple, optional): Magnetic permeability in the parallel and perpendicular direction. Defaults to (1.05, 1.05).
+
+    Returns:
+        prism (magtense.Tiles): Prisms in the type of magtense.Titles.
+    """
+    import pandas as pd
+
+    assert clip >= 0, "the clip value should be >=0."
+    blocks = pd.read_csv(corner_file)
+    # remove space in headers
+    blocks.rename(columns=lambda x: x.strip(), inplace=True)
+    nmag = len(blocks["xb1"])
+    # cond = np.full((nmag), True)
+    # parse moment data
+    dipoles = Dipole.open(dipole_file)
+    # dipoles.sp2xyz()
+    cond = dipoles.rho >= clip
+    nmag = np.count_nonzero(cond)
+    # prepare arrays
+    center = np.zeros((nmag, 3))
+    rot = np.zeros((nmag, 3))
+    lwh = np.zeros((nmag, 3))
+    ang = np.zeros((nmag, 2))
+    mu = np.repeat([mu], nmag, axis=0)
+    Br = np.zeros(nmag)
+    # get dimensions
+    t1 = blocks[["n1x", "n1y", "n1z"]].to_numpy()
+    t2 = blocks[["n2x", "n2y", "n2z"]].to_numpy()
+    t3 = blocks[["n3x", "n3y", "n3z"]].to_numpy()
+    t4 = blocks[["n4x", "n4y", "n4z"]].to_numpy()
+    b1 = blocks[["s1x", "s1y", "s1z"]].to_numpy()
+    b2 = blocks[["s2x", "s2y", "s2z"]].to_numpy()
+    b3 = blocks[["s3x", "s3y", "s3z"]].to_numpy()
+    b4 = blocks[["s4x", "s4y", "s4z"]].to_numpy()
+    # needs to use srray operation
+    for i in range(nmag):
+        top = np.array([t1[cond][i], t2[cond][i], t3[cond][i], t4[cond][i]])
+        bot = np.array([b1[cond][i], b2[cond][i], b3[cond][i], b4[cond][i]])
+        center[i], rot[i], lwh[i] = get_center(top, bot)
+        ang[i] = [dipoles.mt[cond][i], dipoles.mp[cond][i]]
+        Br[i] = dipoles.mm[cond][i] / (lwh[i][0] * lwh[i][1] * lwh[i][2])
+    return build_prism(lwh, center, rot, ang, mu, Br)
