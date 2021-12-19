@@ -63,7 +63,7 @@ jobs:
           path: dist
 
       - uses: pypa/gh-action-pypi-publish@master
-        if: steps.cache-pypi.outputs.cache-hit != 'true'  # should use git tags or github releases!
+        # if: steps.cache-pypi.outputs.cache-hit != 'true'  # should use git tags or github releases!
         with:
           user: ${{ secrets.PYPI_USERNAME }}  # should be __token__
           password: ${{ secrets.PYPI_PASSWORD }}
