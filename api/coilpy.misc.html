@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>coilpy.misc &#8212; coilpy 0.3.19 documentation</title>
+    <title>coilpy.misc &#8212; coilpy 0.3.20 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -345,6 +345,23 @@ bnormal : Input Bn dict, containing ‘xm’, ‘xn’, ‘bnc’, ‘bns’</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="coilpy.misc.rotation_angle">
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">rotation_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#rotation_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.rotation_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the rotation angle from a rotation matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>R</strong> (<em>3x3 matrix</em>) – The rotation matrix.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The rotation angle around z,y,x-axis.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[alpha, beta, gamma]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.rotation_matrix">
 <span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">rotation_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#rotation_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.rotation_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>A genera rotation matrix using yaw, pitch, and roll angles</p>
@@ -357,10 +374,10 @@ bnormal : Input Bn dict, containing ‘xm’, ‘xn’, ‘bnc’, ‘bns’</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>[description]</p>
+<dd class="field-even"><p>The rotation matrix.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>[type]</p>
+<dd class="field-odd"><p>R (3x3 matrix)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -528,7 +545,7 @@ phi (float): angle in rad</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br>
 </p>
     </div>
     
