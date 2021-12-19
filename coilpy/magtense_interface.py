@@ -146,7 +146,7 @@ def corner2tiles(corner_file, dipole_file, clip=0, mu=(1.05, 1.05), **kwargs):
     blocks = pd.read_csv(corner_file)
     # remove space in headers
     blocks.rename(columns=lambda x: x.strip(), inplace=True)
-    nmag = len(blocks["xb1"])
+    nmag = len(blocks["n1x"])
     # cond = np.full((nmag), True)
     # parse moment data
     dipoles = Dipole.open(dipole_file)
