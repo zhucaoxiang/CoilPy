@@ -17,6 +17,8 @@ Submodules
    coilpy.dipole
    coilpy.focushdf5
    coilpy.hdf5
+   coilpy.magnet
+   coilpy.magtense_interface
    coilpy.mgrid
    coilpy.misc
    coilpy.pm4stell

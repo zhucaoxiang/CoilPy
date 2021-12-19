@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>coilpy &#8212; coilpy 0.3.18 documentation</title>
+    <title>coilpy.magnet &#8212; coilpy 0.3.18 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -99,7 +99,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <div class="bd-toc-item active">
-    <ul class="nav bd-sidenav">
+    <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="coilpy.booz_xform.html">
    coilpy.booz_xform
@@ -125,8 +125,8 @@
    coilpy.hdf5
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.magnet.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    coilpy.magnet
   </a>
  </li>
@@ -184,19 +184,9 @@
               
               <div class="toc-item">
                 
-<div class="tocsection onthispage pt-5 pb-3">
-    <i class="fas fa-list"></i> On this page
-</div>
 
 <nav id="bd-toc-nav">
-    <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#submodules">
-   Submodules
-  </a>
- </li>
-</ul>
-
+    
 </nav>
               </div>
               
@@ -216,34 +206,65 @@
               
               <div>
                 
-  <section id="module-coilpy">
-<span id="coilpy"></span><h1>coilpy<a class="headerlink" href="#module-coilpy" title="Permalink to this headline">¶</a></h1>
-<p>This is a python package for plotting and data processing in stellarator optimization.</p>
-<p>It contains several python functions on HDF5, Fourier surfaces, FOCUS, cois,
-magnetic dipoles, STELLOPT, VMEC, BOOZ_XFORM, etc.</p>
-<p>The repository is available at <a class="reference external" href="https://github.com/zhucaoxiang/CoilPy">https://github.com/zhucaoxiang/CoilPy</a>.</p>
-<p>For full documenation, please check <a class="reference external" href="https://zhucaoxiang.github.io/CoilPy/api/coilpy.html">https://zhucaoxiang.github.io/CoilPy/api/coilpy.html</a>.</p>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.booz_xform.html">coilpy.booz_xform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.coils.html">coilpy.coils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.dipole.html">coilpy.dipole</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.focushdf5.html">coilpy.focushdf5</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.hdf5.html">coilpy.hdf5</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.magnet.html">coilpy.magnet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.magtense_interface.html">coilpy.magtense_interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.mgrid.html">coilpy.mgrid</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.misc.html">coilpy.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.pm4stell.html">coilpy.pm4stell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.sortedDict.html">coilpy.sortedDict</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.stellopt.html">coilpy.stellopt</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.surface.html">coilpy.surface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.vmec.html">coilpy.vmec</a></li>
+  <section id="module-coilpy.magnet">
+<span id="coilpy-magnet"></span><h1>coilpy.magnet<a class="headerlink" href="#module-coilpy.magnet" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="coilpy.magnet.Magnet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">coilpy.magnet.</span></span><span class="sig-name descname"><span class="pre">Magnet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[[]]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mvec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">1]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Br</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magnet.html#Magnet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magnet.Magnet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Cube magnet class used for subdividing magnets</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="coilpy.magnet.Magnet.divide">
+<span class="sig-name descname"><span class="pre">divide</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magnet.html#Magnet.divide"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magnet.Magnet.divide" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divide the prism into eight dipoles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Dipole objects</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>coilpy.Dipole</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="coilpy.magnet.Magnet.sub_cubes">
+<span class="sig-name descname"><span class="pre">sub_cubes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magnet.html#Magnet.sub_cubes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magnet.Magnet.sub_cubes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subdivide a prism into 8 cubes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of 8 Magnets</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="coilpy.magnet.corner2magnet">
+<span class="sig-prename descclassname"><span class="pre">coilpy.magnet.</span></span><span class="sig-name descname"><span class="pre">corner2magnet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">corner_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moment_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Br</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magnet.html#corner2magnet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magnet.corner2magnet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corner file to Magnet objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>corner_file</strong> (<em>str</em>) – <a href="#id1"><span class="problematic" id="id2">*</span></a>_corner.csv file.</p></li>
+<li><p><strong>moment_file</strong> (<em>str</em>) – <a href="#id3"><span class="problematic" id="id4">*</span></a>_moments.csv file</p></li>
+<li><p><strong>Br</strong> (<em>float</em><em>, </em><em>optional</em>) – Magnetic remanence. Defaults to 1.4.</p></li>
+<li><p><strong>reset</strong> (<em>bool</em><em>, </em><em>optional</em>) – If reset the magnetic remanence based on Br. Defaults to False.</p></li>
 </ul>
-</div>
-</section>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of 8 Magnet objects</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

@@ -1,0 +1,7 @@
+coilpy.magnet 
+====================
+
+.. automodule:: coilpy.magnet
+   :members:
+   :undoc-members:
+   :show-inheritance:

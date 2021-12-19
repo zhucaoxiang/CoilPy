@@ -1,0 +1,7 @@
+coilpy.magtense\_interface 
+=================================
+
+.. automodule:: coilpy.magtense_interface
+   :members:
+   :undoc-members:
+   :show-inheritance:
