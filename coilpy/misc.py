@@ -466,7 +466,7 @@ def vmec2focus(
                 n = j + nmin
                 if n > ntor:
                     continue
-                xm.append(m)
+                xnp.append(m)
                 xn.append(n)
                 rbc.append(arr_rbc[i, j])
                 zbs.append(arr_zbs[i, j])
@@ -487,7 +487,7 @@ def vmec2focus(
         with open(bnorm_file, "r") as bfile:
             for line in bfile:
                 tmp = line.split()  # BNORM format: m n Bn_sin
-                bm.append(int(tmp[0]))
+                bnp.append(int(tmp[0]))
                 bn.append(int(tmp[1]))
                 bns.append(float(tmp[2]))
         Nbnf = len(bm)
@@ -619,7 +619,7 @@ def read_focus_boundary(filename):
             line_list = line.split()
             n = int(float(line_list[0]))
             m = int(float(line_list[1]))
-            xm.append(m)
+            xnp.append(m)
             xn.append(n)
             rbc.append(float(line_list[2]))
             rbs.append(float(line_list[3]))
@@ -645,7 +645,7 @@ def read_focus_boundary(filename):
             line_list = line.split()
             n = int(float(line_list[0]))
             m = int(float(line_list[1]))
-            xm.append(m)
+            xnp.append(m)
             xn.append(n)
             bnc.append(float(line_list[2]))
             bns.append(float(line_list[3]))
@@ -728,7 +728,7 @@ def rotation_matrix(alpha=0.0, beta=0.0, gamma=0.0):
         gamma (float, optional): The roll angle (rotating around the x-axis). Defaults to 0.0.
 
     Returns:
-        [type]: [description]
+        R (3x3 matrix): The rotation matrix.
     """
     ca = np.cos(alpha)
     sa = np.sin(alpha)
@@ -743,3 +743,29 @@ def rotation_matrix(alpha=0.0, beta=0.0, gamma=0.0):
             [-sb, cb * sc, cb * cc],
         ]
     )
+
+
+def rotation_angle(R):
+    """Get the rotation angle from a rotation matrix
+
+    Args:
+        R (3x3 matrix): The rotation matrix.
+
+    Returns:
+        [alpha, beta, gamma]: The rotation angle around z,y,x-axis.
+    """
+    tol = 1e-8
+
+    if abs(R.item(0, 0)) < tol and abs(R.item(1, 0)) < tol:
+        eul1 = 0
+        eul2 = np.arctan2(-R.item(2, 0), R.item(0, 0))
+        eul3 = np.arctan2(-R.item(1, 2), R.item(1, 1))
+    else:
+        eul1 = np.arctan2(R.item(1, 0), R.item(0, 0))
+        sp = np.sin(eul1)
+        cp = np.cos(eul1)
+        eul2 = np.arctan2(-R.item(2, 0), cp * R.item(0, 0) + sp * R.item(1, 0))
+        eul3 = np.arctan2(
+            sp * R.item(0, 2) - cp * R.item(1, 2), cp * R.item(1, 1) - sp * R.item(0, 1)
+        )
+    return eul1, eul2, eul3

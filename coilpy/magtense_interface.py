@@ -1,5 +1,6 @@
 import numpy as np
 from .dipole import Dipole
+from .misc import rotation_angle
 
 # MagTense repo: https://github.com/cmt-dtu-energy/MagTense
 
@@ -18,18 +19,14 @@ def get_center(top, bot):
     """
     center = (np.mean(top, axis=0) + np.mean(bot, axis=0)) / 2
     # get three axes
-    n1 = top[1, :] - top[0, :]
-    n2 = top[3, :] - top[0, :]
-    n3 = bot[0, :] - top[0, :]
-    assert n3[0] == n3[1] == 0, "The cube has rotated along x & y."
-    assert np.abs(np.dot(n1, n2)) < 1e-8, "n1 and n2 are not orthogonal."
-    # get rotation angle
-    ang1 = np.arctan2(n1[1], n1[0])
-    ang2 = np.arctan2(n2[1], n2[0])
-    ang = ang1 if ang1 <= ang2 else ang2  # choose the smaller one
-    rot = [0, 0, ang]
+    n1 = bot[1, :] - bot[0, :]
+    n2 = bot[3, :] - bot[0, :]
+    n3 = top[0, :] - bot[0, :]
     # get size
     lwh = [np.linalg.norm(n1), np.linalg.norm(n2), np.linalg.norm(n3)]
+    # get rotation angle
+    rot_mat = np.array([n1, n2, n3])
+    rot = rotation_angle(rot_mat)[::-1]  # reverse the order
     return center, rot, lwh
 
 
@@ -102,7 +99,7 @@ def blocks2tiles(block_file, dipole_file, clip=0, mu=(1.05, 1.05), **kwargs):
     # parse moment data
     dipoles = Dipole.open(dipole_file)
     # dipoles.sp2xyz()
-    cond = dipoles.rho >= clip
+    cond = np.abs(dipoles.rho) >= clip
     nmag = np.count_nonzero(cond)
     # prepare arrays
     center = np.zeros((nmag, 3))
@@ -154,7 +151,7 @@ def corner2tiles(corner_file, dipole_file, clip=0, mu=(1.05, 1.05), **kwargs):
     # parse moment data
     dipoles = Dipole.open(dipole_file)
     # dipoles.sp2xyz()
-    cond = dipoles.rho >= clip
+    cond = np.abs(dipoles.rho) >= clip
     nmag = np.count_nonzero(cond)
     # prepare arrays
     center = np.zeros((nmag, 3))
