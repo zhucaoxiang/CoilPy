@@ -1,8 +1,7 @@
 import numpy as np
 from .dipole import Dipole
-import magtense
 
-# https://github.com/cmt-dtu-energy/MagTense
+# MagTense repo: https://github.com/cmt-dtu-energy/MagTense
 
 
 def get_center(top, bot):
@@ -48,6 +47,8 @@ def build_prism(lwh, center, rot, mag_angle, mu, remanence):
     Returns:
         prism (magtense.Titles): Prisms in the type of magtense.Titles.
     """
+    import magtense
+
     # make it 2d in case only using 1 magnet
     lwh = np.atleast_2d(lwh)
     nmag = len(lwh)
@@ -90,6 +91,7 @@ def blocks2tiles(block_file, dipole_file, clip=0, mu=(1.05, 1.05), **kwargs):
         prism (magtense.Tiles): Prisms in the type of magtense.Titles.
     """
     import pandas as pd
+    import magtense
 
     assert clip >= 0, "the clip value should be >=0."
     blocks = pd.read_csv(block_file, skiprows=1)
@@ -141,6 +143,7 @@ def corner2tiles(corner_file, dipole_file, clip=0, mu=(1.05, 1.05), **kwargs):
         prism (magtense.Tiles): Prisms in the type of magtense.Titles.
     """
     import pandas as pd
+    import magtense
 
     assert clip >= 0, "the clip value should be >=0."
     blocks = pd.read_csv(corner_file)
