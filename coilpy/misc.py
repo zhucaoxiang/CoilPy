@@ -755,17 +755,16 @@ def rotation_angle(R):
         [alpha, beta, gamma]: The rotation angle around z,y,x-axis.
     """
     tol = 1e-8
-
-    if abs(R.item(0, 0)) < tol and abs(R.item(1, 0)) < tol:
-        eul1 = 0
-        eul2 = np.arctan2(-R.item(2, 0), R.item(0, 0))
-        eul3 = np.arctan2(-R.item(1, 2), R.item(1, 1))
+    # cos(beta) = 0 => beta=pi/2 or 3/2*pi; onle aplha-gamma is determined
+    if abs(R[0, 0]) < tol and abs(R[1, 0]) < tol:
+        beta = np.arcsin(-R[2, 0])
+        alpha_minus_gamma = np.arctan2(R[1, 2], R[0, 2])
+        alpha = alpha_minus_gamma
+        gamma = 0
     else:
-        eul1 = np.arctan2(R.item(1, 0), R.item(0, 0))
-        sp = np.sin(eul1)
-        cp = np.cos(eul1)
-        eul2 = np.arctan2(-R.item(2, 0), cp * R.item(0, 0) + sp * R.item(1, 0))
-        eul3 = np.arctan2(
-            sp * R.item(0, 2) - cp * R.item(1, 2), cp * R.item(1, 1) - sp * R.item(0, 1)
-        )
-    return eul1, eul2, eul3
+        alpha = np.arctan2(R[1, 0], R[0, 0])
+        sp = np.sin(alpha)
+        cp = np.cos(alpha)
+        beta = np.arctan2(-R[2, 0], cp * R[0, 0] + sp * R[1, 0])
+        gamma = np.arctan2(sp * R[0, 2] - cp * R[1, 2], cp * R[1, 1] - sp * R[0, 1])
+    return alpha, beta, gamma
