@@ -25,8 +25,10 @@ def get_center(top, bot):
     # get size
     lwh = [np.linalg.norm(n1), np.linalg.norm(n2), np.linalg.norm(n3)]
     # get rotation angle
-    rot_mat = np.array([n1, n2, n3])
-    rot = rotation_angle(rot_mat)[::-1]  # reverse the order
+    rot_mat = np.array(
+        [n1 / np.linalg.norm(n1), n2 / np.linalg.norm(n2), n3 / np.linalg.norm(n3)]
+    )
+    rot = rotation_angle(rot_mat.T, xyz=True)  # reverse the order
     return center, rot, lwh
 
 

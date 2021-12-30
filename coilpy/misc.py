@@ -745,26 +745,51 @@ def rotation_matrix(alpha=0.0, beta=0.0, gamma=0.0):
     )
 
 
-def rotation_angle(R):
+def rotation_angle(R, xyz=False):
     """Get the rotation angle from a rotation matrix
 
     Args:
         R (3x3 matrix): The rotation matrix.
+        xyz(bool, optional): the rotation scenario, RxRyRz vs RzRyRx. Defaults to False.
 
     Returns:
-        [alpha, beta, gamma]: The rotation angle around z,y,x-axis.
+        [alpha, beta, gamma]: The rotation angle around x,y,z-axis (if xyz=True) or z,y,x-axis.
     """
+    if xyz:
+        return _rotation_angle_xyz(R)
+    else:
+        return _rotation_angle_zyx(R)
+
+
+def _rotation_angle_zyx(R):
     tol = 1e-8
-    # cos(beta) = 0 => beta=pi/2 or 3/2*pi; onle aplha-gamma is determined
+    # cos(beta) = 0 => beta=pi/2 or 3/2*pi; onle aplha+/-gamma is determined
     if abs(R[0, 0]) < tol and abs(R[1, 0]) < tol:
         beta = np.arcsin(-R[2, 0])
-        alpha_minus_gamma = np.arctan2(R[1, 2], R[0, 2])
-        alpha = alpha_minus_gamma
-        gamma = 0
+        alpha_pm_gamma = np.arctan2(R[1, 2], R[0, 2])
+        alpha = 0
+        gamma = R[2, 0] * alpha_pm_gamma
     else:
         alpha = np.arctan2(R[1, 0], R[0, 0])
         sp = np.sin(alpha)
         cp = np.cos(alpha)
         beta = np.arctan2(-R[2, 0], cp * R[0, 0] + sp * R[1, 0])
         gamma = np.arctan2(sp * R[0, 2] - cp * R[1, 2], cp * R[1, 1] - sp * R[0, 1])
+    return alpha, beta, gamma
+
+
+def _rotation_angle_xyz(R):
+    tol = 1e-8
+    # cos(beta) = 0 => beta=pi/2 or 3/2*pi; onle aplha-gamma is determined
+    if abs(R[0, 0]) < tol and abs(R[0, 1]) < tol:
+        beta = np.arcsin(R[0, 2])
+        alpha_pm_gamma = np.arctan2(R[1, 0], -R[2, 0])
+        alpha = 0
+        gamma = R[0, 2] * alpha_pm_gamma
+    else:
+        alpha = np.arctan2(-R[1, 2], R[2, 2])
+        gamma = np.arctan2(-R[0, 1], R[0, 0])
+        sp = np.sin(alpha)
+        cp = np.cos(alpha)
+        beta = np.arctan2(R[0, 2], -R[1, 2] * sp + R[2, 2] * cp)
     return alpha, beta, gamma
