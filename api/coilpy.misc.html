@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>coilpy.misc &#8212; coilpy 0.3.20 documentation</title>
+    <title>coilpy.misc &#8212; coilpy 0.3.21 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -346,14 +346,17 @@ bnormal : Input Bn dict, containing ‘xm’, ‘xn’, ‘bnc’, ‘bns’</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.rotation_angle">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">rotation_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#rotation_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.rotation_angle" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">rotation_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#rotation_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.rotation_angle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the rotation angle from a rotation matrix</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>R</strong> (<em>3x3 matrix</em>) – The rotation matrix.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>R</strong> (<em>3x3 matrix</em>) – The rotation matrix.</p></li>
+<li><p><strong>xyz</strong> (<em>bool</em><em>, </em><em>optional</em>) – the rotation scenario, RxRyRz vs RzRyRx. Defaults to False.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The rotation angle around z,y,x-axis.</p>
+<dd class="field-even"><p>The rotation angle around x,y,z-axis (if xyz=True) or z,y,x-axis.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>[alpha, beta, gamma]</p>
