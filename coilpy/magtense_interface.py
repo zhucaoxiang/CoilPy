@@ -69,11 +69,11 @@ def build_prism(lwh, center, rot, mag_angle, mu, remanence):
         prism.set_size_i(lwh[i], i)
         prism.set_offset_i(center[i], i)
         prism.set_rotation_i(rot[i], i)
+        prism.set_remanence_i(remanence[i], i)
         prism.set_mu_r_ea_i(mu[i][0], i)
         prism.set_mu_r_oa_i(mu[i][1], i)
         prism.set_mag_angle_i(mag_angle[i], i)
         prism.set_color_i([0, 0, (i + 1) / nmag], i)
-        prism.set_remanence_i(remanence[i], i)
     return prism
 
 
