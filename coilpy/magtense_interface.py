@@ -179,3 +179,86 @@ def corner2tiles(corner_file, dipole_file, clip=0, mu=(1.05, 1.05), **kwargs):
         ang[i] = [dipoles.mt[cond][i], dipoles.mp[cond][i]]
         Br[i] = dipoles.mm[cond][i] / (lwh[i][0] * lwh[i][1] * lwh[i][2])
     return build_prism(lwh, center, rot, ang, mu, Br)
+
+
+def magtense2vtk(mags, vtk_file, **kwargs):
+    """Export magtense.Tiles to VTK
+
+    Args:
+        mags (magtense.Tiles): Magnet prisms in magtense.Tiles.
+        vtk_file (str): VTK file name.
+        kwargs (optional): keyword arguments passed to meshio.Mesh(), e.g. , cell_data={"m":[m]}
+
+    Returns:
+        meshio.Mesh: The constructed `meshio.Mesh` object.
+    """
+    import meshio
+
+    nmag = mags.n
+    x = np.zeros((8 * nmag))
+    y = np.zeros((8 * nmag))
+    z = np.zeros((8 * nmag))
+    for i in range(nmag):
+        # Define the vertices of the unit cubic and move them in order to center the cube on origin
+        ver = (
+            np.array(
+                [
+                    [0, 0, 0],
+                    [1, 0, 0],
+                    [1, 1, 0],
+                    [0, 1, 0],
+                    [0, 0, 1],
+                    [1, 0, 1],
+                    [1, 1, 1],
+                    [0, 1, 1],
+                ]
+            )
+            - 0.5
+        )
+        ver_cube = ver * mags.size[i]
+        R = get_rotmat(mags.rot[i])
+        ver_cube = (np.dot(R, ver_cube.T)).T
+        ver_cube = ver_cube + mags.offset[i]
+        x[i * 8 : i * 8 + 8] = ver_cube[:, 0]
+        y[i * 8 : i * 8 + 8] = ver_cube[:, 1]
+        z[i * 8 : i * 8 + 8] = ver_cube[:, 2]
+
+    points = np.ascontiguousarray(np.transpose([x, y, z]))
+    hedrs = [list(range(i * 8, i * 8 + 8)) for i in range(nmag)]
+    kwargs.setdefault("cell_data", {})
+    kwargs["cell_data"].setdefault("Br", [mags.M_rem])
+    kwargs["cell_data"].setdefault("u_ea", [mags.u_ea])
+    kwargs["cell_data"].setdefault("M", [mags.M])
+    data = meshio.Mesh(points=points, cells=[("hexahedron", hedrs)], **kwargs)
+    data.write(vtk_file)
+    return data
+
+
+def get_rotmat(rot):
+    """Rotation matrix in the order of x,y,z
+
+    Args:
+        rot (list,(3,)): Rotation angle around x,y,z-axis.
+
+    Returns:
+        numpy.ndarray: The 3X3 rotation matrix.
+    """
+    rot_x = (
+        [1, 0, 0],
+        [0, np.cos(rot[0]), -np.sin(rot[0])],
+        [0, np.sin(rot[0]), np.cos(rot[0])],
+    )
+    rot_y = (
+        [np.cos(rot[1]), 0, np.sin(rot[1])],
+        [0, 1, 0],
+        [-np.sin(rot[1]), 0, np.cos(rot[1])],
+    )
+    rot_z = (
+        [np.cos(rot[2]), -np.sin(rot[2]), 0],
+        [np.sin(rot[2]), np.cos(rot[2]), 0],
+        [0, 0, 1],
+    )
+    # TODO: Check rotation from local to global: (1) Rot_X, (2) Rot_Y, (3) Rot_Z
+    # G to L in local coordinate system:
+    R = np.asarray(rot_x) @ np.asarray(rot_y) @ np.asarray(rot_z)
+    return R
