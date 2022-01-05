@@ -228,6 +228,25 @@ class FOCUSHDF5(HDF5):
         plt.yticks(fontsize=16)
         return
 
+    def iota_plot(self, axes=None, **kwargs):
+        """Plot the rotational transform profile
+
+        Args:
+            axes (matplotlib.pyplot.axis, optional):  axis to be plotted on. Defaults to None.
+            kwargs (optional): Keyword arguments passed to matplotlib.pyplot.plot, e.g. color='r'.
+
+        Returns:
+            matplotlib.pyplot.axis: The updated axis
+        """
+        import matplotlib.pyplot as plt
+
+        fig, axes = get_figure(axes)
+        kwargs.setdefault("marker", "o")
+        axes.plot(self.ppr[0, :], self.iota, **kwargs)
+        axes.set_ylabel(r"$\,\iota\!\!$-", fontsize=18)
+        axes.set_xlabel("R [m]", fontsize=14)
+        return axes
+
     # Bnorm plot
     def Bnorm(self, plottype="2D", source="all", axes=None, flip=False, **kwargs):
         """Plot Bn distribution.
