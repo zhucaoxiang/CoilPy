@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>coilpy.magtense_interface &#8212; coilpy 0.3.21 documentation</title>
+    <title>coilpy.magtense_interface &#8212; coilpy 0.3.22 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -294,6 +294,44 @@ lwh (numpy.ndarray): The dimension of the prism in length, width, height.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>center (numpy.ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="coilpy.magtense_interface.get_rotmat">
+<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">get_rotmat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#get_rotmat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.get_rotmat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotation matrix in the order of x,y,z</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>rot</strong> (<em>list</em><em>,</em><em>(</em><em>3</em><em>,</em><em>)</em>) – Rotation angle around x,y,z-axis.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The 3X3 rotation matrix.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="coilpy.magtense_interface.magtense2vtk">
+<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">magtense2vtk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vtk_file</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#magtense2vtk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.magtense2vtk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export magtense.Tiles to VTK</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mags</strong> (<em>magtense.Tiles</em>) – Magnet prisms in magtense.Tiles.</p></li>
+<li><p><strong>vtk_file</strong> (<em>str</em>) – VTK file name.</p></li>
+<li><p><strong>kwargs</strong> (<em>optional</em>) – keyword arguments passed to meshio.Mesh(), e.g. , cell_data={“m”:[m]}</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The constructed <cite>meshio.Mesh</cite> object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>meshio.Mesh</p>
 </dd>
 </dl>
 </dd></dl>

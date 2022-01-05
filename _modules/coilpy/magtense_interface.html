@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.magtense_interface &#8212; coilpy 0.3.21 documentation</title>
+    <title>coilpy.magtense_interface &#8212; coilpy 0.3.22 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet">
   <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -191,11 +191,11 @@
         <span class="n">prism</span><span class="o">.</span><span class="n">set_size_i</span><span class="p">(</span><span class="n">lwh</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
         <span class="n">prism</span><span class="o">.</span><span class="n">set_offset_i</span><span class="p">(</span><span class="n">center</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
         <span class="n">prism</span><span class="o">.</span><span class="n">set_rotation_i</span><span class="p">(</span><span class="n">rot</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">prism</span><span class="o">.</span><span class="n">set_remanence_i</span><span class="p">(</span><span class="n">remanence</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
         <span class="n">prism</span><span class="o">.</span><span class="n">set_mu_r_ea_i</span><span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
         <span class="n">prism</span><span class="o">.</span><span class="n">set_mu_r_oa_i</span><span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
         <span class="n">prism</span><span class="o">.</span><span class="n">set_mag_angle_i</span><span class="p">(</span><span class="n">mag_angle</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
         <span class="n">prism</span><span class="o">.</span><span class="n">set_color_i</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">nmag</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
-        <span class="n">prism</span><span class="o">.</span><span class="n">set_remanence_i</span><span class="p">(</span><span class="n">remanence</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">prism</span></div>
 
 
@@ -301,6 +301,89 @@
         <span class="n">ang</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">dipoles</span><span class="o">.</span><span class="n">mt</span><span class="p">[</span><span class="n">cond</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">dipoles</span><span class="o">.</span><span class="n">mp</span><span class="p">[</span><span class="n">cond</span><span class="p">][</span><span class="n">i</span><span class="p">]]</span>
         <span class="n">Br</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">dipoles</span><span class="o">.</span><span class="n">mm</span><span class="p">[</span><span class="n">cond</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">lwh</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">lwh</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">lwh</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">build_prism</span><span class="p">(</span><span class="n">lwh</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">rot</span><span class="p">,</span> <span class="n">ang</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">Br</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="magtense2vtk"><a class="viewcode-back" href="../../api/coilpy.magtense_interface.html#coilpy.magtense_interface.magtense2vtk">[docs]</a><span class="k">def</span> <span class="nf">magtense2vtk</span><span class="p">(</span><span class="n">mags</span><span class="p">,</span> <span class="n">vtk_file</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Export magtense.Tiles to VTK</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mags (magtense.Tiles): Magnet prisms in magtense.Tiles.</span>
+<span class="sd">        vtk_file (str): VTK file name.</span>
+<span class="sd">        kwargs (optional): keyword arguments passed to meshio.Mesh(), e.g. , cell_data={&quot;m&quot;:[m]}</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        meshio.Mesh: The constructed `meshio.Mesh` object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">meshio</span>
+
+    <span class="n">nmag</span> <span class="o">=</span> <span class="n">mags</span><span class="o">.</span><span class="n">n</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">8</span> <span class="o">*</span> <span class="n">nmag</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">8</span> <span class="o">*</span> <span class="n">nmag</span><span class="p">))</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">8</span> <span class="o">*</span> <span class="n">nmag</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nmag</span><span class="p">):</span>
+        <span class="c1"># Define the vertices of the unit cubic and move them in order to center the cube on origin</span>
+        <span class="n">ver</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="o">-</span> <span class="mf">0.5</span>
+        <span class="p">)</span>
+        <span class="n">ver_cube</span> <span class="o">=</span> <span class="n">ver</span> <span class="o">*</span> <span class="n">mags</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">get_rotmat</span><span class="p">(</span><span class="n">mags</span><span class="o">.</span><span class="n">rot</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">ver_cube</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">ver_cube</span><span class="o">.</span><span class="n">T</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">ver_cube</span> <span class="o">=</span> <span class="n">ver_cube</span> <span class="o">+</span> <span class="n">mags</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="mi">8</span> <span class="p">:</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">+</span> <span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="n">ver_cube</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="mi">8</span> <span class="p">:</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">+</span> <span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="n">ver_cube</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">z</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="mi">8</span> <span class="p">:</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">+</span> <span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="n">ver_cube</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+
+    <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">]))</span>
+    <span class="n">hedrs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="mi">8</span><span class="p">,</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">+</span> <span class="mi">8</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nmag</span><span class="p">)]</span>
+    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;cell_data&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;Br&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">mags</span><span class="o">.</span><span class="n">M_rem</span><span class="p">])</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;u_ea&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">mags</span><span class="o">.</span><span class="n">u_ea</span><span class="p">])</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cell_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">mags</span><span class="o">.</span><span class="n">M</span><span class="p">])</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">meshio</span><span class="o">.</span><span class="n">Mesh</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">cells</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;hexahedron&quot;</span><span class="p">,</span> <span class="n">hedrs</span><span class="p">)],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">vtk_file</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="get_rotmat"><a class="viewcode-back" href="../../api/coilpy.magtense_interface.html#coilpy.magtense_interface.get_rotmat">[docs]</a><span class="k">def</span> <span class="nf">get_rotmat</span><span class="p">(</span><span class="n">rot</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Rotation matrix in the order of x,y,z</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rot (list,(3,)): Rotation angle around x,y,z-axis.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: The 3X3 rotation matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rot_x</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">rot</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">rot</span><span class="p">[</span><span class="mi">0</span><span class="p">])],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">rot</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">rot</span><span class="p">[</span><span class="mi">0</span><span class="p">])],</span>
+    <span class="p">)</span>
+    <span class="n">rot_y</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">rot</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">rot</span><span class="p">[</span><span class="mi">1</span><span class="p">])],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">rot</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">rot</span><span class="p">[</span><span class="mi">1</span><span class="p">])],</span>
+    <span class="p">)</span>
+    <span class="n">rot_z</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">rot</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">rot</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">rot</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">rot</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="c1"># TODO: Check rotation from local to global: (1) Rot_X, (2) Rot_Y, (3) Rot_Z</span>
+    <span class="c1"># G to L in local coordinate system:</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rot_x</span><span class="p">)</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rot_y</span><span class="p">)</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rot_z</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">R</span></div>
 </pre></div>
 
               </div>
