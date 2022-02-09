@@ -719,13 +719,14 @@ def biot_savart(pos, xyz, current, dxyz=None):
         return biot_savart(pos, xyz, current, dxyz)
 
 
-def rotation_matrix(alpha=0.0, beta=0.0, gamma=0.0):
+def rotation_matrix(alpha=0.0, beta=0.0, gamma=0.0, xyz=False):
     """A genera rotation matrix using yaw, pitch, and roll angles
 
     Args:
         alpha (float, optional): The yaw angle (rotating around the z-axis). Defaults to 0.0.
         beta (float, optional): The pitch angle (rotating around the y-axis). Defaults to 0.0.
         gamma (float, optional): The roll angle (rotating around the x-axis). Defaults to 0.0.
+        xyz (bool, optional): The rotation order, True: x->y->z; False: z->y->x. Defaults to False
 
     Returns:
         R (3x3 matrix): The rotation matrix.
@@ -736,13 +737,22 @@ def rotation_matrix(alpha=0.0, beta=0.0, gamma=0.0):
     sb = np.sin(beta)
     cc = np.cos(gamma)
     sc = np.sin(gamma)
-    return np.array(
-        [
-            [ca * cb, ca * sb * sc - sa * cc, ca * sb * cc + sa * sc],
-            [sa * cb, sa * sb * sc + ca * cc, sa * sb * cc - ca * sc],
-            [-sb, cb * sc, cb * cc],
-        ]
-    )
+    if xyz:
+        return np.array(
+            [
+                [cb * cc, -cb * sc, sb],
+                [sa * sb * cc + ca * sc, -sa * sb * sc + ca * cc, -sa * cb],
+                [-ca * sb * cc + sa * sc, ca * sb * sc + sa * cc, ca * cb],
+            ]
+        )
+    else:
+        return np.array(
+            [
+                [ca * cb, ca * sb * sc - sa * cc, ca * sb * cc + sa * sc],
+                [sa * cb, sa * sb * sc + ca * cc, sa * sb * cc - ca * sc],
+                [-sb, cb * sc, cb * cc],
+            ]
+        )
 
 
 def rotation_angle(R, xyz=False):
@@ -755,6 +765,8 @@ def rotation_angle(R, xyz=False):
     Returns:
         [alpha, beta, gamma]: The rotation angle around x,y,z-axis (if xyz=True) or z,y,x-axis.
     """
+    if not np.allclose(R @ R.T, np.identity(3)):
+        raise ValueError("The rotation matrix is not ")
     if xyz:
         return _rotation_angle_xyz(R)
     else:
@@ -787,9 +799,47 @@ def _rotation_angle_xyz(R):
         alpha = 0
         gamma = R[0, 2] * alpha_pm_gamma
     else:
-        alpha = np.arctan2(-R[1, 2], R[2, 2])
-        gamma = np.arctan2(-R[0, 1], R[0, 0])
-        sp = np.sin(alpha)
-        cp = np.cos(alpha)
-        beta = np.arctan2(R[0, 2], -R[1, 2] * sp + R[2, 2] * cp)
+        # beta from arcsin
+        beta = np.arcsin(R[0, 2])
+        cb = np.cos(beta)
+        alpha = np.arctan2(-cb * R[1, 2], cb * R[2, 2])
+        gamma = np.arctan2(-cb * R[0, 1], cb * R[0, 0])
+        if not np.allclose(rotation_matrix(alpha, beta, gamma, xyz=True), R):
+            # change another possible value for beta
+            beta = np.pi - np.arcsin(R[0, 2])
+            cb = np.cos(beta)
+            alpha = np.arctan2(-cb * R[1, 2], cb * R[2, 2])
+            gamma = np.arctan2(-cb * R[0, 1], cb * R[0, 0])
+            if not np.allclose(rotation_matrix(alpha, beta, gamma, xyz=True), R):
+                print("something is still wrong.", alpha, beta, gamma)
     return alpha, beta, gamma
+
+
+def set_axes_equal(ax):
+    """Make axes of 3D plot have equal scale so that spheres appear as spheres,
+    cubes as cubes, etc..  This is one possible solution to Matplotlib's
+    ax.set_aspect('equal') and ax.axis('equal') not working for 3D.
+
+    Input
+      ax: a matplotlib axis, e.g., as output from plt.gca().
+    """
+
+    x_limits = ax.get_xlim3d()
+    y_limits = ax.get_ylim3d()
+    z_limits = ax.get_zlim3d()
+
+    x_range = abs(x_limits[1] - x_limits[0])
+    x_middle = np.mean(x_limits)
+    y_range = abs(y_limits[1] - y_limits[0])
+    y_middle = np.mean(y_limits)
+    z_range = abs(z_limits[1] - z_limits[0])
+    z_middle = np.mean(z_limits)
+
+    # The plot bounding box is a sphere in the sense of the infinity
+    # norm, hence I call half the max range the plot radius.
+    plot_radius = 0.5 * max([x_range, y_range, z_range])
+
+    ax.set_xlim3d([x_middle - plot_radius, x_middle + plot_radius])
+    ax.set_ylim3d([y_middle - plot_radius, y_middle + plot_radius])
+    ax.set_zlim3d([z_middle - plot_radius, z_middle + plot_radius])
+    return

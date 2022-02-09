@@ -28,6 +28,11 @@ def get_center(top, bot):
     rot_mat = np.array(
         [n1 / np.linalg.norm(n1), n2 / np.linalg.norm(n2), n3 / np.linalg.norm(n3)]
     )
+    # check if right-handed
+    if not np.allclose(rot_mat @ rot_mat.T, np.identity(3)):
+        rot_mat = np.array(
+            [n2 / np.linalg.norm(n2), n1 / np.linalg.norm(n1), n3 / np.linalg.norm(n3)]
+        )
     rot = rotation_angle(rot_mat.T, xyz=True)  # reverse the order
     return center, rot, lwh
 
