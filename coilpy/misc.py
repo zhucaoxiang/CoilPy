@@ -766,7 +766,7 @@ def rotation_angle(R, xyz=False):
         [alpha, beta, gamma]: The rotation angle around x,y,z-axis (if xyz=True) or z,y,x-axis.
     """
     if not np.allclose(R @ R.T, np.identity(3)):
-        raise ValueError("The rotation matrix is not ")
+        raise ValueError("The rotation matrix is not orthonormal!")
     if xyz:
         return _rotation_angle_xyz(R)
     else:
