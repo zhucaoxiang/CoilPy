@@ -466,7 +466,7 @@ def vmec2focus(
                 n = j + nmin
                 if n > ntor:
                     continue
-                xnp.append(m)
+                xm.append(m)
                 xn.append(n)
                 rbc.append(arr_rbc[i, j])
                 zbs.append(arr_zbs[i, j])
@@ -782,11 +782,21 @@ def _rotation_angle_zyx(R):
         alpha = 0
         gamma = R[2, 0] * alpha_pm_gamma
     else:
-        alpha = np.arctan2(R[1, 0], R[0, 0])
+        # beta from arcsin
+        beta = np.arcsin(-R[2, 0])
+        cb = np.cos(beta)
+        alpha = np.arctan2(cb * R[1, 0], cb * R[0, 0])
         sp = np.sin(alpha)
         cp = np.cos(alpha)
-        beta = np.arctan2(-R[2, 0], cp * R[0, 0] + sp * R[1, 0])
         gamma = np.arctan2(sp * R[0, 2] - cp * R[1, 2], cp * R[1, 1] - sp * R[0, 1])
+        if not np.allclose(rotation_matrix(alpha, beta, gamma, xyz=False), R):
+            # change another possible value for beta
+            beta = np.pi - np.arcsin(-R[2, 0])
+            cb = np.cos(beta)
+            alpha = np.arctan2(cb * R[1, 0], cb * R[0, 0])
+            sp = np.sin(alpha)
+            cp = np.cos(alpha)
+            gamma = np.arctan2(sp * R[0, 2] - cp * R[1, 2], cp * R[1, 1] - sp * R[0, 1])
     return alpha, beta, gamma
 
 
