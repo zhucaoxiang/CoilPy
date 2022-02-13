@@ -1,6 +1,6 @@
 import numpy as np
 from .dipole import Dipole
-from .misc import rotation_angle
+from .misc import rotation_angle, div0
 
 # MagTense repo: https://github.com/cmt-dtu-energy/MagTense
 
@@ -29,11 +29,12 @@ def get_center(top, bot):
         [n1 / np.linalg.norm(n1), n2 / np.linalg.norm(n2), n3 / np.linalg.norm(n3)]
     )
     # check if right-handed
-    if not np.allclose(rot_mat @ rot_mat.T, np.identity(3)):
+    if np.linalg.det(rot_mat) < 0:
         rot_mat = np.array(
             [n2 / np.linalg.norm(n2), n1 / np.linalg.norm(n1), n3 / np.linalg.norm(n3)]
         )
-        if not np.allclose(rot_mat @ rot_mat.T, np.identity(3)):
+        lwh = [np.linalg.norm(n2), np.linalg.norm(n1), np.linalg.norm(n3)]
+        if np.linalg.det(rot_mat) < 0:
             rot_mat = np.array(
                 [
                     n1 / np.linalg.norm(n1),
@@ -41,6 +42,7 @@ def get_center(top, bot):
                     n2 / np.linalg.norm(n2),
                 ]
             )
+            lwh = [np.linalg.norm(n1), np.linalg.norm(n3), np.linalg.norm(n2)]
     rot = rotation_angle(rot_mat.T, xyz=True)  # reverse the order
     return center, rot, lwh
 
@@ -275,3 +277,32 @@ def get_rotmat(rot):
     # G to L in local coordinate system:
     R = np.asarray(rot_x) @ np.asarray(rot_y) @ np.asarray(rot_z)
     return R
+
+
+def muse2magntense(muse_file, mu=(1.05, 1.05), magnetization=1.16e6, **kwargs):
+    data = np.loadtxt(muse_file, skiprows=1, delimiter=",")
+    nmag = len(data)
+    print("{:d} magnets are identfied in {:}.".format(nmag, muse_file))
+    # prepare arrays
+    center = np.zeros((nmag, 3))
+    rot = np.zeros((nmag, 3))
+    lwh = np.zeros((nmag, 3))
+    ang = np.zeros((nmag, 2))
+    mu = np.repeat([mu], nmag, axis=0)
+    Br = np.zeros(nmag)
+    for i in range(nmag):
+        center[i] = data[i, 0:3]
+        lwh[i] = data[i, 3:6]  # hlw
+        n1 = data[i, 6:9]
+        n2 = data[i, 9:12]
+        n3 = data[i, 12:15]
+        rot_mat = np.array(
+            [n1 / np.linalg.norm(n1), n2 / np.linalg.norm(n2), n3 / np.linalg.norm(n3)]
+        )
+        rot[i] = rotation_angle(rot_mat.T, xyz=True)
+        mxyz = data[i, 15:18]
+        mp = np.arctan2(mxyz[1], mxyz[0])
+        mt = np.arccos(div0(mxyz[2], np.linalg.norm(mxyz)))
+        ang[i, 0:2] = [mt, mp]
+        Br[i] = magnetization
+    return build_prism(lwh, center, rot, ang, mu, Br)
