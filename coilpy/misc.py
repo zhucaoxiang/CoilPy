@@ -853,3 +853,39 @@ def set_axes_equal(ax):
     ax.set_ylim3d([y_middle - plot_radius, y_middle + plot_radius])
     ax.set_zlim3d([z_middle - plot_radius, z_middle + plot_radius])
     return
+
+
+def scan_focus(template, key, value, run=False):
+    """Scan input variable of FOCUS
+
+    Args:
+        template (str): a template input file (*.input).
+        key (str): the variable name that will be scanned.
+        value (list): the loop that the scan is going to take.
+        run (bool, optional): whether you want to run the scan immediately. Defaults to False.
+    """
+    import f90nml
+
+    nml = f90nml.read(template)
+    focus = nml["focusin"]
+    for v in value:
+        focus[key] = v
+        if key == "nteta":
+            focus["nzeta"] = focus["nteta"]
+        new = template.replace(".input", "_{:}={:}.input".format(key, v))
+        nml.write(new, force=True)
+        if run:
+            command = "srun xfocus {:}".format(new)
+            print(command)
+            import subprocess
+
+            ret = subprocess.run(
+                command,
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                encoding="utf-8",
+            )
+            if ret.returncode != 0:
+                print("error:", ret)
+    return
