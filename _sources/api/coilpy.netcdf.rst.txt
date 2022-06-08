@@ -1,0 +1,7 @@
+coilpy.netcdf 
+====================
+
+.. automodule:: coilpy.netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:

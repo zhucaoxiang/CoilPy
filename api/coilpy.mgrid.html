@@ -6,29 +6,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>coilpy.mgrid &#8212; coilpy 0.3.27 documentation</title>
+    <title>coilpy.mgrid &#8212; coilpy 0.3.28 documentation</title>
     
-    <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     
-    <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -42,7 +39,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -147,6 +144,11 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.netcdf.html">
+   coilpy.netcdf
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="coilpy.pm4stell.html">
    coilpy.pm4stell
   </a>
@@ -211,34 +213,34 @@
               <div>
                 
   <section id="module-coilpy.mgrid">
-<span id="coilpy-mgrid"></span><h1>coilpy.mgrid<a class="headerlink" href="#module-coilpy.mgrid" title="Permalink to this headline">¶</a></h1>
+<span id="coilpy-mgrid"></span><h1>coilpy.mgrid<a class="headerlink" href="#module-coilpy.mgrid" title="Permalink to this headline">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="coilpy.mgrid.Mgrid">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">coilpy.mgrid.</span></span><span class="sig-name descname"><span class="pre">Mgrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Br</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Bz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Bphi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">coilpy.mgrid.</span></span><span class="sig-name descname"><span class="pre">Mgrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Br</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Bz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Bphi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.mgrid.Mgrid.bfield">
-<span class="sig-name descname"><span class="pre">bfield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rzp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid.bfield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid.bfield" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">bfield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rzp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid.bfield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid.bfield" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.mgrid.Mgrid.interpolate">
-<span class="sig-name descname"><span class="pre">interpolate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid.interpolate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid.interpolate" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">interpolate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid.interpolate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid.interpolate" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.mgrid.Mgrid.poincare_plot">
-<span class="sig-name descname"><span class="pre">poincare_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">niter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid.poincare_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid.poincare_plot" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">poincare_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">niter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid.poincare_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid.poincare_plot" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.mgrid.Mgrid.read_mgrid_bin">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_mgrid_bin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extcur</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid.read_mgrid_bin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid.read_mgrid_bin" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_mgrid_bin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extcur</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid.read_mgrid_bin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid.read_mgrid_bin" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.mgrid.Mgrid.tracing">
-<span class="sig-name descname"><span class="pre">tracing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">niter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid.tracing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid.tracing" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tracing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">niter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid.tracing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid.tracing" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -259,8 +261,9 @@
       </div>
     </div>
   
-    <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -271,7 +274,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

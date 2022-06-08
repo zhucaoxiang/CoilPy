@@ -6,29 +6,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>coilpy.misc &#8212; coilpy 0.3.27 documentation</title>
+    <title>coilpy.misc &#8212; coilpy 0.3.28 documentation</title>
     
-    <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     
-    <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -42,7 +39,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -147,6 +144,11 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.netcdf.html">
+   coilpy.netcdf
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="coilpy.pm4stell.html">
    coilpy.pm4stell
   </a>
@@ -211,15 +213,15 @@
               <div>
                 
   <section id="module-coilpy.misc">
-<span id="coilpy-misc"></span><h1>coilpy.misc<a class="headerlink" href="#module-coilpy.misc" title="Permalink to this headline">¶</a></h1>
+<span id="coilpy-misc"></span><h1>coilpy.misc<a class="headerlink" href="#module-coilpy.misc" title="Permalink to this headline">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.biot_savart">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">biot_savart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dxyz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#biot_savart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.biot_savart" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">biot_savart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dxyz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#biot_savart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.biot_savart" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.booz2focus">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">booz2focus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">booz_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">focus_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'plasma.boundary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nfp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#booz2focus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.booz2focus" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">booz2focus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">booz_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">focus_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'plasma.boundary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nfp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#booz2focus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.booz2focus" title="Permalink to this definition">#</a></dt>
 <dd><p>convert BOOZ_XFORM output into FOCUS format plasma surface (in Boozer coordinates)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -236,22 +238,22 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.colorbar">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">colorbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mappable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#colorbar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.colorbar" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">colorbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mappable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#colorbar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.colorbar" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.div0">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">div0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#div0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.div0" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">div0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#div0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.div0" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.fft_deriv">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">fft_deriv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#fft_deriv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.fft_deriv" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">fft_deriv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#fft_deriv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.fft_deriv" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.get_figure">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">get_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#get_figure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.get_figure" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">get_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#get_figure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.get_figure" title="Permalink to this definition">#</a></dt>
 <dd><p>Check where to plot
 :param axes: matplotlib.pyplot axis, axis to plot (default: None)
 :param kwargs: keyword arguments</p>
@@ -266,12 +268,12 @@ ax : matplotlib.pyplot axis</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.kwargs2dict">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">kwargs2dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#kwargs2dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.kwargs2dict" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">kwargs2dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#kwargs2dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.kwargs2dict" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.map_matrix">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">map_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#map_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.map_matrix" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">map_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">first</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">second</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#map_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.map_matrix" title="Permalink to this definition">#</a></dt>
 <dd><p>Map matrix to be complete (closed)
 :param xx – 2D numpy array:
 :param first – boolean: True, if increase the first dimension
@@ -287,7 +289,7 @@ ax : matplotlib.pyplot axis</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.print_progress">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">print_progress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iteration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Progress'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Complete'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bar_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#print_progress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.print_progress" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">print_progress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iteration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Progress'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Complete'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bar_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#print_progress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.print_progress" title="Permalink to this definition">#</a></dt>
 <dd><p>Call in a loop to create terminal progress bar
 &#64;params:</p>
 <blockquote>
@@ -302,7 +304,7 @@ bar_length  - Optional  : character length of bar (Int)</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.read_focus_boundary">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">read_focus_boundary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#read_focus_boundary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.read_focus_boundary" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">read_focus_boundary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#read_focus_boundary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.read_focus_boundary" title="Permalink to this definition">#</a></dt>
 <dd><p>Read FOCUS/FAMUS plasma boundary file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -327,7 +329,7 @@ bnormal : Input Bn dict, containing ‘xm’, ‘xn’, ‘bnc’, ‘bns’</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.real2trig_2d">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">real2trig_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#real2trig_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.real2trig_2d" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">real2trig_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#real2trig_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.real2trig_2d" title="Permalink to this definition">#</a></dt>
 <dd><p>Fourier decomposition in 2D</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -350,7 +352,7 @@ bnormal : Input Bn dict, containing ‘xm’, ‘xn’, ‘bnc’, ‘bns’</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.rotation_angle">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">rotation_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#rotation_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.rotation_angle" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">rotation_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#rotation_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.rotation_angle" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the rotation angle from a rotation matrix</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -370,7 +372,7 @@ bnormal : Input Bn dict, containing ‘xm’, ‘xn’, ‘bnc’, ‘bns’</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.rotation_matrix">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">rotation_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#rotation_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.rotation_matrix" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">rotation_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#rotation_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.rotation_matrix" title="Permalink to this definition">#</a></dt>
 <dd><p>A genera rotation matrix using yaw, pitch, and roll angles</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -391,8 +393,24 @@ bnormal : Input Bn dict, containing ‘xm’, ‘xn’, ‘bnc’, ‘bns’</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="coilpy.misc.scan_focus">
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">scan_focus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#scan_focus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.scan_focus" title="Permalink to this definition">#</a></dt>
+<dd><p>Scan input variable of FOCUS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>template</strong> (<em>str</em>) – a template input file (<a href="#id1"><span class="problematic" id="id2">*</span></a>.input).</p></li>
+<li><p><strong>key</strong> (<em>str</em>) – the variable name that will be scanned.</p></li>
+<li><p><strong>value</strong> (<em>list</em>) – the loop that the scan is going to take.</p></li>
+<li><p><strong>run</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether you want to run the scan immediately. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.set_axes_equal">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">set_axes_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#set_axes_equal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.set_axes_equal" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">set_axes_equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#set_axes_equal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.set_axes_equal" title="Permalink to this definition">#</a></dt>
 <dd><p>Make axes of 3D plot have equal scale so that spheres appear as spheres,
 cubes as cubes, etc..  This is one possible solution to Matplotlib’s
 ax.set_aspect(‘equal’) and ax.axis(‘equal’) not working for 3D.</p>
@@ -404,14 +422,14 @@ ax.set_aspect(‘equal’) and ax.axis(‘equal’) not working for 3D.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.toroidal_period">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">toroidal_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#toroidal_period"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.toroidal_period" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">toroidal_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#toroidal_period"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.toroidal_period" title="Permalink to this definition">#</a></dt>
 <dd><p>vec: [x,y,z] data
 Nfp: =1, toroidal number of periodicity</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.trig2real">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">trig2real</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmnc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#trig2real"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.trig2real" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">trig2real</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmnc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#trig2real"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.trig2real" title="Permalink to this definition">#</a></dt>
 <dd><p>Trigonometric coefficients to real space points</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -435,7 +453,7 @@ Nfp: =1, toroidal number of periodicity</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.trigfft">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">trigfft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#trigfft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.trigfft" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">trigfft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#trigfft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.trigfft" title="Permalink to this definition">#</a></dt>
 <dd><p>calculate trigonometric coefficients using FFT
 Assuming the periodicity is 2*pi
 params:</p>
@@ -457,7 +475,7 @@ tr – Truncation number (default: -1)</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.trigfft2">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">trigfft2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#trigfft2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.trigfft2" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">trigfft2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#trigfft2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.trigfft2" title="Permalink to this definition">#</a></dt>
 <dd><p>calculate trigonometric coefficients using FFT
 Assuming the periodicity is 2*pi
 params:</p>
@@ -479,7 +497,7 @@ params:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.vmec2focus">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">vmec2focus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vmec_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">focus_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'plasma.boundary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bnorm_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curpol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flipsign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#vmec2focus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.vmec2focus" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">vmec2focus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vmec_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">focus_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'plasma.boundary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bnorm_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curpol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flipsign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#vmec2focus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.vmec2focus" title="Permalink to this definition">#</a></dt>
 <dd><p>Prepare FOCUS input boundary</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -497,12 +515,12 @@ params:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.vmecMN">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">vmecMN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mpol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#vmecMN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.vmecMN" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">vmecMN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mpol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#vmecMN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.vmecMN" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.write_focus_boundary">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">write_focus_boundary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#write_focus_boundary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.write_focus_boundary" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">write_focus_boundary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#write_focus_boundary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.write_focus_boundary" title="Permalink to this definition">#</a></dt>
 <dd><p>Write the Fourier harmonics down in FOCUS format</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -518,7 +536,7 @@ params:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.xy2rp">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">xy2rp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#xy2rp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.xy2rp" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">xy2rp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#xy2rp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.xy2rp" title="Permalink to this definition">#</a></dt>
 <dd><p>Convert (x,y) to (R,phi) in polar coordinate</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -553,8 +571,9 @@ phi (float): angle in rad</p>
       </div>
     </div>
   
-    <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -565,7 +584,7 @@ phi (float): angle in rad</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

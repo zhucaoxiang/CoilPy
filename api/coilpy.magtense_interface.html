@@ -6,29 +6,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>coilpy.magtense_interface &#8212; coilpy 0.3.27 documentation</title>
+    <title>coilpy.magtense_interface &#8212; coilpy 0.3.28 documentation</title>
     
-    <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     
-    <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -42,7 +39,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -147,6 +144,11 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.netcdf.html">
+   coilpy.netcdf
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="coilpy.pm4stell.html">
    coilpy.pm4stell
   </a>
@@ -211,10 +213,10 @@
               <div>
                 
   <section id="module-coilpy.magtense_interface">
-<span id="coilpy-magtense-interface"></span><h1>coilpy.magtense_interface<a class="headerlink" href="#module-coilpy.magtense_interface" title="Permalink to this headline">¶</a></h1>
+<span id="coilpy-magtense-interface"></span><h1>coilpy.magtense_interface<a class="headerlink" href="#module-coilpy.magtense_interface" title="Permalink to this headline">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.magtense_interface.blocks2tiles">
-<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">blocks2tiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dipole_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1.05,</span> <span class="pre">1.05)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#blocks2tiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.blocks2tiles" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">blocks2tiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dipole_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1.05,</span> <span class="pre">1.05)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#blocks2tiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.blocks2tiles" title="Permalink to this definition">#</a></dt>
 <dd><p>Construct magtense.Tiles from PM4STELL blocks file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -236,7 +238,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.magtense_interface.build_prism">
-<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">build_prism</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lwh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mag_angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remanence</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#build_prism"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.build_prism" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">build_prism</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lwh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mag_angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remanence</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#build_prism"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.build_prism" title="Permalink to this definition">#</a></dt>
 <dd><p>Construct a prism in magtense.Tiles.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -260,7 +262,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.magtense_interface.corner2tiles">
-<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">corner2tiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">corner_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dipole_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1.05,</span> <span class="pre">1.05)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#corner2tiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.corner2tiles" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">corner2tiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">corner_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dipole_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1.05,</span> <span class="pre">1.05)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#corner2tiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.corner2tiles" title="Permalink to this definition">#</a></dt>
 <dd><p>Construct magtense.Tiles from MUSE corner file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -282,7 +284,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.magtense_interface.get_center">
-<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">get_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#get_center"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.get_center" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">get_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#get_center"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.get_center" title="Permalink to this definition">#</a></dt>
 <dd><p>Get geometry information from 8 vertices of a prism.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -304,7 +306,7 @@ lwh (numpy.ndarray): The dimension of the prism in length, width, height.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.magtense_interface.get_rotmat">
-<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">get_rotmat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#get_rotmat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.get_rotmat" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">get_rotmat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#get_rotmat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.get_rotmat" title="Permalink to this definition">#</a></dt>
 <dd><p>Rotation matrix in the order of x,y,z</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -321,7 +323,7 @@ lwh (numpy.ndarray): The dimension of the prism in length, width, height.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.magtense_interface.magtense2vtk">
-<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">magtense2vtk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vtk_file</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#magtense2vtk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.magtense2vtk" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">magtense2vtk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vtk_file</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#magtense2vtk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.magtense2vtk" title="Permalink to this definition">#</a></dt>
 <dd><p>Export magtense.Tiles to VTK</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -342,7 +344,7 @@ lwh (numpy.ndarray): The dimension of the prism in length, width, height.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.magtense_interface.muse2magntense">
-<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">muse2magntense</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">muse_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1.05,</span> <span class="pre">1.05)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magnetization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1160000.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#muse2magntense"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.muse2magntense" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">muse2magntense</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">muse_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1.05,</span> <span class="pre">1.05)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magnetization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1160000.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#muse2magntense"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.muse2magntense" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -361,8 +363,9 @@ lwh (numpy.ndarray): The dimension of the prism in length, width, height.</p>
       </div>
     </div>
   
-    <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -373,7 +376,7 @@ lwh (numpy.ndarray): The dimension of the prism in length, width, height.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

@@ -6,29 +6,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>coilpy.sortedDict &#8212; coilpy 0.3.27 documentation</title>
+    <title>coilpy.sortedDict &#8212; coilpy 0.3.28 documentation</title>
     
-    <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-  
+
     
-    <link rel="stylesheet"
-      href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-    <link rel="preload" as="font" type="font/woff2" crossorigin
-      href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-  
-    
-      
-  
-    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     
-    <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -42,7 +39,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -147,6 +144,11 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.netcdf.html">
+   coilpy.netcdf
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="coilpy.pm4stell.html">
    coilpy.pm4stell
   </a>
@@ -211,10 +213,10 @@
               <div>
                 
   <section id="module-coilpy.sortedDict">
-<span id="coilpy-sorteddict"></span><h1>coilpy.sortedDict<a class="headerlink" href="#module-coilpy.sortedDict" title="Permalink to this headline">¶</a></h1>
+<span id="coilpy-sorteddict"></span><h1>coilpy.sortedDict<a class="headerlink" href="#module-coilpy.sortedDict" title="Permalink to this headline">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">SortedDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">SortedDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
 <p>A dictionary that keeps its keys in the order in which they’re inserted</p>
 <dl class="field-list simple">
@@ -244,7 +246,7 @@
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.across">
-<span class="sig-name descname"><span class="pre">across</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">what</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returnKeys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.across"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.across" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">across</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">what</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returnKeys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.across"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.across" title="Permalink to this definition">#</a></dt>
 <dd><p>Aggregate objects across the tree</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -268,7 +270,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.changeKeysCase">
-<span class="sig-name descname"><span class="pre">changeKeysCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">case</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.changeKeysCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.changeKeysCase" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">changeKeysCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">case</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.changeKeysCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.changeKeysCase" title="Permalink to this definition">#</a></dt>
 <dd><p>Change all the keys in the dictionary to be upper/lower case</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -285,7 +287,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.check_location">
-<span class="sig-name descname"><span class="pre">check_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.check_location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.check_location" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">check_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.check_location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.check_location" title="Permalink to this definition">#</a></dt>
 <dd><p>check if location exist and equals value (if value is specified)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -303,18 +305,18 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.clear">
-<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None.</span>&#160; <span class="pre">Remove</span> <span class="pre">all</span> <span class="pre">items</span> <span class="pre">from</span> <span class="pre">D.</span></span></span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.clear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.clear" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None.</span>&#160; <span class="pre">Remove</span> <span class="pre">all</span> <span class="pre">items</span> <span class="pre">from</span> <span class="pre">D.</span></span></span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.clear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.clear" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.copy" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.copy" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns a copy of this object</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.diff">
-<span class="sig-name descname"><span class="pre">diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignoreComments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignoreContent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skipClasses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noloadClasses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.diff" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignoreComments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignoreContent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skipClasses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noloadClasses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.diff" title="Permalink to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -335,7 +337,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.diffKeys">
-<span class="sig-name descname"><span class="pre">diffKeys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.diffKeys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.diffKeys" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">diffKeys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.diffKeys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.diffKeys" title="Permalink to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>other</strong> – other dictionary to compare to</p>
@@ -348,7 +350,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.flatten">
-<span class="sig-name descname"><span class="pre">flatten</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.flatten"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.flatten" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">flatten</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.flatten"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.flatten" title="Permalink to this definition">#</a></dt>
 <dd><p>The hierarchical structure of the dictionaries is flattened</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -359,45 +361,45 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.get">
-<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.get" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.get" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the value for key if key is in the dictionary, else default.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.index">
-<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.index" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.index" title="Permalink to this definition">#</a></dt>
 <dd><p>returns the index of the item</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.insert">
-<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.insert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.insert" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.insert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.insert" title="Permalink to this definition">#</a></dt>
 <dd><p>Inserts the key, value pair before the item with the given index</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.items">
-<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">a</span> <span class="pre">set-like</span> <span class="pre">object</span> <span class="pre">providing</span> <span class="pre">a</span> <span class="pre">view</span> <span class="pre">on</span> <span class="pre">D's</span> <span class="pre">items</span></span></span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.items" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">a</span> <span class="pre">set-like</span> <span class="pre">object</span> <span class="pre">providing</span> <span class="pre">a</span> <span class="pre">view</span> <span class="pre">on</span> <span class="pre">D's</span> <span class="pre">items</span></span></span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.items" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.iteritems">
-<span class="sig-name descname"><span class="pre">iteritems</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.iteritems"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.iteritems" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">iteritems</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.iteritems"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.iteritems" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.iterkeys">
-<span class="sig-name descname"><span class="pre">iterkeys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.iterkeys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.iterkeys" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">iterkeys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.iterkeys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.iterkeys" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.itervalues">
-<span class="sig-name descname"><span class="pre">itervalues</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.itervalues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.itervalues" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">itervalues</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.itervalues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.itervalues" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.keys">
-<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matching</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.keys" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matching</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.keys" title="Permalink to this definition">#</a></dt>
 <dd><p>returns the sorted list of keys in the dictionary</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -414,7 +416,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.moveDown">
-<span class="sig-name descname"><span class="pre">moveDown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.moveDown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.moveDown" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">moveDown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.moveDown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.moveDown" title="Permalink to this definition">#</a></dt>
 <dd><p>Shift down in key list the item at a given index</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -428,7 +430,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.moveUp">
-<span class="sig-name descname"><span class="pre">moveUp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.moveUp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.moveUp" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">moveUp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.moveUp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.moveUp" title="Permalink to this definition">#</a></dt>
 <dd><p>Shift up in key list the item at a given index</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -442,13 +444,13 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.pop">
-<span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">v,</span> <span class="pre">remove</span> <span class="pre">specified</span> <span class="pre">key</span> <span class="pre">and</span> <span class="pre">return</span> <span class="pre">the</span> <span class="pre">corresponding</span> <span class="pre">value.</span></span></span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.pop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.pop" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">v,</span> <span class="pre">remove</span> <span class="pre">specified</span> <span class="pre">key</span> <span class="pre">and</span> <span class="pre">return</span> <span class="pre">the</span> <span class="pre">corresponding</span> <span class="pre">value.</span></span></span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.pop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.pop" title="Permalink to this definition">#</a></dt>
 <dd><p>If key is not found, d is returned if given, otherwise KeyError is raised</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.popitem">
-<span class="sig-name descname"><span class="pre">popitem</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.popitem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.popitem" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">popitem</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.popitem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.popitem" title="Permalink to this definition">#</a></dt>
 <dd><p>Remove and return a (key, value) pair as a 2-tuple.</p>
 <p>Pairs are returned in LIFO (last-in, first-out) order.
 Raises KeyError if the dict is empty.</p>
@@ -456,7 +458,7 @@ Raises KeyError if the dict is empty.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.safe_del">
-<span class="sig-name descname"><span class="pre">safe_del</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.safe_del"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.safe_del" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">safe_del</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.safe_del"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.safe_del" title="Permalink to this definition">#</a></dt>
 <dd><p>Delete key entry only if it is present</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -467,7 +469,7 @@ Raises KeyError if the dict is empty.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.setFlat">
-<span class="sig-name descname"><span class="pre">setFlat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.setFlat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.setFlat" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setFlat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.setFlat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.setFlat" title="Permalink to this definition">#</a></dt>
 <dd><p>recursively searches dictionary for key in order to set a value
 raises KeyError if key could not be found, so this method cannot
 be used to set new entries in the dictionary</p>
@@ -483,7 +485,7 @@ be used to set new entries in the dictionary</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.setdefault">
-<span class="sig-name descname"><span class="pre">setdefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.setdefault"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.setdefault" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">setdefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.setdefault"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.setdefault" title="Permalink to this definition">#</a></dt>
 <dd><p>The method setdefault() is similar to get(), but will set dict[key]=default if key is not already in dict</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -500,7 +502,7 @@ be used to set new entries in the dictionary</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.sort">
-<span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.sort" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.sort" title="Permalink to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>key</strong> – function that returns a string that is used for sorting or dictionary key whose content is used for sordting</p>
@@ -526,7 +528,7 @@ be used to set new entries in the dictionary</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.sort_class">
-<span class="sig-name descname"><span class="pre">sort_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">class_order=[&lt;class</span> <span class="pre">'dict'&gt;]</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.sort_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.sort_class" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">sort_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">class_order=[&lt;class</span> <span class="pre">'dict'&gt;]</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.sort_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.sort_class" title="Permalink to this definition">#</a></dt>
 <dd><p>sort items based on their class</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -540,7 +542,7 @@ be used to set new entries in the dictionary</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.traverse">
-<span class="sig-name descname"><span class="pre">traverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onlyDict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onlyLeaf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skipDynaLoad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.traverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.traverse" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">traverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onlyDict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onlyLeaf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skipDynaLoad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.traverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.traverse" title="Permalink to this definition">#</a></dt>
 <dd><p>Equivalent to the <cite>tree</cite> command in UNIX</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -558,7 +560,7 @@ be used to set new entries in the dictionary</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">E</span></span></em>, <span class="optional">]</span><em class="sig-param"><span class="n"><span class="pre">**F</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None.</span>&#160; <span class="pre">Update</span> <span class="pre">D</span> <span class="pre">from</span> <span class="pre">dict/iterable</span> <span class="pre">E</span> <span class="pre">and</span> <span class="pre">F.</span></span></span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.update" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param"><span class="n"><span class="pre">E</span></span></em>, <span class="optional">]</span><em class="sig-param"><span class="n"><span class="pre">**F</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None.</span>&#160; <span class="pre">Update</span> <span class="pre">D</span> <span class="pre">from</span> <span class="pre">dict/iterable</span> <span class="pre">E</span> <span class="pre">and</span> <span class="pre">F.</span></span></span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.update" title="Permalink to this definition">#</a></dt>
 <dd><p>If E is present and has a .keys() method, then does:  for k in E: D[k] = E[k]
 If E is present and lacks a .keys() method, then does:  for k, v in E: D[k] = v
 In either case, this is followed by: for k in F:  D[k] = F[k]</p>
@@ -566,18 +568,18 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.value_for_index">
-<span class="sig-name descname"><span class="pre">value_for_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.value_for_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.value_for_index" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">value_for_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.value_for_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.value_for_index" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the value of the item at the given zero-based index</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.values">
-<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">an</span> <span class="pre">object</span> <span class="pre">providing</span> <span class="pre">a</span> <span class="pre">view</span> <span class="pre">on</span> <span class="pre">D's</span> <span class="pre">values</span></span></span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.values" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">an</span> <span class="pre">object</span> <span class="pre">providing</span> <span class="pre">a</span> <span class="pre">view</span> <span class="pre">on</span> <span class="pre">D's</span> <span class="pre">values</span></span></span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.values" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="coilpy.sortedDict.SortedDict.walk">
-<span class="sig-name descname"><span class="pre">walk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.walk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.walk" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">walk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#SortedDict.walk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.SortedDict.walk" title="Permalink to this definition">#</a></dt>
 <dd><p>Walk every member and call a function on the keyword and value</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -596,7 +598,7 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.buildLocation">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">buildLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#buildLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.buildLocation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">buildLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#buildLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.buildLocation" title="Permalink to this definition">#</a></dt>
 <dd><p>Assemble list of keys into dictionary path string</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -610,7 +612,7 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.dynaLoad">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">dynaLoad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#dynaLoad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.dynaLoad" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">dynaLoad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#dynaLoad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.dynaLoad" title="Permalink to this definition">#</a></dt>
 <dd><p>Decorator which calls <cite>_dynaLoad</cite> method</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -624,7 +626,7 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.dynaLoadKey">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">dynaLoadKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#dynaLoadKey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.dynaLoadKey" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">dynaLoadKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#dynaLoadKey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.dynaLoadKey" title="Permalink to this definition">#</a></dt>
 <dd><p>Decorator which calls <cite>_dynaLoad</cite> method only if key is not found</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -638,7 +640,7 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.dynaSave">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">dynaSave</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#dynaSave"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.dynaSave" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">dynaSave</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#dynaSave"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.dynaSave" title="Permalink to this definition">#</a></dt>
 <dd><p>Decorator which calls <cite>_dynaSave</cite> method</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -652,13 +654,13 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.get_bases">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">get_bases</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#get_bases"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.get_bases" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">get_bases</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#get_bases"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.get_bases" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns a list of strings describing the dependencies of a class</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.parseBuildLocation">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">parseBuildLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#parseBuildLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.parseBuildLocation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">parseBuildLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#parseBuildLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.parseBuildLocation" title="Permalink to this definition">#</a></dt>
 <dd><p>DEPRECATED: use <cite>parseLocation</cite> and <cite>buildLocation</cite> functions instead</p>
 <p>Function to handle locations in the OMFIT tree (i.e. python dictionaries)</p>
 <dl class="field-list simple">
@@ -677,7 +679,7 @@ In either case, this is followed by: for k in F:  D[k] = F[k]</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.parseLocation">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">parseLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#parseLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.parseLocation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">parseLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#parseLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.parseLocation" title="Permalink to this definition">#</a></dt>
 <dd><p>Parse string representation of the dictionary path and return list including root name
 This function can parse things like: OMFIT[‘asd’][u’aiy’ ][”[  ‘bla’][‘asa’]”][3][1:5]</p>
 <dl class="field-list simple">
@@ -692,20 +694,20 @@ This function can parse things like: OMFIT[‘asd’][u’aiy’ ][”[  ‘bla�
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.pretty_diff">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">pretty_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptrn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#pretty_diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.pretty_diff" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">pretty_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptrn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#pretty_diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.pretty_diff" title="Permalink to this definition">#</a></dt>
 <dd><p>generate “human readable” dictionary output from SortedDict.diff()</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.prune_mask">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">prune_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">what</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptrn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#prune_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.prune_mask" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">prune_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">what</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptrn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#prune_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.prune_mask" title="Permalink to this definition">#</a></dt>
 <dd><p>prune dictionary structure based on mask
 The mask can be in the form of of a <cite>pretty_diff</cite> dictionary or a list of <cite>traverse</cite> strings</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.recursiveUpdate">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">recursiveUpdate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overWrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#recursiveUpdate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.recursiveUpdate" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">recursiveUpdate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overWrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#recursiveUpdate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.recursiveUpdate" title="Permalink to this definition">#</a></dt>
 <dd><p>Recursive update of dictionary A based on data from dictionary B</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -723,12 +725,12 @@ The mask can be in the form of of a <cite>pretty_diff</cite> dictionary or a lis
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.setLocation">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">setLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">globals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#setLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.setLocation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">setLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">globals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#setLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.setLocation" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.size_tree_objects">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">size_tree_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#size_tree_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.size_tree_objects" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">size_tree_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#size_tree_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.size_tree_objects" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns file sizes of objects in the dictionary based on the size of their filename attribute</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -742,13 +744,13 @@ The mask can be in the form of of a <cite>pretty_diff</cite> dictionary or a lis
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.sortHuman">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">sortHuman</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inStr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#sortHuman"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.sortHuman" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">sortHuman</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inStr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#sortHuman"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.sortHuman" title="Permalink to this definition">#</a></dt>
 <dd><p>Sort the given list the way that humans expect</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.traverse">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">traverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level=100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onlyDict=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onlyLeaf=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skipDynaLoad=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noSubmodules=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">traverse_classes=(&lt;class</span> <span class="pre">'dict'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#traverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.traverse" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">traverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level=100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onlyDict=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">onlyLeaf=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skipDynaLoad=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noSubmodules=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">traverse_classes=(&lt;class</span> <span class="pre">'dict'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#traverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.traverse" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns a string or list of strings describing the path of every entry/subentries in the dictionary</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -771,7 +773,7 @@ The mask can be in the form of of a <cite>pretty_diff</cite> dictionary or a lis
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.traverseLocation">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">traverseLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#traverseLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.traverseLocation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">traverseLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#traverseLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.traverseLocation" title="Permalink to this definition">#</a></dt>
 <dd><p>returns list of locations to reach input location</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -785,7 +787,7 @@ The mask can be in the form of of a <cite>pretty_diff</cite> dictionary or a lis
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.sortedDict.treeLocation">
-<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">treeLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#treeLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.treeLocation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.sortedDict.</span></span><span class="sig-name descname"><span class="pre">treeLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/sortedDict.html#treeLocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.sortedDict.treeLocation" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -804,8 +806,9 @@ The mask can be in the form of of a <cite>pretty_diff</cite> dictionary or a lis
       </div>
     </div>
   
-    <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-  <footer class="footer mt-5 mt-md-0">
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -816,7 +819,7 @@ The mask can be in the form of of a <cite>pretty_diff</cite> dictionary or a lis
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
 </p>
     </div>
     

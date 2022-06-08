@@ -21,6 +21,7 @@ Submodules
    coilpy.magtense_interface
    coilpy.mgrid
    coilpy.misc
+   coilpy.netcdf
    coilpy.pm4stell
    coilpy.sortedDict
    coilpy.stellopt
