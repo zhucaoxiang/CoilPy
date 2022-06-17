@@ -8,7 +8,7 @@ The repository is available at https://github.com/zhucaoxiang/CoilPy.
 
 For full documenation, please check https://zhucaoxiang.github.io/CoilPy/api/coilpy.html.
 """
-__version__ = "0.3.28"
+__version__ = "0.3.29"
 
 # local packages
 from .misc import colorbar, get_figure, kwargs2dict, map_matrix
@@ -31,5 +31,6 @@ from .pm4stell import blocks2vtk, blocks2ficus
 from .magnet import Magnet, corner2magnet
 from .magtense_interface import get_center, build_prism, blocks2tiles
 from .magtense_interface import corner2tiles, magtense2vtk, muse2magntense
+from .current_potential import Regcoil
 
 # from coilpy_fortran import hanson_hirshman, biot_savart
