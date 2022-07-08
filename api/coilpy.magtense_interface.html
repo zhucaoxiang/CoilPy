@@ -1,18 +1,22 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>coilpy.magtense_interface &#8212; coilpy 0.3.28 documentation</title>
-    
+    <title>coilpy.magtense_interface &#8212; coilpy 0.3.30 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
 
-    
+
   <link rel="stylesheet"
     href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
@@ -22,42 +26,51 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
-    
+
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
 
     
-    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
 
   <div id="navbar-start">
     
     
-<a class="navbar-brand" href="../index.html">
-<p class="title">coilpy</p>
-</a>
+  
 
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">coilpy 0.3.30 documentation</p>
+  
+</a>
     
   </div>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+    <span class="fas fa-bars"></span>
   </button>
 
   
@@ -76,6 +89,14 @@
     <div id="navbar-end">
       
       <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
         <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
       </ul>
       </div>
@@ -86,13 +107,13 @@
     </nav>
     
 
-    <div class="container-xl">
-      <div class="row">
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
           
-            
-            <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar">
-              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -106,6 +127,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="coilpy.coils.html">
    coilpy.coils
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.current_potential.html">
+   coilpy.current_potential
   </a>
  </li>
  <li class="toctree-l1">
@@ -177,49 +203,48 @@
 
   </div>
 </nav>
-              </div>
-              <div class="sidebar-end-items">
-              </div>
-            </div>
-            
-          
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
 
           
-          <div class="d-none d-xl-block col-xl-2 bd-toc">
-            
-              
-              <div class="toc-item">
-                
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
 
 <nav id="bd-toc-nav">
     
 </nav>
-              </div>
-              
-              <div class="toc-item">
-                
-              </div>
-              
-            
-          </div>
-          
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
 
           
           
-            
-          
-          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+          <div class="bd-content col-12 col-md-9 col-xl-7">
               
-              <div>
+              <article class="bd-article" role="main">
                 
   <section id="module-coilpy.magtense_interface">
-<span id="coilpy-magtense-interface"></span><h1>coilpy.magtense_interface<a class="headerlink" href="#module-coilpy.magtense_interface" title="Permalink to this headline">#</a></h1>
+<span id="coilpy-magtense-interface"></span><h1>coilpy.magtense_interface<a class="headerlink" href="#module-coilpy.magtense_interface" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.magtense_interface.blocks2tiles">
 <span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">blocks2tiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dipole_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1.05,</span> <span class="pre">1.05)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#blocks2tiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.blocks2tiles" title="Permalink to this definition">#</a></dt>
 <dd><p>Construct magtense.Tiles from PM4STELL blocks file</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>block_file</strong> (<em>str</em>) – Path and file name to the blocks file (usually contains <cite>_blocks.csv</cite>).</p></li>
 <li><p><strong>dipole_file</strong> (<em>str</em>) – FAMUS dipole file to assign the magnetic moment.</p></li>
@@ -227,10 +252,10 @@
 <li><p><strong>mu</strong> (<em>tuple</em><em>, </em><em>optional</em>) – Magnetic permeability in the parallel and perpendicular direction. Defaults to (1.05, 1.05).</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Prisms in the type of magtense.Titles.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>prism (magtense.Tiles)</p>
 </dd>
 </dl>
@@ -241,7 +266,7 @@
 <span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">build_prism</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lwh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mag_angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remanence</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#build_prism"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.build_prism" title="Permalink to this definition">#</a></dt>
 <dd><p>Construct a prism in magtense.Tiles.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>center</strong> (<em>array-like</em>) – The centers of the prisms.</p></li>
 <li><p><strong>rot</strong> (<em>array-like</em>) – The rotation angles around x,y,z-axis of the prisms.</p></li>
@@ -251,10 +276,10 @@
 <li><p><strong>remanence</strong> (<em>float</em><em> or </em><em>array-like</em>) – Magnetic remanence.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Prisms in the type of magtense.Titles.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>prism (magtense.Titles)</p>
 </dd>
 </dl>
@@ -265,7 +290,7 @@
 <span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">corner2tiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">corner_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dipole_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1.05,</span> <span class="pre">1.05)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#corner2tiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.corner2tiles" title="Permalink to this definition">#</a></dt>
 <dd><p>Construct magtense.Tiles from MUSE corner file</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>corner_file</strong> (<em>str</em>) – Path and file name to the corner file (usually contains <cite>_corner.csv</cite>).</p></li>
 <li><p><strong>dipole_file</strong> (<em>str</em>) – FAMUS dipole file to assign the magnetic moment.</p></li>
@@ -273,10 +298,10 @@
 <li><p><strong>mu</strong> (<em>tuple</em><em>, </em><em>optional</em>) – Magnetic permeability in the parallel and perpendicular direction. Defaults to (1.05, 1.05).</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Prisms in the type of magtense.Titles.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>prism (magtense.Tiles)</p>
 </dd>
 </dl>
@@ -287,18 +312,18 @@
 <span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">get_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#get_center"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.get_center" title="Permalink to this definition">#</a></dt>
 <dd><p>Get geometry information from 8 vertices of a prism.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>top</strong> (<em>numpy.ndarray</em>) – Vertices of the top surface, in shape of (4,3).</p></li>
 <li><p><strong>bot</strong> (<em>numpy.ndarray</em>) – Vertices of the bottom surface, in shape of (4,3).</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The center of the prism.
 rot (numpy.ndarray): The rotation angles around x,y,z-axis of the prism.
 lwh (numpy.ndarray): The dimension of the prism in length, width, height.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>center (numpy.ndarray)</p>
 </dd>
 </dl>
@@ -309,13 +334,13 @@ lwh (numpy.ndarray): The dimension of the prism in length, width, height.</p>
 <span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">get_rotmat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#get_rotmat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.get_rotmat" title="Permalink to this definition">#</a></dt>
 <dd><p>Rotation matrix in the order of x,y,z</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>rot</strong> (<em>list</em><em>,</em><em>(</em><em>3</em><em>,</em><em>)</em>) – Rotation angle around x,y,z-axis.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The 3X3 rotation matrix.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -326,17 +351,17 @@ lwh (numpy.ndarray): The dimension of the prism in length, width, height.</p>
 <span class="sig-prename descclassname"><span class="pre">coilpy.magtense_interface.</span></span><span class="sig-name descname"><span class="pre">magtense2vtk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vtk_file</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/magtense_interface.html#magtense2vtk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.magtense_interface.magtense2vtk" title="Permalink to this definition">#</a></dt>
 <dd><p>Export magtense.Tiles to VTK</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mags</strong> (<em>magtense.Tiles</em>) – Magnet prisms in magtense.Tiles.</p></li>
 <li><p><strong>vtk_file</strong> (<em>str</em>) – VTK file name.</p></li>
 <li><p><strong>kwargs</strong> (<em>optional</em>) – keyword arguments passed to meshio.Mesh(), e.g. , cell_data={“m”:[m]}</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The constructed <cite>meshio.Mesh</cite> object.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>meshio.Mesh</p>
 </dd>
 </dl>
@@ -350,37 +375,41 @@ lwh (numpy.ndarray): The dimension of the prism in length, width, height.</p>
 </section>
 
 
-              </div>
+              </article>
               
+
               
-              <!-- Previous / next buttons -->
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
 <div class='prev-next-area'>
 </div>
+              </footer>
               
-          </main>
+          </div>
           
-
       </div>
     </div>
+
+  
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-<footer class="footer mt-5 mt-md-0">
-  <div class="container">
-    
-    <div class="footer-item">
-      <p class="copyright">
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
     &copy; Copyright 2020, Caoxiang Zhu.<br>
 </p>
-    </div>
-    
-    <div class="footer-item">
-      <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
-</p>
-    </div>
-    
   </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+</p>
+  </div>
+  
+</div>
 </footer>
   </body>
 </html>

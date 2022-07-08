@@ -1,0 +1,7 @@
+coilpy.current\_potential 
+================================
+
+.. automodule:: coilpy.current_potential
+   :members:
+   :undoc-members:
+   :show-inheritance:

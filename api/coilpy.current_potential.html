@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>coilpy.mgrid &#8212; coilpy 0.3.30 documentation</title>
+    <title>coilpy.current_potential &#8212; coilpy 0.3.30 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -129,8 +129,8 @@
    coilpy.coils
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.current_potential.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    coilpy.current_potential
   </a>
  </li>
@@ -159,8 +159,8 @@
    coilpy.magtense_interface
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.mgrid.html">
    coilpy.mgrid
   </a>
  </li>
@@ -237,36 +237,61 @@
               
               <article class="bd-article" role="main">
                 
-  <section id="module-coilpy.mgrid">
-<span id="coilpy-mgrid"></span><h1>coilpy.mgrid<a class="headerlink" href="#module-coilpy.mgrid" title="Permalink to this heading">#</a></h1>
+  <section id="module-coilpy.current_potential">
+<span id="coilpy-current-potential"></span><h1>coilpy.current_potential<a class="headerlink" href="#module-coilpy.current_potential" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="coilpy.mgrid.Mgrid">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">coilpy.mgrid.</span></span><span class="sig-name descname"><span class="pre">Mgrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Br</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Bz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Bphi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dt class="sig sig-object py" id="coilpy.current_potential.Regcoil">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">coilpy.current_potential.</span></span><span class="sig-name descname"><span class="pre">Regcoil</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maskandscale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/current_potential.html#Regcoil"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.current_potential.Regcoil" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="coilpy.netcdf.html#coilpy.netcdf.Netcdf" title="coilpy.netcdf.Netcdf"><code class="xref py py-class docutils literal notranslate"><span class="pre">Netcdf</span></code></a></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="coilpy.mgrid.Mgrid.bfield">
-<span class="sig-name descname"><span class="pre">bfield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rzp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid.bfield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid.bfield" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="coilpy.current_potential.Regcoil.bfield">
+<span class="sig-name descname"><span class="pre">bfield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/current_potential.html#Regcoil.bfield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.current_potential.Regcoil.bfield" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the magnetic field at an arbitrary point using <cite>self.k</cite>.
+(Not fully vectorized because of degrade of speed)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pos</strong> (<em>list</em>) – Evaluation point in Cartesian coordinates.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>B vector produced by the surface current.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="coilpy.mgrid.Mgrid.interpolate">
-<span class="sig-name descname"><span class="pre">interpolate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid.interpolate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid.interpolate" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="coilpy.current_potential.Regcoil.compute_bn">
+<span class="sig-name descname"><span class="pre">compute_bn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/current_potential.html#Regcoil.compute_bn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.current_potential.Regcoil.compute_bn" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute B_surface_current cdot n on the plasma surface</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a 2D array containing Bn information. Dimension: Ntheta x Nzeta</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="coilpy.mgrid.Mgrid.poincare_plot">
-<span class="sig-name descname"><span class="pre">poincare_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">niter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid.poincare_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid.poincare_plot" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coilpy.mgrid.Mgrid.read_mgrid_bin">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_mgrid_bin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extcur</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid.read_mgrid_bin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid.read_mgrid_bin" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="coilpy.mgrid.Mgrid.tracing">
-<span class="sig-name descname"><span class="pre">tracing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">niter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/mgrid.html#Mgrid.tracing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.mgrid.Mgrid.tracing" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="coilpy.current_potential.Regcoil.get_k">
+<span class="sig-name descname"><span class="pre">get_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ilambda</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/current_potential.html#Regcoil.get_k"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.current_potential.Regcoil.get_k" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute the surface current density on the coil surface
+Following Eq. A.13 in Landreman Nucl. Fusion 57 (2017) 046003</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ilambda</strong> (<em>int</em><em>, </em><em>optional</em>) – The lambda index in the REGCOIL solution. Defaults to 0.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A 3D array containing the current desity information. Dimension: 3 x Ntheta x Nzeta</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

@@ -1,18 +1,22 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>coilpy.surface &#8212; coilpy 0.3.28 documentation</title>
-    
+    <title>coilpy.surface &#8212; coilpy 0.3.30 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
 
-    
+
   <link rel="stylesheet"
     href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
@@ -22,42 +26,51 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
-    
+
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
 
     
-    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
 
   <div id="navbar-start">
     
     
-<a class="navbar-brand" href="../index.html">
-<p class="title">coilpy</p>
-</a>
+  
 
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">coilpy 0.3.30 documentation</p>
+  
+</a>
     
   </div>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+    <span class="fas fa-bars"></span>
   </button>
 
   
@@ -76,6 +89,14 @@
     <div id="navbar-end">
       
       <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
         <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
       </ul>
       </div>
@@ -86,13 +107,13 @@
     </nav>
     
 
-    <div class="container-xl">
-      <div class="row">
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
           
-            
-            <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar">
-              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -106,6 +127,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="coilpy.coils.html">
    coilpy.coils
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="coilpy.current_potential.html">
+   coilpy.current_potential
   </a>
  </li>
  <li class="toctree-l1">
@@ -177,43 +203,42 @@
 
   </div>
 </nav>
-              </div>
-              <div class="sidebar-end-items">
-              </div>
-            </div>
-            
-          
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
 
           
-          <div class="d-none d-xl-block col-xl-2 bd-toc">
-            
-              
-              <div class="toc-item">
-                
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
 
 <nav id="bd-toc-nav">
     
 </nav>
-              </div>
-              
-              <div class="toc-item">
-                
-              </div>
-              
-            
-          </div>
-          
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
 
           
           
-            
-          
-          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+          <div class="bd-content col-12 col-md-9 col-xl-7">
               
-              <div>
+              <article class="bd-article" role="main">
                 
   <section id="module-coilpy.surface">
-<span id="coilpy-surface"></span><h1>coilpy.surface<a class="headerlink" href="#module-coilpy.surface" title="Permalink to this headline">#</a></h1>
+<span id="coilpy-surface"></span><h1>coilpy.surface<a class="headerlink" href="#module-coilpy.surface" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="coilpy.surface.FourSurf">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">coilpy.surface.</span></span><span class="sig-name descname"><span class="pre">FourSurf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rbc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zbs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rbs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zbc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf" title="Permalink to this definition">#</a></dt>
@@ -227,10 +252,10 @@ Z = sum ZBC cos(mu-nv) + ZBS sin(mu-nv)</p>
 <dd><p>Get the surface area and saved in self.area
 More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>None</strong> – </p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>area</p>
 </dd>
 </dl>
@@ -242,10 +267,10 @@ More comprehensive options can be found in self._areaVolume()</p>
 <dd><p>Get the surface volume and saved in self.volume
 More comprehensive options can be found in self._areaVolume()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>None</strong> – </p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>volume</p>
 </dd>
 </dl>
@@ -256,16 +281,16 @@ More comprehensive options can be found in self._areaVolume()</p>
 <span class="sig-name descname"><span class="pre">grid_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ntor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.grid_box"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.grid_box" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the max R &amp; Z values of the surface</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ntor</strong> (<em>int</em><em>, </em><em>optional</em>) – Toroidal resolution. Defaults to 64.</p></li>
 <li><p><strong>npol</strong> (<em>int</em><em>, </em><em>optional</em>) – Poloidal resolution. Defaults to 64.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the max R &amp; Z values</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>(Rmin, Rmax, Zmin, Zmax)</p>
 </dd>
 </dl>
@@ -276,7 +301,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zeta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.plot" title="Permalink to this definition">#</a></dt>
 <dd><p>plot the cross-section at zeta using matplotlib.pyplot</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>float</strong> (<em>zeta --</em>) – </p></li>
 <li><p><strong>value</strong> (<em>toroidal angle</em>) – </p></li>
@@ -291,7 +316,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 <li><p><strong>pyplot</strong> (<em>kwargs -- optional keyword arguments for</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>line class in matplotlib.pyplot</p>
 </dd>
 </dl>
@@ -302,7 +327,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 <span class="sig-name descname"><span class="pre">plot3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pyplot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6.283185307179586</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeta0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeta1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6.283185307179586</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.plot3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.plot3d" title="Permalink to this definition">#</a></dt>
 <dd><p>plot 3D shape of the surface</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>string</strong> (<em>engine --</em>) – </p></li>
 <li><p><strong>{'pyplot'</strong> (<em>plotting engine</em>) – </p></li>
@@ -341,7 +366,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 <li><p><strong>plotting</strong> (<em>kwargs -- optional keyword arguments for</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>xsurf, ysurf, zsurf – arrays of x,y,z coordinates on the surface</p>
 </dd>
 </dl>
@@ -352,7 +377,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_focus_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Mpol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9999</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ntor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9999</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.read_focus_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.read_focus_input" title="Permalink to this definition">#</a></dt>
 <dd><p>initialize surface from the FOCUS format input file ‘plasma.boundary’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>string</strong> (<em>filename --</em>) – </p></li>
 <li><p><strong>file</strong> (<em>path + name to the FOCUS input boundary</em>) – </p></li>
@@ -366,7 +391,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>fourier_surface class</p>
 </dd>
 </dl>
@@ -377,7 +402,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_spec_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Mpol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9999</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ntor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9999</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.read_spec_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.read_spec_input" title="Permalink to this definition">#</a></dt>
 <dd><p>initialize surface from the SPEC input file ‘<a href="#id1"><span class="problematic" id="id2">*</span></a>.sp’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>string</strong> (<em>filename --</em>) – </p></li>
 <li><p><strong>file</strong> (<em>path + name to the FOCUS input boundary</em>) – </p></li>
@@ -391,7 +416,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>fourier_surface class</p>
 </dd>
 </dl>
@@ -402,7 +427,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_spec_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spec_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.read_spec_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.read_spec_output" title="Permalink to this definition">#</a></dt>
 <dd><p>initialize surface from the ns-th interface SPEC output</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>class</strong> (<em>spec_out -- SPEC</em>) – </p></li>
 <li><p><strong>results</strong> (<em>SPEC hdf5</em>) – </p></li>
@@ -410,7 +435,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 <li><p><strong>(</strong><strong>default</strong> (<em>the index of SPEC interface</em>) – -1)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>fourier_surface class</p>
 </dd>
 </dl>
@@ -421,7 +446,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_vmec_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.read_vmec_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.read_vmec_input" title="Permalink to this definition">#</a></dt>
 <dd><p>initialize surface from the ns-th interface SPEC output</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>string</strong> (<em>woutfile --</em>) – </p></li>
 <li><p><strong>output</strong> (<em>path + name to the wout file from VMEC</em>) – </p></li>
@@ -429,7 +454,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 <li><p><strong>(</strong><strong>default</strong> (<em>the index of VMEC nested flux surfaces</em>) – -1)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>fourier_surface class</p>
 </dd>
 </dl>
@@ -440,7 +465,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_vmec_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">woutfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.read_vmec_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.read_vmec_output" title="Permalink to this definition">#</a></dt>
 <dd><p>initialize surface from the ns-th interface SPEC output</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>string</strong> (<em>woutfile --</em>) – </p></li>
 <li><p><strong>output</strong> (<em>path + name to the wout file from VMEC</em>) – </p></li>
@@ -448,7 +473,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 <li><p><strong>(</strong><strong>default</strong> (<em>the index of VMEC nested flux surfaces</em>) – -1)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>fourier_surface class</p>
 </dd>
 </dl>
@@ -459,7 +484,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_winding_surfce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Mpol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9999</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ntor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9999</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.read_winding_surfce"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.read_winding_surfce" title="Permalink to this definition">#</a></dt>
 <dd><p>initialize surface from the NESCOIL format input file ‘nescin.xxx’</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>string</strong> (<em>filename --</em>) – </p></li>
 <li><p><strong>file</strong> (<em>path + name to the NESCOIL input boundary</em>) – </p></li>
@@ -473,7 +498,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>fourier_surface class</p>
 </dd>
 </dl>
@@ -484,7 +509,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 <span class="sig-name descname"><span class="pre">rz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.rz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.rz" title="Permalink to this definition">#</a></dt>
 <dd><p>get r,z position of list of (theta, zeta)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>array_like</strong> (<em>zeta -- float</em>) – </p></li>
 <li><p><strong>angle</strong> (<em>poloidal</em>) – </p></li>
@@ -494,7 +519,7 @@ More comprehensive options can be found in self._areaVolume()</p>
 <li><p><strong>(</strong><strong>default</strong> (<em>calculate the normal vector</em><em> or </em><em>not</em>) – False)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>r, z – float array_like
 r, z, [rt, zt], [rz, zz] – if normal</p>
 </dd>
@@ -506,7 +531,7 @@ r, z, [rt, zt], [rz, zz] – if normal</p>
 <span class="sig-name descname"><span class="pre">toSTL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stlname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.toSTL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.toSTL" title="Permalink to this definition">#</a></dt>
 <dd><p>save surface shape a stl file using meshio</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>string</strong> (<em>stlname --</em>) – </p></li>
 <li><p><strong>save</strong> (<em>the filename you want to</em>) – </p></li>
@@ -514,10 +539,10 @@ r, z, [rt, zt], [rz, zz] – if normal</p>
 <li><p><strong>self.plot3d.</strong> (<em>kwargs -- optional keyword arguments used for</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Mesh object in meshio</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>mesh</p>
 </dd>
 </dl>
@@ -528,7 +553,7 @@ r, z, [rt, zt], [rz, zz] – if normal</p>
 <span class="sig-name descname"><span class="pre">toVTK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vtkname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">360</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.toVTK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.toVTK" title="Permalink to this definition">#</a></dt>
 <dd><p>save surface shape a vtk grid file</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>string</strong> (<em>vtkname --</em>) – </p></li>
 <li><p><strong>save</strong> (<em>the filename you want to</em>) – </p></li>
@@ -561,7 +586,7 @@ r, z, [rt, zt], [rz, zz] – if normal</p>
 <span class="sig-name descname"><span class="pre">write_focus_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.write_focus_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.write_focus_input" title="Permalink to this definition">#</a></dt>
 <dd><p>Write the Fourier harmonics down in FOCUS format</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filename</strong> (<em>[</em><em>type</em><em>]</em>) – Output file name.</p></li>
 <li><p><strong>nfp</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of toroidal periodicity Defaults to 1.</p></li>
@@ -581,7 +606,7 @@ r, z, [rt, zt], [rz, zz] – if normal</p>
 <span class="sig-name descname"><span class="pre">xyz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/surface.html#FourSurf.xyz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.surface.FourSurf.xyz" title="Permalink to this definition">#</a></dt>
 <dd><p>get x,y,z position of list of (theta, zeta)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>array_like</strong> (<em>zeta -- float</em>) – </p></li>
 <li><p><strong>angle</strong> (<em>poloidal</em>) – </p></li>
@@ -591,7 +616,7 @@ r, z, [rt, zt], [rz, zz] – if normal</p>
 <li><p><strong>(</strong><strong>default</strong> (<em>calculate the normal vector</em><em> or </em><em>not</em>) – False)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>x, y, z – float array_like
 x, y, z, [nx, ny, nz] – if normal</p>
 </dd>
@@ -603,37 +628,41 @@ x, y, z, [nx, ny, nz] – if normal</p>
 </section>
 
 
-              </div>
+              </article>
               
+
               
-              <!-- Previous / next buttons -->
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
 <div class='prev-next-area'>
 </div>
+              </footer>
               
-          </main>
+          </div>
           
-
       </div>
     </div>
+
+  
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-<footer class="footer mt-5 mt-md-0">
-  <div class="container">
-    
-    <div class="footer-item">
-      <p class="copyright">
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
     &copy; Copyright 2020, Caoxiang Zhu.<br>
 </p>
-    </div>
-    
-    <div class="footer-item">
-      <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br>
-</p>
-    </div>
-    
   </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br>
+</p>
+  </div>
+  
+</div>
 </footer>
   </body>
 </html>

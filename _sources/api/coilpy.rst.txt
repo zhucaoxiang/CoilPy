@@ -14,6 +14,7 @@ Submodules
 
    coilpy.booz_xform
    coilpy.coils
+   coilpy.current_potential
    coilpy.dipole
    coilpy.focushdf5
    coilpy.hdf5
