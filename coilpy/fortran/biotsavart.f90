@@ -90,6 +90,56 @@ SUBROUTINE hanson_hirshman(pos, coilxyz, current, bfield, npos, nseg)
    RETURN
 END SUBROUTINE hanson_hirshman
 
+SUBROUTINE surface_current(pos, surface, current, norm, dtdz, bfield, npos, nzeta, ntheta)
+   ! Calculate magnetic field from a surface current using the Biot-Savart Law 
+   !
+   ! input params:
+   !       pos(npos,3): double, positions to be evaluated
+   !       surface(nzeta,ntheta,3): double, xyz points for the current-carrying surface
+   !       current(nzeta,ntheta,3): double, surface current in cartesian coordinates
+   !       norm(nzeta,ntheta): double, surface normal / jacobian
+   !       dtdz: double, dtheta * dzeta used for the surface integral
+   !       npos: int, optional, number of evaluation points
+   !       nzeta: int, optional, number of toroidal resolution of the surface current
+   !       ntheta: int, optional, number of poloidal resolution of the surface current
+   ! output params:
+   !       bfield(npos,3): double, B-vec at the evaluation points
+   IMPLICIT NONE
+
+   INTEGER, INTENT(IN) :: npos, nzeta, ntheta
+   REAL*8, INTENT(IN) :: dtdz, pos(npos,3), surface(nzeta,ntheta,3), &
+      & current(nzeta,ntheta,3), norm(nzeta,ntheta)
+   REAL*8, INTENT(OUT) :: bfield(npos,3)
+
+   INTEGER :: i, j, k
+   REAL*8 :: x, y, z, lx, ly, lz, rm3, Bx, By, Bz
+   REAL*8, PARAMETER :: mu0_over_4pi = 1.0E-7
+
+   DO i = 1, npos
+      x = pos(i, 1); y = pos(i, 2); z = pos(i, 3)
+      Bx = 0; By = 0; Bz = 0
+      DO j = 1, nzeta
+         DO k = 1, ntheta
+            lx = x - surface(j, k, 1)
+            ly = y - surface(j, k, 2)
+            lz = z - surface(j, k, 3)
+            rm3 = (sqrt(lx**2 + ly**2 + lz**2))**(-3)
+            Bx = Bx + (lz*current(j, k, 2) - ly*current(j, k, 3))*rm3*norm(j,k)
+            By = By + (lx*current(j, k, 3) - lz*current(j, k, 1))*rm3*norm(j,k)
+            Bz = Bz + (ly*current(j, k, 1) - lx*current(j, k, 2))*rm3*norm(j,k)
+         END DO
+      END DO
+      bfield(i, 1) = Bx
+      bfield(i, 2) = By
+      bfield(i, 3) = Bz
+   END DO
+
+   bfield = bfield*mu0_over_4pi*dtdz
+
+   RETURN
+
+END SUBROUTINE surface_current
+
 !---------------- test case ------------
 PROGRAM test
    IMPLICIT NONE

@@ -95,7 +95,17 @@ class Regcoil(Netcdf):
         self.k[2, :, :] = (dz - fz.reshape((self.ntheta_coil, self.nzetal_coil))) / norm
         return self.k
 
-    def bfield(self, pos):
+    def bfield(self, pos, fortran=True):
+        pos = np.atleast_2d(pos)
+        if fortran:
+            return self._bfield_fortran(pos)
+        else:
+            mag_field = np.zeros_like(pos)
+            for i in range(len(pos)):
+                mag_field[i, :] = self._bfield_py(pos[i, :])
+            return mag_field
+
+    def _bfield_py(self, pos):
         """Calculate the magnetic field at an arbitrary point using `self.k`.
         (Not fully vectorized because of degrade of speed)
 
@@ -139,6 +149,17 @@ class Regcoil(Netcdf):
         )
         return B
 
+    def _bfield_fortran(self, pos):
+        from coilpy_fortran import surface_current
+
+        pos = np.atleast_2d(pos)
+        dtdz = (self.theta_coil[1] - self.theta_coil[0]) * (
+            self.zeta_coil[1] - self.zeta_coil[0]
+        )
+        return surface_current(
+            pos, self.r_coil, self.k.T, self.norm_normal_coill.T, dtdz
+        )
+
     def compute_bn(self):
         """Compute B_surface_current \cdot n on the plasma surface
 
@@ -150,7 +171,7 @@ class Regcoil(Netcdf):
             # print_progress(i, self.ntheta_plasma)
             for j in range(self.nzeta_plasma):
                 pos = self.r_plasma[j, i, :]
-                B_k = self.bfield(pos)
+                B_k = self.bfield(pos, fortran=False)
                 bn[i, j] = (
                     np.dot(B_k, self.normal_plasma[j, i, :])
                     / self.norm_normal_plasma[j, i]
