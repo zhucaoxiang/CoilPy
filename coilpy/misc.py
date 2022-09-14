@@ -889,3 +889,66 @@ def scan_focus(template, key, value, run=False):
             if ret.returncode != 0:
                 print("error:", ret)
     return
+
+
+def tracing(bfield, r0, z0, phi0=0.0, niter=100, nfp=1, nstep=1, **kwargs):
+    """Trace magnetic field line in toroidal geometry
+
+    Args:
+        bfield (callable): A callable function.
+                          The calling signature is `B = bfield(xyz)`, where `xyz`
+                          is the position in cartesian coordinates and `B` is the
+                          magnetic field at this point (in cartesian coordinates).
+        r0 (list): Initial radial coordinates.
+        z0 (list): Initial vertical coordinates.
+        phi0 (float, optional): The toroidal angle where the poincare plot data saved.
+                                Defaults to 0.0.
+        niter (int, optional): Number of toroidal periods in tracing. Defaults to 100.
+        nfp (int, optional): Number of field periodicity. Defaults to 1.
+        nstep (int, optional): Number of intermediate step for one period. Defaults to 1.
+
+    Returns:
+        array_like: The stored poincare date, shape is (len(r0), niter+1, 2).
+    """
+    from scipy.integrate import solve_ivp
+
+    # define the integrand in cylindrical coordinates
+    def fieldline(phi, rz):
+        rpz = np.array([rz[0], phi, rz[1]])
+        cosphi = np.cos(phi)
+        sinphi = np.sin(phi)
+        xyz = np.array([rpz[0] * cosphi, rpz[0] * sinphi, rpz[2]])
+        mag_xyz = np.ravel(bfield(xyz))
+        mag_rpz = np.array(
+            [
+                mag_xyz[0] * cosphi + mag_xyz[1] * sinphi,
+                (-mag_xyz[0] * sinphi + mag_xyz[1] * cosphi) / rpz[0],
+                mag_xyz[2],
+            ]
+        )
+        return [mag_rpz[0] / mag_rpz[1], mag_rpz[2] / mag_rpz[1]]
+
+    # some settings
+    print("Begin field-line tracing: ")
+    if kwargs.get("method") is None:
+        kwargs.update({"method": "LSODA"})  # using LSODE
+    if kwargs.get("rtol") is None:
+        kwargs.update({"rtol": 1e-6})  # minimum tolerance
+    # begin tracing
+    dphi = 2 * np.pi / nfp / nstep
+    phi = phi0 + dphi * nstep * np.arange(niter)
+    nlines = len(r0)
+    lines = []
+    for i in range(nlines):  # loop over each field-line
+        points = [[r0[i], z0[i]]]
+        for j in range(niter):  # loop over each toroidal iteration
+            print_progress(i * niter + j + 1, nlines * niter)
+            rz = points[j]
+            phi_start = phi[j]
+            for k in range(nstep):  # loop inside one iteration
+                sol = solve_ivp(fieldline, (phi_start, phi_start + dphi), rz, **kwargs)
+                rz = sol.y[:, -1]
+                phi_start += dphi
+            points.append(rz)
+        lines.append(np.array(points))
+    return np.array(lines)

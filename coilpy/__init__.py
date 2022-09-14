@@ -8,7 +8,7 @@ The repository is available at https://github.com/zhucaoxiang/CoilPy.
 
 For full documenation, please check https://zhucaoxiang.github.io/CoilPy/api/coilpy.html.
 """
-__version__ = "0.3.32"
+__version__ = "0.3.33"
 
 # local packages
 from .misc import colorbar, get_figure, kwargs2dict, map_matrix
@@ -16,7 +16,7 @@ from .misc import print_progress, toroidal_period, vmecMN, xy2rp
 from .misc import trigfft, fft_deriv, trig2real, vmec2focus
 from .misc import real2trig_2d, booz2focus, read_focus_boundary, div0
 from .misc import biot_savart, rotation_matrix, rotation_angle
-from .misc import set_axes_equal, scan_focus
+from .misc import set_axes_equal, scan_focus, tracing
 from .hdf5 import HDF5
 from .netcdf import Netcdf
 from .surface import FourSurf

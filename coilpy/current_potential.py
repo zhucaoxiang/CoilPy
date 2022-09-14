@@ -160,6 +160,21 @@ class Regcoil(Netcdf):
             pos, self.r_coil, self.k.T, self.norm_normal_coill.T, dtdz
         )
 
+    def bfield_cyl(self, rpz):
+        rpz = np.atleast_2d(rpz)
+        cosphi = np.cos(rpz[:, 1])
+        sinphi = np.sin(rpz[:, 1])
+        xyz = np.transpose([rpz[:, 0] * cosphi, rpz[:, 0] * sinphi, rpz[:, 2]])
+        mag_xyz = self.bfield(xyz, fortran=True)
+        mag_rpz = np.array(
+            [
+                mag_xyz[:, 0] * cosphi + mag_xyz[:, 1] * sinphi,
+                (-mag_xyz[:, 0] * sinphi + mag_xyz[:, 1] * cosphi) / rpz[:, 0],
+                mag_xyz[:, 2],
+            ]
+        )
+        return mag_rpz.T
+
     def compute_bn(self):
         """Compute B_surface_current \cdot n on the plasma surface
 
