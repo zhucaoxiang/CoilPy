@@ -52,7 +52,8 @@ jobs:
       run: |
         echo "install coilpy"
         pip --version
-        pip install -e ${GITHUB_WORKSPACE}
+        cd ${GITHUB_WORKSPACE}
+        python setup.py develop
         python3 -c "from coilpy import *"
 
     - name: Test
