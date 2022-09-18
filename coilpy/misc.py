@@ -954,7 +954,13 @@ def tracing(bfield, r0, z0, phi0=0.0, niter=100, nfp=1, nstep=1, **kwargs):
     return np.array(lines)
 
 
-def poincare_plot(data, r0, z0, phi0=0.0, niter=100, color=None, **kwargs):
+def poincare_plot(data, color=None, **kwargs):
+    """Making poincare plot
+
+    Args:
+        data (array_like): poincare data, shape is [nlines, niterations, 2].
+        color (matplotlib color, optional): Color code. Defaults to None.
+    """
     import matplotlib.pyplot as plt
     from matplotlib import cm
 
@@ -965,7 +971,7 @@ def poincare_plot(data, r0, z0, phi0=0.0, niter=100, color=None, **kwargs):
     else:
         fig, ax = plt.subplots()
 
-    ns = len(data)
+    nlines = len(data)
     # get colors
     if color is None:
         colors = cm.rainbow(np.linspace(1, 0, ns))
@@ -973,7 +979,7 @@ def poincare_plot(data, r0, z0, phi0=0.0, niter=100, color=None, **kwargs):
         colors = [color] * ns
     kwargs["s"] = kwargs.get("s", 0.1)  # dotsize
     # scatter plot
-    for i in range(ns):
+    for i in range(nlines):
         ax.scatter(data[i][:, 0], data[i][:, 1], color=colors[i], **kwargs)
     plt.axis("equal")
     plt.xlabel("R [m]", fontsize=20)
