@@ -952,3 +952,33 @@ def tracing(bfield, r0, z0, phi0=0.0, niter=100, nfp=1, nstep=1, **kwargs):
             points.append(rz)
         lines.append(np.array(points))
     return np.array(lines)
+
+
+def poincare_plot(data, r0, z0, phi0=0.0, niter=100, color=None, **kwargs):
+    import matplotlib.pyplot as plt
+    from matplotlib import cm
+
+    # get figure and ax data
+    if plt.get_fignums():
+        fig = plt.gcf()
+        ax = plt.gca()
+    else:
+        fig, ax = plt.subplots()
+
+    ns = len(data)
+    # get colors
+    if color is None:
+        colors = cm.rainbow(np.linspace(1, 0, ns))
+    else:
+        colors = [color] * ns
+    kwargs["s"] = kwargs.get("s", 0.1)  # dotsize
+    # scatter plot
+    for i in range(ns):
+        ax.scatter(data[i][:, 0], data[i][:, 1], color=colors[i], **kwargs)
+    plt.axis("equal")
+    plt.xlabel("R [m]", fontsize=20)
+    plt.ylabel("Z [m]", fontsize=20)
+    plt.xticks(fontsize=16)
+    plt.yticks(fontsize=16)
+    plt.tight_layout()
+    return
