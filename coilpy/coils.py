@@ -147,13 +147,35 @@ class SingleCoil(object):
         self.zt = np.concatenate((self.zt, self.zt[0:1]))
         return
 
+    def spline_tangent(self, order=3, der=1):
+        """Calculate the tangent of coil using spline interpolation
+
+        Args:
+            order (int, optional): Order of spline interpolation used. Defaults to 3.
+        """
+        from scipy import interpolate
+
+        t = np.linspace(0, 2 * np.pi, len(self.x), endpoint=True)
+        self.dt = 2 * np.pi / (len(self.x) - 1)
+        fx = interpolate.splrep(t, self.x, s=0, k=order)
+        fy = interpolate.splrep(t, self.y, s=0, k=order)
+        fz = interpolate.splrep(t, self.z, s=0, k=order)
+        self.xt = interpolate.splev(t, fx, der=1)
+        self.yt = interpolate.splev(t, fy, der=1)
+        self.zt = interpolate.splev(t, fz, der=1)
+        if der == 2:
+            self.xa = interpolate.splev(t, fx, der=2)
+            self.ya = interpolate.splev(t, fy, der=2)
+            self.za = interpolate.splev(t, fz, der=2)
+        return
+
     def interpolate(self, num=256, kind="fft", nf=-1):
         """Interpolate to get more data points.
 
         Args:
             num (int, optional): The total number of points after interpolation. Defaults to 256.
             kind (str, optional): Specifies the kind of interpolation, could be 'fft'
-                                  or scipy.interp1d.kind.  Defaults to 'cubic'.
+                                  or scipy.interp1d.kind.  Defaults to 'fft'.
             nf (int, optional): Number of truncated Fourier modes. Defaults to -1.
         """
         from scipy.interpolate import interp1d
@@ -441,28 +463,6 @@ class SingleCoil(object):
         yy = np.array([y1, y2, y3, y4, y1])
         zz = np.array([z1, z2, z3, z4, z1])
         return xx, yy, zz
-
-    def spline_tangent(self, order=3, der=1):
-        """Calculate the tangent of coil using spline interpolation
-
-        Args:
-            order (int, optional): Order of spline interpolation used. Defaults to 3.
-        """
-        from scipy import interpolate
-
-        t = np.linspace(0, 2 * np.pi, len(self.x), endpoint=True)
-        self.dt = 2 * np.pi / (len(self.x) - 1)
-        fx = interpolate.splrep(t, self.x, s=0, k=order)
-        fy = interpolate.splrep(t, self.y, s=0, k=order)
-        fz = interpolate.splrep(t, self.z, s=0, k=order)
-        self.xt = interpolate.splev(t, fx, der=1)
-        self.yt = interpolate.splev(t, fy, der=1)
-        self.zt = interpolate.splev(t, fz, der=1)
-        if der == 2:
-            self.xa = interpolate.splev(t, fx, der=2)
-            self.ya = interpolate.splev(t, fy, der=2)
-            self.za = interpolate.splev(t, fz, der=2)
-        return
 
     def toVTK(self, vtkname, **kwargs):
         """Write the coil as a VTK file
@@ -845,3 +845,25 @@ class Coil(object):
             data = meshio.Mesh(points=points, cells=[("hexahedron", hedrs)], **kwargs)
             data.write(vtkname)
         return
+
+    def bfield(self, pos, core="hanson_hirshman"):
+        """Compute the magnetic field from a coil set
+
+        Args:
+            pos (array_like): Evaluation points, shape is (npoints,3) or (3,).
+            core (str, optional): Biot-Savrt computing function. one of the follows:
+                                  "hanson_hirshman": Hanson-Hirshman expression.
+                                  "biot-savart": Native Biot-Savart with tagent pre-calculated.
+                                                 The tangent can be computed using `SingleCoil.fourier_tanget`
+                                                 or `SingleCoil.spline_tanget` (with different orders).
+                                  Defaults to "hanson_hirshman".
+
+        Returns:
+            array_like: The computed magnetic field, shape (npoints,3).
+        """
+        pos = np.atleast_2d(pos)
+        mag = np.zeros_like(pos)
+        for icoil in list(self):
+            func = getattr(icoil, core)
+            mag += func(pos)
+        return mag
