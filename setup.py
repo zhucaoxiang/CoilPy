@@ -4,10 +4,13 @@ from numpy.distutils.fcompiler import get_default_fcompiler
 
 # from coilpy import __version__
 
-__version__ = "0.3.33"
+__version__ = "0.3.34"
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
+
+# this grabs the requirements from requirements.txt
+REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()]
 
 # fortran compiler
 compiler = get_default_fcompiler()
@@ -45,4 +48,5 @@ setup(
     license="GNU 3.0",
     packages=setuptools.find_packages(),
     ext_modules=[ext],
+    install_requires=REQUIREMENTS,
 )
