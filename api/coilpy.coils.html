@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>coilpy.coils &#8212; coilpy 0.3.33 documentation</title>
+    <title>coilpy.coils &#8212; coilpy 0.3.34 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -89,7 +89,7 @@
 
   
   
-    <p class="title logo__title">coilpy 0.3.33 documentation</p>
+    <p class="title logo__title">coilpy 0.3.34 documentation</p>
   
 </a>
     
@@ -346,6 +346,34 @@ coil = CoilSet.read_makegrid(‘coils.sth’)
 <p>The coilset can be saved in the format of MAKEGRID using <cite>self.save_makegrid</cite>
 and saved as VTK files using <cite>self.toVTK</cite>.</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="coilpy.coils.Coil.bfield">
+<span class="sig-name descname"><span class="pre">bfield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">core</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hanson_hirshman'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#Coil.bfield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.coils.Coil.bfield" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute the magnetic field from a coil set</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos</strong> (<em>array_like</em>) – Evaluation points, shape is (npoints,3) or (3,).</p></li>
+<li><p><strong>core</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Biot-Savrt computing function. one of the follows:
+“hanson_hirshman”: Hanson-Hirshman expression.
+“biot-savart”: Native Biot-Savart with tagent pre-calculated.</p>
+<blockquote>
+<div><p>The tangent can be computed using <cite>SingleCoil.fourier_tanget</cite>
+or <cite>SingleCoil.spline_tanget</cite> (with different orders).</p>
+</div></blockquote>
+<p>Defaults to “hanson_hirshman”.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The computed magnetic field, shape (npoints,3).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="coilpy.coils.Coil.plot">
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">irange</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pyplot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot2d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/coils.html#Coil.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.coils.Coil.plot" title="Permalink to this definition">#</a></dt>
 <dd><p>Plot coils in mayavi or matplotlib or plotly.</p>
@@ -566,7 +594,7 @@ group (int, optional): Coil group for labeling. Defaults to 1.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>num</strong> (<em>int</em><em>, </em><em>optional</em>) – The total number of points after interpolation. Defaults to 256.</p></li>
 <li><p><strong>kind</strong> (<em>str</em><em>, </em><em>optional</em>) – Specifies the kind of interpolation, could be ‘fft’
-or scipy.interp1d.kind.  Defaults to ‘cubic’.</p></li>
+or scipy.interp1d.kind.  Defaults to ‘fft’.</p></li>
 <li><p><strong>nf</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of truncated Fourier modes. Defaults to -1.</p></li>
 </ul>
 </dd>
