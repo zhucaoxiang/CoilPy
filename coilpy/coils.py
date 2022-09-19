@@ -846,12 +846,12 @@ class Coil(object):
             data.write(vtkname)
         return
 
-    def bfield(self, pos, core="hanson_hirshman"):
+    def bfield(self, pos, method="hanson_hirshman"):
         """Compute the magnetic field from a coil set
 
         Args:
             pos (array_like): Evaluation points, shape is (npoints,3) or (3,).
-            core (str, optional): Biot-Savrt computing function. one of the follows:
+            method (str, optional): Biot-Savrt computing function. one of the follows:
                                   "hanson_hirshman": Hanson-Hirshman expression.
                                   "biot-savart": Native Biot-Savart with tagent pre-calculated.
                                                  The tangent can be computed using `SingleCoil.fourier_tanget`
@@ -864,6 +864,6 @@ class Coil(object):
         pos = np.atleast_2d(pos)
         mag = np.zeros_like(pos)
         for icoil in list(self):
-            func = getattr(icoil, core)
+            func = getattr(icoil, method)
             mag += func(pos)
         return mag
