@@ -487,7 +487,7 @@ def vmec2focus(
         with open(bnorm_file, "r") as bfile:
             for line in bfile:
                 tmp = line.split()  # BNORM format: m n Bn_sin
-                bnp.append(int(tmp[0]))
+                bn.append(int(tmp[0]))
                 bn.append(int(tmp[1]))
                 bns.append(float(tmp[2]))
         Nbnf = len(bm)
