@@ -33,6 +33,7 @@ class VMECout(object):
         self.data["nfp"] = int(self.wout["nfp"].values)
         self.data["nu"] = int(self.wout["mpol"].values * 4)
         self.data["nv"] = int(self.wout["ntor"].values * 4)
+        self.data["curpol"] = 2.0 * np.pi / self.data["nfp"] * self.wout["rbtor"].values
         self.data["nflux"] = np.linspace(
             0, 1, self.data["ns"]
         )  # np.ndarray((self.data['ns'],1))
@@ -126,10 +127,16 @@ class VMECout(object):
         elif plot_name == "LPK":
             self.surface[-1].plot(zeta=0, color="red", label=r"$\phi=0$", **kwargs)
             self.surface[-1].plot(
-                zeta=0.5 * np.pi / self.data["nfp"], color="green", label=r"$\phi=0.25$", **kwargs
+                zeta=0.5 * np.pi / self.data["nfp"],
+                color="green",
+                label=r"$\phi=0.25$",
+                **kwargs
             )
             self.surface[-1].plot(
-                zeta=np.pi / self.data["nfp"], color="blue", label=r"$\phi=0.5$", **kwargs
+                zeta=np.pi / self.data["nfp"],
+                color="blue",
+                label=r"$\phi=0.5$",
+                **kwargs
             )
             ax.set_title("LPK Plot")
         elif plot_name[0] == "-":
