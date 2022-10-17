@@ -21,8 +21,8 @@ class FourSurf(object):
           zbc -- list or numpy array, array of z cosine harmonics (default: [])
 
         """
-        self.xm = np.atleast_1d(xm)
-        self.xn = np.atleast_1d(xn)
+        self.xm = np.atleast_1d(xm, dtype=int)
+        self.xn = np.atleast_1d(xn, dtype=int)
         self.rbc = np.atleast_1d(rbc)
         self.rbs = np.atleast_1d(rbs)
         self.zbc = np.atleast_1d(zbc)
@@ -690,6 +690,15 @@ class FourSurf(object):
         r = data[0]
         z = data[1]
         return (np.min(r), np.max(r), np.min(z), np.max(z))
+
+    def change_poloidal_angle(self):
+        zero = np.logical_and(self.xm == 0, self.xn == 0)
+        self.xn *= -1
+        self.rbs *= -1
+        self.zbs *= -1
+        self.rbs[zero] *= -1
+        self.zbs[zero] *= -1
+        return
 
     def __del__(self):
         class_name = self.__class__.__name__
