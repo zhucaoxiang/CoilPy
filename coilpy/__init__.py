@@ -32,5 +32,6 @@ from .magnet import Magnet, corner2magnet
 from .magtense_interface import get_center, build_prism, blocks2tiles
 from .magtense_interface import corner2tiles, magtense2vtk, muse2magntense
 from .current_potential import Regcoil
+from .VMEC2SPEC import VMECout2SPEC
 
 # from coilpy_fortran import hanson_hirshman, biot_savart
