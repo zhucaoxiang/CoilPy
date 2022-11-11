@@ -1,0 +1,7 @@
+coilpy.VMEC2SPEC 
+=======================
+
+.. automodule:: coilpy.VMEC2SPEC
+   :members:
+   :undoc-members:
+   :show-inheritance:

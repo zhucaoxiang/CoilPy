@@ -12,6 +12,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   coilpy.VMEC2SPEC
    coilpy.booz_xform
    coilpy.coils
    coilpy.current_potential

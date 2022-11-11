@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>coilpy.netcdf &#8212; coilpy 0.3.34 documentation</title>
+    <title>coilpy.VMEC2SPEC &#8212; coilpy 0.3.34 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -38,7 +38,7 @@
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/sphinx_highlight.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api/coilpy.netcdf';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/coilpy.VMEC2SPEC';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -211,7 +211,7 @@
   </p>
   <div class="bd-toc-item navbar-nav">
     <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="coilpy.VMEC2SPEC.html">coilpy.VMEC2SPEC</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">coilpy.VMEC2SPEC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="coilpy.booz_xform.html">coilpy.booz_xform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="coilpy.coils.html">coilpy.coils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="coilpy.current_potential.html">coilpy.current_potential</a></li>
@@ -222,7 +222,7 @@
 <li class="toctree-l1"><a class="reference internal" href="coilpy.magtense_interface.html">coilpy.magtense_interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="coilpy.mgrid.html">coilpy.mgrid</a></li>
 <li class="toctree-l1"><a class="reference internal" href="coilpy.misc.html">coilpy.misc</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">coilpy.netcdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.netcdf.html">coilpy.netcdf</a></li>
 <li class="toctree-l1"><a class="reference internal" href="coilpy.pm4stell.html">coilpy.pm4stell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="coilpy.sortedDict.html">coilpy.sortedDict</a></li>
 <li class="toctree-l1"><a class="reference internal" href="coilpy.stellopt.html">coilpy.stellopt</a></li>
@@ -256,22 +256,29 @@
             
             <article class="bd-article" role="main">
               
-  <section id="module-coilpy.netcdf">
-<span id="coilpy-netcdf"></span><h1>coilpy.netcdf<a class="headerlink" href="#module-coilpy.netcdf" title="Permalink to this heading">#</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="coilpy.netcdf.Netcdf">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">coilpy.netcdf.</span></span><span class="sig-name descname"><span class="pre">Netcdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maskandscale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/netcdf.html#Netcdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.netcdf.Netcdf" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Assembly datasets in a netcdf file into python classes.
-It takes the same arguments as scipy.io.netcdf.netcdf_file.
-Once parsed, you can access all the data directly via its key as class attributes.</p>
-<p class="rubric">Examples</p>
-<p>Read a netcdf file:</p>
-<p>data = Netcdf(‘path-to-file.nc’)</p>
-<p>Access its attributes:</p>
-<p>data.key</p>
-<p>List all the keys:</p>
-<p>print(list(data))</p>
+  <section id="module-coilpy.VMEC2SPEC">
+<span id="coilpy-vmec2spec"></span><h1>coilpy.VMEC2SPEC<a class="headerlink" href="#module-coilpy.VMEC2SPEC" title="Permalink to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="coilpy.VMEC2SPEC.VMECout2SPEC">
+<span class="sig-prename descclassname"><span class="pre">coilpy.VMEC2SPEC.</span></span><span class="sig-name descname"><span class="pre">VMECout2SPEC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">VMEC_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SPEC_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interfaceLabel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fluxLabel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'toroidal'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lconstraint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lrad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/coilpy/VMEC2SPEC.html#VMECout2SPEC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.VMEC2SPEC.VMECout2SPEC" title="Permalink to this definition">#</a></dt>
+<dd><p>This function creates a SPEC input namelist from a VMEC output file.
+:param VMEC_output: The VMEC outputput file.
+:param SPEC_input: The SPEC input file.
+:param interfaceLabel: The normalized magnetic flux in subvolumes.
+:param fluxLabel: The surface label shoulde be “toroidal” or “poloidal”.
+:param lconstraint: selects constraints.
+:param lrad: Chebyshev resolution.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="coilpy.VMEC2SPEC.integrate">
+<span class="sig-prename descclassname"><span class="pre">coilpy.VMEC2SPEC.</span></span><span class="sig-name descname"><span class="pre">integrate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baseX</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseY</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xLeft</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xRight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/coilpy/VMEC2SPEC.html#integrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.VMEC2SPEC.integrate" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="coilpy.VMEC2SPEC.writeSPECInput">
+<span class="sig-prename descclassname"><span class="pre">coilpy.VMEC2SPEC.</span></span><span class="sig-name descname"><span class="pre">writeSPECInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SPEC_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/coilpy/VMEC2SPEC.html#writeSPECInput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.VMEC2SPEC.writeSPECInput" title="Permalink to this definition">#</a></dt>
+<dd><p>Write SPEC input file.</p>
 </dd></dl>
 
 </section>
@@ -301,10 +308,28 @@ Once parsed, you can access all the data directly via its key as class attribute
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#coilpy.netcdf.Netcdf">
+  <a class="reference internal nav-link" href="#coilpy.VMEC2SPEC.VMECout2SPEC">
    <code class="docutils literal notranslate">
     <span class="pre">
-     Netcdf
+     VMECout2SPEC()
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#coilpy.VMEC2SPEC.integrate">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     integrate()
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#coilpy.VMEC2SPEC.writeSPECInput">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     writeSPECInput()
     </span>
    </code>
   </a>
@@ -326,7 +351,7 @@ Once parsed, you can access all the data directly via its key as class attribute
 <div class="toc-item">
   
 <div class="tocsection sourcelink">
-    <a href="../_sources/api/coilpy.netcdf.rst.txt">
+    <a href="../_sources/api/coilpy.VMEC2SPEC.rst.txt">
         <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
 </div>

@@ -13,8 +13,8 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
 
   
   <link rel="stylesheet"
@@ -23,18 +23,21 @@
     href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b">
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/coilpy';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -59,7 +62,7 @@
     <div class="search-button__search-container">
       
 <form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
+  <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form>
@@ -69,7 +72,7 @@
   
   <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
   <label class="sidebar-toggle primary-toggle" for="__primary">
-      <span class="fas fa-bars"></span>
+      <span class="fa-solid fa-bars"></span>
   </label>
   <div id="navbar-start">
     
@@ -115,16 +118,16 @@
     <div id="navbar-end">
       <div class="navbar-end-item navbar-end__search-button-container">
         
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
-  <i class="fas fa-search"></i>
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
 </button>
       </div>
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
+    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
 </span>
       </div>
       
@@ -139,14 +142,14 @@
 
   
   <div class="search-button-container--mobile">
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
-  <i class="fas fa-search"></i>
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
 </button>
   </div>
 
   
   <label class="sidebar-toggle secondary-toggle" for="__secondary">
-      <span class="fas fa-outdent"></span>
+      <span class="fa-solid fa-outdent"></span>
   </label>
   
 
@@ -184,10 +187,10 @@
     <div class="sidebar-header-items__end">
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
+    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
 </span>
       </div>
       
@@ -208,86 +211,23 @@
   </p>
   <div class="bd-toc-item navbar-nav">
     <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.booz_xform.html">
-   coilpy.booz_xform
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.coils.html">
-   coilpy.coils
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.current_potential.html">
-   coilpy.current_potential
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.dipole.html">
-   coilpy.dipole
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.focushdf5.html">
-   coilpy.focushdf5
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.hdf5.html">
-   coilpy.hdf5
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.magnet.html">
-   coilpy.magnet
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.magtense_interface.html">
-   coilpy.magtense_interface
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.mgrid.html">
-   coilpy.mgrid
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.misc.html">
-   coilpy.misc
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.netcdf.html">
-   coilpy.netcdf
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.pm4stell.html">
-   coilpy.pm4stell
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.sortedDict.html">
-   coilpy.sortedDict
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.stellopt.html">
-   coilpy.stellopt
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.surface.html">
-   coilpy.surface
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.vmec.html">
-   coilpy.vmec
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.VMEC2SPEC.html">coilpy.VMEC2SPEC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.booz_xform.html">coilpy.booz_xform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.coils.html">coilpy.coils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.current_potential.html">coilpy.current_potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.dipole.html">coilpy.dipole</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.focushdf5.html">coilpy.focushdf5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.hdf5.html">coilpy.hdf5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.magnet.html">coilpy.magnet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.magtense_interface.html">coilpy.magtense_interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.mgrid.html">coilpy.mgrid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.misc.html">coilpy.misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.netcdf.html">coilpy.netcdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.pm4stell.html">coilpy.pm4stell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.sortedDict.html">coilpy.sortedDict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.stellopt.html">coilpy.stellopt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.surface.html">coilpy.surface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.vmec.html">coilpy.vmec</a></li>
 </ul>
 
   </div>
@@ -321,28 +261,282 @@
 <p>This is a python package for plotting and data processing in stellarator optimization.</p>
 <p>It contains several python functions on HDF5, Fourier surfaces, FOCUS, cois,
 magnetic dipoles, STELLOPT, VMEC, BOOZ_XFORM, etc.</p>
-<p>The repository is available at <a class="reference external" href="https://github.com/zhucaoxiang/CoilPy">https://github.com/zhucaoxiang/CoilPy</a>.</p>
+<p>The repository is available at <a class="github reference external" href="https://github.com/zhucaoxiang/CoilPy">zhucaoxiang/CoilPy</a>.</p>
 <p>For full documenation, please check <a class="reference external" href="https://zhucaoxiang.github.io/CoilPy/api/coilpy.html">https://zhucaoxiang.github.io/CoilPy/api/coilpy.html</a>.</p>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.booz_xform.html">coilpy.booz_xform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.coils.html">coilpy.coils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.current_potential.html">coilpy.current_potential</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.dipole.html">coilpy.dipole</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.focushdf5.html">coilpy.focushdf5</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.hdf5.html">coilpy.hdf5</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.magnet.html">coilpy.magnet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.magtense_interface.html">coilpy.magtense_interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.mgrid.html">coilpy.mgrid</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.misc.html">coilpy.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.netcdf.html">coilpy.netcdf</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.pm4stell.html">coilpy.pm4stell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.sortedDict.html">coilpy.sortedDict</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.stellopt.html">coilpy.stellopt</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.surface.html">coilpy.surface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coilpy.vmec.html">coilpy.vmec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.VMEC2SPEC.html">coilpy.VMEC2SPEC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.VMEC2SPEC.html#coilpy.VMEC2SPEC.VMECout2SPEC"><code class="docutils literal notranslate"><span class="pre">VMECout2SPEC()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.VMEC2SPEC.html#coilpy.VMEC2SPEC.integrate"><code class="docutils literal notranslate"><span class="pre">integrate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.VMEC2SPEC.html#coilpy.VMEC2SPEC.writeSPECInput"><code class="docutils literal notranslate"><span class="pre">writeSPECInput()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.booz_xform.html">coilpy.booz_xform</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.booz_xform.html#coilpy.booz_xform.BOOZ_XFORM"><code class="docutils literal notranslate"><span class="pre">BOOZ_XFORM</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.booz_xform.html#coilpy.booz_xform.BOOZ_XFORM.from_vmec"><code class="docutils literal notranslate"><span class="pre">BOOZ_XFORM.from_vmec()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.booz_xform.html#coilpy.booz_xform.BOOZ_XFORM.plot"><code class="docutils literal notranslate"><span class="pre">BOOZ_XFORM.plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.booz_xform.html#coilpy.booz_xform.BOOZ_XFORM.plot2d"><code class="docutils literal notranslate"><span class="pre">BOOZ_XFORM.plot2d()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.booz_xform.html#coilpy.booz_xform.BOOZ_XFORM.plot_helicity"><code class="docutils literal notranslate"><span class="pre">BOOZ_XFORM.plot_helicity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.booz_xform.html#coilpy.booz_xform.BOOZ_XFORM.to_FOCUS"><code class="docutils literal notranslate"><span class="pre">BOOZ_XFORM.to_FOCUS()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.booz_xform.html#coilpy.booz_xform.BOOZ_XFORM.write_input"><code class="docutils literal notranslate"><span class="pre">BOOZ_XFORM.write_input()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.coils.html">coilpy.coils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.Coil"><code class="docutils literal notranslate"><span class="pre">Coil</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.Coil.bfield"><code class="docutils literal notranslate"><span class="pre">Coil.bfield()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.Coil.plot"><code class="docutils literal notranslate"><span class="pre">Coil.plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.Coil.read_gpec_coils"><code class="docutils literal notranslate"><span class="pre">Coil.read_gpec_coils()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.Coil.read_makegrid"><code class="docutils literal notranslate"><span class="pre">Coil.read_makegrid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.Coil.save_gpec_coils"><code class="docutils literal notranslate"><span class="pre">Coil.save_gpec_coils()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.Coil.save_makegrid"><code class="docutils literal notranslate"><span class="pre">Coil.save_makegrid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.Coil.toVTK"><code class="docutils literal notranslate"><span class="pre">Coil.toVTK()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil"><code class="docutils literal notranslate"><span class="pre">SingleCoil</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil.x"><code class="docutils literal notranslate"><span class="pre">SingleCoil.x</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil.Args"><code class="docutils literal notranslate"><span class="pre">SingleCoil.Args</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil.bfield"><code class="docutils literal notranslate"><span class="pre">SingleCoil.bfield()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil.bfield_HH"><code class="docutils literal notranslate"><span class="pre">SingleCoil.bfield_HH()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil.bfield_fd"><code class="docutils literal notranslate"><span class="pre">SingleCoil.bfield_fd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil.biot_savart"><code class="docutils literal notranslate"><span class="pre">SingleCoil.biot_savart()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil.fourier_tangent"><code class="docutils literal notranslate"><span class="pre">SingleCoil.fourier_tangent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil.hanson_hirshman"><code class="docutils literal notranslate"><span class="pre">SingleCoil.hanson_hirshman()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil.interpolate"><code class="docutils literal notranslate"><span class="pre">SingleCoil.interpolate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil.magnify"><code class="docutils literal notranslate"><span class="pre">SingleCoil.magnify()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil.plot"><code class="docutils literal notranslate"><span class="pre">SingleCoil.plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil.plot2d"><code class="docutils literal notranslate"><span class="pre">SingleCoil.plot2d()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil.rectangle"><code class="docutils literal notranslate"><span class="pre">SingleCoil.rectangle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil.spline_tangent"><code class="docutils literal notranslate"><span class="pre">SingleCoil.spline_tangent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.coils.html#coilpy.coils.SingleCoil.toVTK"><code class="docutils literal notranslate"><span class="pre">SingleCoil.toVTK()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.current_potential.html">coilpy.current_potential</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.current_potential.html#coilpy.current_potential.Regcoil"><code class="docutils literal notranslate"><span class="pre">Regcoil</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.current_potential.html#coilpy.current_potential.Regcoil.bfield"><code class="docutils literal notranslate"><span class="pre">Regcoil.bfield()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.current_potential.html#coilpy.current_potential.Regcoil.bfield_cyl"><code class="docutils literal notranslate"><span class="pre">Regcoil.bfield_cyl()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.current_potential.html#coilpy.current_potential.Regcoil.compute_bn"><code class="docutils literal notranslate"><span class="pre">Regcoil.compute_bn()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.current_potential.html#coilpy.current_potential.Regcoil.get_k"><code class="docutils literal notranslate"><span class="pre">Regcoil.get_k()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.dipole.html">coilpy.dipole</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole"><code class="docutils literal notranslate"><span class="pre">Dipole</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.bfield"><code class="docutils literal notranslate"><span class="pre">Dipole.bfield()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.change_momentq"><code class="docutils literal notranslate"><span class="pre">Dipole.change_momentq()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.from_regcoil"><code class="docutils literal notranslate"><span class="pre">Dipole.from_regcoil()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.full_period"><code class="docutils literal notranslate"><span class="pre">Dipole.full_period()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.inverse"><code class="docutils literal notranslate"><span class="pre">Dipole.inverse()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.mimic"><code class="docutils literal notranslate"><span class="pre">Dipole.mimic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.open"><code class="docutils literal notranslate"><span class="pre">Dipole.open()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.orientation"><code class="docutils literal notranslate"><span class="pre">Dipole.orientation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.plot"><code class="docutils literal notranslate"><span class="pre">Dipole.plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.plot_rho_profile"><code class="docutils literal notranslate"><span class="pre">Dipole.plot_rho_profile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.read_dipole_old"><code class="docutils literal notranslate"><span class="pre">Dipole.read_dipole_old()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.round_angle"><code class="docutils literal notranslate"><span class="pre">Dipole.round_angle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.save"><code class="docutils literal notranslate"><span class="pre">Dipole.save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.sp2xyz"><code class="docutils literal notranslate"><span class="pre">Dipole.sp2xyz()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.toVTK"><code class="docutils literal notranslate"><span class="pre">Dipole.toVTK()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.truncate"><code class="docutils literal notranslate"><span class="pre">Dipole.truncate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.volume"><code class="docutils literal notranslate"><span class="pre">Dipole.volume()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.Dipole.xyz2sp"><code class="docutils literal notranslate"><span class="pre">Dipole.xyz2sp()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.dipole.html#coilpy.dipole.GAdipole"><code class="docutils literal notranslate"><span class="pre">GAdipole</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.focushdf5.html">coilpy.focushdf5</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5"><code class="docutils literal notranslate"><span class="pre">FOCUSHDF5</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.Bmod"><code class="docutils literal notranslate"><span class="pre">FOCUSHDF5.Bmod()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.Bnorm"><code class="docutils literal notranslate"><span class="pre">FOCUSHDF5.Bnorm()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.convergence"><code class="docutils literal notranslate"><span class="pre">FOCUSHDF5.convergence()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.curvature"><code class="docutils literal notranslate"><span class="pre">FOCUSHDF5.curvature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.iota_plot"><code class="docutils literal notranslate"><span class="pre">FOCUSHDF5.iota_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.plot"><code class="docutils literal notranslate"><span class="pre">FOCUSHDF5.plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.poincare_plot"><code class="docutils literal notranslate"><span class="pre">FOCUSHDF5.poincare_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.focushdf5.html#coilpy.focushdf5.FOCUSHDF5.toVTK"><code class="docutils literal notranslate"><span class="pre">FOCUSHDF5.toVTK()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.hdf5.html">coilpy.hdf5</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.hdf5.html#coilpy.hdf5.HDF5"><code class="docutils literal notranslate"><span class="pre">HDF5</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.hdf5.html#coilpy.hdf5.HDF5.inventory"><code class="docutils literal notranslate"><span class="pre">HDF5.inventory()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.magnet.html">coilpy.magnet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.magnet.html#coilpy.magnet.Magnet"><code class="docutils literal notranslate"><span class="pre">Magnet</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.magnet.html#coilpy.magnet.Magnet.divide"><code class="docutils literal notranslate"><span class="pre">Magnet.divide()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.magnet.html#coilpy.magnet.Magnet.sub_cubes"><code class="docutils literal notranslate"><span class="pre">Magnet.sub_cubes()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.magnet.html#coilpy.magnet.corner2magnet"><code class="docutils literal notranslate"><span class="pre">corner2magnet()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.magtense_interface.html">coilpy.magtense_interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.magtense_interface.html#coilpy.magtense_interface.blocks2tiles"><code class="docutils literal notranslate"><span class="pre">blocks2tiles()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.magtense_interface.html#coilpy.magtense_interface.build_prism"><code class="docutils literal notranslate"><span class="pre">build_prism()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.magtense_interface.html#coilpy.magtense_interface.corner2tiles"><code class="docutils literal notranslate"><span class="pre">corner2tiles()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.magtense_interface.html#coilpy.magtense_interface.get_center"><code class="docutils literal notranslate"><span class="pre">get_center()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.magtense_interface.html#coilpy.magtense_interface.get_rotmat"><code class="docutils literal notranslate"><span class="pre">get_rotmat()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.magtense_interface.html#coilpy.magtense_interface.magtense2vtk"><code class="docutils literal notranslate"><span class="pre">magtense2vtk()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.magtense_interface.html#coilpy.magtense_interface.muse2magntense"><code class="docutils literal notranslate"><span class="pre">muse2magntense()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.mgrid.html">coilpy.mgrid</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.mgrid.html#coilpy.mgrid.Mgrid"><code class="docutils literal notranslate"><span class="pre">Mgrid</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.mgrid.html#coilpy.mgrid.Mgrid.bfield"><code class="docutils literal notranslate"><span class="pre">Mgrid.bfield()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.mgrid.html#coilpy.mgrid.Mgrid.interpolate"><code class="docutils literal notranslate"><span class="pre">Mgrid.interpolate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.mgrid.html#coilpy.mgrid.Mgrid.read_mgrid_bin"><code class="docutils literal notranslate"><span class="pre">Mgrid.read_mgrid_bin()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.misc.html">coilpy.misc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.biot_savart"><code class="docutils literal notranslate"><span class="pre">biot_savart()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.booz2focus"><code class="docutils literal notranslate"><span class="pre">booz2focus()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.colorbar"><code class="docutils literal notranslate"><span class="pre">colorbar()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.div0"><code class="docutils literal notranslate"><span class="pre">div0()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.fft_deriv"><code class="docutils literal notranslate"><span class="pre">fft_deriv()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.get_figure"><code class="docutils literal notranslate"><span class="pre">get_figure()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.kwargs2dict"><code class="docutils literal notranslate"><span class="pre">kwargs2dict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.map_matrix"><code class="docutils literal notranslate"><span class="pre">map_matrix()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.poincare_plot"><code class="docutils literal notranslate"><span class="pre">poincare_plot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.print_progress"><code class="docutils literal notranslate"><span class="pre">print_progress()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.read_focus_boundary"><code class="docutils literal notranslate"><span class="pre">read_focus_boundary()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.real2trig_2d"><code class="docutils literal notranslate"><span class="pre">real2trig_2d()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.rotation_angle"><code class="docutils literal notranslate"><span class="pre">rotation_angle()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.rotation_matrix"><code class="docutils literal notranslate"><span class="pre">rotation_matrix()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.scan_focus"><code class="docutils literal notranslate"><span class="pre">scan_focus()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.set_axes_equal"><code class="docutils literal notranslate"><span class="pre">set_axes_equal()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.toroidal_period"><code class="docutils literal notranslate"><span class="pre">toroidal_period()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.tracing"><code class="docutils literal notranslate"><span class="pre">tracing()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.trig2real"><code class="docutils literal notranslate"><span class="pre">trig2real()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.trigfft"><code class="docutils literal notranslate"><span class="pre">trigfft()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.trigfft2"><code class="docutils literal notranslate"><span class="pre">trigfft2()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.vmec2focus"><code class="docutils literal notranslate"><span class="pre">vmec2focus()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.vmecMN"><code class="docutils literal notranslate"><span class="pre">vmecMN()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.write_focus_boundary"><code class="docutils literal notranslate"><span class="pre">write_focus_boundary()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.misc.html#coilpy.misc.xy2rp"><code class="docutils literal notranslate"><span class="pre">xy2rp()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.netcdf.html">coilpy.netcdf</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.netcdf.html#coilpy.netcdf.Netcdf"><code class="docutils literal notranslate"><span class="pre">Netcdf</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.pm4stell.html">coilpy.pm4stell</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.pm4stell.html#coilpy.pm4stell.blocks2ficus"><code class="docutils literal notranslate"><span class="pre">blocks2ficus()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.pm4stell.html#coilpy.pm4stell.blocks2vtk"><code class="docutils literal notranslate"><span class="pre">blocks2vtk()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.pm4stell.html#coilpy.pm4stell.read_ansys_bfield"><code class="docutils literal notranslate"><span class="pre">read_ansys_bfield()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.sortedDict.html">coilpy.sortedDict</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict"><code class="docutils literal notranslate"><span class="pre">SortedDict</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.across"><code class="docutils literal notranslate"><span class="pre">SortedDict.across()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.changeKeysCase"><code class="docutils literal notranslate"><span class="pre">SortedDict.changeKeysCase()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.check_location"><code class="docutils literal notranslate"><span class="pre">SortedDict.check_location()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.clear"><code class="docutils literal notranslate"><span class="pre">SortedDict.clear()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.copy"><code class="docutils literal notranslate"><span class="pre">SortedDict.copy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.diff"><code class="docutils literal notranslate"><span class="pre">SortedDict.diff()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.diffKeys"><code class="docutils literal notranslate"><span class="pre">SortedDict.diffKeys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.flatten"><code class="docutils literal notranslate"><span class="pre">SortedDict.flatten()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.get"><code class="docutils literal notranslate"><span class="pre">SortedDict.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.index"><code class="docutils literal notranslate"><span class="pre">SortedDict.index()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.insert"><code class="docutils literal notranslate"><span class="pre">SortedDict.insert()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.items"><code class="docutils literal notranslate"><span class="pre">SortedDict.items()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.iteritems"><code class="docutils literal notranslate"><span class="pre">SortedDict.iteritems()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.iterkeys"><code class="docutils literal notranslate"><span class="pre">SortedDict.iterkeys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.itervalues"><code class="docutils literal notranslate"><span class="pre">SortedDict.itervalues()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.keys"><code class="docutils literal notranslate"><span class="pre">SortedDict.keys()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.moveDown"><code class="docutils literal notranslate"><span class="pre">SortedDict.moveDown()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.moveUp"><code class="docutils literal notranslate"><span class="pre">SortedDict.moveUp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.pop"><code class="docutils literal notranslate"><span class="pre">SortedDict.pop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.popitem"><code class="docutils literal notranslate"><span class="pre">SortedDict.popitem()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.safe_del"><code class="docutils literal notranslate"><span class="pre">SortedDict.safe_del()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.setFlat"><code class="docutils literal notranslate"><span class="pre">SortedDict.setFlat()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.setdefault"><code class="docutils literal notranslate"><span class="pre">SortedDict.setdefault()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.sort"><code class="docutils literal notranslate"><span class="pre">SortedDict.sort()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.sort_class"><code class="docutils literal notranslate"><span class="pre">SortedDict.sort_class()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.traverse"><code class="docutils literal notranslate"><span class="pre">SortedDict.traverse()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.update"><code class="docutils literal notranslate"><span class="pre">SortedDict.update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.value_for_index"><code class="docutils literal notranslate"><span class="pre">SortedDict.value_for_index()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.values"><code class="docutils literal notranslate"><span class="pre">SortedDict.values()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.walk"><code class="docutils literal notranslate"><span class="pre">SortedDict.walk()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.buildLocation"><code class="docutils literal notranslate"><span class="pre">buildLocation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.dynaLoad"><code class="docutils literal notranslate"><span class="pre">dynaLoad()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.dynaLoadKey"><code class="docutils literal notranslate"><span class="pre">dynaLoadKey()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.dynaSave"><code class="docutils literal notranslate"><span class="pre">dynaSave()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.get_bases"><code class="docutils literal notranslate"><span class="pre">get_bases()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.parseBuildLocation"><code class="docutils literal notranslate"><span class="pre">parseBuildLocation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.parseLocation"><code class="docutils literal notranslate"><span class="pre">parseLocation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.pretty_diff"><code class="docutils literal notranslate"><span class="pre">pretty_diff()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.prune_mask"><code class="docutils literal notranslate"><span class="pre">prune_mask()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.recursiveUpdate"><code class="docutils literal notranslate"><span class="pre">recursiveUpdate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.setLocation"><code class="docutils literal notranslate"><span class="pre">setLocation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.size_tree_objects"><code class="docutils literal notranslate"><span class="pre">size_tree_objects()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.sortHuman"><code class="docutils literal notranslate"><span class="pre">sortHuman()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.traverse"><code class="docutils literal notranslate"><span class="pre">traverse()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.traverseLocation"><code class="docutils literal notranslate"><span class="pre">traverseLocation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.sortedDict.html#coilpy.sortedDict.treeLocation"><code class="docutils literal notranslate"><span class="pre">treeLocation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.stellopt.html">coilpy.stellopt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.stellopt.html#coilpy.stellopt.OMFITascii"><code class="docutils literal notranslate"><span class="pre">OMFITascii</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.stellopt.html#coilpy.stellopt.OMFITascii.append"><code class="docutils literal notranslate"><span class="pre">OMFITascii.append()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.stellopt.html#coilpy.stellopt.OMFITascii.read"><code class="docutils literal notranslate"><span class="pre">OMFITascii.read()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.stellopt.html#coilpy.stellopt.OMFITascii.write"><code class="docutils literal notranslate"><span class="pre">OMFITascii.write()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.stellopt.html#coilpy.stellopt.STELLout"><code class="docutils literal notranslate"><span class="pre">STELLout</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.stellopt.html#coilpy.stellopt.STELLout.load"><code class="docutils literal notranslate"><span class="pre">STELLout.load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.stellopt.html#coilpy.stellopt.STELLout.plot"><code class="docutils literal notranslate"><span class="pre">STELLout.plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.stellopt.html#coilpy.stellopt.STELLout.plot_balloon"><code class="docutils literal notranslate"><span class="pre">STELLout.plot_balloon()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.stellopt.html#coilpy.stellopt.STELLout.plot_helicity"><code class="docutils literal notranslate"><span class="pre">STELLout.plot_helicity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.stellopt.html#coilpy.stellopt.STELLout.plot_neo"><code class="docutils literal notranslate"><span class="pre">STELLout.plot_neo()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.surface.html">coilpy.surface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf"><code class="docutils literal notranslate"><span class="pre">FourSurf</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.get_area"><code class="docutils literal notranslate"><span class="pre">FourSurf.get_area()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.get_volume"><code class="docutils literal notranslate"><span class="pre">FourSurf.get_volume()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.grid_box"><code class="docutils literal notranslate"><span class="pre">FourSurf.grid_box()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.plot"><code class="docutils literal notranslate"><span class="pre">FourSurf.plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.plot3d"><code class="docutils literal notranslate"><span class="pre">FourSurf.plot3d()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.read_focus_input"><code class="docutils literal notranslate"><span class="pre">FourSurf.read_focus_input()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.read_spec_input"><code class="docutils literal notranslate"><span class="pre">FourSurf.read_spec_input()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.read_spec_output"><code class="docutils literal notranslate"><span class="pre">FourSurf.read_spec_output()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.read_vmec_input"><code class="docutils literal notranslate"><span class="pre">FourSurf.read_vmec_input()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.read_vmec_output"><code class="docutils literal notranslate"><span class="pre">FourSurf.read_vmec_output()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.read_winding_surfce"><code class="docutils literal notranslate"><span class="pre">FourSurf.read_winding_surfce()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.rz"><code class="docutils literal notranslate"><span class="pre">FourSurf.rz()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.toSTL"><code class="docutils literal notranslate"><span class="pre">FourSurf.toSTL()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.toVTK"><code class="docutils literal notranslate"><span class="pre">FourSurf.toVTK()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.write_focus_input"><code class="docutils literal notranslate"><span class="pre">FourSurf.write_focus_input()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.write_vmec_input"><code class="docutils literal notranslate"><span class="pre">FourSurf.write_vmec_input()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.surface.html#coilpy.surface.FourSurf.xyz"><code class="docutils literal notranslate"><span class="pre">FourSurf.xyz()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.vmec.html">coilpy.vmec</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coilpy.vmec.html#coilpy.vmec.VMECout"><code class="docutils literal notranslate"><span class="pre">VMECout</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="coilpy.vmec.html#coilpy.vmec.VMECout.plot"><code class="docutils literal notranslate"><span class="pre">VMECout.plot()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -368,7 +562,7 @@ magnetic dipoles, STELLOPT, VMEC, BOOZ_XFORM, etc.</p>
 <div class="toc-item">
   
 <div class="tocsection onthispage">
-    <i class="fas fa-list"></i> On this page
+    <i class="fa-solid fa-list"></i> On this page
 </div>
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
@@ -384,13 +578,18 @@ magnetic dipoles, STELLOPT, VMEC, BOOZ_XFORM, etc.</p>
 
 <div class="toc-item">
   
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
 </div>
 
 <div class="toc-item">
   
 <div class="tocsection sourcelink">
     <a href="../_sources/api/coilpy.rst.txt">
-        <i class="fas fa-file-alt"></i> Show Source
+        <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
 </div>
 
@@ -413,7 +612,7 @@ magnetic dipoles, STELLOPT, VMEC, BOOZ_XFORM, etc.</p>
   
     
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b"></script>
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536"></script>
 
   <footer class="bd-footer"><div class="bd-footer__inner container">
   
@@ -430,7 +629,7 @@ magnetic dipoles, STELLOPT, VMEC, BOOZ_XFORM, etc.</p>
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
 
   </div>

@@ -13,8 +13,8 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=9b1a4fa89bdd0e95b23b" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
 
   
   <link rel="stylesheet"
@@ -23,18 +23,21 @@
     href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b">
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/coilpy.booz_xform';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -59,7 +62,7 @@
     <div class="search-button__search-container">
       
 <form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
+  <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form>
@@ -69,7 +72,7 @@
   
   <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
   <label class="sidebar-toggle primary-toggle" for="__primary">
-      <span class="fas fa-bars"></span>
+      <span class="fa-solid fa-bars"></span>
   </label>
   <div id="navbar-start">
     
@@ -115,16 +118,16 @@
     <div id="navbar-end">
       <div class="navbar-end-item navbar-end__search-button-container">
         
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
-  <i class="fas fa-search"></i>
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
 </button>
       </div>
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
+    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
 </span>
       </div>
       
@@ -139,14 +142,14 @@
 
   
   <div class="search-button-container--mobile">
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search">
-  <i class="fas fa-search"></i>
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
 </button>
   </div>
 
   
   <label class="sidebar-toggle secondary-toggle" for="__secondary">
-      <span class="fas fa-outdent"></span>
+      <span class="fa-solid fa-outdent"></span>
   </label>
   
 
@@ -184,10 +187,10 @@
     <div class="sidebar-header-items__end">
       
       <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
+    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
 </span>
       </div>
       
@@ -208,86 +211,23 @@
   </p>
   <div class="bd-toc-item navbar-nav">
     <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   coilpy.booz_xform
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.coils.html">
-   coilpy.coils
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.current_potential.html">
-   coilpy.current_potential
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.dipole.html">
-   coilpy.dipole
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.focushdf5.html">
-   coilpy.focushdf5
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.hdf5.html">
-   coilpy.hdf5
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.magnet.html">
-   coilpy.magnet
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.magtense_interface.html">
-   coilpy.magtense_interface
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.mgrid.html">
-   coilpy.mgrid
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.misc.html">
-   coilpy.misc
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.netcdf.html">
-   coilpy.netcdf
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.pm4stell.html">
-   coilpy.pm4stell
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.sortedDict.html">
-   coilpy.sortedDict
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.stellopt.html">
-   coilpy.stellopt
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.surface.html">
-   coilpy.surface
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="coilpy.vmec.html">
-   coilpy.vmec
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.VMEC2SPEC.html">coilpy.VMEC2SPEC</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">coilpy.booz_xform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.coils.html">coilpy.coils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.current_potential.html">coilpy.current_potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.dipole.html">coilpy.dipole</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.focushdf5.html">coilpy.focushdf5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.hdf5.html">coilpy.hdf5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.magnet.html">coilpy.magnet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.magtense_interface.html">coilpy.magtense_interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.mgrid.html">coilpy.mgrid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.misc.html">coilpy.misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.netcdf.html">coilpy.netcdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.pm4stell.html">coilpy.pm4stell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.sortedDict.html">coilpy.sortedDict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.stellopt.html">coilpy.stellopt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.surface.html">coilpy.surface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coilpy.vmec.html">coilpy.vmec</a></li>
 </ul>
 
   </div>
@@ -446,13 +386,95 @@
               
 <div class="toc-item">
   
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#coilpy.booz_xform.BOOZ_XFORM">
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     BOOZ_XFORM
+    </span>
+   </code>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#coilpy.booz_xform.BOOZ_XFORM.from_vmec">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       BOOZ_XFORM.from_vmec()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#coilpy.booz_xform.BOOZ_XFORM.plot">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       BOOZ_XFORM.plot()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#coilpy.booz_xform.BOOZ_XFORM.plot2d">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       BOOZ_XFORM.plot2d()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#coilpy.booz_xform.BOOZ_XFORM.plot_helicity">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       BOOZ_XFORM.plot_helicity()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#coilpy.booz_xform.BOOZ_XFORM.to_FOCUS">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       BOOZ_XFORM.to_FOCUS()
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#coilpy.booz_xform.BOOZ_XFORM.write_input">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       BOOZ_XFORM.write_input()
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
 </div>
 
 <div class="toc-item">
   
 <div class="tocsection sourcelink">
     <a href="../_sources/api/coilpy.booz_xform.rst.txt">
-        <i class="fas fa-file-alt"></i> Show Source
+        <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
 </div>
 
@@ -475,7 +497,7 @@
   
     
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=9b1a4fa89bdd0e95b23b"></script>
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536"></script>
 
   <footer class="bd-footer"><div class="bd-footer__inner container">
   
@@ -492,7 +514,7 @@
   <div class="footer-item">
     
 <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
 
   </div>
