@@ -853,7 +853,7 @@ class Coil(object):
             pos (array_like): Evaluation points, shape is (npoints,3) or (3,).
             method (str, optional): Biot-Savrt computing function. one of the follows:
                                   "hanson_hirshman": Hanson-Hirshman expression.
-                                  "biot-savart": Native Biot-Savart with tagent pre-calculated.
+                                  "biot_savart": Native Biot-Savart with tagent pre-calculated.
                                                  The tangent can be computed using `SingleCoil.fourier_tanget`
                                                  or `SingleCoil.spline_tanget` (with different orders).
                                   Defaults to "hanson_hirshman".
