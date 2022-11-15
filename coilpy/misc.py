@@ -393,7 +393,7 @@ def real2trig_2d(f, xm, xn, theta, zeta):
 def vmec2focus(
     vmec_file,
     focus_file="plasma.boundary",
-    bnorm_file="",
+    bnorm_file=None,
     ns=-1,
     curpol=1.0,
     flipsign=False,
@@ -403,7 +403,7 @@ def vmec2focus(
     Args:
         vmec_file (str): VMEC input or output filename.
         focus_file (str, optional): FOCUS boundary filename to be written. Defaults to 'plasma.boundary'.
-        bnorm_file (str, optional): BNORM output filename. Defaults to ''.
+        bnorm_file (str, optional): BNORM output filename. Defaults to None.
         ns (int, optional): VMEC surface index. Defaults to -1.
         curpol (float, optional): Normalization factor related to poloidal current. Defaults to 1.0.
         flipsign (bool, optional): Bool value to flip the sign of Bn coefficients. Defaults to False.
@@ -477,7 +477,7 @@ def vmec2focus(
             "Please check your argument. Should be VMEC input or output!"
         )
     # parse BNORM output if necessary
-    if bnorm_file == "":
+    if bnorm_file is None:
         Nbnf = 0
     else:
         bm = []
@@ -487,7 +487,7 @@ def vmec2focus(
         with open(bnorm_file, "r") as bfile:
             for line in bfile:
                 tmp = line.split()  # BNORM format: m n Bn_sin
-                bn.append(int(tmp[0]))
+                bm.append(int(tmp[0]))
                 bn.append(int(tmp[1]))
                 bns.append(float(tmp[2]))
         Nbnf = len(bm)
@@ -645,7 +645,7 @@ def read_focus_boundary(filename):
             line_list = line.split()
             n = int(float(line_list[0]))
             m = int(float(line_list[1]))
-            xnp.append(m)
+            xm.append(m)
             xn.append(n)
             bnc.append(float(line_list[2]))
             bns.append(float(line_list[3]))
@@ -974,9 +974,9 @@ def poincare_plot(data, color=None, **kwargs):
     nlines = len(data)
     # get colors
     if color is None:
-        colors = cm.rainbow(np.linspace(1, 0, ns))
+        colors = cm.rainbow(np.linspace(1, 0, nlines))
     else:
-        colors = [color] * ns
+        colors = [color] * nlines
     kwargs["s"] = kwargs.get("s", 0.1)  # dotsize
     # scatter plot
     for i in range(nlines):
