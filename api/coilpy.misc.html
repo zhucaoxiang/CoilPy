@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>coilpy.misc &#8212; coilpy 0.3.34 documentation</title>
+    <title>coilpy.misc &#8212; coilpy 0.3.35 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -92,7 +92,7 @@
 
   
   
-    <p class="title logo__title">coilpy 0.3.34 documentation</p>
+    <p class="title logo__title">coilpy 0.3.35 documentation</p>
   
 </a>
     
@@ -211,7 +211,6 @@
   </p>
   <div class="bd-toc-item navbar-nav">
     <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="coilpy.VMEC2SPEC.html">coilpy.VMEC2SPEC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="coilpy.booz_xform.html">coilpy.booz_xform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="coilpy.coils.html">coilpy.coils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="coilpy.current_potential.html">coilpy.current_potential</a></li>
@@ -584,14 +583,14 @@ params:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="coilpy.misc.vmec2focus">
-<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">vmec2focus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vmec_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">focus_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'plasma.boundary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bnorm_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curpol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flipsign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#vmec2focus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.vmec2focus" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">coilpy.misc.</span></span><span class="sig-name descname"><span class="pre">vmec2focus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vmec_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">focus_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'plasma.boundary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bnorm_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curpol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flipsign</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/coilpy/misc.html#vmec2focus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#coilpy.misc.vmec2focus" title="Permalink to this definition">#</a></dt>
 <dd><p>Prepare FOCUS input boundary</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>vmec_file</strong> (<em>str</em>) – VMEC input or output filename.</p></li>
 <li><p><strong>focus_file</strong> (<em>str</em><em>, </em><em>optional</em>) – FOCUS boundary filename to be written. Defaults to ‘plasma.boundary’.</p></li>
-<li><p><strong>bnorm_file</strong> (<em>str</em><em>, </em><em>optional</em>) – BNORM output filename. Defaults to ‘’.</p></li>
+<li><p><strong>bnorm_file</strong> (<em>str</em><em>, </em><em>optional</em>) – BNORM output filename. Defaults to None.</p></li>
 <li><p><strong>ns</strong> (<em>int</em><em>, </em><em>optional</em>) – VMEC surface index. Defaults to -1.</p></li>
 <li><p><strong>curpol</strong> (<em>float</em><em>, </em><em>optional</em>) – Normalization factor related to poloidal current. Defaults to 1.0.</p></li>
 <li><p><strong>flipsign</strong> (<em>bool</em><em>, </em><em>optional</em>) – Bool value to flip the sign of Bn coefficients. Defaults to False.</p></li>

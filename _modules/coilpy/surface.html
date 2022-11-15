@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.surface &#8212; coilpy 0.3.34 documentation</title>
+    <title>coilpy.surface &#8212; coilpy 0.3.35 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -91,7 +91,7 @@
 
   
   
-    <p class="title logo__title">coilpy 0.3.34 documentation</p>
+    <p class="title logo__title">coilpy 0.3.35 documentation</p>
   
 </a>
     
@@ -457,8 +457,8 @@
         <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">ncdata</span>  <span class="c1"># read netcdf file</span>
 
         <span class="n">vmec</span> <span class="o">=</span> <span class="n">ncdata</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">woutfile</span><span class="p">)</span>
-        <span class="n">xm</span> <span class="o">=</span> <span class="n">vmec</span><span class="p">[</span><span class="s2">&quot;xm&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-        <span class="n">xn</span> <span class="o">=</span> <span class="n">vmec</span><span class="p">[</span><span class="s2">&quot;xn&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">xm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vmec</span><span class="p">[</span><span class="s2">&quot;xm&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">xn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vmec</span><span class="p">[</span><span class="s2">&quot;xn&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
         <span class="n">rmnc</span> <span class="o">=</span> <span class="n">vmec</span><span class="p">[</span><span class="s2">&quot;rmnc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">zmns</span> <span class="o">=</span> <span class="n">vmec</span><span class="p">[</span><span class="s2">&quot;zmns&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">rbc</span> <span class="o">=</span> <span class="n">rmnc</span><span class="p">[</span><span class="n">ns</span><span class="p">,</span> <span class="p">:]</span>
@@ -917,6 +917,15 @@
         <span class="n">r</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">z</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">r</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">r</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">z</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="FourSurf.change_poloidal_angle"><a class="viewcode-back" href="../../api/coilpy.surface.html#coilpy.surface.FourSurf.change_poloidal_angle">[docs]</a>    <span class="k">def</span> <span class="nf">change_poloidal_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">zero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xm</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xn</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xn</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rbs</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zbs</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rbs</span><span class="p">[</span><span class="n">zero</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zbs</span><span class="p">[</span><span class="n">zero</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">return</span></div>
 
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">class_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span></div>

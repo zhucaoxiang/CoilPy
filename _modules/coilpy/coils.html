@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.coils &#8212; coilpy 0.3.34 documentation</title>
+    <title>coilpy.coils &#8212; coilpy 0.3.35 documentation</title>
   <script>
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
@@ -91,7 +91,7 @@
 
   
   
-    <p class="title logo__title">coilpy 0.3.34 documentation</p>
+    <p class="title logo__title">coilpy 0.3.35 documentation</p>
   
 </a>
     
@@ -1073,14 +1073,14 @@
             <span class="n">data</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">vtkname</span><span class="p">)</span>
         <span class="k">return</span></div>
 
-<div class="viewcode-block" id="Coil.bfield"><a class="viewcode-back" href="../../api/coilpy.coils.html#coilpy.coils.Coil.bfield">[docs]</a>    <span class="k">def</span> <span class="nf">bfield</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">core</span><span class="o">=</span><span class="s2">&quot;hanson_hirshman&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="Coil.bfield"><a class="viewcode-back" href="../../api/coilpy.coils.html#coilpy.coils.Coil.bfield">[docs]</a>    <span class="k">def</span> <span class="nf">bfield</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;hanson_hirshman&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Compute the magnetic field from a coil set</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            pos (array_like): Evaluation points, shape is (npoints,3) or (3,).</span>
-<span class="sd">            core (str, optional): Biot-Savrt computing function. one of the follows:</span>
+<span class="sd">            method (str, optional): Biot-Savrt computing function. one of the follows:</span>
 <span class="sd">                                  &quot;hanson_hirshman&quot;: Hanson-Hirshman expression.</span>
-<span class="sd">                                  &quot;biot-savart&quot;: Native Biot-Savart with tagent pre-calculated.</span>
+<span class="sd">                                  &quot;biot_savart&quot;: Native Biot-Savart with tagent pre-calculated.</span>
 <span class="sd">                                                 The tangent can be computed using `SingleCoil.fourier_tanget`</span>
 <span class="sd">                                                 or `SingleCoil.spline_tanget` (with different orders).</span>
 <span class="sd">                                  Defaults to &quot;hanson_hirshman&quot;.</span>
@@ -1091,7 +1091,7 @@
         <span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
         <span class="n">mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">icoil</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">icoil</span><span class="p">,</span> <span class="n">core</span><span class="p">)</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">icoil</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
             <span class="n">mag</span> <span class="o">+=</span> <span class="n">func</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">mag</span></div></div>
 </pre></div>
