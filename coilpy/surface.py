@@ -21,8 +21,8 @@ class FourSurf(object):
           zbc -- list or numpy array, array of z cosine harmonics (default: [])
 
         """
-        self.xm = np.atleast_1d(xm, dtype=int)
-        self.xn = np.atleast_1d(xn, dtype=int)
+        self.xm = np.atleast_1d(xm)
+        self.xn = np.atleast_1d(xn)
         self.rbc = np.atleast_1d(rbc)
         self.rbs = np.atleast_1d(rbs)
         self.zbc = np.atleast_1d(zbc)
@@ -230,8 +230,8 @@ class FourSurf(object):
         import xarray as ncdata  # read netcdf file
 
         vmec = ncdata.open_dataset(woutfile)
-        xm = vmec["xm"].values
-        xn = vmec["xn"].values
+        xm = np.array(vmec["xm"].values, dtype=int)
+        xn = np.array(vmec["xn"].values, dtype=int)
         rmnc = vmec["rmnc"].values
         zmns = vmec["zmns"].values
         rbc = rmnc[ns, :]
