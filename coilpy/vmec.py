@@ -33,7 +33,9 @@ class VMECout(object):
         self.data["nfp"] = int(self.wout["nfp"].values)
         self.data["nu"] = int(self.wout["mpol"].values * 4)
         self.data["nv"] = int(self.wout["ntor"].values * 4)
-        self.data["curpol"] = 2.0 * np.pi / self.data["nfp"] * self.wout["rbtor"].values
+        self.data["curpol"] = (
+            2.0 * np.pi / self.data["nfp"] * self.wout["rbtor"].values * 1e6
+        )  # unit: Ampere
         self.data["nflux"] = np.linspace(
             0, 1, self.data["ns"]
         )  # np.ndarray((self.data['ns'],1))
