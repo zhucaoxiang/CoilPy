@@ -13,7 +13,7 @@ from typing import List, Dict
 mu0 = 4 * math.pi * 1e-7
 
 
-def VMECout2SPEC(VMEC_output: str, SPEC_input: str, interfaceLabel: List[float], fluxLabel: str = "toroidal", lconstraint: int = 2, lrad: int = 8) -> None:
+def VMECout2SPEC(VMEC_output: str, SPEC_input: str, interfaceLabel: List[float], fluxLabel: str = "toroidal", lconstraint: int = 0, lrad: int = 8) -> None:
     """
     This function creates a SPEC input namelist from a VMEC output file. 
     Args:
@@ -232,7 +232,7 @@ def writeSPECInput(SPEC_input: str, datas: Dict) -> None:
         file.write("  ")
     file.write("\n")
     
-    file.write("    " + "{:12} = {:.5e}".format("pscale", 1) + "\n")
+    file.write("    " + "{:12} = {:.5e}".format("pscale", mu0) + "\n")
     file.write("    {:12} = ".format("pressure"))
     for i in range(nvol):
         file.write("{:.5e}".format(datas["pressure"][i]))
@@ -390,7 +390,7 @@ def writeSPECInput(SPEC_input: str, datas: Dict) -> None:
     file.write("    " + "{:12} = {:.5e}".format("absacc", 1e-4) + "\n")
     file.write("    " + "{:12} = {:.5e}".format("epsr",   1e-8) + "\n")
     file.write("    " + "{:12} = {:d}".format("nppts", 400) + "\n")
-    file.write("    " + "{:12} = {:d}".format("nptjs", -1) + "\n")
+    file.write("    " + "{:12} = {:d}".format("nptrj", -1) + "\n")
     file.write("    " + "{:12} = .false.".format("lhevalues") + "\n")
     file.write("    " + "{:12} = .false.".format("lhevectors") + "\n")
     file.write("/\n")
