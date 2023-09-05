@@ -16,7 +16,7 @@ def xy2rp(x, y):
         R (float): radius
         phi (float): angle in rad
     """
-    R = np.sqrt(x ** 2 + y ** 2)
+    R = np.sqrt(x**2 + y**2)
     if x > 0.0 and y >= 0.0:  # [0,pi/2)
         phi = np.arcsin(y / R)
     elif x <= 0.0 and y > 0.0:  # [pi/2, pi)
@@ -203,8 +203,12 @@ def trigfft(y, tr=-1):
         end = half + 1
     assert tr <= end, "Truncation number should be smaller than dimension!"
     comp = fft(y) / N
-    a_k = np.zeros(end, dtype=np.complex)
-    b_k = np.zeros(end, dtype=np.complex)
+    try:
+        a_k = np.zeros(end, dtype=np.complex)
+        b_k = np.zeros(end, dtype=np.complex)
+    except AttributeError:  # numpy updated
+        a_k = np.zeros(end, dtype=complex)
+        b_k = np.zeros(end, dtype=complex)
     a_k[0] = comp[0]
     for n in range(1, half + 1):
         a_k[n] = comp[n] + comp[N - n]
@@ -257,8 +261,12 @@ def trigfft2(y):
         start = 0
         nmin = -(N - 1) // 2
         nmax = (N - 1) // 2
-    a_k = np.zeros((end, N), dtype=np.complex)
-    b_k = np.zeros((end, N), dtype=np.complex)
+    try:
+        a_k = np.zeros(end, dtype=np.complex)
+        b_k = np.zeros(end, dtype=np.complex)
+    except AttributeError:  # numpy updated
+        a_k = np.zeros(end, dtype=complex)
+        b_k = np.zeros(end, dtype=complex)
     # find mapping
     a_k[0, 0] = comp[0, 0]
     for n in range(1, N):
