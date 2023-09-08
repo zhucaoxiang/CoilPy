@@ -1,229 +1,275 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.misc &#8212; coilpy 0.3.35 documentation</title>
-  <script>
+    <title>coilpy.misc &#8212; coilpy 0.4.01 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link rel="stylesheet"
-    href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536">
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=78de3a86"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/coilpy/misc';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="docsearch:language" content="en">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
   
-  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
   <label class="overlay overlay-primary" for="__primary"></label>
-
   
-  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
   <label class="overlay overlay-secondary" for="__secondary"></label>
-
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
     <div class="search-button__search-container">
-      
-<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-    </div>
+</form></div>
   </div>
-
   
-  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
   <label class="sidebar-toggle primary-toggle" for="__primary">
-      <span class="fa-solid fa-bars"></span>
+    <span class="fa-solid fa-bars"></span>
   </label>
-  <div id="navbar-start">
-    
-    
   
-
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
 
 <a class="navbar-brand logo" href="../../index.html">
-
   
   
   
   
   
+    <p class="title logo__title">coilpy 0.4.01 documentation</p>
   
-  
-
-  
-  
-    <p class="title logo__title">coilpy 0.3.35 documentation</p>
-  
-</a>
+</a></div>
     
   </div>
-
+  
   
   <div class="col-lg-9 navbar-header-items">
-    <div id="navbar-center" class="mr-auto">
+    
+    <div class="me-auto navbar-header-items__center">
       
-      <div class="navbar-center-item">
-        <nav class="navbar-nav">
-    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
-        Site Navigation
-    </p>
-    <ul id="navbar-main-elements" class="navbar-nav">
-        
-    </ul>
-</nav>
-      </div>
-      
-    </div>
-
-    <div id="navbar-end">
-      <div class="navbar-end-item navbar-end__search-button-container">
-        
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
-  <i class="fa-solid fa-magnifying-glass"></i>
-</button>
-      </div>
-      
-      <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
-    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
-</span>
-      </div>
-      
-      <div class="navbar-end-item">
-        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-      </ul>
-      </div>
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+  </ul>
+</nav></div>
       
     </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
   </div>
-
-
   
-  <div class="search-button-container--mobile">
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
-  <i class="fa-solid fa-magnifying-glass"></i>
-</button>
-  </div>
-
   
-  <label class="sidebar-toggle secondary-toggle" for="__secondary">
-      <span class="fa-solid fa-outdent"></span>
-  </label>
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
   
 
+  
 </div>
-  </nav>
-  
 
+    </nav>
+  
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
       <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
+
   
   <div class="sidebar-header-items sidebar-primary__section">
     
     
       <div class="sidebar-header-items__center">
-      
-      <div class="navbar-center-item">
-        <nav class="navbar-nav">
-    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
-        Site Navigation
-    </p>
-    <ul id="navbar-main-elements" class="navbar-nav">
         
-    </ul>
-</nav>
-      </div>
-      
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+  </ul>
+</nav></div>
+        
       </div>
     
-
     
     
-    <div class="sidebar-header-items__end">
-      
-      <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
-    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
-</span>
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
       </div>
-      
-      <div class="navbar-end-item">
-        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-      </ul>
-      </div>
-      
-    </div>
     
   </div>
-
   
-
   
-  <div class="sidebar-end-items sidebar-primary__section">
-    <div class="sidebar-end-items__item">
-    </div>
+  <div class="sidebar-primary-items__end sidebar-primary__section">
   </div>
+  
+  <div id="rtd-footer-container"></div>
+
 
       </div>
-      <main class="bd-main">
+      
+      <main id="main-content" class="bd-main">
         
         
-        <div class="bd-content">
-          <div class="bd-article-container">
-            
-            <div class="bd-header-article">
-                
-            </div>
-            
-            
-            <article class="bd-article" role="main">
+          <div class="bd-content">
+            <div class="bd-article-container">
               
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">coilpy.misc</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <h1>Source code for coilpy.misc</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
@@ -233,7 +279,7 @@
 
 
 <div class="viewcode-block" id="xy2rp"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.xy2rp">[docs]</a><span class="k">def</span> <span class="nf">xy2rp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Convert (x,y) to (R,phi) in polar coordinate</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert (x,y) to (R,phi) in polar coordinate</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        x (float): x coordinate</span>
@@ -243,7 +289,7 @@
 <span class="sd">        R (float): radius</span>
 <span class="sd">        phi (float): angle in rad</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">y</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mf">0.0</span><span class="p">:</span>  <span class="c1"># [0,pi/2)</span>
         <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="n">R</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>  <span class="c1"># [pi/2, pi)</span>
@@ -258,7 +304,7 @@
 
 
 <div class="viewcode-block" id="map_matrix"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.map_matrix">[docs]</a><span class="k">def</span> <span class="nf">map_matrix</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Map matrix to be complete (closed)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Map matrix to be complete (closed)</span>
 <span class="sd">    Arguments:</span>
 <span class="sd">      xx -- 2D numpy array</span>
 <span class="sd">      first -- boolean, default: True, if increase the first dimension</span>
@@ -292,7 +338,7 @@
 
 
 <div class="viewcode-block" id="toroidal_period"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.toroidal_period">[docs]</a><span class="k">def</span> <span class="nf">toroidal_period</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">nfp</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    vec: [x,y,z] data</span>
 <span class="sd">    Nfp: =1, toroidal number of periodicity</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -316,7 +362,7 @@
 <div class="viewcode-block" id="print_progress"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.print_progress">[docs]</a><span class="k">def</span> <span class="nf">print_progress</span><span class="p">(</span>
     <span class="n">iteration</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;Progress&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;Complete&quot;</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bar_length</span><span class="o">=</span><span class="mi">60</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Call in a loop to create terminal progress bar</span>
 <span class="sd">    @params:</span>
 <span class="sd">        iteration   - Required  : current iteration (Int)</span>
@@ -341,7 +387,7 @@
 
 <span class="c1"># Smart way to check where to plot</span>
 <div class="viewcode-block" id="get_figure"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.get_figure">[docs]</a><span class="k">def</span> <span class="nf">get_figure</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check where to plot</span>
 <span class="sd">    Parameters:</span>
 <span class="sd">        axes: matplotlib.pyplot axis, axis to plot (default: None)</span>
@@ -356,7 +402,7 @@
     <span class="k">if</span> <span class="n">axes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># No axes provided</span>
         <span class="n">f</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        f = plt.gcf()</span>
 <span class="sd">        if len(f.axes):</span>
 <span class="sd">            # normal situation in which existing figures should be respected and left alone</span>
@@ -406,7 +452,7 @@
 
 
 <div class="viewcode-block" id="trigfft"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.trigfft">[docs]</a><span class="k">def</span> <span class="nf">trigfft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">tr</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;calculate trigonometric coefficients using FFT</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;calculate trigonometric coefficients using FFT</span>
 <span class="sd">    Assuming the periodicity is 2*pi</span>
 <span class="sd">    params:</span>
 <span class="sd">        y -- 1D array for Fourier transformation</span>
@@ -430,8 +476,12 @@
         <span class="n">end</span> <span class="o">=</span> <span class="n">half</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="k">assert</span> <span class="n">tr</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">,</span> <span class="s2">&quot;Truncation number should be smaller than dimension!&quot;</span>
     <span class="n">comp</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">N</span>
-    <span class="n">a_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
-    <span class="n">b_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">a_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
+        <span class="n">b_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>  <span class="c1"># numpy updated</span>
+        <span class="n">a_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="n">b_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
     <span class="n">a_k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">half</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="n">a_k</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">comp</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">comp</span><span class="p">[</span><span class="n">N</span> <span class="o">-</span> <span class="n">n</span><span class="p">]</span>
@@ -450,7 +500,7 @@
 
 
 <div class="viewcode-block" id="trigfft2"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.trigfft2">[docs]</a><span class="k">def</span> <span class="nf">trigfft2</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;calculate trigonometric coefficients using FFT</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;calculate trigonometric coefficients using FFT</span>
 <span class="sd">    Assuming the periodicity is 2*pi</span>
 <span class="sd">    params:</span>
 <span class="sd">        y -- 2D array for Fourier transformation</span>
@@ -484,8 +534,12 @@
         <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">nmin</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
         <span class="n">nmax</span> <span class="o">=</span> <span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
-    <span class="n">a_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">end</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
-    <span class="n">b_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">end</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">a_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
+        <span class="n">b_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>  <span class="c1"># numpy updated</span>
+        <span class="n">a_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="n">b_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
     <span class="c1"># find mapping</span>
     <span class="n">a_k</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">comp</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
@@ -533,7 +587,7 @@
 
 
 <div class="viewcode-block" id="trig2real"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.trig2real">[docs]</a><span class="k">def</span> <span class="nf">trig2real</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">zeta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xm</span><span class="o">=</span><span class="p">[],</span> <span class="n">xn</span><span class="o">=</span><span class="p">[],</span> <span class="n">fmnc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Trigonometric coefficients to real space points</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trigonometric coefficients to real space points</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        theta (numpy.ndarray): Theta values to be evaluated.</span>
@@ -583,7 +637,7 @@
 
 
 <div class="viewcode-block" id="real2trig_2d"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.real2trig_2d">[docs]</a><span class="k">def</span> <span class="nf">real2trig_2d</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">xm</span><span class="p">,</span> <span class="n">xn</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">zeta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Fourier decomposition in 2D</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fourier decomposition in 2D</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        f (numpy.ndarray): The 2D function to be decomposed. Size: [npol, ntor].</span>
@@ -625,7 +679,7 @@
     <span class="n">curpol</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">flipsign</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Prepare FOCUS input boundary</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare FOCUS input boundary</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        vmec_file (str): VMEC input or output filename.</span>
@@ -752,7 +806,7 @@
 
 
 <div class="viewcode-block" id="booz2focus"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.booz2focus">[docs]</a><span class="k">def</span> <span class="nf">booz2focus</span><span class="p">(</span><span class="n">booz_file</span><span class="p">,</span> <span class="n">ns</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">focus_file</span><span class="o">=</span><span class="s2">&quot;plasma.boundary&quot;</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">Nfp</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;convert BOOZ_XFORM output into FOCUS format plasma surface (in Boozer coordinates)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;convert BOOZ_XFORM output into FOCUS format plasma surface (in Boozer coordinates)</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        booz_file (str): Netcdf file of BOOZ_XFORM output</span>
@@ -807,7 +861,7 @@
 
 
 <div class="viewcode-block" id="read_focus_boundary"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.read_focus_boundary">[docs]</a><span class="k">def</span> <span class="nf">read_focus_boundary</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Read FOCUS/FAMUS plasma boundary file</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read FOCUS/FAMUS plasma boundary file</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        filename (str): File name and path.</span>
@@ -885,7 +939,7 @@
 
 
 <div class="viewcode-block" id="write_focus_boundary"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.write_focus_boundary">[docs]</a><span class="k">def</span> <span class="nf">write_focus_boundary</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">surf</span><span class="p">,</span> <span class="n">nfp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Write the Fourier harmonics down in FOCUS format</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write the Fourier harmonics down in FOCUS format</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        filename (str): File name to be saved.</span>
@@ -947,7 +1001,7 @@
 
 
 <div class="viewcode-block" id="rotation_matrix"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.rotation_matrix">[docs]</a><span class="k">def</span> <span class="nf">rotation_matrix</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">xyz</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A genera rotation matrix using yaw, pitch, and roll angles</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A genera rotation matrix using yaw, pitch, and roll angles</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        alpha (float, optional): The yaw angle (rotating around the z-axis). Defaults to 0.0.</span>
@@ -983,7 +1037,7 @@
 
 
 <div class="viewcode-block" id="rotation_angle"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.rotation_angle">[docs]</a><span class="k">def</span> <span class="nf">rotation_angle</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">xyz</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get the rotation angle from a rotation matrix</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the rotation angle from a rotation matrix</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        R (3x3 matrix): The rotation matrix.</span>
@@ -1053,7 +1107,7 @@
 
 
 <div class="viewcode-block" id="set_axes_equal"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.set_axes_equal">[docs]</a><span class="k">def</span> <span class="nf">set_axes_equal</span><span class="p">(</span><span class="n">ax</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Make axes of 3D plot have equal scale so that spheres appear as spheres,</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make axes of 3D plot have equal scale so that spheres appear as spheres,</span>
 <span class="sd">    cubes as cubes, etc..  This is one possible solution to Matplotlib&#39;s</span>
 <span class="sd">    ax.set_aspect(&#39;equal&#39;) and ax.axis(&#39;equal&#39;) not working for 3D.</span>
 
@@ -1083,7 +1137,7 @@
 
 
 <div class="viewcode-block" id="scan_focus"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.scan_focus">[docs]</a><span class="k">def</span> <span class="nf">scan_focus</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">run</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Scan input variable of FOCUS</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Scan input variable of FOCUS</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        template (str): a template input file (*.input).</span>
@@ -1119,7 +1173,7 @@
 
 
 <div class="viewcode-block" id="tracing"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.tracing">[docs]</a><span class="k">def</span> <span class="nf">tracing</span><span class="p">(</span><span class="n">bfield</span><span class="p">,</span> <span class="n">r0</span><span class="p">,</span> <span class="n">z0</span><span class="p">,</span> <span class="n">phi0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">niter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">nfp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nstep</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Trace magnetic field line in toroidal geometry</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trace magnetic field line in toroidal geometry</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        bfield (callable): A callable function.</span>
@@ -1182,7 +1236,7 @@
 
 
 <div class="viewcode-block" id="poincare_plot"><a class="viewcode-back" href="../../api/coilpy.misc.html#coilpy.misc.poincare_plot">[docs]</a><span class="k">def</span> <span class="nf">poincare_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Making poincare plot</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Making poincare plot</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        data (array_like): poincare data, shape is [nlines, niterations, 2].</span>
@@ -1217,75 +1271,74 @@
     <span class="k">return</span></div>
 </pre></div>
 
-            </article>
-            
-            
-            
-            <footer class="bd-footer-article">
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-</div>
-            </footer>
-            
-          </div>
-          
-          
-          
-            <div class="bd-sidebar-secondary bd-toc">
+                </article>
               
-<div class="toc-item">
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
   
-<div id="searchbox"></div>
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
 </div>
 
-<div class="toc-item">
-  
-</div>
-
-<div class="toc-item">
-  
-</div>
-
+                </footer>
+              
             </div>
-          
-          
-        </div>
-        <footer class="bd-footer-content">
-          <div class="bd-footer-content__inner">
+            
+            
+              
             
           </div>
-        </footer>
+          <footer class="bd-footer-content">
+            
+          </footer>
         
       </main>
     </div>
   </div>
-
   
-    
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
-  <footer class="bd-footer"><div class="bd-footer__inner container">
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
   
-  <div class="footer-item">
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
     
-<p class="copyright">
-
-    &copy; Copyright 2020, Caoxiang Zhu.<br>
-
-</p>
-
-  </div>
+      © Copyright 2020, Caoxiang Zhu.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
   
-  <div class="footer-item">
-    
-<p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
-</p>
-
-  </div>
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
   
 </div>
+
   </footer>
   </body>
 </html>

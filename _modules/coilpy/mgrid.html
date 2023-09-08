@@ -1,248 +1,330 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.mgrid &#8212; coilpy 0.3.35 documentation</title>
-  <script>
+    <title>coilpy.mgrid &#8212; coilpy 0.4.01 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link rel="stylesheet"
-    href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536">
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=78de3a86"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/coilpy/mgrid';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="docsearch:language" content="en">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
   
-  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
   <label class="overlay overlay-primary" for="__primary"></label>
-
   
-  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
   <label class="overlay overlay-secondary" for="__secondary"></label>
-
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
     <div class="search-button__search-container">
-      
-<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-    </div>
+</form></div>
   </div>
-
   
-  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
   <label class="sidebar-toggle primary-toggle" for="__primary">
-      <span class="fa-solid fa-bars"></span>
+    <span class="fa-solid fa-bars"></span>
   </label>
-  <div id="navbar-start">
-    
-    
   
-
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
 
 <a class="navbar-brand logo" href="../../index.html">
-
   
   
   
   
   
+    <p class="title logo__title">coilpy 0.4.01 documentation</p>
   
-  
-
-  
-  
-    <p class="title logo__title">coilpy 0.3.35 documentation</p>
-  
-</a>
+</a></div>
     
   </div>
-
+  
   
   <div class="col-lg-9 navbar-header-items">
-    <div id="navbar-center" class="mr-auto">
+    
+    <div class="me-auto navbar-header-items__center">
       
-      <div class="navbar-center-item">
-        <nav class="navbar-nav">
-    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
-        Site Navigation
-    </p>
-    <ul id="navbar-main-elements" class="navbar-nav">
-        
-    </ul>
-</nav>
-      </div>
-      
-    </div>
-
-    <div id="navbar-end">
-      <div class="navbar-end-item navbar-end__search-button-container">
-        
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
-  <i class="fa-solid fa-magnifying-glass"></i>
-</button>
-      </div>
-      
-      <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
-    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
-</span>
-      </div>
-      
-      <div class="navbar-end-item">
-        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-      </ul>
-      </div>
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+  </ul>
+</nav></div>
       
     </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
   </div>
-
-
   
-  <div class="search-button-container--mobile">
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
-  <i class="fa-solid fa-magnifying-glass"></i>
-</button>
-  </div>
-
   
-  <label class="sidebar-toggle secondary-toggle" for="__secondary">
-      <span class="fa-solid fa-outdent"></span>
-  </label>
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
   
 
+  
 </div>
-  </nav>
-  
 
+    </nav>
+  
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
       <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
+
   
   <div class="sidebar-header-items sidebar-primary__section">
     
     
       <div class="sidebar-header-items__center">
-      
-      <div class="navbar-center-item">
-        <nav class="navbar-nav">
-    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
-        Site Navigation
-    </p>
-    <ul id="navbar-main-elements" class="navbar-nav">
         
-    </ul>
-</nav>
-      </div>
-      
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+  </ul>
+</nav></div>
+        
       </div>
     
-
     
     
-    <div class="sidebar-header-items__end">
-      
-      <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
-    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
-</span>
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
       </div>
-      
-      <div class="navbar-end-item">
-        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-      </ul>
-      </div>
-      
-    </div>
     
   </div>
-
   
-
   
-  <div class="sidebar-end-items sidebar-primary__section">
-    <div class="sidebar-end-items__item">
-    </div>
+  <div class="sidebar-primary-items__end sidebar-primary__section">
   </div>
+  
+  <div id="rtd-footer-container"></div>
+
 
       </div>
-      <main class="bd-main">
+      
+      <main id="main-content" class="bd-main">
         
         
-        <div class="bd-content">
-          <div class="bd-article-container">
-            
-            <div class="bd-header-article">
-                
-            </div>
-            
-            
-            <article class="bd-article" role="main">
+          <div class="bd-content">
+            <div class="bd-article-container">
               
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">coilpy.mgrid</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <h1>Source code for coilpy.mgrid</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.netcdf</span> <span class="kn">import</span> <span class="n">Netcdf</span>
 
 
 <div class="viewcode-block" id="Mgrid"><a class="viewcode-back" href="../../api/coilpy.mgrid.html#coilpy.mgrid.Mgrid">[docs]</a><span class="k">class</span> <span class="nc">Mgrid</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">Br</span><span class="p">,</span> <span class="n">Bz</span><span class="p">,</span> <span class="n">Bphi</span><span class="p">,</span> <span class="n">nfp</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mgrid class is for a MAKEGRID file</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            r (numpy.array): r coodinates, from rmin to rmax, size: [nr,]</span>
+<span class="sd">            z (numpy.array): z coodinates, from zmin to zmax, size: [nz,]</span>
+<span class="sd">            phi (numpy.array): phi coodinates, form 0 to 2*pi/nfp, size: [np+1,]</span>
+<span class="sd">            Br (numpy.array): Br data on the grid, size: [nr, nz, np+1]</span>
+<span class="sd">            Bz (numpy.array): Bz data on the grid, size: [nr, nz, np+1]</span>
+<span class="sd">            Bphi (numpy.array): Bphi data on the grid, size: [nr, nz, np+1]</span>
+<span class="sd">            nfp (int, optional): number of field periodicity. Defaults to 1.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># r, z, phi grid</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">r</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">phi</span> <span class="o">=</span> <span class="n">phi</span>
+        <span class="c1"># magnetic field</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Br</span> <span class="o">=</span> <span class="n">Br</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Bz</span> <span class="o">=</span> <span class="n">Bz</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Bphi</span> <span class="o">=</span> <span class="n">Bphi</span>
+        <span class="c1"># number of field periodicity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nextcur</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># combine all currents</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span> <span class="o">=</span> <span class="n">nfp</span>
+        <span class="c1"># dimensions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nr</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nz</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nphi</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phi</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># self.phi = nphi + 1</span>
+        <span class="c1"># box sizes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phimax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phi</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phimin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phi</span><span class="p">)</span>
+        <span class="c1"># construct interpolation functions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">interpolate</span><span class="p">()</span>
         <span class="k">return</span>
 
 <div class="viewcode-block" id="Mgrid.read_mgrid_bin"><a class="viewcode-back" href="../../api/coilpy.mgrid.html#coilpy.mgrid.Mgrid.read_mgrid_bin">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">read_mgrid_bin</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">extcur</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read mgrid file in binary format</span>
 
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): binary file path and name.</span>
+<span class="sd">            extcur (str/list, optional): current (or file) for each group. Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Mgrid: Mgrid class containning all data with B summed together.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
         <span class="c1"># nr, nz, etc.</span>
         <span class="p">(</span><span class="n">nbytes</span><span class="p">,)</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i4&quot;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -330,6 +412,49 @@
             <span class="n">r</span><span class="o">=</span><span class="n">rr</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">zz</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="n">phi</span><span class="p">,</span> <span class="n">Br</span><span class="o">=</span><span class="n">Br_total</span><span class="p">,</span> <span class="n">Bz</span><span class="o">=</span><span class="n">Bz_total</span><span class="p">,</span> <span class="n">Bphi</span><span class="o">=</span><span class="n">Bp_total</span><span class="p">,</span> <span class="n">nfp</span><span class="o">=</span><span class="n">nfp</span>
         <span class="p">)</span></div>
 
+<div class="viewcode-block" id="Mgrid.read_mgrid_nc"><a class="viewcode-back" href="../../api/coilpy.mgrid.html#coilpy.mgrid.Mgrid.read_mgrid_nc">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read_mgrid_nc</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">extcur</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read mgrid file in the netcdf format</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): netcdf file path and name.</span>
+<span class="sd">            extcur (str/list, optional): current (or file) for each group. Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Mgrid: Mgrid class containning all data with B summed together.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">Netcdf</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="c1"># read extcur if needed</span>
+        <span class="k">if</span> <span class="n">extcur</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">extcur</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">nextcur</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">extcur</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># read from file</span>
+            <span class="n">extcur</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="n">extcur</span><span class="p">)</span>
+        <span class="c1"># generate coordinates</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">rmin</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">rmax</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">ir</span><span class="p">)</span>
+        <span class="n">zz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">zmin</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">zmax</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">jz</span><span class="p">)</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">data</span><span class="o">.</span><span class="n">nfp</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">kp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># sum data</span>
+        <span class="n">Br_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">data</span><span class="o">.</span><span class="n">ir</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">jz</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">kp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">Bz_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">data</span><span class="o">.</span><span class="n">ir</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">jz</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">kp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">Bp_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">data</span><span class="o">.</span><span class="n">ir</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">jz</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">kp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">nextcur</span><span class="p">):</span>
+            <span class="n">Br_total</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;br_</span><span class="si">{:03d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">*</span> <span class="n">extcur</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">Bz_total</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;bz_</span><span class="si">{:03d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">*</span> <span class="n">extcur</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">Bp_total</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;bp_</span><span class="si">{:03d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">*</span> <span class="n">extcur</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="c1"># add one additional toroidal cross-section</span>
+        <span class="n">Br_total</span><span class="p">[:,</span> <span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Br_total</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">Bz_total</span><span class="p">[:,</span> <span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Bz_total</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">Bp_total</span><span class="p">[:,</span> <span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Bp_total</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">r</span><span class="o">=</span><span class="n">rr</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">zz</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="n">phi</span><span class="p">,</span> <span class="n">Br</span><span class="o">=</span><span class="n">Br_total</span><span class="p">,</span> <span class="n">Bz</span><span class="o">=</span><span class="n">Bz_total</span><span class="p">,</span> <span class="n">Bphi</span><span class="o">=</span><span class="n">Bp_total</span><span class="p">,</span> <span class="n">nfp</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">nfp</span>
+        <span class="p">)</span></div>
+
 <div class="viewcode-block" id="Mgrid.interpolate"><a class="viewcode-back" href="../../api/coilpy.mgrid.html#coilpy.mgrid.Mgrid.interpolate">[docs]</a>    <span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">RegularGridInterpolator</span>
 
@@ -344,83 +469,215 @@
         <span class="p">)</span>
         <span class="k">return</span></div>
 
+<div class="viewcode-block" id="Mgrid.compute_mgrid"><a class="viewcode-back" href="../../api/coilpy.mgrid.html#coilpy.mgrid.Mgrid.compute_mgrid">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">compute_mgrid</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">bfield</span><span class="p">,</span> <span class="n">rmin</span><span class="p">,</span> <span class="n">rmax</span><span class="p">,</span> <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">,</span> <span class="n">nr</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">nz</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">nphi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">nfp</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute bfield on the grid</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            bfield (func): callable function to compute B at a sequence of points [N, 3]</span>
+<span class="sd">                           in cartesian coordinates, e.g. Bxyz = bfield(pos[0:N, 0:3])</span>
+<span class="sd">            rmin (float): minimum r value</span>
+<span class="sd">            rmax (float): maximum r value</span>
+<span class="sd">            zmin (float): minimum z value</span>
+<span class="sd">            zmax (float): maximum z value</span>
+<span class="sd">            nr (int, optional): resolution in r. Defaults to 100.</span>
+<span class="sd">            nz (int, optional): resolution in z. Defaults to 100.</span>
+<span class="sd">            nphi (int, optional): resolution in phi. Defaults to 100.</span>
+<span class="sd">            nfp (int, optional): number of field periods. Defaults to 1.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Mgrid: return a Mgrid class with dimensions of [nr, nz, nphi+1]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># construct grid</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">rmin</span><span class="p">,</span> <span class="n">rmax</span><span class="p">,</span> <span class="n">nr</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">,</span> <span class="n">nz</span><span class="p">)</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">nfp</span><span class="p">,</span> <span class="n">nphi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">rr</span><span class="p">,</span> <span class="n">zz</span><span class="p">,</span> <span class="n">pp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
+        <span class="n">rzp_grid</span> <span class="o">=</span> <span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">nz</span><span class="p">,</span> <span class="n">nphi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># compute B-field</span>
+        <span class="n">cosphi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">pp</span><span class="p">))</span>
+        <span class="n">sinphi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">pp</span><span class="p">))</span>
+        <span class="n">xx</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="o">*</span> <span class="n">cosphi</span>
+        <span class="n">yy</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="o">*</span> <span class="n">sinphi</span>
+        <span class="n">xyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+        <span class="n">mag_xyz</span> <span class="o">=</span> <span class="n">bfield</span><span class="p">(</span><span class="n">xyz</span><span class="p">)</span>
+        <span class="n">br</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mag_xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">cosphi</span> <span class="o">+</span> <span class="n">mag_xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">sinphi</span><span class="p">,</span> <span class="n">rzp_grid</span><span class="p">)</span>
+        <span class="n">bphi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+            <span class="p">(</span><span class="o">-</span><span class="n">mag_xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">sinphi</span> <span class="o">+</span> <span class="n">mag_xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">cosphi</span><span class="p">)</span> <span class="o">/</span> <span class="n">rr</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">rzp_grid</span>
+        <span class="p">)</span>
+        <span class="n">bz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mag_xyz</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">rzp_grid</span><span class="p">)</span>
+        <span class="c1"># construct class</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="n">phi</span><span class="p">,</span> <span class="n">Br</span><span class="o">=</span><span class="n">br</span><span class="p">,</span> <span class="n">Bz</span><span class="o">=</span><span class="n">bz</span><span class="p">,</span> <span class="n">Bphi</span><span class="o">=</span><span class="n">bphi</span><span class="p">,</span> <span class="n">nfp</span><span class="o">=</span><span class="n">nfp</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="Mgrid.bfield"><a class="viewcode-back" href="../../api/coilpy.mgrid.html#coilpy.mgrid.Mgrid.bfield">[docs]</a>    <span class="k">def</span> <span class="nf">bfield</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rzp</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return interpolated B-field</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            rzp (list): (r,z,phi) values cylindral coodinates</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            numpy.array: [Br, Bz, Bphi] at the evaluation point</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">rzp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">rzp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfp</span><span class="p">)</span>
         <span class="n">Br</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Br_func</span><span class="p">(</span><span class="n">rzp</span><span class="p">)</span>
         <span class="n">Bz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Bz_func</span><span class="p">(</span><span class="n">rzp</span><span class="p">)</span>
         <span class="n">Bphi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Bphi_func</span><span class="p">(</span><span class="n">rzp</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">Br</span><span class="p">,</span> <span class="n">Bz</span><span class="p">,</span> <span class="n">Bphi</span><span class="p">])</span></div></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">Br</span><span class="p">,</span> <span class="n">Bz</span><span class="p">,</span> <span class="n">Bphi</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="Mgrid.write_mgrid_nc"><a class="viewcode-back" href="../../api/coilpy.mgrid.html#coilpy.mgrid.Mgrid.write_mgrid_nc">[docs]</a>    <span class="k">def</span> <span class="nf">write_mgrid_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write a MGRID file in Netcdf format (extcur = 1.0)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): file name to be saved</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">netCDF4</span> <span class="kn">import</span> <span class="n">Dataset</span>
+
+        <span class="n">da</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+        <span class="n">da</span><span class="o">.</span><span class="n">createDimension</span><span class="p">(</span><span class="s2">&quot;dim_0001&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">da</span><span class="o">.</span><span class="n">createDimension</span><span class="p">(</span><span class="s2">&quot;dim_0002&quot;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="n">da</span><span class="o">.</span><span class="n">createDimension</span><span class="p">(</span><span class="s2">&quot;Bp&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nphi</span><span class="p">)</span>
+        <span class="n">da</span><span class="o">.</span><span class="n">createDimension</span><span class="p">(</span><span class="s2">&quot;Br&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr</span><span class="p">)</span>
+        <span class="n">da</span><span class="o">.</span><span class="n">createDimension</span><span class="p">(</span><span class="s2">&quot;Bz&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nz</span><span class="p">)</span>
+        <span class="n">da</span><span class="o">.</span><span class="n">createDimension</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">ir</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;ir&quot;</span><span class="p">,</span> <span class="s2">&quot;i4&quot;</span><span class="p">)</span>
+        <span class="n">jz</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;jz&quot;</span><span class="p">,</span> <span class="s2">&quot;i4&quot;</span><span class="p">)</span>
+        <span class="n">kp</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;kp&quot;</span><span class="p">,</span> <span class="s2">&quot;i4&quot;</span><span class="p">)</span>
+        <span class="n">nextcur</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;nextcur&quot;</span><span class="p">,</span> <span class="s2">&quot;i4&quot;</span><span class="p">)</span>
+        <span class="n">mgrid_mode</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;mgrid_mode&quot;</span><span class="p">,</span> <span class="s2">&quot;S1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;dim_0001&quot;</span><span class="p">,))</span>
+        <span class="n">coil_group</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;coil_group&quot;</span><span class="p">,</span> <span class="s2">&quot;S1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;dim_0001&quot;</span><span class="p">,</span> <span class="s2">&quot;dim_0002&quot;</span><span class="p">))</span>
+        <span class="n">rmin</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;rmin&quot;</span><span class="p">,</span> <span class="s2">&quot;f8&quot;</span><span class="p">)</span>
+        <span class="n">zmin</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;zmin&quot;</span><span class="p">,</span> <span class="s2">&quot;f8&quot;</span><span class="p">)</span>
+        <span class="n">rmax</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;rmax&quot;</span><span class="p">,</span> <span class="s2">&quot;f8&quot;</span><span class="p">)</span>
+        <span class="n">zmax</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;zmax&quot;</span><span class="p">,</span> <span class="s2">&quot;f8&quot;</span><span class="p">)</span>
+        <span class="n">nfp</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;nfp&quot;</span><span class="p">,</span> <span class="s2">&quot;i4&quot;</span><span class="p">)</span>
+        <span class="n">br</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;br_001&quot;</span><span class="p">,</span> <span class="s2">&quot;f8&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;Bp&quot;</span><span class="p">,</span> <span class="s2">&quot;Bz&quot;</span><span class="p">,</span> <span class="s2">&quot;Br&quot;</span><span class="p">))</span>
+        <span class="n">bz</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;bz_001&quot;</span><span class="p">,</span> <span class="s2">&quot;f8&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;Bp&quot;</span><span class="p">,</span> <span class="s2">&quot;Bz&quot;</span><span class="p">,</span> <span class="s2">&quot;Br&quot;</span><span class="p">))</span>
+        <span class="n">bp</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;bp_001&quot;</span><span class="p">,</span> <span class="s2">&quot;f8&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;Bp&quot;</span><span class="p">,</span> <span class="s2">&quot;Bz&quot;</span><span class="p">,</span> <span class="s2">&quot;Br&quot;</span><span class="p">))</span>
+        <span class="n">coil_group</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="sa">b</span><span class="s2">&quot;M&quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot;d&quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot;A&quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="sa">b</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">mgrid_mode</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="sa">b</span><span class="s2">&quot;R&quot;</span><span class="p">])</span>
+        <span class="n">ir</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nr</span><span class="p">)</span>
+        <span class="n">kp</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nphi</span><span class="p">)</span>
+        <span class="n">jz</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nz</span><span class="p">)</span>
+        <span class="n">nextcur</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nextcur</span><span class="p">)</span>
+        <span class="n">rmin</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rmin</span><span class="p">)</span>
+        <span class="n">rmax</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rmax</span><span class="p">)</span>
+        <span class="n">zmin</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zmin</span><span class="p">)</span>
+        <span class="n">zmax</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zmax</span><span class="p">)</span>
+        <span class="n">nfp</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nfp</span><span class="p">)</span>
+        <span class="n">br</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Br</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># change order</span>
+        <span class="n">bp</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Bphi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># change order</span>
+        <span class="n">bz</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Bz</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># change order</span>
+        <span class="n">da</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;binary files are converted to netcdf&quot;</span>
+        <span class="n">br</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;this is a np*nz*nr matrix in fortan which describe br&quot;</span>
+        <span class="n">bp</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;this is a np*nz*nr matrix in fortan which describe bp&quot;</span>
+        <span class="n">bz</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;this is a np*nz*nr matrix in fortan which describe bz&quot;</span>
+        <span class="n">da</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span></div></div>
 </pre></div>
 
-            </article>
-            
-            
-            
-            <footer class="bd-footer-article">
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-</div>
-            </footer>
-            
-          </div>
-          
-          
-          
-            <div class="bd-sidebar-secondary bd-toc">
+                </article>
               
-<div class="toc-item">
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
   
-<div id="searchbox"></div>
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
 </div>
 
-<div class="toc-item">
-  
-</div>
-
-<div class="toc-item">
-  
-</div>
-
+                </footer>
+              
             </div>
-          
-          
-        </div>
-        <footer class="bd-footer-content">
-          <div class="bd-footer-content__inner">
+            
+            
+              
             
           </div>
-        </footer>
+          <footer class="bd-footer-content">
+            
+          </footer>
         
       </main>
     </div>
   </div>
-
   
-    
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
-  <footer class="bd-footer"><div class="bd-footer__inner container">
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
   
-  <div class="footer-item">
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
     
-<p class="copyright">
-
-    &copy; Copyright 2020, Caoxiang Zhu.<br>
-
-</p>
-
-  </div>
+      © Copyright 2020, Caoxiang Zhu.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
   
-  <div class="footer-item">
-    
-<p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
-</p>
-
-  </div>
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
   
 </div>
+
   </footer>
   </body>
 </html>

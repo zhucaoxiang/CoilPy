@@ -1,229 +1,275 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coilpy.sortedDict &#8212; coilpy 0.3.35 documentation</title>
-  <script>
+    <title>coilpy.sortedDict &#8212; coilpy 0.4.01 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1e1de1a1873e13ef5536" rel="stylesheet">
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link rel="stylesheet"
-    href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536">
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=78de3a86"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/coilpy/sortedDict';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="docsearch:language" content="en">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
   
-  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
   <label class="overlay overlay-primary" for="__primary"></label>
-
   
-  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
   <label class="overlay overlay-secondary" for="__secondary"></label>
-
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
     <div class="search-button__search-container">
-      
-<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-    </div>
+</form></div>
   </div>
-
   
-  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
   <label class="sidebar-toggle primary-toggle" for="__primary">
-      <span class="fa-solid fa-bars"></span>
+    <span class="fa-solid fa-bars"></span>
   </label>
-  <div id="navbar-start">
-    
-    
   
-
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
 
 <a class="navbar-brand logo" href="../../index.html">
-
   
   
   
   
   
+    <p class="title logo__title">coilpy 0.4.01 documentation</p>
   
-  
-
-  
-  
-    <p class="title logo__title">coilpy 0.3.35 documentation</p>
-  
-</a>
+</a></div>
     
   </div>
-
+  
   
   <div class="col-lg-9 navbar-header-items">
-    <div id="navbar-center" class="mr-auto">
+    
+    <div class="me-auto navbar-header-items__center">
       
-      <div class="navbar-center-item">
-        <nav class="navbar-nav">
-    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
-        Site Navigation
-    </p>
-    <ul id="navbar-main-elements" class="navbar-nav">
-        
-    </ul>
-</nav>
-      </div>
-      
-    </div>
-
-    <div id="navbar-end">
-      <div class="navbar-end-item navbar-end__search-button-container">
-        
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
-  <i class="fa-solid fa-magnifying-glass"></i>
-</button>
-      </div>
-      
-      <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
-    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
-</span>
-      </div>
-      
-      <div class="navbar-end-item">
-        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-      </ul>
-      </div>
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+  </ul>
+</nav></div>
       
     </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
   </div>
-
-
   
-  <div class="search-button-container--mobile">
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" data-toggle="tooltip">
-  <i class="fa-solid fa-magnifying-glass"></i>
-</button>
-  </div>
-
   
-  <label class="sidebar-toggle secondary-toggle" for="__secondary">
-      <span class="fa-solid fa-outdent"></span>
-  </label>
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
   
 
+  
 </div>
-  </nav>
-  
 
+    </nav>
+  
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
       <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
+
   
   <div class="sidebar-header-items sidebar-primary__section">
     
     
       <div class="sidebar-header-items__center">
-      
-      <div class="navbar-center-item">
-        <nav class="navbar-nav">
-    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
-        Site Navigation
-    </p>
-    <ul id="navbar-main-elements" class="navbar-nav">
         
-    </ul>
-</nav>
-      </div>
-      
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+  </ul>
+</nav></div>
+        
       </div>
     
-
     
     
-    <div class="sidebar-header-items__end">
-      
-      <div class="navbar-end-item">
-        <span class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" data-toggle="tooltip">
-    <a class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></a>
-    <a class="theme-switch" data-mode="dark"><i class="fa-regular fa-moon"></i></a>
-    <a class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></a>
-</span>
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
       </div>
-      
-      <div class="navbar-end-item">
-        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-      </ul>
-      </div>
-      
-    </div>
     
   </div>
-
   
-
   
-  <div class="sidebar-end-items sidebar-primary__section">
-    <div class="sidebar-end-items__item">
-    </div>
+  <div class="sidebar-primary-items__end sidebar-primary__section">
   </div>
+  
+  <div id="rtd-footer-container"></div>
+
 
       </div>
-      <main class="bd-main">
+      
+      <main id="main-content" class="bd-main">
         
         
-        <div class="bd-content">
-          <div class="bd-article-container">
-            
-            <div class="bd-header-article">
-                
-            </div>
-            
-            
-            <article class="bd-article" role="main">
+          <div class="bd-content">
+            <div class="bd-article-container">
               
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">coilpy.sortedDict</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <h1>Source code for coilpy.sortedDict</h1><div class="highlight"><pre>
 <span></span><span class="c1"># file processed by 2to3</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">absolute_import</span>
@@ -271,7 +317,7 @@
 
 
 <span class="k">def</span> <span class="nf">isinstance_str</span><span class="p">(</span><span class="n">inv</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    checks if an object is of a certain type by looking at the class name (not the class object)</span>
 <span class="sd">    This is useful to circumvent the need to load import Python modules.</span>
 
@@ -292,7 +338,7 @@
 <span class="c1"># Delete leading zeros</span>
 <span class="c1">#---------------------</span>
 <span class="k">def</span> <span class="nf">delete_leading_zeros</span><span class="p">(</span><span class="n">number_str</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Delete leading zeros from array indices</span>
 
 <span class="sd">    :param number_str: A string containing comma separated dimension indices and colon separated ranges and strides, such as &#39;008:010,0001:0002&#39;</span>
@@ -304,7 +350,7 @@
                                         <span class="k">for</span> <span class="n">comma_split</span> <span class="ow">in</span> <span class="n">number_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)])</span>
 
 <div class="viewcode-block" id="sortHuman"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.sortHuman">[docs]</a><span class="k">def</span> <span class="nf">sortHuman</span><span class="p">(</span><span class="n">inStr</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Sort the given list the way that humans expect&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sort the given list the way that humans expect&quot;&quot;&quot;</span>
     <span class="n">outStr</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">inStr</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">tmp</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">number_ptrn</span><span class="p">,</span><span class="n">outStr</span><span class="p">)</span>
     <span class="n">outStr</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">number_ptrn</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\1</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">outStr</span><span class="p">)</span>
@@ -346,7 +392,7 @@
 
 
 <span class="k">def</span> <span class="nf">different</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Evaluates if two objects are different</span>
 
 <span class="sd">    :param a: first object to compare</span>
@@ -388,7 +434,7 @@
 
 
 <div class="viewcode-block" id="parseLocation"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.parseLocation">[docs]</a><span class="k">def</span> <span class="nf">parseLocation</span><span class="p">(</span><span class="n">inv</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parse string representation of the dictionary path and return list including root name</span>
 <span class="sd">    This function can parse things like: OMFIT[&#39;asd&#39;][u&#39;aiy&#39; ][&quot;[  &#39;bla&#39;][&#39;asa&#39;]&quot;][3][1:5]</span>
 
@@ -436,7 +482,7 @@
 
 
 <div class="viewcode-block" id="buildLocation"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.buildLocation">[docs]</a><span class="k">def</span> <span class="nf">buildLocation</span><span class="p">(</span><span class="n">inv</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Assemble list of keys into dictionary path string</span>
 
 <span class="sd">    :param inv: list of dictionary keys including rootname</span>
@@ -461,7 +507,7 @@
     <span class="k">return</span> <span class="n">value</span></div>
 
 <div class="viewcode-block" id="parseBuildLocation"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.parseBuildLocation">[docs]</a><span class="k">def</span> <span class="nf">parseBuildLocation</span><span class="p">(</span><span class="n">inv</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    DEPRECATED: use `parseLocation` and `buildLocation` functions instead</span>
 
 <span class="sd">    Function to handle locations in the OMFIT tree (i.e. python dictionaries)</span>
@@ -483,7 +529,7 @@
 
 
 <div class="viewcode-block" id="traverseLocation"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.traverseLocation">[docs]</a><span class="k">def</span> <span class="nf">traverseLocation</span><span class="p">(</span><span class="n">inv</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    returns list of locations to reach input location</span>
 
 <span class="sd">    :param inv: string representation of the dictionary path</span>
@@ -495,7 +541,7 @@
 
 
 <div class="viewcode-block" id="traverse"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.traverse">[docs]</a><span class="k">def</span> <span class="nf">traverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">onlyDict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">onlyLeaf</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skipDynaLoad</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">noSubmodules</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">traverse_classes</span><span class="o">=</span><span class="p">(</span><span class="nb">dict</span><span class="p">,)):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a string or list of strings describing the path of every entry/subentries in the dictionary</span>
 
 <span class="sd">    :param string: string to be appended in front of all entries</span>
@@ -588,7 +634,7 @@
     <span class="k">return</span> <span class="n">tmp</span></div>
 
 <span class="k">def</span> <span class="nf">_keep_alive</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Keeps a reference to the object x in the memo.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Keeps a reference to the object x in the memo.</span>
 
 <span class="sd">    Because we remember objects by their id, we have</span>
 <span class="sd">    to assure that possibly temporary objects are kept</span>
@@ -605,7 +651,7 @@
 
 
 <div class="viewcode-block" id="recursiveUpdate"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.recursiveUpdate">[docs]</a><span class="k">def</span> <span class="nf">recursiveUpdate</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">overWrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Recursive update of dictionary A based on data from dictionary B</span>
 
 <span class="sd">    :param A: dictionary A</span>
@@ -628,7 +674,7 @@
     <span class="n">f_traverse</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="pretty_diff"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.pretty_diff">[docs]</a><span class="k">def</span> <span class="nf">pretty_diff</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">ptrn</span><span class="o">=</span><span class="p">{}):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    generate &quot;human readable&quot; dictionary output from SortedDict.diff()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
@@ -640,7 +686,7 @@
     <span class="k">return</span> <span class="n">ptrn</span></div>
 
 <div class="viewcode-block" id="prune_mask"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.prune_mask">[docs]</a><span class="k">def</span> <span class="nf">prune_mask</span><span class="p">(</span><span class="n">what</span><span class="p">,</span><span class="n">ptrn</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    prune dictionary structure based on mask</span>
 <span class="sd">    The mask can be in the form of of a `pretty_diff` dictionary or a list of `traverse` strings</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -689,7 +735,7 @@
         <span class="k">raise</span><span class="p">(</span><span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;prune_mask: only list/tuple/dict supported&#39;</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="size_tree_objects"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.size_tree_objects">[docs]</a><span class="k">def</span> <span class="nf">size_tree_objects</span><span class="p">(</span><span class="n">location</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns file sizes of objects in the dictionary based on the size of their filename attribute</span>
 
 <span class="sd">    :param location: string of the tree location to be analyzed</span>
@@ -713,7 +759,7 @@
     <span class="k">return</span> <span class="n">sizes</span></div>
 
 <div class="viewcode-block" id="dynaLoad"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.dynaLoad">[docs]</a><span class="k">def</span> <span class="nf">dynaLoad</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Decorator which calls `_dynaLoad` method</span>
 
 <span class="sd">    :param f: function to decorate</span>
@@ -729,7 +775,7 @@
     <span class="k">return</span> <span class="n">dynamicLoading</span></div>
 
 <div class="viewcode-block" id="dynaLoadKey"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.dynaLoadKey">[docs]</a><span class="k">def</span> <span class="nf">dynaLoadKey</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Decorator which calls `_dynaLoad` method only if key is not found</span>
 
 <span class="sd">    :param f: function to decorate</span>
@@ -746,7 +792,7 @@
     <span class="k">return</span> <span class="n">dynamicLoading</span></div>
 
 <div class="viewcode-block" id="dynaSave"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.dynaSave">[docs]</a><span class="k">def</span> <span class="nf">dynaSave</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Decorator which calls `_dynaSave` method</span>
 
 <span class="sd">    :param f: function to decorate</span>
@@ -769,7 +815,7 @@
     <span class="k">return</span> <span class="n">dynamicSaving</span></div>
 
 <span class="k">def</span> <span class="nf">_docFromDict</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Use the same docstring as for dict</span>
 
 <span class="sd">    :param f: function to decorate</span>
@@ -784,7 +830,7 @@
 
 <div class="viewcode-block" id="SortedDict"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict">[docs]</a><span class="k">class</span> <span class="nc">SortedDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="c1"># originally inspired from django/trunk/django/utils/datastructures.py @ 17464</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    A dictionary that keeps its keys in the order in which they&#39;re inserted</span>
 <span class="sd">    </span>
 <span class="sd">    :param data: A dict object or list of (key,value) tuples from which to initialize the new SortedDict object</span>
@@ -843,7 +889,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dynaLoad</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;dynaLoad&#39;</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_dynaLoad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">f</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        call `load` function if object has `dynaLoad` attribute set to True</span>
 <span class="sd">        after calling `load` function the `dynaLoad` attribute is set to False</span>
 <span class="sd">        :return:</span>
@@ -877,7 +923,7 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">_dynaSave</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function is meant to be called in the .save() function of objects of the class</span>
 <span class="sd">        `OMFITobject` that support dynamic loading. The idea is that if an object has not</span>
 <span class="sd">        been loaded, then its file representation has not changed and the original file can be resued.</span>
@@ -996,7 +1042,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">keyOrder</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">delkey</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_checkSetitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        This method is provided so that subclasses can use it to either:</span>
 <span class="sd">         1) change the key/value tuple as passed to the __setitem__ method</span>
 <span class="sd">         2) raise an error because the key-value pair is not acceptable</span>
@@ -1068,7 +1114,7 @@
 
 <div class="viewcode-block" id="SortedDict.index"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.index">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        returns the index of the item</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">keyOrder</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_keyCaseInsensitive</span><span class="p">(</span><span class="n">item</span><span class="p">))</span></div>
@@ -1110,7 +1156,7 @@
 
 <div class="viewcode-block" id="SortedDict.keys"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.keys">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">matching</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        returns the sorted list of keys in the dictionary</span>
 
 <span class="sd">        :param filter: regular expression for filtering keys</span>
@@ -1150,7 +1196,7 @@
 
 <div class="viewcode-block" id="SortedDict.setdefault"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.setdefault">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">setdefault</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The method setdefault() is similar to get(), but will set dict[key]=default if key is not already in dict</span>
 
 <span class="sd">        :param key: key to be accessed</span>
@@ -1176,12 +1222,12 @@
 
 <div class="viewcode-block" id="SortedDict.value_for_index"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.value_for_index">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">value_for_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns the value of the item at the given zero-based index&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the value of the item at the given zero-based index&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">keyOrder</span><span class="p">[</span><span class="n">index</span><span class="p">]]</span></div>
 
 <div class="viewcode-block" id="SortedDict.insert"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.insert">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Inserts the key, value pair before the item with the given index&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inserts the key, value pair before the item with the given index&quot;&quot;&quot;</span>
         <span class="n">key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_keyCaseInsensitive</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keyOrder</span><span class="p">:</span>
             <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keyOrder</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
@@ -1193,14 +1239,14 @@
 
 <div class="viewcode-block" id="SortedDict.copy"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.copy">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns a copy of this object&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a copy of this object&quot;&quot;&quot;</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">obj</span><span class="o">.</span><span class="n">keyOrder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keyOrder</span><span class="p">[:]</span>
         <span class="k">return</span> <span class="n">obj</span></div>
 
     <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;returns the keys in their sorted order&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;returns the keys in their sorted order&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;{</span><span class="si">%s</span><span class="s1">}&#39;</span> <span class="o">%</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;</span><span class="si">%r</span><span class="s1">: </span><span class="si">%r</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">())])</span>
 
 <div class="viewcode-block" id="SortedDict.clear"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.clear">[docs]</a>    <span class="nd">@_docFromDict</span>
@@ -1210,7 +1256,7 @@
 
 <div class="viewcode-block" id="SortedDict.moveUp"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.moveUp">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">moveUp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Shift up in key list the item at a given index</span>
 
 <span class="sd">        :param index: index to be shifted</span>
@@ -1222,7 +1268,7 @@
 
 <div class="viewcode-block" id="SortedDict.moveDown"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.moveDown">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">moveDown</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Shift down in key list the item at a given index</span>
 
 <span class="sd">        :param index: index to be shifted</span>
@@ -1237,7 +1283,7 @@
 
 <div class="viewcode-block" id="SortedDict.across"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.across">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">across</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">returnKeys</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Aggregate objects across the tree</span>
 
 <span class="sd">        :param what: string with the regular expression to be cut across</span>
@@ -1286,7 +1332,7 @@
 
 <div class="viewcode-block" id="SortedDict.sort"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.sort">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        :param key: function that returns a string that is used for sorting or dictionary key whose content is used for sordting</span>
 
 <span class="sd">        &gt;&gt; tmp=SortedDict()</span>
@@ -1305,7 +1351,7 @@
         <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">keyOrder</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">sortHuman</span><span class="p">,</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="bp">self</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">key</span><span class="p">])</span>
 
         <span class="k">else</span><span class="p">:</span>
@@ -1314,7 +1360,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">keyOrder</span></div>
 
 <div class="viewcode-block" id="SortedDict.sort_class"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.sort_class">[docs]</a>    <span class="k">def</span> <span class="nf">sort_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_order</span><span class="o">=</span><span class="p">[</span><span class="nb">dict</span><span class="p">]):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        sort items based on their class</span>
 
 <span class="sd">        :param class_order: list containing order of class</span>
@@ -1342,7 +1388,7 @@
 
 <div class="viewcode-block" id="SortedDict.diff"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.diff">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">ignoreComments</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ignoreContent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skipClasses</span><span class="o">=</span><span class="p">(),</span> <span class="n">noloadClasses</span><span class="o">=</span><span class="p">(),</span> <span class="n">precision</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        :param other: other dictionary to compare to</span>
 
 <span class="sd">        :param ignoreComments: ignore keys that start and end with &quot;__&quot; (e.g. &quot;__comment__&quot;)</span>
@@ -1412,7 +1458,7 @@
 
 <div class="viewcode-block" id="SortedDict.diffKeys"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.diffKeys">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">diffKeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        :param other: other dictionary to compare to</span>
 
 <span class="sd">        :return: floating point to indicate the ratio of keys that are similar</span>
@@ -1445,7 +1491,7 @@
 
 <div class="viewcode-block" id="SortedDict.changeKeysCase"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.changeKeysCase">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">changeKeysCase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Change all the keys in the dictionary to be upper/lower case</span>
 
 <span class="sd">        :param case: &#39;upper&#39; or &#39;lower&#39;</span>
@@ -1469,7 +1515,7 @@
 
 <div class="viewcode-block" id="SortedDict.traverse"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.traverse">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">traverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">onlyDict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">onlyLeaf</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skipDynaLoad</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Equivalent to the `tree` command in UNIX</span>
 
 <span class="sd">        :param string: prepend this string</span>
@@ -1484,7 +1530,7 @@
 
 <div class="viewcode-block" id="SortedDict.walk"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.walk">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">walk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Walk every member and call a function on the keyword and value</span>
 
 <span class="sd">        :param function: `function(self,kid,**kw)`</span>
@@ -1502,7 +1548,7 @@
 
 <div class="viewcode-block" id="SortedDict.safe_del"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.safe_del">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">safe_del</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Delete key entry only if it is present</span>
 
 <span class="sd">        :param key: key to be deleted</span>
@@ -1512,7 +1558,7 @@
 
 <div class="viewcode-block" id="SortedDict.flatten"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.flatten">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        The hierarchical structure of the dictionaries is flattened</span>
 
 <span class="sd">        :return: SortedDict populated with the flattened content of the dictionary</span>
@@ -1527,7 +1573,7 @@
 
 <div class="viewcode-block" id="SortedDict.setFlat"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.setFlat">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">setFlat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        recursively searches dictionary for key in order to set a value</span>
 <span class="sd">        raises KeyError if key could not be found, so this method cannot</span>
 <span class="sd">        be used to set new entries in the dictionary</span>
@@ -1551,7 +1597,7 @@
 
 <div class="viewcode-block" id="SortedDict.check_location"><a class="viewcode-back" href="../../api/coilpy.sortedDict.html#coilpy.sortedDict.SortedDict.check_location">[docs]</a>    <span class="nd">@dynaLoad</span>
     <span class="k">def</span> <span class="nf">check_location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">_special1</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        check if location exist and equals value (if value is specified)</span>
 
 <span class="sd">        :param location: location as string</span>
@@ -1571,7 +1617,7 @@
         <span class="k">return</span> <span class="kc">True</span></div>
 
     <span class="k">def</span> <span class="nf">__popup_menu__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Dummy method to avoid dynamic loading for classes that do not override it</span>
 
 <span class="sd">        :return: empty list</span>
@@ -1590,75 +1636,74 @@
     <span class="nb">print</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
 </pre></div>
 
-            </article>
-            
-            
-            
-            <footer class="bd-footer-article">
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-</div>
-            </footer>
-            
-          </div>
-          
-          
-          
-            <div class="bd-sidebar-secondary bd-toc">
+                </article>
               
-<div class="toc-item">
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
   
-<div id="searchbox"></div>
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
 </div>
 
-<div class="toc-item">
-  
-</div>
-
-<div class="toc-item">
-  
-</div>
-
+                </footer>
+              
             </div>
-          
-          
-        </div>
-        <footer class="bd-footer-content">
-          <div class="bd-footer-content__inner">
+            
+            
+              
             
           </div>
-        </footer>
+          <footer class="bd-footer-content">
+            
+          </footer>
         
       </main>
     </div>
   </div>
-
   
-    
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1e1de1a1873e13ef5536"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
-  <footer class="bd-footer"><div class="bd-footer__inner container">
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
   
-  <div class="footer-item">
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
     
-<p class="copyright">
-
-    &copy; Copyright 2020, Caoxiang Zhu.<br>
-
-</p>
-
-  </div>
+      © Copyright 2020, Caoxiang Zhu.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
   
-  <div class="footer-item">
-    
-<p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
-</p>
-
-  </div>
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
   
 </div>
+
   </footer>
   </body>
 </html>
