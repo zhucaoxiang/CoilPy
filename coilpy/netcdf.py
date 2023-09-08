@@ -1,6 +1,7 @@
 import os  # for path.abspath
 import keyword  # for getting python keywords
-from scipy.io.netcdf import netcdf_file
+from scipy.io import netcdf_file
+import numpy as np
 
 
 class Netcdf(object):
@@ -25,18 +26,38 @@ class Netcdf(object):
     """
 
     def __init__(self, filename, mmap=False, version=1, maskandscale=False):
-        f = netcdf_file(
-            filename, mode="r", mmap=mmap, version=version, maskandscale=maskandscale
-        )
+        try:
+            f = netcdf_file(
+                filename,
+                mode="r",
+                mmap=mmap,
+                version=version,
+                maskandscale=maskandscale,
+            )
+            for key in f.variables.keys():
+                if (
+                    key in keyword.kwlist
+                ):  # add underscore avoiding assigning python keywords
+                    setattr(self, key + "_", f.variables[key][()])
+                else:
+                    setattr(self, key, f.variables[key][()])
+            f.close()
+        except TypeError:
+            from netCDF4 import Dataset
+
+            print("use the netcdf4 package, instead of scipy.io")
+            f = Dataset(filename, "r")
+            for key in f.variables.keys():
+                if (
+                    key in keyword.kwlist
+                ):  # add underscore avoiding assigning python keywords
+                    setattr(self, key + "_", np.array(f.variables[key][()]))
+                else:
+                    setattr(self, key, np.array(f.variables[key][()]))
+            f.close()
+        except:
+            print("Filename has to be the full name to the Netcdf file.")
         self.filename = os.path.abspath(filename)
-        for key in f.variables.keys():
-            if (
-                key in keyword.kwlist
-            ):  # add underscore avoiding assigning python keywords
-                setattr(self, key + "_", f.variables[key][()])
-            else:
-                setattr(self, key, f.variables[key][()])
-        f.close()
         return
 
     # needed for iterating over the contents of the file
