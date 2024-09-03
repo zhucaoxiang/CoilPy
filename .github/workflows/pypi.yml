@@ -57,7 +57,7 @@ jobs:
           # Look to see if there is a cache hit for the corresponding requirements file
           key: ${{ runner.os }}-pypi-${{ hashFiles('coilpy/__init__.py') }}
 
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: artifact
           path: dist
